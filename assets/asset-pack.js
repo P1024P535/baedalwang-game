@@ -92,7 +92,89 @@ function install(THREE){
  box(g,2.4,.18,2,p.dark,0,height+.09,0);
  for(let y=.8;y<height-.2;y+=.83)for(const x of [-.55,.55]){box(g,.45,.44,.04,p.glass,x,y,.93);box(g,.48,.05,.065,p.white,x,y-.24,.96)}
  box(g,.55,.85,.07,p.brown,0,.43,.94);return g}
- return {person,bicycle,kickboard,scooter,storefront,home,p};
+
+ // Detailed mobile-optimized reusable scene assets (procedural 3D geometry).
+ const paint=[m(0xf4a640,.2,.4),m(0x55a9c4,.25,.35),m(0xd45d62,.2,.4),m(0xb7bdc5,.2,.4)];
+ const trim=m(0xe8e5db),brick=m(0xb56c5a),leaf=m(0x4f9a68),leaf2=m(0x80b46a),bark=m(0x80604c),windowFrame=m(0x394956,.25,.5),asphalt=m(0x353f49);
+ function car(type=0){const g=new THREE.Group(),color=paint[type%4],cab=type%3===2;
+  const length=cab?1.65:1.4;
+  const chassis=box(g,length,.14,.74,p.dark,0,.32,0);chassis.name='vehicle_chassis';
+  const body=box(g,length,.34,.72,color,0,.52,0);body.name='painted_body';
+  const roof=box(g,cab?.66:.79,.08,.65,color,-.10,.95,0);
+  box(g,cab?.7:.8,.35,.64,p.glass,-.10,.76,0).name='glass_cabin';
+  for(const z of [-.38,.38])for(const x of [-.48,.48]){
+   const tireMesh=mesh(g,new THREE.CylinderGeometry(.19,.19,.12,14),p.rubber,x,.22,z);
+   tireMesh.rotation.x=Math.PI/2;tireMesh.name='car_wheel';
+   const hub=mesh(g,new THREE.CylinderGeometry(.092,.092,.125,12),p.steel,x,.22,z);hub.rotation.x=Math.PI/2;
+  }
+  for(const z of [-.23,.23]){
+   box(g,.045,.12,.16,p.light,length/2+.015,.58,z).name='headlight';
+   box(g,.04,.11,.16,p.red,-length/2-.012,.58,z).name='tail_light';
+   box(g,.12,.055,.09,p.dark,.05,.69,z>0?.39:-.39).name='side_mirror';
+  }
+  box(g,.4,.05,.035,p.steel,length/2+.025,.39,0);
+  box(g,.38,.05,.035,p.steel,-length/2-.025,.39,0);
+  return g;
+ }
+ function tree3d(type=0){const g=new THREE.Group();
+  const trunk=mesh(g,new THREE.CylinderGeometry(.085,.14,1.35,8),bark,0,.69,0);trunk.name='tree_trunk';
+  for(const [x,y,z,r] of [[0,1.55,0,.68],[-.38,1.3,.10,.48],[.4,1.38,-.06,.52],[0,1.96,0,.41]]){
+   const crown=ball(g,r,type%2?leaf2:leaf,x,y,z);crown.scale.y=.82;crown.name='leaf_cluster';
+  }
+  for(let i=0;i<5;i++)ball(g,.055,p.light,Math.cos(i*2.4)*.45,1.46+(i%2)*.3,Math.sin(i*2.4)*.39);
+  return g;
+ }
+ function npc(type=0){const g=new THREE.Group(),shirt=paint[type%4],hair=m(type%2?0x46372d:0x242630);
+  box(g,.38,.58,.28,shirt,0,1.06,0).name='shirt';
+  ball(g,.23,p.skin,0,1.62,0).name='head';
+  const cap=mesh(g,new THREE.SphereGeometry(.236,12,8,0,Math.PI*2,0,Math.PI*.44),hair,0,1.74,0);cap.name='hair';
+  for(const z of [-.12,.12]){
+   rod(g,[0,1.32,z],[z>0?.29:-.29,.88,z],.073,p.skin);
+   rod(g,[0,.78,z],[z>0?.13:-.13,.18,z],.095,p.dark);
+   box(g,.3,.11,.2,p.rubber,z>0?.13:-.13,.12,z);
+  }
+  for(const z of [-.09,.09])ball(g,.025,p.dark,.20,1.65,z);
+  box(g,.13,.035,.04,p.brown,.23,1.51,0);
+  return g;
+ }
+ function detailedStore(type=0){const g=new THREE.Group(),accent=paint[type%4];
+  box(g,2.8,1.92,2.0,trim,0,.96,0).name='shop_facade';
+  for(const x of [-1.35,1.35])box(g,.13,2.04,2.1,p.dark,x,1.02,0);
+  box(g,3.06,.2,2.22,p.dark,0,2.05,0).name='roof_cap';
+  box(g,2.9,.28,.33,accent,0,1.67,1.05).name='awning';
+  for(let i=0;i<7;i++)box(g,.36,.055,.45,i%2?trim:accent,-1.14+i*.38,1.48,1.18);
+  for(const x of [-.85,0,.85]){
+   box(g,.68,1.16,.065,p.glass,x,.78,1.045).name='display_window';
+   box(g,.045,1.18,.075,windowFrame,x+.35,.78,1.07);
+   box(g,.68,.055,.08,windowFrame,x,.2,1.07);
+  }
+  box(g,.62,1.3,.08,p.brown,.84,.71,1.10).name='entrance';
+  ball(g,.035,p.steel,1.06,.78,1.17);
+  box(g,1.75,.34,.1,accent,0,2.32,1.04).name='store_sign';
+  for(let i=0;i<4;i++)box(g,.25,.075,.12,p.white,-.55+i*.36,2.32,1.105);
+  for(const x of [-1.13,1.13]){box(g,.12,.6,.12,p.steel,x,.3,1.24);ball(g,.12,p.light,x,.68,1.24)}
+  return g;
+ }
+ function detailedHome(type=0){const g=new THREE.Group(),levels=type%3===0?2:type%3===1?3:4,h=levels*1.05;
+  const wall=type%3===0?trim:type%3===1?brick:p.white;
+  box(g,2.55,h,2.05,wall,0,h/2,0).name='building_walls';
+  box(g,2.8,.19,2.29,p.dark,0,h+.09,0).name='roof';
+  for(let floor=0;floor<levels;floor++){
+   for(const x of [-.76,.04,.84]){
+    box(g,.52,.53,.065,windowFrame,x,.65+floor*1.05,1.058);
+    box(g,.44,.45,.072,p.glass,x,.65+floor*1.05,1.10).name='window';
+    box(g,.055,.47,.09,trim,x,.65+floor*1.05,1.145);
+    box(g,.56,.07,.15,trim,x,.37+floor*1.05,1.12);
+   }
+   box(g,2.6,.06,2.12,p.white,0,floor*1.05+.08,0);
+  }
+  box(g,.64,.91,.09,p.brown,0,.46,1.12).name='front_door';
+  box(g,.12,.12,.1,p.light,.22,.48,1.19);
+  for(const x of [-1.12,1.12])box(g,.12,.22,.18,leaf,x,.12,1.22);
+  return g;
+ }
+
+ return {person,bicycle,kickboard,scooter,storefront:detailedStore,home:detailedHome,car,tree:tree3d,npc,p};
 }
 window.BaedalAssets3D={install};
 })();
