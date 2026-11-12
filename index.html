@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="신문배달에서 전국 물류회사까지, 3D 배달왕 방치형 게임">
 <title>배달왕 3D · 리마스터</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#fff3de;--card:#fffdf8;--ink:#2a2218;--mut:#86786a;--acc:#f26b1d;--acc2:#ffe2c4;--ok:#17894a;--line:#ecdcc4;--dis:#e6dcca;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17120d;--card:#231c14;--ink:#f6ebdb;--mut:#a39482;--acc:#ff8a3d;--acc2:#3a2714;--ok:#4cc27f;--line:#3a2e20;--dis:#352b1e;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#17120d;--card:#231c14;--ink:#f6ebdb;--mut:#a39482;--acc:#ff8a3d;--acc2:#3a2714;--ok:#4cc27f;--line:#3a2e20;--dis:#352b1e;color-scheme:dark}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Jua","Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding:8px 10px 0;max-width:640px;margin-inline:auto;touch-action:manipulation;overflow:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 "Gowun Dodum","Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding:8px 10px 0;max-width:640px;margin-inline:auto;touch-action:manipulation;overflow:hidden}
 #stage{position:relative;height:calc(100vh - 94px);height:calc(100dvh - 94px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:260px;border-radius:20px;overflow:hidden;border:2px solid rgba(255,255,255,.35);box-shadow:0 10px 32px rgba(35,34,54,.24);background:#9bd7ff}
 #cv{width:100%;height:100%;display:block}
 .hud{position:absolute;left:8px;right:8px;top:8px;display:flex;gap:6px;pointer-events:none}
@@ -68,6 +68,57 @@ nav a{display:flex;flex-direction:column;align-items:center;justify-content:cent
 #sheet{bottom:62px;max-height:calc(100dvh - 75px);z-index:20}
 #testpanel{bottom:calc(70px + env(safe-area-inset-bottom,0px))!important;right:8px!important;max-width:min(290px,calc(100vw - 16px))!important;max-height:40dvh;overflow:auto}
 @media(max-width:680px){#testpanel{font-size:11px!important}#testpanel:not([open]){width:auto!important}}
+
+/* Delivery King visual system v3 — compact mobile-first game UI */
+:root{--bg:#101b2a;--card:#1a2b3e;--ink:#eef6ff;--mut:#9cb1c5;--acc:#f6a23b;--acc2:#293d51;--ok:#67d5a0;--line:#31465b;--dis:#26394b;color-scheme:dark}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101b2a;--card:#1a2b3e;--ink:#eef6ff;--mut:#9cb1c5;--acc:#f6a23b;--acc2:#293d51;--ok:#67d5a0;--line:#31465b;--dis:#26394b}}
+:root[data-theme="dark"]{--bg:#101b2a;--card:#1a2b3e;--ink:#eef6ff;--mut:#9cb1c5;--acc:#f6a23b;--acc2:#293d51;--ok:#67d5a0;--line:#31465b;--dis:#26394b}
+:root[data-theme="light"]{--bg:#e9eff4;--card:#fff;--ink:#162638;--mut:#607487;--acc:#e48625;--acc2:#f1e8db;--ok:#16875d;--line:#d5dfe7;--dis:#e3e9ef;color-scheme:light}
+body{padding:0;letter-spacing:-.025em;background:var(--bg)}
+#stage{border:0;border-radius:0;box-shadow:none;background:#87b9d7}
+.hud{left:12px;right:12px;top:12px;gap:8px}
+.pill{background:rgba(13,26,43,.88);border:1px solid rgba(255,255,255,.13);border-radius:15px;padding:10px 12px;box-shadow:0 6px 18px #07101b35}
+.pill small{font-size:10px;letter-spacing:.04em;color:#c4d4e5;opacity:1}
+.pill b{font-family:"Jua",sans-serif;font-size:clamp(15px,4vw,20px);color:#ffce76;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+#goal{background:rgba(11,25,42,.85);border:1px solid #ffffff25;bottom:45px;left:12px;right:12px;border-radius:12px;padding:8px 10px;font-size:12px}
+#ttl{left:12px;bottom:12px;background:rgba(11,25,42,.84);border-radius:9px;padding:5px 10px}
+#hint{top:82px;background:rgba(12,29,46,.75);font-size:11px;max-width:90%;overflow:hidden;text-overflow:ellipsis}
+#sheet{background:var(--bg);border:0;border-top:1px solid var(--line);border-radius:24px 24px 0 0;box-shadow:0 -18px 40px #030b1866;max-height:calc(100dvh - 96px);bottom:calc(66px + env(safe-area-inset-bottom,0px))}
+.sh{padding:13px 16px 11px;border-bottom:1px solid var(--line);font-size:17px;letter-spacing:-.04em}
+.sh b{font-family:"Jua",sans-serif;font-weight:400;font-size:20px}
+#view{padding:6px 13px 32px;overscroll-behavior:contain;scrollbar-width:thin}
+.card{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:15px;margin:11px 0;box-shadow:0 5px 16px #02091618}
+.card h3{font-family:"Jua",sans-serif;font-weight:400;font-size:18px;line-height:1.3;margin:0 0 8px}
+.card .sub{line-height:1.6}
+.row{gap:10px;padding:12px 0;border-top:1px solid var(--line)}
+.row .t{font-size:14px;font-weight:600;line-height:1.45;overflow-wrap:anywhere}
+.row .t small{font-size:11px;line-height:1.55;margin-top:4px;font-weight:400;color:var(--mut)}
+button{min-width:76px;border-radius:11px;background:linear-gradient(180deg,#ffc268,var(--acc));color:#241709;font-family:"Jua",sans-serif;font-size:14px;padding:10px 12px;box-shadow:0 3px 0 #8d4b1d;white-space:normal;line-height:1.25}
+button:active{transform:translateY(2px);box-shadow:0 1px 0 #8d4b1d}
+button.ghost{background:var(--acc2);color:var(--ink);box-shadow:none;border:1px solid var(--line)}
+button.dis,button:disabled{background:var(--dis);color:var(--mut);box-shadow:none;opacity:.75;cursor:not-allowed}
+button.own{border:1px solid var(--ok);color:var(--ok);background:rgba(103,213,160,.08);box-shadow:none}
+#x{background:var(--acc2);color:var(--ink);font-family:inherit;border:1px solid var(--line);box-shadow:none;border-radius:12px}
+.seg{background:var(--bg);padding:7px 0;margin:0;gap:8px}
+.seg button{font-size:13px;min-height:40px}
+nav{background:rgba(16,27,42,.97);border-top:1px solid #41556a;min-height:66px;box-shadow:0 -8px 28px #0004;backdrop-filter:blur(12px);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav div{max-width:640px;gap:2px;padding:3px 5px}
+nav a{position:relative;color:#a5b6c9;min-height:58px;padding:6px 0;font-family:"Jua",sans-serif;font-size:11px;letter-spacing:-.03em;border-radius:11px;transition:background .15s,color .15s}
+nav a span{font-size:20px;line-height:1.4;filter:saturate(.8)}
+nav a.on{color:#ffcb7c;background:#ffb85d1b}
+nav a.on:before{content:"";position:absolute;top:0;left:29%;right:29%;height:3px;background:#ffb85d;border-radius:0 0 5px 5px}
+.tip{background:var(--acc2);border:1px solid var(--line);border-radius:12px;color:var(--ink);padding:12px}
+#modal{background:rgba(4,12,22,.8);backdrop-filter:blur(4px)}
+.mb{border:1px solid var(--line);border-radius:20px;box-shadow:0 22px 65px #0006;max-width:min(360px,92vw)}
+.mb b{font-family:"Jua",sans-serif;font-size:21px}
+#toast{background:#e8f4ff;color:#102337;border-radius:12px;font-weight:600;box-shadow:0 8px 28px #0005}
+.eyebrow{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#ffc477;margin-bottom:5px;font-weight:700}
+.shop-hero{background:linear-gradient(125deg,#263c53,#182c42);border-color:#49617a}
+.shop-hero button{margin-top:12px}
+#gift{right:12px;bottom:10px}
+@media(max-width:360px){.row{gap:6px}.row button{min-width:70px;padding:8px 7px;font-size:12px}.pill{padding:8px}.pill b{font-size:15px}nav a{font-size:10px}nav a span{font-size:18px}}
+@media(min-width:641px){#stage{border-radius:0 0 20px 20px}nav{left:calc(50% - 320px);right:calc(50% - 320px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -95,7 +146,7 @@ const SLOT={head:'모자·헬멧',body:'의류',feet:'신발',hands:'장갑',bag
 const itemBonus=type=>Object.values(S.equip||{}).reduce((sum,id)=>sum+(ITEMS[id]?.[type]||0),0);
 const PACKS=[["루비 100개",1100],["루비 250개",3300],["루비 500개+골드 3시간",5500],["루비 1200개",11000],["영구 초당 수익 2배",4400],["영구 터치 수익 2배",3300],["영구 전체 수익 2배",6600],["광고 제거 VIP",9900],["오프라인 정산 100%",3300],["라이더 효율 +50%",4400],["무료 루비 2배",5500],["환생 별 2배",5500],["장비 슬롯 확장",3300],["올인원 팩",19900],["7일 광고 제거",1100],["30일 광고 제거",3300],["영구 광고 제거",6600],["1일 전체 수익 2배",500],["7일 전체 수익 2배",1500],["30일 전체 수익 2배",3300],["30일 루비 출석권",4400]];
 const AD_REWARDS=[["idle","⚡ 자동 수익 2배","10분",6],["tap","👆 터치 수익 2배","10분",6],["ruby","💎 루비 5개","즉시",3],["offline","💤 오프라인 추가 정산","복귀 보상 추가",1],["gift","📦 특급 배달","초당 수익 3분치",5],["staff","🚚 라이더 지원","30분 +20%",3],["chest","🎁 행운 배송 상자","골드 또는 루비",2],["gear","🎒 장비 체험","15분 터치 +15%",2],["rebirth","🌟 환생 별 추가","다음 환생 +50%",1]];
-const TABS=[['main','🏠','홈'],['jobs','📈','성장'],['idle','🤖','방치형'],['biz','🗺️','지역'],['items','🎒','보유템'],['shop','💎','상점'],['rec','🏆','기록·환생']];
+const TABS=[['main','🏠','배달'],['jobs','📈','성장'],['idle','🤖','운영'],['reg','🗺️','지역'],['shop','💎','상점'],['rec','🏆','기록']];
 GL.push(['🚁 배송 헬기 구매',()=>S.v>=9],['업종 누적 300개 구매',()=>S.bn>=300],['🌏 아시아 지역 해금',()=>S.r>=19],['환생 3회 달성',()=>S.rb>=3],['한 업종 200개 보유',()=>S.j.some(n=>n>=200)],['🛸 우주선 구매',()=>S.v>=10],['🌍 전세계 지역 해금',()=>S.r>=26],['⭐ 별 50개 보유',()=>S.st>=50],['🏆 업적 10개 달성',()=>S.ac.length>=10],['한 업종 400개 보유',()=>S.j.some(n=>n>=400)]);
 const ST=['신문 가방을 메고 첫 배달을 마쳤다. 할아버지의 말이 떠오른다. 빠른 것보다 정확한 게 먼저란다.','동네 사람들이 달봉이를 알아보기 시작했다. 아침마다 문 앞에서 기다리는 단골이 생겼다.','중고 자전거를 샀다. 바퀴 구르는 소리가 응원가처럼 들린다.','시내로 나왔다. 높은 건물과 낯선 골목, 그리고 라이벌 간판 번개배송.','분식집부터 택배까지, 달봉이에겐 다섯 갈래의 배달 노선이 생겼다.','한 노선을 오래 달리자 숙련자가 되었다. 같은 길도 두 배 빠르게 달린다.','오토바이 시동음에 라이벌이 고개를 돌린다. 꽤 하는군, 신입. 번개배송 사장 김번개의 첫 인사다.','첫 큰돈을 모았다. 그때 양복 차림의 낯선 사람이 명함을 건넨다. 로켓물류 인수팀입니다.','환생의 별빛 아래, 달봉이는 처음부터 다시 달리기로 했다. 이번엔 더 멀리.','광역 배송망이 열렸다. 로켓물류가 대리점들에 압력을 넣는다는 소문이 돈다.','배달 밴에 단골들의 응원 쪽지가 붙었다. 달봉이네 꼭 이겨라!','여덟 개 노선이 완성됐다. 김번개가 찾아와 말한다. 로켓에 맞서려면 우리가 손잡아야 해.','백 번째 점포. 달봉이네는 이제 어엿한 회사다.','전국 배송 개시. 로켓물류와의 정면 승부가 시작된다.','대형 트럭이 고속도로를 가른다. 로켓물류 사장이 처음으로 직접 연락을 해 왔다.','하늘길이 열렸다. 배송 헬기가 산골 마을 지붕 위에 택배를 내려놓는다.','셀 수 없는 배달을 해냈다. 그런데 로켓물류의 비밀 창고가 해외에 있다는 제보가 온다.','아시아 진출. 낯선 언어의 골목에도 단골이 생긴다.','세 번의 환생을 거치며 달봉이는 깨달았다. 시작은 매번 같지만 이제 길을 안다.','수백 개의 점포가 같은 시각 문을 연다. 달봉이네 간판은 아시아 어디서나 보인다.','우주선 한 대가 발사대에 선다. 로켓물류 사장이 웃으며 말한다. 같은 하늘이군.','전 세계를 잇는 배송망이 완성됐다. 로켓물류와는 경쟁이 아니라 협력이 되었다.','별 오십 개. 처음 신문 가방을 멨던 그날이 아득하다.','달봉이네 소식이 신문 1면을 장식한다. 그 신문을 배달한 건 물론 달봉이였다.','마지막 배달을 떠난다. 할아버지의 낡은 가방을 메고. 배달왕의 전설은 계속된다!'];
 const DM=[['화면 200번 터치',()=>S.d.tap>=200,()=>`${Math.min(S.d.tap,200)}/200`],['업종 20개 구매',()=>S.d.buy>=20,()=>`${Math.min(S.d.buy,20)}/20`],['특별 주문 3번 수락',()=>S.d.gift>=3,()=>`${Math.min(S.d.gift,3)}/3`]];
@@ -257,7 +308,7 @@ try {
 
 /* ---------- UI ---------- */
 function render(){
- const navTab=tab==='veh'?'jobs':tab==='reg'||tab==='evolution'?'biz':tab;
+ const navTab=tab==='veh'?'jobs':tab==='biz'||tab==='evolution'?'reg':tab==='items'?'shop':tab;
  $('nav').innerHTML=TABS.map(([k,e,n])=>`<a data-tab="${k}" class="${k===navTab?'on':''}"><span>${e}</span>${n}</a>`).join('');
  let h='';
  if(tab==='main'){
@@ -275,16 +326,16 @@ function render(){
  }
  if(tab==='veh'||tab==='reg'){
   const L=tab==='veh'?V:R,cur=tab==='veh'?S.v:S.r;
-  h=`<div class="seg">${tab==='veh'?'<button class="ghost" data-section="jobs">📦 업종</button><button data-section="veh">🚲 차량</button>':'<button class="ghost" data-section="biz">🤖 자동 운영</button><button data-section="reg">🗺️ 지역</button>'}</div><div class="card"><h3>${tab==='veh'?'🚲 차량 강화':'🗺️ 지역 해금'}</h3><div class="sub">구매하면 전체 수익 배율이 오르고 3D 화면이 바뀌어요.</div>`+
+  h=`<div class="seg">${tab==='veh'?'<button class="ghost" data-section="jobs">📦 업종</button><button data-section="veh">🚲 차량</button>':'<button data-section="reg">🗺️ 지역 진화</button><button class="ghost" data-section="biz">🏢 지역 운영</button>'}</div><div class="card"><h3>${tab==='veh'?'🚲 차량 강화':'🗺️ 지역 해금'}</h3><div class="sub">구매하면 전체 수익 배율이 오르고 3D 화면이 바뀌어요.</div>`+
   L.map((x,i)=>i>cur+1?'':`<div class="row"><div class="t">${x.e} ${x.n}<small>${tab==='reg'?'진화 '+(i+1)+'/40 · ':''}수익 x${x.m}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'사용 중':'보유'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`).join('')+`</div>${tab==='reg'?`<details class="card"><summary>📜 전체 40단계 미리보기</summary>${R.map((x,i)=>`<div class="row"><div class="t">${i+1}. ${x.n}</div><small>${i<=S.r?'완료':'잠김'}</small></div>`).join('')}</details>`:''}`;
  }
  if(tab==='items'){
-  h=`<div class="card"><h3>💎 루비 ${f(S.ruby)}개 · 🎒 보유템 ${S.items.length}/${ITEMS.length}</h3><div class="sub">지역 진화 +3루비 · 목표 달성 +2루비 · 업적 +5루비. 장비는 구매 후 장착해야 효과가 적용돼요.</div><div class="sub">장착 효과: 👆 터치 +${itemBonus('tap')}% · ⚡ 초당 +${itemBonus('idle')}% (각 슬롯 1개)</div></div>`+
+  h=`<div class="seg"><button class="ghost" data-section="shop">💎 루비·혜택 상점</button><button data-section="items">🎒 장비·의상</button></div><div class="card"><h3>💎 루비 ${f(S.ruby)}개 · 🎒 보유템 ${S.items.length}/${ITEMS.length}</h3><div class="sub">지역 진화 +3루비 · 목표 달성 +2루비 · 업적 +5루비. 장비는 구매 후 장착해야 효과가 적용돼요.</div><div class="sub">장착 효과: 👆 터치 +${itemBonus('tap')}% · ⚡ 초당 +${itemBonus('idle')}% (각 슬롯 1개)</div></div>`+
   Object.entries(SLOT).map(([slot,label])=>`<div class="card"><h3>${label}</h3>${ITEMS.map((x,i)=>({x,i})).filter(o=>o.x.slot===slot).map(({x,i})=>{const owned=S.items.includes(i),equipped=S.equip[slot]===i;return `<div class="row"><div class="t">${x.e} ${x.n}<small>터치 +${x.tap}% · 초당 +${x.idle}% · ${owned?'보유 중':'💎 '+x.price+'개'}</small></div><button data-item="${i}" class="${equipped?'own':!owned&&S.ruby<x.price?'dis':''}">${equipped?'장착 중':owned?'장착':'구매'}</button></div>`}).join('')}</div>`).join('');
  }
  if(tab==='shop'){
   if(S.week.key!==weekKey())S.week={key:weekKey(),count:0};
-  h=`<div class="card"><h3>💎 루비 교환소 · 보유 ${f(S.ruby)}개</h3><div class="sub">현재 지역 ${S.r+1}단계 · 루비 1개 = ${f(rubyRate())}골드 · 하루 최대 20개</div>
+  h=`<div class="card shop-hero"><div class="eyebrow">라이더 마켓</div><h3>💎 루비 ${f(S.ruby)}개</h3><div class="sub">장비를 구매하고 라이더를 강화하세요.</div><button data-section="items" class="ghost">🎒 장비·의상 상점 보기</button></div><div class="card"><h3>💱 골드 · 루비 교환소</h3><div class="sub">현재 지역 ${S.r+1}단계 · 루비 1개 = ${f(rubyRate())}골드 · 하루 최대 20개</div>
   <div class="row"><div class="t">💱 골드 → 루비 1개<small>남은 교환 ${left('exchange',20)}개</small></div><button data-exchange="1">교환</button></div>
   <div class="row"><div class="t">💱 골드 → 루비 10개</div><button data-exchange="10">교환</button></div>
   <div class="row"><div class="t">📅 주간 미션<small>일일 미션 보상 ${S.week.count}/15회 · 💎25개</small></div><button data-week="1">${S.week.claimed?'완료':'받기'}</button></div></div>
