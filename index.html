@@ -254,11 +254,11 @@ try {
   cube(g,3,.12,2.05,mat(0x5d6c79),0,2.05,0);
   shops.push(g);
  }
- const lines=[];for(let i=0;i<22;i++)lines.push(cube(sc,1.8,.025,.11,C.lane,i*5-50,-.06,0));
+ const lines=[];for(let i=0;i<7;i++)lines.push(cube(diorama,1.35,.025,.09,C.lane,i*2.7-8.1,-.065,0));
  const PAL=[[0xf3a96e,0xf5d37c,0x80c6de],[0x8aa5c2,0xc2c9d8,0x728fae],[0xffad87,0xffd177,0x8dcbd2],[0x9b8cdb,0x70b9e6,0xe8a1d1],[0x65b9b6,0xb0d2cc,0xffce77],[0x8276b4,0x7298d0,0xa6a3c6]];
  const SKY=[0x9bd7ff,0xcbdcec,0xffcb9d,0xafa6e2,0x88c8d6,0x192b4a];
  const scenery=[];
- function building(x,z,i){const g=new THREE.Group();sc.add(g);g.position.set(x,0,z);
+ function building(x,z,i){const g=new THREE.Group();diorama.add(g);g.position.set(x,0,z);
   const h=1.5+(i*17%11)*.36,w=1.8+(i%3)*.46;
   const wall=mat(PAL[0][i%3]);const body=cube(g,w,h,1.7,wall,0,h/2,0);body.castShadow=false;
   cube(g,w+.15,.15,1.9,mat(0xf3f0e7),0,h+.07,0);
@@ -267,18 +267,74 @@ try {
   cube(g,.65,.85,.055,mat(0x526b86),0,.44,z<0?.89:-.89);
   g.userData={x,h,wall,i,baseH:h,building:true};scenery.push(g);
  }
- function tree(x,z,i){const g=new THREE.Group();sc.add(g);g.position.set(x,0,z);
+ function tree(x,z,i){const g=new THREE.Group();diorama.add(g);g.position.set(x,0,z);
   cyl(g,.12,.8,mat(0x896447),0,.42,0);
   const leaf=mat([0x3ca96b,0x62bd6a,0x84c45e][i%3]);ball(g,.65,leaf,0,1.32,0,10,8);ball(g,.46,leaf,.3,1.1,.1,9,7);
   g.userData={x,i};scenery.push(g);
  }
  // Background skyline only: no foreground buildings between the camera and the rider.
- for(let i=0;i<7;i++){const x=i*2.8-8.4,z=-5.5;building(x,z,i);if(i%2===0)tree(x+1.2,-3.85,i)}
+ for(let i=0;i<6;i++){const x=i*3.1-7.75,z=-5.25;building(x,z,i);if(i%2===0)tree(x+1.25,-3.95,i)}
  for(let i=0;i<5;i++)tree(i*4-8,5.25,i+10);
  // Prevent nearby scenery from occluding the play route regardless of camera angle.
- scenery.forEach(g=>{if(g.userData.building){g.scale.setScalar(.7);g.position.z=-5.4;g.userData.x=g.position.x;}});
+ scenery.forEach(g=>{if(g.userData.building){g.scale.setScalar(.72);g.position.z=-5.15;g.userData.x=g.position.x;}});
 
- const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
+ 
+// Asset-pack integration v1: lightweight procedural replacements for the 11 approved concept sheets.
+// These are real Three.js meshes, not conversions of the 2D reference images.
+const decor=new THREE.Group();diorama.add(decor);
+const parkGreen=mat(0x4b9a69),flowerPink=mat(0xf6a9c8),flowerYellow=mat(0xf7d269);
+for(const [x,z] of [[-8.5,4.85],[-3.5,4.85],[2,4.85],[8.1,4.85]]){
+ const p=new THREE.Group();decor.add(p);p.position.set(x,0,z);
+ cyl(p,.14,.9,mat(0x87664d),0,.48,0);
+ for(let k=0;k<3;k++)ball(p,.47,k%2?parkGreen:mat(0x5cb978),Math.cos(k*2.1)*.25,1.28+Math.sin(k)*.13,Math.sin(k*2.1)*.24,10,8);
+}
+for(const [x,z] of [[-7.1,3.85],[0,3.85],[7.1,3.85]]){
+ const p=new THREE.Group();decor.add(p);p.position.set(x,0,z);
+ cube(p,.94,.12,.32,mat(0x9a6b4d),0,.55,0);
+ for(const dx of [-.35,.35])cube(p,.07,.48,.28,C.metal,dx,.28,0);
+ cube(p,.94,.38,.1,mat(0xa57753),0,.8,.14);
+}
+for(let i=0;i<10;i++){
+ const x=(i%5)*3.9-7.8,z=i<5?5.9:-5.9;
+ const flower=cyl(decor,.28,.12,mat(0x6e795b),x,.02,z);
+ for(let k=0;k<4;k++)ball(decor,.12,k%2?flowerPink:flowerYellow,x+Math.cos(k*1.57)*.15,.17,z+Math.sin(k*1.57)*.15,8,6);
+}
+const crossingMat=mat(0xf7f6e9);
+for(const x of [-4.8,4.8])for(let k=0;k<5;k++)cube(diorama,.25,.018,.43,crossingMat,x+(k-2)*.35,-.07,-1.8);
+const customer=new THREE.Group();diorama.add(customer);customer.position.set(4.1,0,3.55);
+const customerShirt=mat(0x628fc0),customerHair=mat(0x44302b);
+cube(customer,.44,.66,.32,customerShirt,0,.91,0);
+ball(customer,.25,C.skin,0,1.47,0,12,10);
+ball(customer,.255,customerHair,0,1.66,-.06,12,8);
+for(const x of [-.13,.13])cube(customer,.14,.48,.16,C.pants,x,.38,0);
+const customerArm=cube(customer,.14,.52,.16,C.skin,.3,.99,0);
+const deliveryBag=mat(0xf6a035),deliveryMark=mat(0xffffff);
+const completionRing=new THREE.Mesh(new THREE.TorusGeometry(.62,.07,8,24),mat(0xffd56b));completionRing.rotation.x=Math.PI/2;completionRing.position.set(3.7,.13,2.1);diorama.add(completionRing);
+const weatherParticles=[];
+for(let i=0;i<36;i++){const p=cube(diorama,.025,.26,.025,mat(0xc8eaff),0,0,0);p.castShadow=false;p.visible=false;weatherParticles.push({mesh:p,seed:i*7.39});}
+let weatherMode='clear',lastWeather=-1,lastDayPhase=-1;
+const cityStatus=document.createElement('div');
+cityStatus.id='city-status';cityStatus.setAttribute('aria-live','off');
+cityStatus.style.cssText='position:absolute;top:84px;left:12px;padding:5px 9px;border-radius:9px;background:rgba(13,26,43,.82);color:#fff;font:12px Jua,sans-serif;pointer-events:none;z-index:2';
+$('stage').appendChild(cityStatus);
+function updateEnvironment(){
+ const hour=new Date().getHours(),phase=hour<6?3:hour<10?0:hour<17?1:hour<20?2:3;
+ const day=new Date().getDate(),weather=(day+Math.floor(S.r/5))%9;
+ const mode=weather===0?'rain':weather===1?'snow':'clear';
+ if(lastWeather===weather&&lastDayPhase===phase)return;
+ lastWeather=weather;lastDayPhase=phase;weatherMode=mode;
+ const sky=[0xffd4a2,0x9bd7ff,0xf4b78e,0x24375a][phase];
+ sc.background.setHex(sky);sc.fog.color.setHex(sky);
+ sun.intensity=[.85,1.15,.62,.25][phase];
+ sun.color.setHex([0xffdfae,0xfff5d7,0xffa76e,0xa8c4ff][phase]);
+ sc.children.find(o=>o.isHemisphereLight).intensity=phase===3?.65:1.25;
+ lightGlass.emissive=new THREE.Color(phase===3?0xffcf7d:0x000000);
+ lightGlass.emissiveIntensity=phase===3?.8:0;
+ C.grass.color.setHex(mode==='snow'?0xcbd9df:[0x82b777,0x67ac73,0x9f996b,0x54827d][Math.floor((new Date().getMonth())/3)]);
+ cityStatus.textContent=['🌅 아침','☀️ 낮','🌇 저녁','🌙 밤'][phase]+' · '+(mode==='rain'?'🌧️ 비':mode==='snow'?'❄️ 눈':'🌤️ 맑음');
+}
+
+const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
  const deliveryFX=new THREE.Group();diorama.add(deliveryFX);
  const pickupMat=mat(0xffbd51),dropMat=mat(0x54d4a2);
  const pickup=cyl(deliveryFX,.29,.035,pickupMat,-3.7,.06,-2.12),drop=cyl(deliveryFX,.29,.035,dropMat,3.7,.06,2.1);
@@ -339,7 +395,7 @@ try {
   rider.position.set(-3.7,0,0);
  }
  function world(){const idx=Math.max(0,Math.min(39,S.r)),theme=Math.min(SKY.length-1,Math.floor(idx/7));
-  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],35,75);
+  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],35,75);lastDayPhase=-1;
   scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[theme][g.userData.i%3]);g.scale.y=.7+Math.min(idx,25)*.012;}});
   C.grass.color.setHex([0x77bf78,0x7cae8a,0xc4b781,0x6d9a81,0x78a89d,0x4c6885][theme]);
  }
@@ -352,7 +408,7 @@ try {
  const observer=typeof ResizeObserver!=='undefined'?new ResizeObserver(resize):null;if(observer)observer.observe($('stage'));addEventListener('resize',resize);resize();
  let prev=performance.now(),spawn=.8;
  function loop(now){requestAnimationFrame(loop);if(document.hidden){prev=now;return}const dt=Math.min(.05,(now-prev)/1000);prev=now;time+=dt;
-  if(vehicleId!==S.v){vehicleId=S.v;makeVehicle()}if(regionId!==S.r){regionId=S.r;world()}
+  if(vehicleId!==S.v){vehicleId=S.v;makeVehicle()}if(regionId!==S.r){regionId=S.r;world()}if(Math.floor(time)%3===0)updateEnvironment();
   const speed=Math.min(24,2.7+Math.log10(Math.max(1,ps())+1)*2.0)*(Date.now()<S.ad?1.25:1);
   // Fixed diorama: the world never scrolls through the camera. Only actors animate.
   wheels.forEach(w=>w.rotation.z-=speed*dt*1.6);rotors.forEach(r=>r.rotation.y+=dt*22);
@@ -367,6 +423,17 @@ try {
   parcel.visible=parcelTape.visible=phase<.46;
   parcel.position.set(routeX-.3,1.1,.35);parcelTape.position.set(routeX-.3,1.335,.35);
   pickup.scale.setScalar(1+.12*Math.sin(time*4));drop.scale.setScalar(1+.12*Math.sin(time*4+2));
+ const handing=phase>=.46&&phase<.55;
+ customerArm.rotation.z=handing?Math.sin((phase-.46)/.09*Math.PI)*.75:0;
+ customer.position.y=handing?.045*Math.sin(time*11):0;
+ completionRing.visible=phase>=.51&&phase<.63;
+ if(completionRing.visible){const t=(phase-.51)/.12;completionRing.scale.setScalar(.65+t*.65);completionRing.material.opacity=1-t;completionRing.material.transparent=true;}
+ weatherParticles.forEach((p,i)=>{p.mesh.visible=weatherMode!=='clear';if(!p.mesh.visible)return;
+  const t=(time*(weatherMode==='snow'?.55:2.7)+p.seed)%6;
+  p.mesh.position.set(Math.sin(p.seed*3)*9,5.7-t,Math.cos(p.seed*5)*5.5);
+  p.mesh.scale.set(1,weatherMode==='snow'?.2:1,1);
+ });
+
   traffic.forEach(t=>{t.mesh.position.x+=dt*t.speed*t.dir;if(t.mesh.position.x>9)t.mesh.position.x=-9;if(t.mesh.position.x< -9)t.mesh.position.x=9;t.mesh.rotation.y=t.dir<0?Math.PI:0});
   pedestrians.forEach(p=>{p.g.position.x+=dt*.45*p.dir;if(p.g.position.x>8.5)p.g.position.x=-8.5;if(p.g.position.x< -8.5)p.g.position.x=8.5;p.l1.rotation.z=Math.sin(time*5+p.offset)*.3;p.l2.rotation.z=-p.l1.rotation.z});
   // Street furniture stays anchored to its sidewalk.
