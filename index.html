@@ -239,7 +239,7 @@ try {
  }
  // Explicit opt-in only for staging preview. Production keeps the current procedural assets.
  const remasterPreview=new URLSearchParams(location.search).get('glbpreview')==='1';
- if(remasterPreview)loadRemasterGLB('rider_kickboard');
+ if(remasterPreview)loadRemasterGLB('rider_kickboard').then(model=>{if(model&&typeof makeVehicle==='function'&&S.v===2)makeVehicle()});
 
  const C={road:mat(0x394756),lane:mat(0xfff3c9),grass:mat(0x77bf78),walk:mat(0xd6d7d2),skin:mat(0xffc69d),hair:mat(0x3b2935),jacket:mat(0xff873e),pants:mat(0x344d78),shoe:mat(0x252c39),white:mat(0xffffff),glass:mat(0x8bd5ee,.15),tire:mat(0x232934),metal:mat(0x9ca8b5,.45),gold:mat(0xffcb39,.45)};
  const cube=(parent,w,h,d,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o};
