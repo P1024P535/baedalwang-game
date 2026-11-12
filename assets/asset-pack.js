@@ -81,7 +81,7 @@ function install(THREE){
   rod(pilot,[-.27,1.37,z],[-.35+(z>0?.30:0),.55,z],.09,p.dark,'leg');
   box(pilot,.34,.12,.19,rubber,-.23+(z>0?.30:0),.47,z);
  }
- refineKickboard(g);return g}
+ refineKickboard(g);upgradeRider(g);return g}
  function storefront(type=0){const g=new THREE.Group(),colors=[p.red,p.blue,p.orange],c=colors[type%3];
  box(g,2.65,1.72,1.65,p.white,0,.86,0);box(g,2.85,.22,1.88,p.dark,0,1.82,0);
  box(g,2.7,.33,.32,c,0,1.48,.86);for(let i=0;i<6;i++)box(g,.43,.055,.4,i%2?p.white:c,-1.11+i*.445,1.23,1.0);
@@ -94,6 +94,38 @@ function install(THREE){
  box(g,.55,.85,.07,p.brown,0,.43,.94);return g}
 
 
+
+ // Small-scale stylized facial and equipment features, readable at isometric zoom.
+ function detailFace(g,x,y,z,scale=1){
+  const h=new THREE.Group();g.add(h);h.position.set(x,y,z);h.scale.setScalar(scale);
+  const eye=m(0x1c202a),cheek=m(0xeaa28d),hair=m(0x2a2226),white=m(0xf4f6f7);
+  for(const side of [-1,1]){
+   ball(h,.042,white,.178,.028,side*.105).name='eye_white';
+   ball(h,.026,eye,.210,.029,side*.105).name='eye_pupil';
+   ball(h,.036,cheek,.17,-.083,side*.17).name='cheek';
+   box(h,.12,.035,.055,hair,-.002,.185,side*.18).name='hair_fringe';
+  }
+  ball(h,.035,p.skin,.23,-.055,0).name='nose';
+  box(h,.09,.018,.025,m(0xa65758),.21,-.14,0).name='smile';
+  return h;
+ }
+ function upgradeRider(g){
+  const orange=m(0xf57b19,.15,.35),black=m(0x20242c),white=m(0xf5f4e9),reflect=m(0xffe8a4);
+  g.traverse(o=>{
+   if(o.name==='standing_delivery_rider'){
+    detailFace(o,-.2,2.17,0,1);
+    box(o,.4,.065,.36,reflect,-.25,1.58,0).name='reflective_vest';
+    for(const z of [-.22,.22])box(o,.09,.33,.075,black,-.25,1.65,z).name='backpack_strap';
+    box(o,.28,.035,.035,white,-.51,1.72,.06).name='bag_emblem';
+   }
+  });
+  // Side profile of the delivery case: visible raised frame, lock and lid.
+  for(const z of [-.315,.315]){
+   box(g,.46,.055,.04,black,-.49,1.96,z).name='case_lid_edge';
+   box(g,.055,.38,.04,orange,-.72,1.69,z).name='case_corner';
+  }
+  box(g,.12,.08,.05,reflect,-.48,1.83,.34).name='case_lock';
+ }
  // Extra rider detailing, reusable across scooter and kickboard.
  function riderDetails(root,x,y,z,scale=1){
   const g=new THREE.Group();root.add(g);g.position.set(x,y,z);g.scale.setScalar(scale);
@@ -131,6 +163,7 @@ function install(THREE){
   box(g,.48,.09,.14,lamp,1.09,1.17,0).name='LED_headlight_detail';
   for(const z of [-.36,.36])box(g,.08,.13,.07,orange,-1.03,1.89,z).name='bag_corner_protector';
   riderDetails(g,-.25,1.92,0,.72);
+  detailFace(g,-.25,2.05,0,.55);
  }
  // Detailed mobile-optimized reusable scene assets (procedural 3D geometry).
  const paint=[m(0xf4a640,.2,.4),m(0x55a9c4,.25,.35),m(0xd45d62,.2,.4),m(0xb7bdc5,.2,.4)];
@@ -176,7 +209,7 @@ function install(THREE){
   box(g,.13,.035,.04,p.brown,.23,1.51,0);
   return g;
  }
- function detailedStore(type=0){const g=new THREE.Group(),accent=paint[type%4];
+ function detailedStore(type=0){const g=new THREE.Group(),accent=paint[type%4],foodAccent=[m(0xd74432),m(0x32945e),m(0xe8a32d),m(0x4e8bc2)][type%4];
   box(g,2.8,1.92,2.0,trim,0,.96,0).name='shop_facade';
   for(const x of [-1.35,1.35])box(g,.13,2.04,2.1,p.dark,x,1.02,0);
   box(g,3.06,.2,2.22,p.dark,0,2.05,0).name='roof_cap';
@@ -189,7 +222,14 @@ function install(THREE){
   }
   box(g,.62,1.3,.08,p.brown,.84,.71,1.10).name='entrance';
   ball(g,.035,p.steel,1.06,.78,1.17);
-  box(g,1.75,.34,.1,accent,0,2.32,1.04).name='store_sign';
+  box(g,1.95,.42,.16,foodAccent,0,2.32,1.04).name='store_sign';
+  const emblem=mesh(g,new THREE.CylinderGeometry(.20,.20,.045,20),trim,-.7,2.32,1.17);emblem.rotation.x=Math.PI/2;emblem.name='restaurant_emblem';
+  for(let i=0;i<3;i++)box(g,.12,.12,.07,foodAccent,-.82+i*.12,2.33,1.205);
+  // Street furniture: menu stand, planter, outdoor canopy and wall lights.
+  box(g,.48,.62,.13,p.dark,-1.04,.39,1.45).name='menu_board';
+  box(g,.38,.49,.035,trim,-1.04,.4,1.52);
+  for(const y of [.52,.39,.26])box(g,.24,.025,.045,foodAccent,-1.04,y,1.55);
+  for(const x of [-1.18,1.18]){box(g,.34,.28,.32,p.brown,x,.14,1.45);ball(g,.25,m(0x4f9d58),x,.39,1.45)}
   for(let i=0;i<4;i++)box(g,.25,.075,.12,p.white,-.55+i*.36,2.32,1.105);
   for(const x of [-1.13,1.13]){box(g,.12,.6,.12,p.steel,x,.3,1.24);ball(g,.12,p.light,x,.68,1.24)}
   return g;
