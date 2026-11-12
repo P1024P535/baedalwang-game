@@ -1,86 +1,117 @@
 {
   "version": 1,
-  "status": "planned",
+  "status": "GLB binary upload and visual validation pending",
   "release": "staging-only",
   "saveKey": "baedalwang-3d-simulation-only",
   "format": "glb",
   "assets": [
     {
       "id": "rider_main",
-      "category": "character",
-      "priority": "P0",
       "path": "assets/glb/rider_main.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "kickboard",
-      "category": "vehicle",
-      "priority": "P0",
       "path": "assets/glb/kickboard.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "bicycle",
-      "category": "vehicle",
-      "priority": "P0",
       "path": "assets/glb/bicycle.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "scooter",
-      "category": "vehicle",
-      "priority": "P0",
       "path": "assets/glb/scooter.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "restaurant_chicken",
-      "category": "building",
-      "priority": "P1",
       "path": "assets/glb/restaurant_chicken.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "restaurant_pizza",
-      "category": "building",
-      "priority": "P1",
       "path": "assets/glb/restaurant_pizza.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "restaurant_snack",
-      "category": "building",
-      "priority": "P1",
       "path": "assets/glb/restaurant_snack.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "home_small",
-      "category": "building",
-      "priority": "P1",
       "path": "assets/glb/home_small.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "villa",
-      "category": "building",
-      "priority": "P1",
       "path": "assets/glb/villa.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "apartment",
-      "category": "building",
-      "priority": "P1",
       "path": "assets/glb/apartment.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
+    },
+    {
+      "id": "tree",
+      "path": "assets/glb/tree.glb",
+      "status": "not-committed",
+      "required": true
+    },
+    {
+      "id": "npc",
+      "path": "assets/glb/npc.glb",
+      "status": "not-committed",
+      "required": true
+    },
+    {
+      "id": "car",
+      "path": "assets/glb/car.glb",
+      "status": "not-committed",
+      "required": true
+    },
+    {
+      "id": "streetlamp",
+      "path": "assets/glb/streetlamp.glb",
+      "status": "not-committed",
+      "required": true
     },
     {
       "id": "cloud_edge",
-      "category": "environment",
-      "priority": "P2",
       "path": "assets/glb/cloud_edge.glb",
-      "status": "not-created"
+      "status": "not-committed",
+      "required": true
+    },
+    {
+      "id": "road_straight",
+      "path": "assets/glb/road_straight.glb",
+      "status": "not-committed",
+      "required": true
+    },
+    {
+      "id": "road_intersection",
+      "path": "assets/glb/road_intersection.glb",
+      "status": "not-committed",
+      "required": true
+    },
+    {
+      "id": "bench",
+      "path": "assets/glb/bench.glb",
+      "status": "not-committed",
+      "required": true
     }
   ]
 }
