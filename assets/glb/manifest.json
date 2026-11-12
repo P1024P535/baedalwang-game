@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "status": "planned",
+  "release": "staging-only",
+  "saveKey": "baedalwang-3d-simulation-only",
+  "format": "glb",
+  "assets": [
+    {
+      "id": "rider_main",
+      "category": "character",
+      "priority": "P0",
+      "path": "assets/glb/rider_main.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "kickboard",
+      "category": "vehicle",
+      "priority": "P0",
+      "path": "assets/glb/kickboard.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "bicycle",
+      "category": "vehicle",
+      "priority": "P0",
+      "path": "assets/glb/bicycle.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "scooter",
+      "category": "vehicle",
+      "priority": "P0",
+      "path": "assets/glb/scooter.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "restaurant_chicken",
+      "category": "building",
+      "priority": "P1",
+      "path": "assets/glb/restaurant_chicken.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "restaurant_pizza",
+      "category": "building",
+      "priority": "P1",
+      "path": "assets/glb/restaurant_pizza.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "restaurant_snack",
+      "category": "building",
+      "priority": "P1",
+      "path": "assets/glb/restaurant_snack.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "home_small",
+      "category": "building",
+      "priority": "P1",
+      "path": "assets/glb/home_small.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "villa",
+      "category": "building",
+      "priority": "P1",
+      "path": "assets/glb/villa.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "apartment",
+      "category": "building",
+      "priority": "P1",
+      "path": "assets/glb/apartment.glb",
+      "status": "not-created"
+    },
+    {
+      "id": "cloud_edge",
+      "category": "environment",
+      "priority": "P2",
+      "path": "assets/glb/cloud_edge.glb",
+      "status": "not-created"
+    }
+  ]
+}
