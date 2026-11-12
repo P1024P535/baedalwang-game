@@ -132,7 +132,7 @@ nav a.on:before{content:"";position:absolute;top:0;left:29%;right:29%;height:3px
 <div id="toast"></div>
 <nav><div id="nav"></div></nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="assets/asset-pack.js?v=kickboard-d91ed7"></script>
+<script src="assets/asset-pack.js?v=detailed-1c791a1"></script>
 <script>
 // Live mode: use the real clock. Accelerated testing stays in 3d-test.html.
 const J=[{"e":"📰","n":"신문배달","c":50,"i":1},{"e":"📰","n":"전단지배달","c":5000,"i":2},{"e":"📰","n":"우유배달","c":10000,"i":5},{"e":"📰","n":"요구르트배달","c":15000,"i":8},{"e":"📰","n":"생수배달","c":20000,"i":11},{"e":"🥛","n":"빵배달","c":30000,"i":16},{"e":"🥛","n":"도시락배달","c":40000,"i":22},{"e":"🥛","n":"반찬배달","c":60000,"i":33},{"e":"🥛","n":"세탁물배달","c":80000,"i":44},{"e":"🥛","n":"약국 심부름배달","c":100000,"i":55},{"e":"🍞","n":"김밥배달","c":150000,"i":83},{"e":"🍞","n":"중국집배달","c":200000,"i":111},{"e":"🍞","n":"피자배달","c":280000,"i":155},{"e":"🍞","n":"치킨배달","c":400000,"i":222},{"e":"🍞","n":"족발·보쌈배달","c":600000,"i":333},{"e":"🍕","n":"케이크배달","c":800000,"i":444},{"e":"🍕","n":"꽃다발배달","c":1100000,"i":611},{"e":"🍕","n":"과일바구니배달","c":1500000,"i":833},{"e":"🍕","n":"선물세트배달","c":2200000,"i":1222},{"e":"🍕","n":"고급 디저트배달","c":3000000,"i":1666},{"e":"🛵","n":"배민 일반배달","c":4000000,"i":2222},{"e":"🛵","n":"쿠팡이츠 일반배달","c":5500000,"i":3055},{"e":"🛵","n":"배민 묶음배달","c":7000000,"i":3888},{"e":"🛵","n":"쿠팡이츠 묶음배달","c":10000000,"i":5555},{"e":"🛵","n":"피크시간 특급배달","c":15000000,"i":8333},{"e":"📦","n":"서류 퀵배달","c":20000000,"i":11111},{"e":"📦","n":"소형 택배배달","c":27000000,"i":15000},{"e":"📦","n":"긴급 부품배달","c":35000000,"i":19444},{"e":"📦","n":"전자제품 퀵배달","c":50000000,"i":27777},{"e":"📦","n":"장거리 퀵배달","c":70000000,"i":38888},{"e":"🚗","n":"자동차 음식배달","c":100000000,"i":55555},{"e":"🚗","n":"대형 케이크배달","c":140000000,"i":77777},{"e":"🚗","n":"행사 꽃장식배달","c":200000000,"i":111111},{"e":"🚗","n":"기업 선물배달","c":300000000,"i":166666},{"e":"🚗","n":"고급 물품 특송배달","c":500000000,"i":277777},{"e":"🚐","n":"마트 대량배달","c":700000000,"i":388888},{"e":"🚐","n":"행사 도시락배달","c":1000000000,"i":555555},{"e":"🚐","n":"사무실 정기배달","c":1500000000,"i":833333},{"e":"🚐","n":"쇼핑몰배달","c":2000000000,"i":1111111},{"e":"🚐","n":"소형 이사배달","c":3000000000,"i":1666666},{"e":"🚚","n":"가구배달","c":5000000000,"i":2777777},{"e":"🚚","n":"가전제품배달","c":7000000000,"i":3888888},{"e":"🚚","n":"건축자재배달","c":10000000000,"i":5555555},{"e":"🚚","n":"기업 화물배달","c":15000000000,"i":8333333},{"e":"🚚","n":"장거리 대형화물배달","c":20000000000,"i":11111111},{"e":"🏢","n":"지역 물류센터배달","c":30000000000,"i":16666666},{"e":"🏢","n":"냉장·냉동 물류배달","c":45000000000,"i":25000000},{"e":"🏢","n":"전국 택배망배달","c":65000000000,"i":36111111},{"e":"🏢","n":"대형 물류 계약배달","c":100000000000,"i":55555555},{"e":"🏢","n":"전국 배송망배달","c":200000000000,"i":111111111}];
@@ -269,9 +269,8 @@ try {
   if(assets){const model=assets.home(i%3);model.scale.set(.72,Math.max(.55,h/3.4),.75);g.add(model);body.visible=false;g.children.slice(1,-1).forEach(o=>o.visible=false)}
   g.userData={x,h,wall,i,baseH:h,building:true};scenery.push(g);
  }
- function tree(x,z,i){const g=new THREE.Group();diorama.add(g);g.position.set(x,0,z);
-  cyl(g,.12,.8,mat(0x896447),0,.42,0);
-  const leaf=mat([0x3ca96b,0x62bd6a,0x84c45e][i%3]);ball(g,.65,leaf,0,1.32,0,10,8);ball(g,.46,leaf,.3,1.1,.1,9,7);
+ function tree(x,z,i){const g=assets?.tree?assets.tree(i):new THREE.Group();diorama.add(g);g.position.set(x,0,z);
+  if(!assets?.tree){cyl(g,.12,.8,mat(0x896447),0,.42,0);ball(g,.65,mat(0x4f9a68),0,1.32,0,10,8);}
   g.userData={x,i};scenery.push(g);
  }
  // Persistent expanded district: 56 x 42, over 8x the old map area.
@@ -330,10 +329,7 @@ try {
  }
  const districtCars=[];
  for(let i=0;i<7;i++){
-  const car=new THREE.Group();district.add(car);
-  cube(car,1.05,.38,.66,mat([0xe0a95a,0x65a5b7,0xca6865,0xa18ac0][i%4]),0,.4,0);
-  cube(car,.55,.3,.58,C.glass,-.1,.71,0);
-  for(const xx of [-.35,.35])for(const zz of [-.34,.34]){const w=cyl(car,.13,.08,C.tire,xx,.2,zz);w.rotation.x=Math.PI/2}
+  const car=assets?.car?assets.car(i):new THREE.Group();district.add(car);
   const north=i%2===0;car.position.set(north?crossStreets[(i/2|0)%4]:-24+i*4,0,north?-17+i*4:avenues[i%3]+.85);
   car.rotation.y=north?Math.PI/2:0;
   districtCars.push({car,north,velocity:.7+i*.12,dir:i%3===0?-1:1});
@@ -409,12 +405,8 @@ for(let i=0;i<10;i++){
 const crossingMat=mat(0xf7f6e9);
 for(const x of [-4.8,4.8])for(let k=0;k<5;k++)cube(diorama,.25,.018,.43,crossingMat,x+(k-2)*.35,-.07,-1.8);
 const customer=new THREE.Group();diorama.add(customer);customer.position.set(4.1,0,3.55);
-const customerShirt=mat(0x628fc0),customerHair=mat(0x44302b);
-cube(customer,.44,.66,.32,customerShirt,0,.91,0);
-ball(customer,.25,C.skin,0,1.47,0,12,10);
-ball(customer,.255,customerHair,0,1.66,-.06,12,8);
-for(const x of [-.13,.13])cube(customer,.14,.48,.16,C.pants,x,.38,0);
-const customerArm=cube(customer,.14,.52,.16,C.skin,.3,.99,0);
+if(assets?.npc)customer.add(assets.npc(2));
+const customerArm=new THREE.Group();customer.add(customerArm);customerArm.position.set(.29,1.03,0);
 const deliveryBag=mat(0xf6a035),deliveryMark=mat(0xffffff);
 const completionRing=new THREE.Mesh(new THREE.TorusGeometry(.62,.07,8,24),mat(0xffd56b));completionRing.rotation.x=Math.PI/2;completionRing.position.set(3.7,.13,2.1);diorama.add(completionRing);
 const weatherParticles=[];
@@ -450,16 +442,11 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
  const deliveryState={phase:0,cycle:0,delivered:0};
  // Ambient traffic travels independently from the player vehicle.
  const traffic=[];
- for(let i=0;i<3;i++){const car=new THREE.Group();diorama.add(car);
-  const body=mat([0xd95d51,0x3c9ab1,0xe0b75b,0x8b82bd,0xeeeeeb][i]);
-  cube(car,1.15,.42,.65,body,0,.43,0);cube(car,.58,.33,.6,C.glass,-.12,.77,0);
-  for(const x of [-.37,.39])for(const z of [-.36,.36]){const w=cyl(car,.14,.09,C.tire,x,.2,z);w.rotation.x=Math.PI/2}
+ for(let i=0;i<3;i++){const car=assets?.car?assets.car(i+1):new THREE.Group();diorama.add(car);
   car.position.set(i*5-5,0,i%2?1.6:-1.65);traffic.push({mesh:car,dir:i%2?-1:1,speed:.9+i*.3});}
  const pedestrians=[];
- for(let i=0;i<5;i++){const g=new THREE.Group();diorama.add(g);
-  const shirt=mat([0x6e9ac1,0xce776d,0x7caa87,0xd4a957][i%4]);
-  cube(g,.3,.52,.24,shirt,0,.84,0);ball(g,.18,C.skin,0,1.26,0);
-  const l1=cube(g,.11,.47,.13,C.pants,-.09,.35,0),l2=cube(g,.11,.47,.13,C.pants,.09,.35,0);
+ for(let i=0;i<5;i++){const g=assets?.npc?assets.npc(i):new THREE.Group();diorama.add(g);
+  const l1=g.children.find(o=>o.name==='leg_left')||new THREE.Group(),l2=g.children.find(o=>o.name==='leg_right')||new THREE.Group();
   g.position.set(i*3.4-7,0,i%2?-3.65:3.65);pedestrians.push({g,l1,l2,dir:i%2?1:-1,offset:i});}
 
  let wheels=[],rotors=[],legs=[],arms=[],vehicleId=-1,regionId=-1,time=0,bounceValue=0;
