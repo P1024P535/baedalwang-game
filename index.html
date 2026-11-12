@@ -132,7 +132,7 @@ nav a.on:before{content:"";position:absolute;top:0;left:29%;right:29%;height:3px
 <div id="toast"></div>
 <nav><div id="nav"></div></nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="assets/asset-pack.js?v=detailed-1c791a1"></script>
+<script src="assets/asset-pack.js?v=refined-467ac05"></script>
 <script>
 // Live mode: use the real clock. Accelerated testing stays in 3d-test.html.
 const J=[{"e":"📰","n":"신문배달","c":50,"i":1},{"e":"📰","n":"전단지배달","c":5000,"i":2},{"e":"📰","n":"우유배달","c":10000,"i":5},{"e":"📰","n":"요구르트배달","c":15000,"i":8},{"e":"📰","n":"생수배달","c":20000,"i":11},{"e":"🥛","n":"빵배달","c":30000,"i":16},{"e":"🥛","n":"도시락배달","c":40000,"i":22},{"e":"🥛","n":"반찬배달","c":60000,"i":33},{"e":"🥛","n":"세탁물배달","c":80000,"i":44},{"e":"🥛","n":"약국 심부름배달","c":100000,"i":55},{"e":"🍞","n":"김밥배달","c":150000,"i":83},{"e":"🍞","n":"중국집배달","c":200000,"i":111},{"e":"🍞","n":"피자배달","c":280000,"i":155},{"e":"🍞","n":"치킨배달","c":400000,"i":222},{"e":"🍞","n":"족발·보쌈배달","c":600000,"i":333},{"e":"🍕","n":"케이크배달","c":800000,"i":444},{"e":"🍕","n":"꽃다발배달","c":1100000,"i":611},{"e":"🍕","n":"과일바구니배달","c":1500000,"i":833},{"e":"🍕","n":"선물세트배달","c":2200000,"i":1222},{"e":"🍕","n":"고급 디저트배달","c":3000000,"i":1666},{"e":"🛵","n":"배민 일반배달","c":4000000,"i":2222},{"e":"🛵","n":"쿠팡이츠 일반배달","c":5500000,"i":3055},{"e":"🛵","n":"배민 묶음배달","c":7000000,"i":3888},{"e":"🛵","n":"쿠팡이츠 묶음배달","c":10000000,"i":5555},{"e":"🛵","n":"피크시간 특급배달","c":15000000,"i":8333},{"e":"📦","n":"서류 퀵배달","c":20000000,"i":11111},{"e":"📦","n":"소형 택배배달","c":27000000,"i":15000},{"e":"📦","n":"긴급 부품배달","c":35000000,"i":19444},{"e":"📦","n":"전자제품 퀵배달","c":50000000,"i":27777},{"e":"📦","n":"장거리 퀵배달","c":70000000,"i":38888},{"e":"🚗","n":"자동차 음식배달","c":100000000,"i":55555},{"e":"🚗","n":"대형 케이크배달","c":140000000,"i":77777},{"e":"🚗","n":"행사 꽃장식배달","c":200000000,"i":111111},{"e":"🚗","n":"기업 선물배달","c":300000000,"i":166666},{"e":"🚗","n":"고급 물품 특송배달","c":500000000,"i":277777},{"e":"🚐","n":"마트 대량배달","c":700000000,"i":388888},{"e":"🚐","n":"행사 도시락배달","c":1000000000,"i":555555},{"e":"🚐","n":"사무실 정기배달","c":1500000000,"i":833333},{"e":"🚐","n":"쇼핑몰배달","c":2000000000,"i":1111111},{"e":"🚐","n":"소형 이사배달","c":3000000000,"i":1666666},{"e":"🚚","n":"가구배달","c":5000000000,"i":2777777},{"e":"🚚","n":"가전제품배달","c":7000000000,"i":3888888},{"e":"🚚","n":"건축자재배달","c":10000000000,"i":5555555},{"e":"🚚","n":"기업 화물배달","c":15000000000,"i":8333333},{"e":"🚚","n":"장거리 대형화물배달","c":20000000000,"i":11111111},{"e":"🏢","n":"지역 물류센터배달","c":30000000000,"i":16666666},{"e":"🏢","n":"냉장·냉동 물류배달","c":45000000000,"i":25000000},{"e":"🏢","n":"전국 택배망배달","c":65000000000,"i":36111111},{"e":"🏢","n":"대형 물류 계약배달","c":100000000000,"i":55555555},{"e":"🏢","n":"전국 배송망배달","c":200000000000,"i":111111111}];
@@ -327,6 +327,22 @@ try {
    ruralBlocks.push({field,city:lot});
   }
  }
+ // Roadside objects add detail without increasing road geometry complexity.
+ const streetProps=new THREE.Group();district.add(streetProps);
+ const poleMat=mat(0x475461,.35),signalDark=mat(0x27323d),signalRed=mat(0xe4564c),signalAmber=mat(0xf7c34d),signalGreen=mat(0x57c985),lampMat=mat(0xffe4a2);
+ for(const x of crossStreets)for(const z of avenues){
+  const sx=x+3.2,sz=z+3.2;
+  cyl(streetProps,.075,2.7,poleMat,sx,1.35,sz);
+  cube(streetProps,.28,.79,.27,signalDark,sx,2.5,sz);
+  for(let k=0;k<3;k++)ball(streetProps,.087,[signalRed,signalAmber,signalGreen][k],sx,2.74-k*.24,sz+.15,10,8);
+  cube(streetProps,.12,.09,.12,poleMat,sx,1.2,sz);
+ }
+ for(let i=0;i<16;i++){
+  const x=-24+(i%8)*6.7,z=i<8?-8:8;
+  cyl(streetProps,.055,2.7,poleMat,x,1.35,z);
+  cube(streetProps,.75,.075,.12,poleMat,x+.33,2.68,z);
+  ball(streetProps,.12,lampMat,x+.67,2.59,z,10,8);
+ }
  const districtCars=[];
  for(let i=0;i<7;i++){
   const car=assets?.car?assets.car(i):new THREE.Group();district.add(car);
@@ -336,12 +352,12 @@ try {
  }
  // Soft cloud banks disguise the playable terrain's outer transition.
  const horizonMist=new THREE.Group();diorama.add(horizonMist);
- const mistMaterial=new THREE.MeshBasicMaterial({color:0xdce9e8,transparent:true,opacity:.20,depthWrite:false,fog:false});
+ const mistMaterial=new THREE.MeshBasicMaterial({color:0xdce9e8,transparent:true,opacity:.38,depthWrite:false,fog:false});
  for(let i=0;i<44;i++){
-  const angle=i*Math.PI*2/44,radius=34+(i%4)*2.1;
+  const angle=i*Math.PI*2/44,radius=24+(i%4)*1.8;
   const cloud=new THREE.Mesh(new THREE.SphereGeometry(1,9,6),mistMaterial);
   cloud.position.set(Math.cos(angle)*radius,1.3+(i%3)*.42,Math.sin(angle)*radius);
-  cloud.scale.set(4.5+(i%3),1.7+(i%4)*.28,3.4+(i%3));
+  cloud.scale.set(5.3+(i%3),2.0+(i%4)*.32,4.3+(i%3));
   horizonMist.add(cloud);
  }
  // Camera-side occlusion correction: hide only buildings blocking the rider.
@@ -412,6 +428,13 @@ const completionRing=new THREE.Mesh(new THREE.TorusGeometry(.62,.07,8,24),mat(0x
 const weatherParticles=[];
 for(let i=0;i<36;i++){const p=cube(diorama,.025,.26,.025,mat(0xc8eaff),0,0,0);p.castShadow=false;p.visible=false;weatherParticles.push({mesh:p,seed:i*7.39});}
 let weatherMode='clear',lastWeather=-1,lastDayPhase=-1;
+// Visible screen-edge atmospheric haze; unlike distance-only fog this remains visible with the follow camera.
+const atmosphere=document.createElement('div');atmosphere.id='atmosphere-haze';
+atmosphere.setAttribute('aria-hidden','true');
+atmosphere.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;background:radial-gradient(ellipse 66% 59% at 50% 49%,transparent 44%,rgba(208,236,241,.12) 66%,rgba(209,234,239,.50) 100%);';
+$('stage').appendChild(atmosphere);
+const hazeCloud=document.createElement('div');hazeCloud.style.cssText='position:absolute;inset:-10%;background:radial-gradient(ellipse 26% 19% at 12% 12%,rgba(244,250,251,.65),transparent 100%),radial-gradient(ellipse 25% 19% at 90% 19%,rgba(240,249,251,.58),transparent 100%),radial-gradient(ellipse 30% 20% at 80% 94%,rgba(237,249,251,.58),transparent 100%),radial-gradient(ellipse 30% 22% at 9% 87%,rgba(235,248,250,.62),transparent 100%);filter:blur(17px);animation:haze-drift 24s ease-in-out infinite alternate';atmosphere.appendChild(hazeCloud);
+const hazeStyle=document.createElement('style');hazeStyle.textContent='@keyframes haze-drift{from{transform:translate3d(-2%,0,0)}to{transform:translate3d(2%,1%,0)}}';document.head.appendChild(hazeStyle);
 const cityStatus=document.createElement('div');
 cityStatus.id='city-status';cityStatus.setAttribute('aria-live','off');
 cityStatus.style.cssText='position:absolute;top:84px;left:12px;padding:5px 9px;border-radius:9px;background:rgba(13,26,43,.82);color:#fff;font:12px Jua,sans-serif;pointer-events:none;z-index:2';
@@ -424,6 +447,7 @@ function updateEnvironment(){
  lastWeather=weather;lastDayPhase=phase;weatherMode=mode;
  const sky=[0xffd4a2,0x9bd7ff,0xf4b78e,0x24375a][phase];
  sc.background.setHex(sky);sc.fog.color.setHex(sky);
+ atmosphere.style.background=phase===3?'radial-gradient(ellipse 66% 59% at 50% 49%,transparent 43%,rgba(92,117,158,.18) 66%,rgba(107,135,175,.57) 100%)':'radial-gradient(ellipse 66% 59% at 50% 49%,transparent 44%,rgba(208,236,241,.12) 66%,rgba(209,234,239,.50) 100%)';
  sun.intensity=[.85,1.15,.62,.25][phase];
  sun.color.setHex([0xffdfae,0xfff5d7,0xffa76e,0xa8c4ff][phase]);
  sc.children.find(o=>o.isHemisphereLight).intensity=phase===3?.65:1.25;
@@ -491,7 +515,7 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
   rider.position.set(-3.7,0,0);
  }
  function world(){const idx=Math.max(0,Math.min(39,S.r)),theme=Math.min(SKY.length-1,Math.floor(idx/7));
-  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],38,78);lastDayPhase=-1;
+  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.FogExp2(SKY[theme],.032);lastDayPhase=-1;
   scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[theme][g.userData.i%3]);g.scale.y=.7+Math.min(idx,25)*.012;}});
   C.grass.color.setHex([0x77bf78,0x7cae8a,0xc4b781,0x6d9a81,0x78a89d,0x4c6885][theme]);districtRegion(idx);
  }
