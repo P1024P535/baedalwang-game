@@ -132,6 +132,7 @@ nav a.on:before{content:"";position:absolute;top:0;left:29%;right:29%;height:3px
 <div id="toast"></div>
 <nav><div id="nav"></div></nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="assets/asset-pack.js"></script>
 <script>
 // Live mode: use the real clock. Accelerated testing stays in 3d-test.html.
 const J=[{"e":"📰","n":"신문배달","c":50,"i":1},{"e":"📰","n":"전단지배달","c":5000,"i":2},{"e":"📰","n":"우유배달","c":10000,"i":5},{"e":"📰","n":"요구르트배달","c":15000,"i":8},{"e":"📰","n":"생수배달","c":20000,"i":11},{"e":"🥛","n":"빵배달","c":30000,"i":16},{"e":"🥛","n":"도시락배달","c":40000,"i":22},{"e":"🥛","n":"반찬배달","c":60000,"i":33},{"e":"🥛","n":"세탁물배달","c":80000,"i":44},{"e":"🥛","n":"약국 심부름배달","c":100000,"i":55},{"e":"🍞","n":"김밥배달","c":150000,"i":83},{"e":"🍞","n":"중국집배달","c":200000,"i":111},{"e":"🍞","n":"피자배달","c":280000,"i":155},{"e":"🍞","n":"치킨배달","c":400000,"i":222},{"e":"🍞","n":"족발·보쌈배달","c":600000,"i":333},{"e":"🍕","n":"케이크배달","c":800000,"i":444},{"e":"🍕","n":"꽃다발배달","c":1100000,"i":611},{"e":"🍕","n":"과일바구니배달","c":1500000,"i":833},{"e":"🍕","n":"선물세트배달","c":2200000,"i":1222},{"e":"🍕","n":"고급 디저트배달","c":3000000,"i":1666},{"e":"🛵","n":"배민 일반배달","c":4000000,"i":2222},{"e":"🛵","n":"쿠팡이츠 일반배달","c":5500000,"i":3055},{"e":"🛵","n":"배민 묶음배달","c":7000000,"i":3888},{"e":"🛵","n":"쿠팡이츠 묶음배달","c":10000000,"i":5555},{"e":"🛵","n":"피크시간 특급배달","c":15000000,"i":8333},{"e":"📦","n":"서류 퀵배달","c":20000000,"i":11111},{"e":"📦","n":"소형 택배배달","c":27000000,"i":15000},{"e":"📦","n":"긴급 부품배달","c":35000000,"i":19444},{"e":"📦","n":"전자제품 퀵배달","c":50000000,"i":27777},{"e":"📦","n":"장거리 퀵배달","c":70000000,"i":38888},{"e":"🚗","n":"자동차 음식배달","c":100000000,"i":55555},{"e":"🚗","n":"대형 케이크배달","c":140000000,"i":77777},{"e":"🚗","n":"행사 꽃장식배달","c":200000000,"i":111111},{"e":"🚗","n":"기업 선물배달","c":300000000,"i":166666},{"e":"🚗","n":"고급 물품 특송배달","c":500000000,"i":277777},{"e":"🚐","n":"마트 대량배달","c":700000000,"i":388888},{"e":"🚐","n":"행사 도시락배달","c":1000000000,"i":555555},{"e":"🚐","n":"사무실 정기배달","c":1500000000,"i":833333},{"e":"🚐","n":"쇼핑몰배달","c":2000000000,"i":1111111},{"e":"🚐","n":"소형 이사배달","c":3000000000,"i":1666666},{"e":"🚚","n":"가구배달","c":5000000000,"i":2777777},{"e":"🚚","n":"가전제품배달","c":7000000000,"i":3888888},{"e":"🚚","n":"건축자재배달","c":10000000000,"i":5555555},{"e":"🚚","n":"기업 화물배달","c":15000000000,"i":8333333},{"e":"🚚","n":"장거리 대형화물배달","c":20000000000,"i":11111111},{"e":"🏢","n":"지역 물류센터배달","c":30000000000,"i":16666666},{"e":"🏢","n":"냉장·냉동 물류배달","c":45000000000,"i":25000000},{"e":"🏢","n":"전국 택배망배달","c":65000000000,"i":36111111},{"e":"🏢","n":"대형 물류 계약배달","c":100000000000,"i":55555555},{"e":"🏢","n":"전국 배송망배달","c":200000000000,"i":111111111}];
@@ -218,6 +219,7 @@ try {
  sc.add(new THREE.HemisphereLight(0xdaf1ff,0x6d8254,1.25));
  const sun=new THREE.DirectionalLight(0xfff5d7,1.15);sun.position.set(-4,11,7);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-12;sun.shadow.camera.right=12;sun.shadow.camera.top=12;sun.shadow.camera.bottom=-12;sc.add(sun);
  const mat=(c,metalness=0)=>new THREE.MeshStandardMaterial({color:c,roughness:.78,metalness});
+ const assets=window.BaedalAssets3D?.install(THREE);
  const C={road:mat(0x394756),lane:mat(0xfff3c9),grass:mat(0x77bf78),walk:mat(0xd6d7d2),skin:mat(0xffc69d),hair:mat(0x3b2935),jacket:mat(0xff873e),pants:mat(0x344d78),shoe:mat(0x252c39),white:mat(0xffffff),glass:mat(0x8bd5ee,.15),tire:mat(0x232934),metal:mat(0x9ca8b5,.45),gold:mat(0xffcb39,.45)};
  const cube=(parent,w,h,d,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o};
  const ball=(parent,r,m,x,y,z,sw=12,sh=9)=>{const o=new THREE.Mesh(new THREE.SphereGeometry(r,sw,sh),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
@@ -253,6 +255,7 @@ try {
   cube(g,.65,1.2,.07,mat(0x66594b),.7,.61,z<0?.9:-.9);
   cube(g,3,.12,2.05,mat(0x5d6c79),0,2.05,0);
   shops.push(g);
+  if(assets){const model=assets.storefront(shops.length-1);model.position.set(0,0,z<0?1.15:-1.15);model.scale.setScalar(.88);g.add(model);g.children.slice(0,5).forEach(o=>o.visible=false)}
  }
  const lines=[];for(let i=0;i<7;i++)lines.push(cube(diorama,1.35,.025,.09,C.lane,i*2.7-8.1,-.065,0));
  const PAL=[[0xf3a96e,0xf5d37c,0x80c6de],[0x8aa5c2,0xc2c9d8,0x728fae],[0xffad87,0xffd177,0x8dcbd2],[0x9b8cdb,0x70b9e6,0xe8a1d1],[0x65b9b6,0xb0d2cc,0xffce77],[0x8276b4,0x7298d0,0xa6a3c6]];
@@ -265,6 +268,7 @@ try {
   const glass=mat(0xb3e9f3,.15);
   for(let y=.55;y<h-.25;y+=.73)for(let xx=-w/2+.42;xx<w/2-.2;xx+=.67)(()=>{const win=cube(g,.31,.38,.035,glass,xx,y,z<0?.88:-.88);win.castShadow=false})() ;
   cube(g,.65,.85,.055,mat(0x526b86),0,.44,z<0?.89:-.89);
+  if(assets){const model=assets.home(i%3);model.scale.set(.72,Math.max(.55,h/3.4),.75);g.add(model);body.visible=false;g.children.slice(1,-1).forEach(o=>o.visible=false)}
   g.userData={x,h,wall,i,baseH:h,building:true};scenery.push(g);
  }
  function tree(x,z,i){const g=new THREE.Group();diorama.add(g);g.position.set(x,0,z);
@@ -369,8 +373,10 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
  const frame=(g,x1,y1,x2,y2,z,m=C.metal,r=.045)=>{const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy);const o=cyl(g,r,len,m,(x1+x2)/2,(y1+y2)/2,z);o.rotation.z=-Math.atan2(dx,dy);return o};
  function makeVehicle(){while(rider.children.length)rider.remove(rider.children[0]);wheels=[];rotors=[];legs=[];arms=[];
   const v=S.v;
-  if(v===0){person(rider,0,0,0,1);cube(rider,.42,.6,.36,mat(0xe6a75d),-.4,.88,-.18)}
-  else if(v===1||v===2||v===3){const motor=v>=2;
+  if(v===0){if(assets)rider.add(assets.person());else{person(rider,0,0,0,1);cube(rider,.42,.6,.36,mat(0xe6a75d),-.4,.88,-.18)}}
+  else if(assets&&(v===1||v===2||v===3)){const model=v===3?assets.scooter():assets.bicycle(v===2);rider.add(model);model.userData.assetPack=true;
+  model.traverse(o=>{if(o.isMesh&&o.geometry?.type==='TorusGeometry')wheels.push(o)});
+ }else if(v===1||v===2||v===3){const motor=v>=2;
    wheel(rider,-.82,.45,0,.43);wheel(rider,.86,.45,0,.43);
    frame(rider,-.82,.45,-.24,1.08,0,motor?C.metal:mat(0x3285d5));frame(rider,-.24,1.08,.35,.45,0);frame(rider,.35,.45,-.82,.45,0);
    if(motor){cube(rider,1.25,.42,.53,mat(0xe94b46),-.04,.85,0);cube(rider,.6,.55,.55,mat(0xffbd3c),-.7,1.03,0);cube(rider,.48,.42,.52,mat(0xf5a94c),-.9,1.3,0)}
