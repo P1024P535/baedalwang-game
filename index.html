@@ -63,7 +63,7 @@ nav a.on{color:var(--acc)}
 .seg button{min-width:0;padding:9px 12px;flex:1}.seg{position:sticky;top:0;z-index:2;background:var(--card);padding:6px 0}details.card summary{cursor:pointer;padding:4px;font-size:16px}#view{padding-bottom:120px}
 /* 모바일에서도 메뉴를 항상 보이게 유지 */
 nav{z-index:30;min-height:62px;box-shadow:0 -3px 12px #0002}
-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;font-size:clamp(10px,2.4vw,12px)}
+nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;font-size:clamp(9px,2vw,11px)}
 #stage{height:calc(100dvh - 90px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
 #sheet{bottom:62px;max-height:calc(100dvh - 75px);z-index:20}
 #testpanel{bottom:calc(70px + env(safe-area-inset-bottom,0px))!important;right:8px!important;max-width:min(290px,calc(100vw - 16px))!important;max-height:40dvh;overflow:auto}
@@ -80,7 +80,7 @@ nav a{display:flex;flex-direction:column;align-items:center;justify-content:cent
 <nav><div id="nav"></div></nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-window.__simTime=Date.now();window.__simRealNow=Date.now.bind(Date);Date.now=()=>window.__simTime;setInterval(()=>{window.__simTime+=100},100);
+// Live mode: use the real clock. Accelerated testing stays in 3d-test.html.
 const J=[{"e":"📰","n":"신문배달","c":50,"i":1},{"e":"📰","n":"전단지배달","c":5000,"i":1},{"e":"📰","n":"우유배달","c":10000,"i":2},{"e":"📰","n":"요구르트배달","c":15000,"i":2},{"e":"📰","n":"생수배달","c":20000,"i":2},{"e":"🥛","n":"빵배달","c":30000,"i":3},{"e":"🥛","n":"도시락배달","c":40000,"i":4},{"e":"🥛","n":"반찬배달","c":60000,"i":4},{"e":"🥛","n":"세탁물배달","c":80000,"i":5},{"e":"🥛","n":"약국 심부름배달","c":100000,"i":6},{"e":"🍞","n":"김밥배달","c":150000,"i":6},{"e":"🍞","n":"중국집배달","c":200000,"i":8},{"e":"🍞","n":"피자배달","c":280000,"i":9},{"e":"🍞","n":"치킨배달","c":400000,"i":10},{"e":"🍞","n":"족발·보쌈배달","c":600000,"i":12},{"e":"🍕","n":"케이크배달","c":800000,"i":14},{"e":"🍕","n":"꽃다발배달","c":1100000,"i":16},{"e":"🍕","n":"과일바구니배달","c":1500000,"i":19},{"e":"🍕","n":"선물세트배달","c":2200000,"i":22},{"e":"🍕","n":"고급 디저트배달","c":3000000,"i":26},{"e":"🛵","n":"배민 일반배달","c":4000000,"i":30},{"e":"🛵","n":"쿠팡이츠 일반배달","c":5500000,"i":36},{"e":"🛵","n":"배민 묶음배달","c":7000000,"i":44},{"e":"🛵","n":"쿠팡이츠 묶음배달","c":10000000,"i":52},{"e":"🛵","n":"피크시간 특급배달","c":15000000,"i":64},{"e":"📦","n":"서류 퀵배달","c":20000000,"i":80},{"e":"📦","n":"소형 택배배달","c":27000000,"i":96},{"e":"📦","n":"긴급 부품배달","c":35000000,"i":116},{"e":"📦","n":"전자제품 퀵배달","c":50000000,"i":140},{"e":"📦","n":"장거리 퀵배달","c":70000000,"i":170},{"e":"🚗","n":"자동차 음식배달","c":100000000,"i":200},{"e":"🚗","n":"대형 케이크배달","c":140000000,"i":250},{"e":"🚗","n":"행사 꽃장식배달","c":200000000,"i":310},{"e":"🚗","n":"기업 선물배달","c":300000000,"i":380},{"e":"🚗","n":"고급 물품 특송배달","c":500000000,"i":460},{"e":"🚐","n":"마트 대량배달","c":700000000,"i":560},{"e":"🚐","n":"행사 도시락배달","c":1000000000,"i":700},{"e":"🚐","n":"사무실 정기배달","c":1500000000,"i":860},{"e":"🚐","n":"쇼핑몰배달","c":2000000000,"i":1060},{"e":"🚐","n":"소형 이사배달","c":3000000000,"i":1300},{"e":"🚚","n":"가구배달","c":5000000000,"i":1600},{"e":"🚚","n":"가전제품배달","c":7000000000,"i":2000},{"e":"🚚","n":"건축자재배달","c":10000000000,"i":2500},{"e":"🚚","n":"기업 화물배달","c":15000000000,"i":3100},{"e":"🚚","n":"장거리 대형화물배달","c":20000000000,"i":4000},{"e":"🏢","n":"지역 물류센터배달","c":30000000000,"i":5000},{"e":"🏢","n":"냉장·냉동 물류배달","c":45000000000,"i":6400},{"e":"🏢","n":"전국 택배망배달","c":65000000000,"i":8400},{"e":"🏢","n":"대형 물류 계약배달","c":100000000000,"i":11000},{"e":"🏢","n":"전국 배송망배달","c":200000000000,"i":16000}];
 const V=[{"e":"🚶","n":"도보","m":1,"c":0},{"e":"🚲","n":"자전거","m":2,"c":30000},{"e":"🛴","n":"전동킥보드","m":3,"c":120000},{"e":"🛵","n":"오토바이","m":4,"c":500000},{"e":"🚗","n":"경차","m":8,"c":100000000},{"e":"🚙","n":"자동차","m":11,"c":250000000},{"e":"🚐","n":"밴","m":16,"c":800000000},{"e":"🚚","n":"화물차","m":25,"c":6000000000},{"e":"🏢","n":"물류 운송단","m":40,"c":35000000000},{"e":"🚁","n":"배송 헬기","m":60,"c":300000000000},{"e":"🛸","n":"우주선","m":100,"c":20000000000000}];
 const R=[{"e":"🏡","n":"시골 마을","m":1,"c":0},{"e":"🏡","n":"작은 동네","m":1.11,"c":4350},{"e":"🏡","n":"읍내","m":1.2321,"c":6307},{"e":"🏡","n":"면소재지","m":1.3676,"c":9145},{"e":"🏡","n":"소도시","m":1.5181,"c":13261},{"e":"🏡","n":"중소도시","m":1.6851,"c":19229},{"e":"🏡","n":"도심 상권","m":1.8704,"c":27882},{"e":"🏡","n":"원룸·아파트 단지","m":2.0762,"c":40429},{"e":"🏡","n":"수도권 배달","m":2.3045,"c":58622},{"e":"🏡","n":"경기도 전역","m":2.558,"c":85002},{"e":"🇰🇷","n":"서울 주요 상권","m":2.8394,"c":123254},{"e":"🇰🇷","n":"서울 전역","m":3.1518,"c":178718},{"e":"🇰🇷","n":"수도권 통합","m":3.4985,"c":259141},{"e":"🇰🇷","n":"광역시 연합","m":3.8833,"c":375755},{"e":"🇰🇷","n":"대한민국 전국망","m":4.3104,"c":544845},{"e":"🌏","n":"일본","m":4.7846,"c":790025},{"e":"🌏","n":"한일 통합망","m":5.3109,"c":1145537},{"e":"🌏","n":"동남아시아","m":5.8951,"c":1661029},{"e":"🌏","n":"인도","m":6.5436,"c":2408492},{"e":"🌏","n":"아시아 대륙망","m":7.2633,"c":3492314},{"e":"🌍","n":"미국","m":8.0623,"c":5063855},{"e":"🌍","n":"북미 전역","m":8.9492,"c":7342590},{"e":"🌍","n":"유럽","m":9.9336,"c":10646756},{"e":"🌍","n":"남미","m":11.0263,"c":15437796},{"e":"🌍","n":"아프리카","m":12.2392,"c":22384804},{"e":"🌍","n":"세계 주요 도시","m":13.5855,"c":32457966},{"e":"🌍","n":"세계 배달망","m":15.0799,"c":47064051},{"e":"🚀","n":"국제우주정거장","m":16.7386,"c":80008887},{"e":"🚀","n":"달 기지","m":18.5799,"c":136015109},{"e":"🚀","n":"달 도시","m":20.6237,"c":231225686},{"e":"🚀","n":"화성 기지","m":22.8923,"c":393083666},{"e":"🚀","n":"화성 도시","m":25.4104,"c":668242233},{"e":"🚀","n":"태양계 행성망","m":28.2056,"c":1136011796},{"e":"🚀","n":"우주 정거장 연합","m":31.3082,"c":1931220053},{"e":"🚀","n":"성간 배달망","m":34.7521,"c":3283074091},{"e":"🚀","n":"은하 물류회사","m":38.5749,"c":5581225955},{"e":"🚀","n":"은하계 배달왕","m":42.8181,"c":9488084123},{"e":"🚀","n":"우주 통합 물류","m":47.5281,"c":16129743010},{"e":"🚀","n":"초은하 배송망","m":52.7562,"c":27420563118},{"e":"🚀","n":"우주 배달의 신","m":58.5593,"c":46614957301}];
@@ -89,8 +89,11 @@ const T=['동네 배달 초보','동네 배달 라이더','시내 에이스','�
 const EVOLUTION=["시골 마을","작은 동네","읍내","면소재지","소도시","중소도시","도심 상권","원룸·아파트 단지","수도권 배달","경기도 전역","서울 주요 상권","서울 전역","수도권 통합","광역시 연합","대한민국 전국망","일본","한일 통합망","동남아시아","인도","아시아 대륙망","미국","북미 전역","유럽","남미","아프리카","세계 주요 도시","세계 배달망","국제우주정거장","달 기지","달 도시","화성 기지","화성 도시","태양계 행성망","우주 정거장 연합","성간 배달망","은하 물류회사","은하계 배달왕","우주 통합 물류","초은하 배송망","우주 배달의 신"];
 const evoCost=i=>Math.floor(3000*Math.pow(1.45,Math.min(i,26))*Math.pow(1.7,Math.max(0,i-26)));
 const evoBonus=()=>1;
-const tapGain=()=>Math.max(1,Math.floor((1+ps()*.04)*(1+Math.min(combo,20)*.05)));
-const TABS=[['main','🏠','홈'],['jobs','📈','성장'],['idle','🤖','방치형'],['biz','🗺️','지역'],['rec','🏆','기록·환생']];
+const tapGain=()=>Math.max(1,Math.floor((2+Math.sqrt(Math.max(0,ps()))*.45)*(1+Math.min(combo,10)*.04)*(1+itemBonus('tap')/100)));
+const ITEMS=[{"e":"🧢","n":"배달 모자","slot":"head","price":12,"tap":0,"idle":5},{"e":"⛑️","n":"안전 헬멧","slot":"head","price":30,"tap":3,"idle":8},{"e":"👑","n":"황금 헬멧","slot":"head","price":140,"tap":12,"idle":12},{"e":"🧥","n":"방풍 재킷","slot":"body","price":18,"tap":0,"idle":8},{"e":"🦺","n":"반사 조끼","slot":"body","price":35,"tap":5,"idle":9},{"e":"🥋","n":"전설의 배달복","slot":"body","price":180,"tap":15,"idle":15},{"e":"👟","n":"러닝화","slot":"feet","price":15,"tap":8,"idle":0},{"e":"🥾","n":"라이더 부츠","slot":"feet","price":45,"tap":12,"idle":5},{"e":"🚀","n":"제트 부츠","slot":"feet","price":200,"tap":18,"idle":18},{"e":"🧤","n":"터치 장갑","slot":"hands","price":20,"tap":12,"idle":0},{"e":"🥊","n":"스피드 장갑","slot":"hands","price":65,"tap":18,"idle":5},{"e":"💎","n":"루비 장갑","slot":"hands","price":220,"tap":25,"idle":15},{"e":"🎒","n":"배달 가방","slot":"bag","price":25,"tap":4,"idle":8},{"e":"🧰","n":"보온 배달함","slot":"bag","price":75,"tap":8,"idle":15},{"e":"📦","n":"초공간 배송함","slot":"bag","price":260,"tap":15,"idle":25}];
+const SLOT={head:'모자·헬멧',body:'의류',feet:'신발',hands:'장갑',bag:'배달 가방'};
+const itemBonus=type=>Object.values(S.equip||{}).reduce((sum,id)=>sum+(ITEMS[id]?.[type]||0),0);
+const TABS=[['main','🏠','홈'],['jobs','📈','성장'],['idle','🤖','방치형'],['biz','🗺️','지역'],['items','🎒','보유템'],['rec','🏆','기록·환생']];
 GL.push(['🚁 배송 헬기 구매',()=>S.v>=5],['업종 누적 300개 구매',()=>S.bn>=300],['🌏 아시아 지역 해금',()=>S.r>=4],['환생 3회 달성',()=>S.rb>=3],['한 업종 200개 보유',()=>S.j.some(n=>n>=200)],['🛸 우주선 구매',()=>S.v>=6],['🌍 전세계 지역 해금',()=>S.r>=5],['⭐ 별 50개 보유',()=>S.st>=50],['🏆 업적 10개 달성',()=>S.ac.length>=10],['한 업종 400개 보유',()=>S.j.some(n=>n>=400)]);
 const ST=['신문 가방을 메고 첫 배달을 마쳤다. 할아버지의 말이 떠오른다. 빠른 것보다 정확한 게 먼저란다.','동네 사람들이 달봉이를 알아보기 시작했다. 아침마다 문 앞에서 기다리는 단골이 생겼다.','중고 자전거를 샀다. 바퀴 구르는 소리가 응원가처럼 들린다.','시내로 나왔다. 높은 건물과 낯선 골목, 그리고 라이벌 간판 번개배송.','분식집부터 택배까지, 달봉이에겐 다섯 갈래의 배달 노선이 생겼다.','한 노선을 오래 달리자 숙련자가 되었다. 같은 길도 두 배 빠르게 달린다.','오토바이 시동음에 라이벌이 고개를 돌린다. 꽤 하는군, 신입. 번개배송 사장 김번개의 첫 인사다.','첫 큰돈을 모았다. 그때 양복 차림의 낯선 사람이 명함을 건넨다. 로켓물류 인수팀입니다.','환생의 별빛 아래, 달봉이는 처음부터 다시 달리기로 했다. 이번엔 더 멀리.','광역 배송망이 열렸다. 로켓물류가 대리점들에 압력을 넣는다는 소문이 돈다.','배달 밴에 단골들의 응원 쪽지가 붙었다. 달봉이네 꼭 이겨라!','여덟 개 노선이 완성됐다. 김번개가 찾아와 말한다. 로켓에 맞서려면 우리가 손잡아야 해.','백 번째 점포. 달봉이네는 이제 어엿한 회사다.','전국 배송 개시. 로켓물류와의 정면 승부가 시작된다.','대형 트럭이 고속도로를 가른다. 로켓물류 사장이 처음으로 직접 연락을 해 왔다.','하늘길이 열렸다. 배송 헬기가 산골 마을 지붕 위에 택배를 내려놓는다.','셀 수 없는 배달을 해냈다. 그런데 로켓물류의 비밀 창고가 해외에 있다는 제보가 온다.','아시아 진출. 낯선 언어의 골목에도 단골이 생긴다.','세 번의 환생을 거치며 달봉이는 깨달았다. 시작은 매번 같지만 이제 길을 안다.','수백 개의 점포가 같은 시각 문을 연다. 달봉이네 간판은 아시아 어디서나 보인다.','우주선 한 대가 발사대에 선다. 로켓물류 사장이 웃으며 말한다. 같은 하늘이군.','전 세계를 잇는 배송망이 완성됐다. 로켓물류와는 경쟁이 아니라 협력이 되었다.','별 오십 개. 처음 신문 가방을 멨던 그날이 아득하다.','달봉이네 소식이 신문 1면을 장식한다. 그 신문을 배달한 건 물론 달봉이였다.','마지막 배달을 떠난다. 할아버지의 낡은 가방을 메고. 배달왕의 전설은 계속된다!'];
 const DM=[['화면 200번 터치',()=>S.d.tap>=200,()=>`${Math.min(S.d.tap,200)}/200`],['업종 20개 구매',()=>S.d.buy>=20,()=>`${Math.min(S.d.buy,20)}/20`],['특별 주문 3번 수락',()=>S.d.gift>=3,()=>`${Math.min(S.d.gift,3)}/3`]];
@@ -102,21 +105,21 @@ function dayInit(){const d=S.d,today=new Date().toLocaleDateString('sv');if(d.da
 function dClaim(i){if(S.d.cl[i]||!DM[i][1]())return;S.d.cl[i]=1;const r=Math.floor(ps()*600+3000);S.m+=r;toast(`✅ 미션 보상 +${f(r)}원`);snd(900,.15);save();render()}
 const KEY='baedalwang-3d-simulation-only';
 const MAX_OFFLINE=24*3600; // 24-hour offline earnings cap
-const fresh=()=>({m:10000,run:0,tn:0,g:0,snd:1,bn:0,gn:0,rb:0,ac:[],mg:0,auto:0,reserve:0,staff:0,dispatch:0,evo:0,pro:0,d:{day:'',tap:0,buy:0,gift:0,cl:[0,0,0,0],str:0,last:''},j:J.map(()=>0),v:0,r:0,st:0,t:Date.now(),ad:0,adc:0,log:['게임을 시작했어요. 업종을 구매해 보세요.']});
+const fresh=()=>({m:10000,ruby:0,items:[],equip:{},best:0,totalRuby:0,run:0,tn:0,g:0,snd:1,bn:0,gn:0,rb:0,ac:[],mg:0,auto:0,reserve:0,staff:0,dispatch:0,evo:0,pro:0,d:{day:'',tap:0,buy:0,gift:0,cl:[0,0,0,0],str:0,last:''},j:J.map(()=>0),v:0,r:0,st:0,t:Date.now(),ad:0,adc:0,log:['게임을 시작했어요. 업종을 구매해 보세요.']});
 let showAllJobs=false;let S,tab='main',buyN=1,taps=[],resetAt=0,adWait=false,combo=0,comboT=0,bounce=0;
 try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
-S=Object.assign(fresh(),S||{});if(!Array.isArray(S.j))S.j=[];S.j=S.j.slice(0,J.length).map(x=>Number.isFinite(x)?Math.max(0,Math.floor(x)):0);while(S.j.length<J.length)S.j.push(0);S.v=Math.max(0,Math.min(V.length-1,Math.floor(Number(S.v)||0)));S.r=Math.max(0,Math.min(R.length-1,Math.floor(Math.max(Number(S.r)||0,Number(S.evo)||0))));S.evo=S.r;S.d=Object.assign(fresh().d,S.d||{});S.d.cl=Array.isArray(S.d.cl)?S.d.cl:[0,0,0,0];S.ac=Array.isArray(S.ac)?S.ac:[];S.log=Array.isArray(S.log)?S.log:[];S.auto=S.auto?1:0;S.reserve=Math.max(0,Number(S.reserve)||0);S.staff=Math.max(0,Math.min(1000,Math.floor(Number(S.staff)||0)));S.dispatch=S.dispatch?1:0;
+S=Object.assign(fresh(),S||{});if(!Array.isArray(S.j))S.j=[];S.j=S.j.slice(0,J.length).map(x=>Number.isFinite(x)?Math.max(0,Math.floor(x)):0);while(S.j.length<J.length)S.j.push(0);S.v=Math.max(0,Math.min(V.length-1,Math.floor(Number(S.v)||0)));S.r=Math.max(0,Math.min(R.length-1,Math.floor(Math.max(Number(S.r)||0,Number(S.evo)||0))));S.evo=S.r;S.d=Object.assign(fresh().d,S.d||{});S.d.cl=Array.isArray(S.d.cl)?S.d.cl:[0,0,0,0];S.ac=Array.isArray(S.ac)?S.ac:[];S.log=Array.isArray(S.log)?S.log:[];S.auto=S.auto?1:0;S.reserve=Math.max(0,Number(S.reserve)||0);S.staff=Math.max(0,Math.min(1000,Math.floor(Number(S.staff)||0)));S.dispatch=S.dispatch?1:0;S.ruby=Math.max(0,Math.floor(Number(S.ruby)||0));S.totalRuby=Math.max(0,Math.floor(Number(S.totalRuby)||0));S.items=Array.isArray(S.items)?S.items.filter(i=>Number.isInteger(i)&&i>=0&&i<ITEMS.length):[];S.equip=(S.equip&&typeof S.equip==='object')?S.equip:{};S.best=Math.max(Number(S.best)||0,Number(S.run)||0);
 const $=id=>document.getElementById(id);
 function f(n){if(n<1e4)return n<10&&n%1?n.toFixed(1):Math.floor(n).toLocaleString('ko-KR');
  for(const [u,s] of [[1e16,'경'],[1e12,'조'],[1e8,'억'],[1e4,'만']]) if(n>=u){const x=n/u;return (x<100?x.toFixed(2):x.toFixed(1)).replace(/\.?0+$/,'')+s}}
 const cost=(i,n)=>{let s=0;for(let k=0;k<n;k++)s+=Math.ceil(J[i].c*1.2**(S.j[i]+k));return s};
-const mult=()=>V[S.v].m*R[S.r].m*(1+.1*S.st)*(1+.02*S.ac.length)*(Date.now()<S.ad?2:1);
-const jm=n=>2**[25,50,100,200,400].filter(x=>n>=x).length;
-const nx=n=>{const t=[25,50,100,200,400].find(x=>n<x);return t?`${t}개에 x2`:'최대 보너스'};
+const mult=()=>V[S.v].m*R[S.r].m*(1+.08*S.st)*(1+.02*S.ac.length)*(1+itemBonus('idle')/100)*(Date.now()<S.ad?2:1);
+const jm=n=>1.6**[25,50,100,200,400].filter(x=>n>=x).length;
+const nx=n=>{const t=[25,50,100,200,400].find(x=>n<x);return t?`${t}개에 x1.6`:'최대 보너스'};
 // Automatic couriers and batch dispatch add passive income; no tapping required.
 const peak=()=>{const h=new Date().getHours();return (h>=11&&h<14)||(h>=17&&h<21)?1.2:1};
 const ps=()=>(1+J.reduce((a,x,i)=>a+x.i*S.j[i]*jm(S.j[i]),0)) * mult() * (1+Math.min(1000,S.staff||0)*.06) * ((S.dispatch&&S.staff>=2)?1.1:1) * peak() * evoBonus();
-const staffCost=()=>Math.ceil(150000*Math.pow(1.42,S.staff||0));
+const staffCost=()=>Math.ceil(150000*Math.pow(1.35,S.staff||0));
 const roi=(i)=>{const c=cost(i,1),gain=J[i].i*( (S.j[i]+1)*jm(S.j[i]+1)-S.j[i]*jm(S.j[i]))*mult()*(1+(S.staff||0)*.06)*peak();return gain>0?c/gain:Infinity};
 function autoInvest(){if(!S.mg||!S.auto)return;const available=S.m-Math.max(0,S.reserve||0);if(available<=0)return;let best=-1,seconds=Infinity;J.forEach((_,i)=>{const c=cost(i,1),r=roi(i);if(c<=available&&r<seconds){best=i;seconds=r}});if(best<0)return;S.m-=cost(best,1);S.j[best]++;S.bn++;}
 
@@ -241,7 +244,7 @@ function render(){
   const jobs=J.map((x,i)=>S.j[i]?`${x.e}${S.j[i]}`:'').filter(Boolean).join(' ');
   h=`
   <div class="card"><h3>${V[S.v].e} ${V[S.v].n} · ${R[S.r].e} ${R[S.r].n}</h3><div class="sub">보유 업종: ${jobs||'아직 없음'}</div>
-  <div class="sub">🚴 자동 라이더 ${S.staff||0}명 · ${peak()>1?'🔥 피크 할증 +20%':'일반 시간'} · ⭐ 환생 보너스 +${S.st*10}% · 수익 배율 x${mult().toFixed(2)}</div></div>
+  <div class="sub">💎 루비 ${f(S.ruby)}개 · 장비 초당 +${itemBonus('idle')}% · 터치 +${itemBonus('tap')}%</div><div class="sub">🚴 자동 라이더 ${S.staff||0}명 · ${peak()>1?'🔥 피크 할증 +20%':'일반 시간'} · ⭐ 환생 보너스 +${S.st*10}% · 수익 배율 x${mult().toFixed(2)}</div></div>
   ${S.j.every(n=>!n)?'<div class="tip">💡 첫 목표: 위 화면을 터치해 돈을 모으고, 성장 탭에서 📰 신문배달을 구매하세요.</div>':''}
   <div class="card"><h3>🗺️ 지역 진화 ${S.r+1}/40단계 · ${R[S.r].n}</h3><div class="sub">다음: ${R[Math.min(39,S.r+1)].n} · 지역 수익 x${R[S.r].m} · 터치 수익 +${f(tapGain())}원</div><button data-section="reg">지역 진화하기</button></div><div class="card"><h3>🎯 목표 ${Math.min(S.g+1,GL.length)}/${GL.length}</h3>${S.g<GL.length?`<div>${GL[S.g][0]}</div><div class="sub">보상 +${f(ps()*120+1000*(S.g+1))}원</div>`:'<div>모든 목표 달성! 환생으로 더 높은 기록에 도전하세요.</div>'}</div>
   <div class="card"><h3>📋 최근 기록</h3><ul class="log">${S.log.map(l=>`<li>· ${l}</li>`).join('')}</ul></div>`;
@@ -255,8 +258,12 @@ function render(){
   h=`<div class="seg">${tab==='veh'?'<button class="ghost" data-section="jobs">📦 업종</button><button data-section="veh">🚲 차량</button>':'<button class="ghost" data-section="biz">🤖 자동 운영</button><button data-section="reg">🗺️ 지역</button>'}</div><div class="card"><h3>${tab==='veh'?'🚲 차량 강화':'🗺️ 지역 해금'}</h3><div class="sub">구매하면 전체 수익 배율이 오르고 3D 화면이 바뀌어요.</div>`+
   L.map((x,i)=>i>cur+1?'':`<div class="row"><div class="t">${x.e} ${x.n}<small>${tab==='reg'?'진화 '+(i+1)+'/40 · ':''}수익 x${x.m}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'사용 중':'보유'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`).join('')+`</div>${tab==='reg'?`<details class="card"><summary>📜 전체 40단계 미리보기</summary>${R.map((x,i)=>`<div class="row"><div class="t">${i+1}. ${x.n}</div><small>${i<=S.r?'완료':'잠김'}</small></div>`).join('')}</details>`:''}`;
  }
+ if(tab==='items'){
+  h=`<div class="card"><h3>💎 루비 ${f(S.ruby)}개 · 🎒 보유템 ${S.items.length}/${ITEMS.length}</h3><div class="sub">지역 진화 +3루비 · 목표 달성 +2루비 · 업적 +5루비. 장비는 구매 후 장착해야 효과가 적용돼요.</div><div class="sub">장착 효과: 👆 터치 +${itemBonus('tap')}% · ⚡ 초당 +${itemBonus('idle')}% (각 슬롯 1개)</div></div>`+
+  Object.entries(SLOT).map(([slot,label])=>`<div class="card"><h3>${label}</h3>${ITEMS.map((x,i)=>({x,i})).filter(o=>o.x.slot===slot).map(({x,i})=>{const owned=S.items.includes(i),equipped=S.equip[slot]===i;return `<div class="row"><div class="t">${x.e} ${x.n}<small>터치 +${x.tap}% · 초당 +${x.idle}% · ${owned?'보유 중':'💎 '+x.price+'개'}</small></div><button data-item="${i}" class="${equipped?'own':!owned&&S.ruby<x.price?'dis':''}">${equipped?'장착 중':owned?'장착':'구매'}</button></div>`}).join('')}</div>`).join('');
+ }
  if(tab==='rec'){
-  h=`<div class="card"><h3>📅 출석 ${S.d.str}일째</h3><div class="sub">매일 접속하면 보너스가 커져요 (최대 7일)</div></div><div class="card"><h3>✅ 오늘의 미션</h3>`+DM.map((m,i)=>{const ok=m[1](),dn=S.d.cl[i];return `<div class="row"><div class="t">${m[0]}<small>${m[2]()}</small></div><button data-claim="${i}" class="${dn?'own':ok?'':'dis'}">${dn?'완료':'보상 받기'}</button></div>`}).join('')+`</div><div class="card"><h3>🏆 업적 ${S.ac.length}/${AC.length}</h3><div class="sub">업적 1개당 전체 수익 +2%</div>`+AC.map((a,k)=>`<div class="row"><div class="t">${S.ac.includes(k)?'🏆':'🔒'} ${a[0]}<small>${a[1]}</small></div></div>`).join('')+`</div><div class="card"><h3>📖 스토리</h3>`+(S.g?ST.slice(0,S.g).map((s,i)=>`<div class="row"><div class="t"><small>챕터 ${i+1}</small>${s}</div></div>`).join(''):'<div class="sub">목표를 달성하면 이야기가 열려요.</div>')+`</div>`;
+  h=`<div class="card"><h3>🏅 명예의 전당 · 개인 기록</h3><div class="sub">현재는 이 기기의 기록만 표시해요. 전체 유저 순위는 서버·로그인이 연결되면 제공할 수 있어요.</div><div class="row"><div class="t">🏆 최고 누적 수익</div><b>${f(S.best||S.run)}원</b></div><div class="row"><div class="t">🚀 최고 지역</div><b>${S.r+1}/40단계</b></div><div class="row"><div class="t">⭐ 환생 횟수</div><b>${S.rb}회</b></div><div class="row"><div class="t">💎 누적 획득 루비</div><b>${f(S.totalRuby||0)}개</b></div><div class="row"><div class="t">👆 누적 터치</div><b>${f(S.tn)}회</b></div></div><div class="card"><h3>📅 출석 ${S.d.str}일째</h3><div class="sub">매일 접속하면 보너스가 커져요 (최대 7일)</div></div><div class="card"><h3>✅ 오늘의 미션</h3>`+DM.map((m,i)=>{const ok=m[1](),dn=S.d.cl[i];return `<div class="row"><div class="t">${m[0]}<small>${m[2]()}</small></div><button data-claim="${i}" class="${dn?'own':ok?'':'dis'}">${dn?'완료':'보상 받기'}</button></div>`}).join('')+`</div><div class="card"><h3>🏆 업적 ${S.ac.length}/${AC.length}</h3><div class="sub">업적 1개당 전체 수익 +2%</div>`+AC.map((a,k)=>`<div class="row"><div class="t">${S.ac.includes(k)?'🏆':'🔒'} ${a[0]}<small>${a[1]}</small></div></div>`).join('')+`</div><div class="card"><h3>📖 스토리</h3>`+(S.g?ST.slice(0,S.g).map((s,i)=>`<div class="row"><div class="t"><small>챕터 ${i+1}</small>${s}</div></div>`).join(''):'<div class="sub">목표를 달성하면 이야기가 열려요.</div>')+`</div>`;
 
   const ns=newStars(),adOn=Date.now()<S.ad,cd=Math.max(0,Math.ceil((S.adc-Date.now())/1000));
   h+=`<details class="card"><summary>📋 최근 기록 · 광고 · 환생</summary><div class="card"><h3>📋 최근 기록</h3><ul class="log">${S.log.map(l=>`<li>· ${l}</li>`).join('')}</ul></div>
@@ -298,13 +305,15 @@ function buy(el){
  const c=+el.dataset.cost;if(S.m<c)return toast('게임머니가 부족해요');
  if(tab==='jobs'){const i=Number(el.dataset.job);const o=S.j[i];S.bn+=buyN;S.d.buy+=buyN;S.m-=c;S.j[i]+=buyN;log(`${J[i].e} ${J[i].n} ${buyN}개 구매`);if(jm(S.j[i])>jm(o))toast(`🔥 ${J[i].n} 수익 x2 보너스!`)}
  else if(tab==='veh'){S.m-=c;S.v++;log(`${V[S.v].e} ${V[S.v].n}(으)로 업그레이드`)}
- else if(tab==='reg'){S.m-=c;S.r++;S.evo=S.r;log(`${R[S.r].e} ${R[S.r].n} 지역 진화 완료`)}
+ else if(tab==='reg'){S.m-=c;S.r++;S.evo=S.r;S.ruby+=3;S.totalRuby+=3;log(`${R[S.r].e} ${R[S.r].n} 지역 진화 완료`)}
  snd(880,.12);G&&G.bump();save();render();
 }
 document.addEventListener('click',e=>{
- const t=e.target.closest('[data-tab],[data-section],[data-showjobs],[data-n],[data-cost],#stage,#ad,#reb,#rst,#gift,#snd,#x,#mo,#mgr,#exp,#imp,[data-claim],#auto,#reserve,#hire,#dispatch,#evolve');if(!t)return;
+ const t=e.target.closest('[data-tab],[data-section],[data-showjobs],[data-n],[data-item],[data-cost],#stage,#ad,#reb,#rst,#gift,#snd,#x,#mo,#mgr,#exp,#imp,[data-claim],#auto,#reserve,#hire,#dispatch,#evolve');if(!t)return;
  if(t.id==='mo')return nm();
  if(t.id==='evolve')return;
+ if(t.dataset.item!==undefined){const i=Number(t.dataset.item),x=ITEMS[i];if(!x)return;if(!S.items.includes(i)){if(S.ruby<x.price)return toast('루비가 부족해요');S.ruby-=x.price;S.items.push(i);log('💎 '+x.n+' 구매')}S.equip[x.slot]=i;toast(x.n+' 장착 완료!');save();return render()}
+
 
  if(t.dataset.claim!==undefined)return dClaim(+t.dataset.claim);
  if(t.id==='auto'){if(!S.mg)return toast('비서를 먼저 고용하세요');S.auto=S.auto?0:1;save();return render()}
@@ -321,43 +330,33 @@ document.addEventListener('click',e=>{
  if(t.dataset.n){buyN=+t.dataset.n;return render()}
  if(t.dataset.cost)return buy(t);
  if(t.id==='snd'){S.snd=S.snd?0:1;save();return render()}
- if(t.id==='gift'){const g=ps()*45+100;S.m+=g;S.run+=g;S.gn++;S.d.gift++;t.hidden=true;toast(`🎁 특별 주문 완료! +${f(g)}원`);if(G)for(let i=0;i<8;i++)G.coin();return upd()}
+ if(t.id==='gift'){const g=ps()*45+100;S.m+=g;S.run+=g;S.best=Math.max(S.best,S.run);S.gn++;S.d.gift++;t.hidden=true;toast(`🎁 특별 주문 완료! +${f(g)}원`);if(G)for(let i=0;i<8;i++)G.coin();return upd()}
  if(t.id==='stage'){if(e.target.closest('button'))return;const now=Date.now();taps=taps.filter(x=>now-x<1000);if(taps.length>=5)return;taps.push(now);
   combo=now-comboT<1200?combo+1:1;comboT=now;
-  const g=tapGain();S.m+=g;S.run+=g;S.tn++;S.d.tap++;snd(500+Math.min(combo,20)*25);navigator.vibrate&&navigator.vibrate(8);G&&G.bump();
+  const g=tapGain();S.m+=g;S.run+=g;S.best=Math.max(S.best,S.run);S.tn++;S.d.tap++;snd(500+Math.min(combo,20)*25);navigator.vibrate&&navigator.vibrate(8);G&&G.bump();
   $('hint').textContent=`🔥 콤보 x${combo} (+${Math.min(combo,20)*5}%)`;$('hint').style.display=combo>=3||S.tn<20?'':'none';
   const s=document.createElement('span');s.className='fl';s.textContent='+'+f(g);
   const r=t.getBoundingClientRect();s.style.left=(e.clientX-r.left-12)+'px';s.style.top=(e.clientY-r.top-12)+'px';t.appendChild(s);setTimeout(()=>s.remove(),800);return upd()}
  if(t.id==='ad'){if(adWait||Date.now()<S.ad||Date.now()<S.adc)return;adWait=true;render();
   setTimeout(()=>{adWait=false;S.ad=Date.now()+6e4;S.adc=Date.now()+9e4;log('🎁 광고 보상: 60초간 수익 2배');toast('수익 2배 시작!');save();render()},3000)}
  if(t.id==='reb'){const n=newStars();if(n<1)return toast('누적 수익 1000만원부터 환생할 수 있어요');
-  const o=S;S=fresh();Object.assign(S,{st:o.st+n,ad:o.ad,adc:o.adc,g:o.g,tn:o.tn,snd:o.snd,bn:o.bn,gn:o.gn,rb:o.rb+1,ac:o.ac,mg:o.mg,auto:o.auto,reserve:o.reserve,pro:o.pro,d:o.d});log(`🌟 환생! 별 ${n}개 획득`);toast(`환생 완료 · 별 ${n}개`);save();render()}
+  const o=S;S=fresh();Object.assign(S,{st:o.st+n,ad:o.ad,adc:o.adc,g:o.g,tn:o.tn,snd:o.snd,bn:o.bn,gn:o.gn,rb:o.rb+1,ac:o.ac,mg:o.mg,auto:o.auto,reserve:o.reserve,pro:o.pro,d:o.d,ruby:o.ruby,totalRuby:o.totalRuby,items:o.items,equip:o.equip,best:Math.max(o.best||0,o.run||0)});log(`🌟 환생! 별 ${n}개 획득`);toast(`환생 완료 · 별 ${n}개`);save();render()}
  if(t.id==='rst'){if(Date.now()-resetAt<3000){S=fresh();save();toast('초기화했어요');render()}else{resetAt=Date.now();toast('한 번 더 누르면 초기화돼요')}}
 });
 const off=Math.min(Math.max(0,(Date.now()-S.t)/1000),MAX_OFFLINE);
-if(off>60){const g=off*ps()*.65;S.m+=g;S.run+=g;S.offlineReport={time:off,earn:g};log(`💤 오프라인 ${Math.floor(off/3600)}시간 ${Math.floor(off%3600/60)}분 · +${f(g)}원`);setTimeout(()=>modal('💤 오프라인 배달 정산',`${Math.floor(off/3600)}시간 ${Math.floor(off%3600/60)}분 동안 자동 배달로 ${f(g)}원을 벌었어요! (최대 24시간, 수익 65%)`),900)}
+if(off>60){const g=off*ps()*.65;S.m+=g;S.run+=g;S.best=Math.max(S.best,S.run);S.offlineReport={time:off,earn:g};log(`💤 오프라인 ${Math.floor(off/3600)}시간 ${Math.floor(off%3600/60)}분 · +${f(g)}원`);setTimeout(()=>modal('💤 오프라인 배달 정산',`${Math.floor(off/3600)}시간 ${Math.floor(off%3600/60)}분 동안 자동 배달로 ${f(g)}원을 벌었어요! (최대 24시간, 수익 65%)`),900)}
 dayInit();if(!S.pro){S.pro=1;modal('📖 프롤로그','할아버지가 물려주신 낡은 신문 가방 하나. 소년 달봉이는 오늘부터 동네 배달을 시작합니다. 화면을 터치해 달려 보세요!')}
 let last=Date.now(),n=0,giftT=20;
 window.__simTick=()=>{const now=Date.now(),dt=(now-last)/1000;last=now;const g=ps()*dt;S.m+=g;S.run+=g;
  if(now-comboT>1200&&G){combo=0;const c=$('hint');c.textContent='👆 화면을 터치하면 배달 가속! (초당 최대 5회)';c.style.display=S.tn<20?'':'none'}
  giftT-=dt;if(giftT<0){const b=$('gift');if(b.hidden){b.hidden=false;giftT=8}else{b.hidden=true;giftT=30+Math.random()*25}}
- if(S.g<GL.length&&GL[S.g][1]()){const rw=Math.floor(ps()*120+1000*(S.g+1));S.m+=rw;log(`🎯 목표 달성: ${GL[S.g][0]} (+${f(rw)}원)`);toast(`🎯 목표 달성! +${f(rw)}원`);if(ST[S.g])modal('📖 챕터 '+(S.g+1),ST[S.g]);S.g++;snd(988,.2);G&&G.bump();save();if(tab==='main')render()}
- if(n%10===0)AC.forEach((a,k)=>{if(!S.ac.includes(k)&&a[2]()){S.ac.push(k);S.m+=Math.floor(ps()*200+2000);log(`🏆 업적: ${a[0]}`);toast(`🏆 업적 달성: ${a[0]} (수익 +2%)`)}});
+ if(S.g<GL.length&&GL[S.g][1]()){const rw=Math.floor(ps()*120+1000*(S.g+1));S.m+=rw;log(`🎯 목표 달성: ${GL[S.g][0]} (+${f(rw)}원)`);toast(`🎯 목표 달성! +${f(rw)}원`);if(ST[S.g])modal('📖 챕터 '+(S.g+1),ST[S.g]);S.g++;S.ruby+=2;S.totalRuby+=2;snd(988,.2);G&&G.bump();save();if(tab==='main')render()}
+ if(n%10===0)AC.forEach((a,k)=>{if(!S.ac.includes(k)&&a[2]()){S.ac.push(k);S.m+=Math.floor(ps()*200+2000);S.ruby+=5;S.totalRuby+=5;log(`🏆 업적: ${a[0]}`);toast(`🏆 업적 달성: ${a[0]} (수익 +2%)`)}});
  if(n%20===0)autoInvest();
- upd();if(++n%50===0){save();if(tab==='rec'||(tab==='biz'&&document.activeElement.id!=='sv'))render()}};
+ upd();if(++n%50===0){save();if(tab==='rec'||tab==='items'||(tab==='biz'&&document.activeElement.id!=='sv'))render()}};
 setInterval(window.__simTick,100);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
 render();
 </script>
-<style>#testpanel{position:fixed;top:92px;right:8px;z-index:8;background:#101a2beF;color:white;padding:10px;border-radius:12px;max-width:220px;font:12px sans-serif;box-shadow:0 3px 10px #0005}#testpanel button{min-width:0;font:12px sans-serif;padding:7px;margin:3px;background:#2266a9}#testpanel summary{cursor:pointer}#testlog{max-height:115px;overflow:auto;white-space:pre-wrap}</style>
-<details id="testpanel" open><summary>🧪 7일 가속 테스트 (별도 저장)</summary><div><button id="day1">+1일</button><button id="day7">+7일</button><button id="testad">광고 2배 60초</button><button id="testoffline">오프라인 8시간</button><button id="testauto">자동 투자 활성화</button><button id="testreset">테스트 초기화</button></div><div id="testlog">테스트 전용 파일입니다.</div></details>
-<script>
-(function(){const out=document.getElementById('testlog');function report(t){out.textContent=t+'\n'+out.textContent.slice(0,400)}function simulate(days){const oldSnd=S.snd;S.snd=0;let step=0;const total=days*288;function batch(){const end=Math.min(total,step+24);for(;step<end;step++){window.__simTime+=300000;window.__simTick();if(S.mg&&S.auto)for(let q=0;q<5;q++)autoInvest();if((step+1)%288===0){dayInit();report('가상 '+((step+1)/288)+'일 · 잔액 '+f(S.m)+'원 · 초당 '+f(ps())+'원 · 업종 '+S.j.reduce((a,b)=>a+b,0)+'개')}}if(step<total)setTimeout(batch,0);else{S.snd=oldSnd;save();render();report('가상 '+days+'일 테스트 완료')}}batch()}
-document.getElementById('day1').onclick=()=>simulate(1);document.getElementById('day7').onclick=()=>simulate(7);
-document.getElementById('testad').onclick=()=>{S.ad=Date.now()+60000;S.adc=Date.now()+90000;report('광고 보상 60초 적용 (실제 광고 아님)');save();render()};
-document.getElementById('testoffline').onclick=()=>{const g=8*3600*ps()*.65;S.m+=g;S.run+=g;report('8시간 오프라인 정산 +'+f(g)+'원');save();render()};
-document.getElementById('testauto').onclick=()=>{S.mg=1;S.auto=1;S.reserve=1000;report('테스트용 비서 활성화 · 최소 보유금 1,000원');save();render()};
-document.getElementById('testreset').onclick=()=>{S=fresh();S.pro=1;save();render();report('테스트 데이터 초기화')};
-})();</script>
 </body>
 </html>
