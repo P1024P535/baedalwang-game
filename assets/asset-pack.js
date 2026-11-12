@@ -53,7 +53,7 @@ function install(THREE){
  rod(g,[-.28,.54,.18],[-.48,.13,.46],.027,black);
  shape([.22,.08,.17],.63,1.68,0,black,'dashboard');
  const pilot=person(g,-.25,.57,0,.76,true);pilot.name='delivery_rider';
- return g}
+ refineScooter(g);return g}
  function kickboard(){const g=new THREE.Group(),deck=m(0x252d37,.12,.5),accent=m(0x22b9cf,.25,.32),steel=m(0x9ca9b3,.65,.33),rubber=m(0x161c23,0,.92),lamp=m(0xfaf4ca,0,.22);
  // Electric standing kick scooter: short deck, tiny wheels, upright steering stem.
  for(const x of [-.78,.78]){
@@ -81,7 +81,7 @@ function install(THREE){
   rod(pilot,[-.27,1.37,z],[-.35+(z>0?.30:0),.55,z],.09,p.dark,'leg');
   box(pilot,.34,.12,.19,rubber,-.23+(z>0?.30:0),.47,z);
  }
- return g}
+ refineKickboard(g);return g}
  function storefront(type=0){const g=new THREE.Group(),colors=[p.red,p.blue,p.orange],c=colors[type%3];
  box(g,2.65,1.72,1.65,p.white,0,.86,0);box(g,2.85,.22,1.88,p.dark,0,1.82,0);
  box(g,2.7,.33,.32,c,0,1.48,.86);for(let i=0;i<6;i++)box(g,.43,.055,.4,i%2?p.white:c,-1.11+i*.445,1.23,1.0);
@@ -93,6 +93,45 @@ function install(THREE){
  for(let y=.8;y<height-.2;y+=.83)for(const x of [-.55,.55]){box(g,.45,.44,.04,p.glass,x,y,.93);box(g,.48,.05,.065,p.white,x,y-.24,.96)}
  box(g,.55,.85,.07,p.brown,0,.43,.94);return g}
 
+
+ // Extra rider detailing, reusable across scooter and kickboard.
+ function riderDetails(root,x,y,z,scale=1){
+  const g=new THREE.Group();root.add(g);g.position.set(x,y,z);g.scale.setScalar(scale);
+  const jacket=m(0xf47c20,.12,.45),navy=m(0x1c2632),stripe=m(0xf2f0e4),visor=m(0x28394c,.32,.16),skin=p.skin;
+  const shell=mesh(g,new THREE.SphereGeometry(.285,20,14,0,Math.PI*2,0,Math.PI*.69),stripe,0,.24,0);shell.name='white_orange_helmet';
+  box(g,.10,.045,.49,jacket,0,.49,0).name='helmet_orange_stripe';
+  const shield=mesh(g,new THREE.SphereGeometry(.267,16,10,0,Math.PI*2,Math.PI*.36,Math.PI*.32),visor,.055,.19,.015);shield.scale.set(1.04,.75,.9);
+  for(const side of [-1,1]){ball(g,.07,navy,0,.23,side*.265);ball(g,.025,p.steel,.015,.23,side*.29)}
+  box(g,.31,.05,.045,navy,.14,.03,0).name='helmet_chinstrap';
+  box(g,.37,.07,.31,stripe,-.04,-.38,0).name='reflective_chest_band';
+  for(const side of [-1,1]){
+   box(g,.085,.14,.11,navy,.17,-.23,side*.25).name='rider_glove';
+   box(g,.11,.13,.17,stripe,-.15,-.85,side*.15).name='sneaker_detail';
+  }
+  return g;
+ }
+ function refineKickboard(g){
+  const orange=m(0xf37e1e,.2,.38),silver=m(0xd4dbe0,.55,.27),glow=m(0xf9f2c8,0,.24),dark=m(0x1d2732);
+  box(g,.95,.028,.41,orange,-.1,.45,0).name='orange_deck_trim';
+  for(const x of [-.62,.62])for(const z of [-.19,.19])box(g,.18,.025,.04,silver,x,.455,z);
+  for(const z of [-.13,.13])box(g,.45,.038,.025,orange,-.49,1.64,z).name='backpack_seam';
+  box(g,.36,.24,.055,dark,-.49,1.76,.23).name='delivery_bag_latch';
+  box(g,.3,.035,.06,silver,-.49,1.79,.263);
+  box(g,.28,.06,.1,glow,.86,1.79,0).name='front_light_strip';
+  box(g,.18,.065,.32,orange,-.80,.43,0).name='rear_fender';
+  riderDetails(g,-.2,2.17,0,.82);
+ }
+ function refineScooter(g){
+  const orange=m(0xf67e1b,.22,.32),chrome=m(0xd5dce2,.7,.23),dark=m(0x18222d),lamp=m(0xfaf9e8);
+  for(const z of [-.28,.28]){
+   const fair=mesh(g,new THREE.SphereGeometry(1,16,10),orange,.55,.92,z);fair.scale.set(.52,.27,.09);fair.name='side_fairing';
+   box(g,.37,.06,.035,chrome,.1,1.01,z>0?.39:-.39);
+  }
+  box(g,.48,.12,.46,dark,-.51,1.24,0).name='seat_texture';
+  box(g,.48,.09,.14,lamp,1.09,1.17,0).name='LED_headlight_detail';
+  for(const z of [-.36,.36])box(g,.08,.13,.07,orange,-1.03,1.89,z).name='bag_corner_protector';
+  riderDetails(g,-.25,1.92,0,.72);
+ }
  // Detailed mobile-optimized reusable scene assets (procedural 3D geometry).
  const paint=[m(0xf4a640,.2,.4),m(0x55a9c4,.25,.35),m(0xd45d62,.2,.4),m(0xb7bdc5,.2,.4)];
  const trim=m(0xe8e5db),brick=m(0xb56c5a),leaf=m(0x4f9a68),leaf2=m(0x80b46a),bark=m(0x80604c),windowFrame=m(0x394956,.25,.5),asphalt=m(0x353f49);
