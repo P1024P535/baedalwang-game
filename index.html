@@ -351,7 +351,7 @@ try {
   districtCars.push({car,north,velocity:.7+i*.12,dir:i%3===0?-1:1});
  }
  // Soft cloud banks disguise the playable terrain's outer transition.
- const horizonMist=new THREE.Group();diorama.add(horizonMist);
+ const horizonMist=new THREE.Group();diorama.add(horizonMist);horizonMist.visible=false; // No opaque 3D cloud meshes in the gameplay view.
  const mistMaterial=new THREE.MeshBasicMaterial({color:0xdce9e8,transparent:true,opacity:.38,depthWrite:false,fog:false});
  for(let i=0;i<44;i++){
   const angle=i*Math.PI*2/44,radius=24+(i%4)*1.8;
@@ -431,10 +431,9 @@ let weatherMode='clear',lastWeather=-1,lastDayPhase=-1;
 // Visible screen-edge atmospheric haze; unlike distance-only fog this remains visible with the follow camera.
 const atmosphere=document.createElement('div');atmosphere.id='atmosphere-haze';
 atmosphere.setAttribute('aria-hidden','true');
-atmosphere.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;background:radial-gradient(ellipse 66% 59% at 50% 49%,transparent 44%,rgba(208,236,241,.12) 66%,rgba(209,234,239,.50) 100%);';
+atmosphere.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;background:radial-gradient(ellipse 92% 90% at 50% 50%,transparent 0%,transparent 76%,rgba(204,228,235,.10) 87%,rgba(204,228,235,.30) 100%);';
 $('stage').appendChild(atmosphere);
-const hazeCloud=document.createElement('div');hazeCloud.style.cssText='position:absolute;inset:-10%;background:radial-gradient(ellipse 26% 19% at 12% 12%,rgba(244,250,251,.65),transparent 100%),radial-gradient(ellipse 25% 19% at 90% 19%,rgba(240,249,251,.58),transparent 100%),radial-gradient(ellipse 30% 20% at 80% 94%,rgba(237,249,251,.58),transparent 100%),radial-gradient(ellipse 30% 22% at 9% 87%,rgba(235,248,250,.62),transparent 100%);filter:blur(17px);animation:haze-drift 24s ease-in-out infinite alternate';atmosphere.appendChild(hazeCloud);
-const hazeStyle=document.createElement('style');hazeStyle.textContent='@keyframes haze-drift{from{transform:translate3d(-2%,0,0)}to{transform:translate3d(2%,1%,0)}}';document.head.appendChild(hazeStyle);
+// Edge-only vignette; no drifting translucent clouds over the rider or roads.
 const cityStatus=document.createElement('div');
 cityStatus.id='city-status';cityStatus.setAttribute('aria-live','off');
 cityStatus.style.cssText='position:absolute;top:84px;left:12px;padding:5px 9px;border-radius:9px;background:rgba(13,26,43,.82);color:#fff;font:12px Jua,sans-serif;pointer-events:none;z-index:2';
@@ -447,7 +446,7 @@ function updateEnvironment(){
  lastWeather=weather;lastDayPhase=phase;weatherMode=mode;
  const sky=[0xffd4a2,0x9bd7ff,0xf4b78e,0x24375a][phase];
  sc.background.setHex(sky);sc.fog.color.setHex(sky);
- atmosphere.style.background=phase===3?'radial-gradient(ellipse 66% 59% at 50% 49%,transparent 43%,rgba(92,117,158,.18) 66%,rgba(107,135,175,.57) 100%)':'radial-gradient(ellipse 66% 59% at 50% 49%,transparent 44%,rgba(208,236,241,.12) 66%,rgba(209,234,239,.50) 100%)';
+ atmosphere.style.background=phase===3?'radial-gradient(ellipse 92% 90% at 50% 50%,transparent 0%,transparent 76%,rgba(86,114,156,.09) 87%,rgba(86,114,156,.28) 100%)':'radial-gradient(ellipse 92% 90% at 50% 50%,transparent 0%,transparent 76%,rgba(204,228,235,.10) 87%,rgba(204,228,235,.30) 100%)';
  sun.intensity=[.85,1.15,.62,.25][phase];
  sun.color.setHex([0xffdfae,0xfff5d7,0xffa76e,0xa8c4ff][phase]);
  sc.children.find(o=>o.isHemisphereLight).intensity=phase===3?.65:1.25;
@@ -515,7 +514,7 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
   rider.position.set(-3.7,0,0);
  }
  function world(){const idx=Math.max(0,Math.min(39,S.r)),theme=Math.min(SKY.length-1,Math.floor(idx/7));
-  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.FogExp2(SKY[theme],.032);lastDayPhase=-1;
+  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],75,145);lastDayPhase=-1;
   scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[theme][g.userData.i%3]);g.scale.y=.7+Math.min(idx,25)*.012;}});
   C.grass.color.setHex([0x77bf78,0x7cae8a,0xc4b781,0x6d9a81,0x78a89d,0x4c6885][theme]);districtRegion(idx);
  }
