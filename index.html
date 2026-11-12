@@ -1,60 +1,367 @@
-<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>배달왕 방치형 게임</title><style>*{box-sizing:border-box}body{margin:0;background:#eef8f5;color:#183e45;font:14px system-ui,-apple-system,sans-serif}header{background:linear-gradient(110deg,#19b49c,#4c99e5);color:white;padding:17px 15px}header h1{margin:0;font-size:24px}header small{opacity:.9}.wrap{max-width:680px;margin:auto;padding:12px 12px 100px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{background:#fff;border-radius:17px;padding:13px;margin-bottom:10px;box-shadow:0 3px 14px #1b6d5412}.stat{font-size:12px;color:#58737c}.stat b{display:block;font-size:20px;color:#1a454b;margin-top:4px}button{font:inherit;border:0;border-radius:12px;padding:11px;background:#17a98d;color:white;font-weight:700;cursor:pointer}button:disabled{opacity:.42}button.alt{background:#e0f5ee;color:#17725f}.bar{background:#d7ebe5;border-radius:99px;height:8px;overflow:hidden;margin:8px 0}.bar span{display:block;background:#20b99d;height:100%}.row{display:flex;align-items:center;justify-content:space-between;gap:8px}.muted{font-size:12px;color:#65818a}#city{width:100%;display:block;border-radius:14px;background:#a9dcc5;aspect-ratio:420/350}#toast{min-height:18px;color:#16886e;font-weight:700;font-size:12px;margin:8px 0}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.actions button{min-height:44px}nav{position:fixed;bottom:0;left:0;right:0;display:grid;grid-template-columns:repeat(5,1fr);background:white;z-index:4;padding:6px 5px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -3px 14px #2343}nav button{background:transparent;color:#567e7e;padding:8px 0;font-size:11px}nav button.active{background:#e4f7ef;color:#0a8f76}.evolution{background:linear-gradient(115deg,#e8fbf2,#e8f1ff);border:1px solid #c9e6dc}.evolution strong{color:#087c68}.evolution .row{margin-top:8px}.tapfloat{position:absolute;pointer-events:none;color:#07865c;font-weight:900;font-size:18px;text-shadow:0 2px 2px white;animation:taprise .8s ease-out forwards}@keyframes taprise{to{transform:translateY(-45px);opacity:0}}.overlay{display:none;position:fixed;inset:0;background:#102f3a99;z-index:6;align-items:flex-end;justify-content:center}.overlay.open{display:flex}.sheet{background:#f0f9f6;width:min(680px,100%);height:min(82dvh,800px);border-radius:22px 22px 0 0;display:flex;flex-direction:column}.sheethead{background:white;border-radius:22px 22px 0 0;padding:12px 15px;display:flex;justify-content:space-between;align-items:center}.sheethead button{padding:5px 13px;background:#e4f4ef;color:#236d61;font-size:23px}.sheetbody{overflow:auto;padding:12px}.item{display:flex;gap:8px;align-items:center;padding:12px;background:white;border-radius:13px;margin-bottom:7px}.item .info{flex:1;min-width:0}.item .info b{font-size:14px}.item button{min-width:85px;font-size:12px;padding:9px}.pill{font-size:11px;background:#d9f3ea;color:#13765f;padding:5px 9px;border-radius:99px}#log{font-size:12px;color:#66818b}</style></head><body><header><div class="row"><div><h1>🛵 배달왕</h1><small>신문배달에서 전국 물류회사까지</small></div><span class="pill" id="rank">동네 배달 초보</span></div></header><main class="wrap"><div class="grid"><div class="card stat">💰 보유 게임머니<b id="money">10,000원</b></div><div class="card stat">⚡ 초당 자동 수익<b id="rate">+0원</b></div></div><div class="card"><div class="row"><b id="level">LV.1</b><span id="xpLabel" class="muted"></span></div><div class="bar"><span id="xpBar" style="width:0"></span></div><div class="row"><b id="jobTitle">📰 신문배달</b><span id="done" class="muted">0건 완료</span></div></div><div class="card evolution"><div class="row"><b>🚀 배달 진화 단계</b><span class="pill" id="evoStage">1 / 40단계</span></div><div class="row"><div><strong id="evoName">시골 마을</strong><div class="muted" id="evoNext">다음 진화 준비 중</div></div><button data-tab="region" class="alt">진화하기</button></div><div class="row"><span class="muted" id="tapLabel">👆 터치 수익 +0원/회</span><span class="muted" id="tapMultiplier">지역·차량·강화 적용</span></div></div><div class="card"><canvas id="city" width="420" height="350" aria-label="터치하면 배달이 빨라집니다" style="touch-action:manipulation"></canvas><div class="muted" style="text-align:center">👆 화면 터치 가속 · 초당 최대 5회</div><div class="row" style="margin-top:9px"><b id="vehicleLabel">🚶 도보 자동 배송 중</b><span class="muted" id="speedLabel"></span></div><div id="toast"></div><div class="actions"><button data-tab="career">⬆️ 업종·수익 강화</button><button data-tab="vehicle" class="alt">🚲 차량 강화</button><button data-tab="staff" class="alt">👷 직원·지역 확장</button><button data-tab="region" class="alt">🗺️ 지역 해금</button></div></div><div class="card row"><div><b>🎁 광고 보상</b><div class="muted">선택형 보상 · 광고 연결 후 이용</div></div><button data-tab="ads" class="alt">보상 보기</button></div><div class="card"><div class="row"><b>🌟 환생 · 영구 수익</b><button data-tab="prestige" class="alt">환생 보기</button></div><div class="muted">환생 별을 모아 모든 배달 수익을 영구 강화하세요.</div></div><div class="card"><div class="row"><b>📋 최근 기록</b><button data-tab="stats" class="alt">상세</button></div><div id="log"></div></div></main><nav><button data-tab="main" class="active">🏠<div>메인</div></button><button data-tab="region">🗺️<div>지역</div></button><button data-tab="career">📦<div>업종</div></button><button data-tab="vehicle">🚲<div>차량</div></button><button data-tab="staff">🏢<div>사업</div></button></nav><div class="overlay" id="overlay" aria-hidden="true"><div class="sheet" role="dialog" aria-modal="true" aria-label="배달왕 메뉴"><div class="sheethead"><b id="sheetTitle"></b><button id="close" aria-label="닫기">×</button></div><div class="sheetbody" id="sheetBody"></div></div></div><script>const JOBS=[{"name":"신문배달","pay":500,"price":0,"level":1,"tier":1,"emoji":"📰"},{"name":"전단지배달","pay":650,"price":5000,"level":3,"tier":1,"emoji":"📰"},{"name":"우유배달","pay":800,"price":10000,"level":5,"tier":1,"emoji":"📰"},{"name":"요구르트배달","pay":1000,"price":15000,"level":7,"tier":1,"emoji":"📰"},{"name":"생수배달","pay":1200,"price":20000,"level":9,"tier":1,"emoji":"📰"},{"name":"빵배달","pay":1500,"price":30000,"level":11,"tier":2,"emoji":"🥛"},{"name":"도시락배달","pay":1800,"price":40000,"level":13,"tier":2,"emoji":"🥛"},{"name":"반찬배달","pay":2100,"price":60000,"level":15,"tier":2,"emoji":"🥛"},{"name":"세탁물배달","pay":2400,"price":80000,"level":17,"tier":2,"emoji":"🥛"},{"name":"약국 심부름배달","pay":2800,"price":100000,"level":19,"tier":2,"emoji":"🥛"},{"name":"김밥배달","pay":3200,"price":150000,"level":21,"tier":3,"emoji":"🍞"},{"name":"중국집배달","pay":3800,"price":200000,"level":23,"tier":3,"emoji":"🍞"},{"name":"피자배달","pay":4500,"price":280000,"level":25,"tier":3,"emoji":"🍞"},{"name":"치킨배달","pay":5200,"price":400000,"level":27,"tier":3,"emoji":"🍞"},{"name":"족발·보쌈배달","pay":6000,"price":600000,"level":29,"tier":3,"emoji":"🍞"},{"name":"케이크배달","pay":7000,"price":800000,"level":31,"tier":4,"emoji":"🍕"},{"name":"꽃다발배달","pay":8000,"price":1100000,"level":33,"tier":4,"emoji":"🍕"},{"name":"과일바구니배달","pay":9500,"price":1500000,"level":35,"tier":4,"emoji":"🍕"},{"name":"선물세트배달","pay":11000,"price":2200000,"level":37,"tier":4,"emoji":"🍕"},{"name":"고급 디저트배달","pay":13000,"price":3000000,"level":39,"tier":4,"emoji":"🍕"},{"name":"배민 일반배달","pay":15000,"price":4000000,"level":41,"tier":5,"emoji":"🛵"},{"name":"쿠팡이츠 일반배달","pay":18000,"price":5500000,"level":43,"tier":5,"emoji":"🛵"},{"name":"배민 묶음배달","pay":22000,"price":7000000,"level":45,"tier":5,"emoji":"🛵"},{"name":"쿠팡이츠 묶음배달","pay":26000,"price":10000000,"level":47,"tier":5,"emoji":"🛵"},{"name":"피크시간 특급배달","pay":32000,"price":15000000,"level":49,"tier":5,"emoji":"🛵"},{"name":"서류 퀵배달","pay":40000,"price":20000000,"level":51,"tier":6,"emoji":"📦"},{"name":"소형 택배배달","pay":48000,"price":27000000,"level":53,"tier":6,"emoji":"📦"},{"name":"긴급 부품배달","pay":58000,"price":35000000,"level":55,"tier":6,"emoji":"📦"},{"name":"전자제품 퀵배달","pay":70000,"price":50000000,"level":57,"tier":6,"emoji":"📦"},{"name":"장거리 퀵배달","pay":85000,"price":70000000,"level":59,"tier":6,"emoji":"📦"},{"name":"자동차 음식배달","pay":100000,"price":100000000,"level":61,"tier":7,"emoji":"🚗"},{"name":"대형 케이크배달","pay":125000,"price":140000000,"level":63,"tier":7,"emoji":"🚗"},{"name":"행사 꽃장식배달","pay":155000,"price":200000000,"level":65,"tier":7,"emoji":"🚗"},{"name":"기업 선물배달","pay":190000,"price":300000000,"level":67,"tier":7,"emoji":"🚗"},{"name":"고급 물품 특송배달","pay":230000,"price":500000000,"level":69,"tier":7,"emoji":"🚗"},{"name":"마트 대량배달","pay":280000,"price":700000000,"level":71,"tier":8,"emoji":"🚐"},{"name":"행사 도시락배달","pay":350000,"price":1000000000,"level":73,"tier":8,"emoji":"🚐"},{"name":"사무실 정기배달","pay":430000,"price":1500000000,"level":75,"tier":8,"emoji":"🚐"},{"name":"쇼핑몰배달","pay":530000,"price":2000000000,"level":77,"tier":8,"emoji":"🚐"},{"name":"소형 이사배달","pay":650000,"price":3000000000,"level":79,"tier":8,"emoji":"🚐"},{"name":"가구배달","pay":800000,"price":5000000000,"level":81,"tier":9,"emoji":"🚚"},{"name":"가전제품배달","pay":1000000,"price":7000000000,"level":83,"tier":9,"emoji":"🚚"},{"name":"건축자재배달","pay":1250000,"price":10000000000,"level":85,"tier":9,"emoji":"🚚"},{"name":"기업 화물배달","pay":1550000,"price":15000000000,"level":87,"tier":9,"emoji":"🚚"},{"name":"장거리 대형화물배달","pay":2000000,"price":20000000000,"level":89,"tier":9,"emoji":"🚚"},{"name":"지역 물류센터배달","pay":2500000,"price":30000000000,"level":91,"tier":10,"emoji":"🏢"},{"name":"냉장·냉동 물류배달","pay":3200000,"price":45000000000,"level":93,"tier":10,"emoji":"🏢"},{"name":"전국 택배망배달","pay":4200000,"price":65000000000,"level":95,"tier":10,"emoji":"🏢"},{"name":"대형 물류 계약배달","pay":5500000,"price":100000000000,"level":97,"tier":10,"emoji":"🏢"},{"name":"전국 배송망배달","pay":8000000,"price":200000000000,"level":99,"tier":10,"emoji":"🏢"}];
-const VEHICLES=[['🚶 도보',1,0,1],['🚲 자전거',10,30000,1.25],['🛴 전동킥보드',15,120000,1.5],['🛵 오토바이',20,500000,1.9],['🚗 경차',60,100000000,2.5],['🚙 자동차',65,250000000,2.8],['🚐 밴',70,800000000,3.3],['🚚 화물차',80,6000000000,4.2],['🏢 물류 운송단',90,35000000000,5.2]];
-const $=id=>document.getElementById(id),fmt=n=>Math.floor(n).toLocaleString('ko-KR')+'원',key='baedalwang-web-01',now=Date.now();
-let previous={};try{previous=JSON.parse(localStorage.getItem(key))||{}}catch(e){}
-let pc=previous.career||{},c={level:Math.max(1,pc.level||1),xp:pc.xp||0,speed:pc.speed||1,pay:pc.pay||1,owned:Array.isArray(pc.owned)?pc.owned.filter(i=>Number.isInteger(i)&&i>=0&&i<50):[0],selected:pc.selected||0};if(!c.owned.includes(0))c.owned.unshift(0);if(!c.owned.includes(c.selected))c.selected=0;
-let s={money:Number.isFinite(previous.money)?previous.money:10000,earned:previous.earned||0,spent:previous.spent||0,done:previous.done||0,staff:previous.staff||0,vehicleTier:previous.vehicleTier||0,regions:previous.regions||1,career:c,logs:Array.isArray(previous.logs)?previous.logs.slice(0,15):[],lastIdleSave:previous.lastIdleSave||now,boostUntil:previous.boostUntil||0,adDay:previous.realAdDay||'',adTotal:previous.adTotal||0,adCounts:previous.adCounts||{},stats:previous.stats||{returns:0,accidents:0,bonuses:0},prestige:previous.prestige||{count:0,stars:0,allStars:0},runEarned:previous.runEarned===undefined?(previous.earned||0):previous.runEarned};
-let tab='main',progress=0,lastFrame=performance.now(),lastSave=now,lastUi=0;let floatingCoins=[],deliveryFlash=0,deliverySerial=0,touchTimes=[],tapEffect=0;
-const REGIONS=[{"name":"시골 마을","pop":100,"group":0},{"name":"작은 동네","pop":500,"group":0},{"name":"읍내","pop":3000,"group":0},{"name":"면소재지","pop":5000,"group":0},{"name":"소도시","pop":30000,"group":0},{"name":"중소도시","pop":100000,"group":0},{"name":"도심 상권","pop":300000,"group":0},{"name":"원룸·아파트 단지","pop":500000,"group":0},{"name":"수도권 배달","pop":1000000,"group":0},{"name":"경기도 전역","pop":3000000,"group":0},{"name":"서울 주요 상권","pop":5000000,"group":1},{"name":"서울 전역","pop":9000000,"group":1},{"name":"수도권 통합","pop":15000000,"group":1},{"name":"광역시 연합","pop":25000000,"group":1},{"name":"대한민국 전국망","pop":50000000,"group":1},{"name":"일본","pop":100000000,"group":2},{"name":"한일 통합망","pop":150000000,"group":2},{"name":"동남아시아","pop":300000000,"group":2},{"name":"인도","pop":1000000000,"group":2},{"name":"아시아 대륙망","pop":4000000000,"group":2},{"name":"미국","pop":300000000,"group":3},{"name":"북미 전역","pop":500000000,"group":3},{"name":"유럽","pop":700000000,"group":3},{"name":"남미","pop":400000000,"group":3},{"name":"아프리카","pop":1000000000,"group":3},{"name":"세계 주요 도시","pop":3000000000,"group":3},{"name":"세계 배달망","pop":8000000000,"group":3},{"name":"국제우주정거장","pop":10,"group":4},{"name":"달 기지","pop":1000,"group":4},{"name":"달 도시","pop":100000,"group":4},{"name":"화성 기지","pop":10000,"group":4},{"name":"화성 도시","pop":1000000,"group":4},{"name":"태양계 행성망","pop":100000000,"group":4},{"name":"우주 정거장 연합","pop":1000000000,"group":4},{"name":"성간 배달망","pop":10000000000,"group":4},{"name":"은하 물류회사","pop":1000000000000,"group":4},{"name":"은하계 배달왕","pop":100000000000000,"group":4},{"name":"우주 통합 물류","pop":10000000000000000,"group":4},{"name":"초은하 배송망","pop":1000000000000000000,"group":4},{"name":"우주 배달의 신","pop":100000000000000000000,"group":4}];s.regionTier=Math.min(39,Math.max(0,previous.regionTier||0));s.regionUnlocked=Math.min(39,Math.max(s.regionTier,previous.regionUnlocked||0));const region=()=>REGIONS[s.regionTier],regionCost=i=>Math.floor(4500*Math.pow(1.57,Math.min(i,26))*Math.pow(1.8,Math.max(0,i-26))),regionLevel=i=>Math.max(1,Math.floor(i*2.1)),regionBonus=()=>Math.pow(1.19,s.regionTier);const prestigeBonus=()=>1+Math.min(6,(s.prestige.stars||0)*.08),prestigeRequirement=()=>Math.floor(2500000*Math.pow(3.2,s.prestige.count)),prestigeReward=()=>Math.max(1,Math.min(12,Math.floor(Math.sqrt(s.runEarned/prestigeRequirement()))));const active=()=>JOBS[c.selected],need=()=>Math.max(3,Math.floor(3+c.level*.55)),pay=()=>Math.floor(active().pay*(1+(c.pay-1)*.15)*regionBonus()*prestigeBonus()),speed=()=>Math.min(2.6,VEHICLES[s.vehicleTier][3]*(1+(c.speed-1)*.05))*(Date.now()<s.boostUntil?1.25:1),passive=()=>c.owned.filter(i=>i!==c.selected).reduce((v,i)=>v+JOBS[i].pay*.08,0),rate=()=>pay()*speed()/10+passive()*regionBonus()*prestigeBonus()+s.staff*(60+c.level*5)*regionBonus()*prestigeBonus()+(s.regions-1)*150*regionBonus();
-const tapReward=()=>Math.max(1,Math.floor(pay()*(.15+.035*s.vehicleTier)*(1+.04*Math.max(0,c.level-1))));
-function earn(n){s.money+=n;s.earned+=n;s.runEarned+=n}function spend(n){if(s.money<n)return false;s.money-=n;s.spent+=n;return true}function log(t){s.logs.unshift(t);s.logs=s.logs.slice(0,15);$('toast').textContent=t}function save(){s.lastIdleSave=Date.now();localStorage.setItem(key,JSON.stringify(s))}
-function event(){let r=Math.random(),amount=Math.floor(active().pay*.4);if(r<.015){let loss=Math.min(s.money,amount);spend(loss);s.stats.accidents++;log('📦 물품 파손 · -'+fmt(loss))}else if(r<.028){let loss=Math.min(s.money,Math.floor(amount*.5));spend(loss);s.stats.returns++;log('🔄 반품 처리 · -'+fmt(loss))}else if(r<.04){let bonus=Math.floor(active().pay*.5);earn(bonus);s.stats.bonuses++;log('🎁 고객 팁 +'+fmt(bonus))}}
-function delivery(){let reward=pay();earn(reward);floatingCoins.push({amount:reward,age:0,serial:++deliverySerial});deliveryFlash=1.1;s.done++;c.xp++;if(c.xp>=need()){c.xp=0;c.level++;log('🏆 레벨 '+c.level+' 달성!')}event()}
-function ui(){$('money').textContent=fmt(s.money);$('rate').textContent='+'+fmt(rate());$('level').textContent='LV.'+c.level;$('xpLabel').textContent=c.xp+'/'+need()+' EXP';$('xpBar').style.width=Math.min(100,c.xp/need()*100)+'%';$('jobTitle').textContent=active().emoji+' '+active().name;$('done').textContent=s.done.toLocaleString('ko-KR')+'건 완료';$('vehicleLabel').textContent=VEHICLES[s.vehicleTier][0]+' 자동 배송 중';$('speedLabel').textContent='속도 '+speed().toFixed(1)+'배';$('rank').textContent=['동네 배달 초보','생활 배달원','음식 배달 전문가','프리미엄 배달원','플랫폼 라이더','특수 퀵서비스','자동차 기사','대량 배송 전문가','화물 운송 사업가','전국 물류 회장'][Math.min(9,Math.floor((c.level-1)/10))];$('log').textContent=s.logs.slice(0,3).join(' · ')||'배달이 자동으로 진행됩니다.';$('evoStage').textContent=(s.regionTier+1)+' / '+REGIONS.length+'단계';$('evoName').textContent=region().name;$('evoNext').textContent=s.regionTier<REGIONS.length-1?'다음: '+REGIONS[s.regionTier+1].name+' · 필요 LV.'+regionLevel(s.regionTier+1):'최종 진화 달성!';$('tapLabel').textContent='👆 터치 수익 +'+fmt(tapReward())+'/회';$('tapMultiplier').textContent='지역 x'+regionBonus().toFixed(2)+' · 차량 '+VEHICLES[s.vehicleTier][0];}
-function item(title,desc,btn,action,disabled){return '<div class="item"><div class="info"><b>'+title+'</b><div class="muted">'+desc+'</div></div><button data-action="'+action+'" '+(disabled?'disabled':'')+'>'+btn+'</button></div>'}
-function content(){if(tab==='region'){let out='<div class="card"><b>🗺️ 지역 성장 · 40단계</b><p class="muted">현재 '+region().name+' · 가상 고객 '+region().pop.toLocaleString('ko-KR')+'명</p><p class="muted">지역 진화 시 자동 배달 수익과 터치 수익이 함께 증가합니다. 진화한 지역에 맞춰 배경도 바뀝니다. 인구는 게임 설정값입니다.</p></div>';let group=-1;REGIONS.forEach((v,i)=>{if(v.group!==group){group=v.group;out+='<h3>'+['🏡 한국 기초','🇰🇷 한국 전국','🌏 아시아','🌎 세계','🚀 우주'][group]+'</h3>'}let owned=i<=s.regionUnlocked,locked=c.level<regionLevel(i);out+=item((i+1)+'. '+v.name,'고객 '+v.pop.toLocaleString('ko-KR')+'명 · LV.'+regionLevel(i),owned?(i===s.regionTier?'현재 지역':'이동'):locked?'🔒 레벨 부족':fmt(regionCost(i)),'region:'+i,(!owned&&(i!==s.regionUnlocked+1||locked))||i===s.regionTier)});return out}if(tab==='career'){let out='<div class="card"><b>🏆 성장 강화</b><p class="muted">업종과 수익 강화는 자동 배달 및 터치 수익을 함께 키웁니다.</p>'+item('⚡ 속도 LV.'+c.speed,'배달 속도 증가',fmt(Math.floor(1800*Math.pow(1.42,c.speed-1))),'speed')+item('💰 수익 LV.'+c.pay,'건당 수익 증가',fmt(Math.floor(2200*Math.pow(1.48,c.pay-1))),'pay')+'</div><b>📦 배달 업종 50종 · 보유 '+c.owned.length+'종</b>';JOBS.forEach((j,i)=>{let owned=c.owned.includes(i),locked=c.level<j.level;out+=item(j.emoji+' '+j.name,'필요 LV.'+j.level+' · 기본 '+fmt(j.pay)+'/건',locked?'🔒 잠김':owned?(c.selected===i?'선택됨':'선택'):fmt(j.price),'job:'+i,locked||c.selected===i)});return out}
-if(tab==='vehicle'){let out='<div class="card"><b>🚲 차량 성장</b><p class="muted">소속·리스 없이 구매하면 영구 적용됩니다.</p></div>';VEHICLES.forEach((v,i)=>out+=item(v[0],'필요 LV.'+v[1]+' · 이동속도 '+v[3]+'배',i<=s.vehicleTier?'보유':fmt(v[2]),'vehicle:'+i,i<=s.vehicleTier||i!==s.vehicleTier+1||c.level<v[1]));return out}
-if(tab==='staff'){let cost=Math.floor(45000*Math.pow(1.42,s.staff)),region=Math.floor(250000*Math.pow(3,s.regions-1));return '<div class="card"><b>🏢 사업 확장</b><p class="muted">직원과 지역은 자동 수익을 증가시킵니다.</p>'+item('👷 직원 '+s.staff+'명','자동 수익 증가',fmt(cost),'hire')+item('🗺️ 운영 지역 '+s.regions+'곳','LV.20부터 확장 가능',fmt(region),'region',c.level<20)+'</div>'}
-if(tab==='ads')return '<div class="card"><b>🎁 선택형 광고 보상</b><p id="adInfo" class="muted"></p><p class="muted">하루 최대 6회 · 종류별 최대 3회 · 광고를 끝까지 본 경우에만 지급</p>'+item('⚡ 5분간 배달 가속','배달 속도 25% 증가','광고 시청','reward:boost')+item('💰 배달 보너스','현재 건당 수익 3배 즉시 지급','광고 시청','reward:bonus')+'<p class="muted">실제 광고 SDK 연결 전에는 광고나 보상이 작동하지 않습니다. 광고 미완료 시 보상 없음.</p></div>';
-if(tab==='prestige')return '<div class="card"><b>🌟 환생 · 영구 성장</b><p>현재 환생 '+s.prestige.count+'회 · 영구 별 '+s.prestige.stars+'개 · 수익 보너스 '+Math.round((prestigeBonus()-1)*100)+'%</p><p class="muted">환생 시 돈·업종·차량·직원·지역·레벨이 초기화됩니다. 별과 환생 횟수는 영구 보존됩니다.</p><p>이번 회차 누적 수입 '+fmt(s.runEarned)+'</p><p>환생 필요 누적 수입 '+fmt(prestigeRequirement())+' · 필요 LV.30 · 지역 10단계 이상</p><p>이번 환생 획득 별 '+prestigeReward()+'개 (수익 +'+prestigeReward()*8+'%p)</p><p class="muted">별 보너스는 최대 +600%. 환생 횟수가 늘수록 다음 환생 비용은 3.2배로 증가합니다.</p><button data-action="prestige" '+(c.level<30||s.regionUnlocked<9||s.runEarned<prestigeRequirement()?'disabled':'')+'>🌟 환생 진행</button></div>';return '<div class="card"><b>📊 누적 기록</b><p>배달 '+s.done+'건 · 총 수입 '+fmt(s.earned)+' · 지출 '+fmt(s.spent)+'</p><p>반품 '+s.stats.returns+'회 · 사고 '+s.stats.accidents+'회 · 팁 '+s.stats.bonuses+'회</p><button data-action="reset">저장 데이터 초기화</button></div><div class="card">'+s.logs.map(x=>'<p class="muted">'+String(x).replaceAll('<','&lt;')+'</p>').join('')+'</div>'}
-function open(t){if(t==='main'){close();return}tab=t;$('sheetTitle').textContent={career:'📦 업종 성장',vehicle:'🚲 차량 업그레이드',staff:'🏢 사업 확장',ads:'🎁 광고 보상',stats:'📊 기록·설정',region:'🗺️ 지역 해금',prestige:'🌟 환생'}[t];$('sheetBody').innerHTML=content();$('overlay').classList.add('open');$('overlay').setAttribute('aria-hidden','false');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));if(t==='ads')adStatus()}
-function close(){let was=$('overlay').classList.contains('open');$('overlay').classList.remove('open');$('overlay').setAttribute('aria-hidden','true');document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab==='main'));if(was)interstitial()}
-function action(a){if(a==='prestige'){if(c.level<30||s.regionUnlocked<9||s.runEarned<prestigeRequirement())return;let stars=prestigeReward();if(!confirm('환생하면 현재 사업·레벨·게임머니가 초기화됩니다. 영구 별 '+stars+'개를 얻고 다시 시작할까요?'))return;s.prestige.count++;s.prestige.stars+=stars;s.prestige.allStars+=stars;s.money=10000;s.runEarned=0;s.done=0;s.staff=0;s.vehicleTier=0;s.regions=1;s.regionTier=0;s.regionUnlocked=0;s.boostUntil=0;c.level=1;c.xp=0;c.speed=1;c.pay=1;c.owned=[0];c.selected=0;progress=0;log('🌟 환생 완료! 영구 별 +'+stars+'개');save();ui();open('prestige');return}else if(a.startsWith('region:')){let i=+a.split(':')[1];if(i>s.regionUnlocked){if(i!==s.regionUnlocked+1||c.level<regionLevel(i))return;if(!spend(regionCost(i)))return alert('게임머니가 부족합니다');s.regionUnlocked=i}if(i<=s.regionUnlocked)s.regionTier=i}else if(a==='speed'||a==='pay'){let cost=Math.floor((a==='speed'?1800:2200)*Math.pow(a==='speed'?1.42:1.48,c[a]-1));if(!spend(cost))return alert('게임머니가 부족합니다');c[a]++}else if(a.startsWith('job:')){let i=+a.split(':')[1],j=JOBS[i];if(c.level<j.level)return;if(!c.owned.includes(i)){if(!spend(j.price))return alert('게임머니가 부족합니다');c.owned.push(i)}c.selected=i}else if(a.startsWith('vehicle:')){let i=+a.split(':')[1],v=VEHICLES[i];if(i!==s.vehicleTier+1||c.level<v[1])return;if(!spend(v[2]))return alert('게임머니가 부족합니다');s.vehicleTier=i}else if(a==='hire'){let cost=Math.floor(45000*Math.pow(1.42,s.staff));if(!spend(cost))return alert('게임머니가 부족합니다');s.staff++}else if(a==='region'){if(c.level<20)return;let cost=Math.floor(250000*Math.pow(3,s.regions-1));if(!spend(cost))return alert('게임머니가 부족합니다');s.regions++}else if(a==='reset'){if(confirm('모든 게임 기록을 초기화할까요?')){localStorage.removeItem(key);location.reload()}return}else if(a.startsWith('reward:')){reward(a.split(':')[1]);return}log('✅ 강화 완료');save();ui();open(tab)}
-document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>open(b.dataset.tab));$('close').onclick=close;$('overlay').onclick=e=>{if(e.target===$('overlay'))close()};document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});$('sheetBody').onclick=e=>{let b=e.target.closest('[data-action]');if(b)action(b.dataset.action)};function touchBoost(){let t=performance.now();touchTimes=touchTimes.filter(x=>t-x<1000);if(touchTimes.length>=5)return;touchTimes.push(t);progress=Math.min(.995,progress+.03);tapEffect=.4;const bonus=tapReward();earn(bonus);s.tapEarned=(s.tapEarned||0)+bonus;const rect=$('city').getBoundingClientRect();const f=document.createElement('span');f.className='tapfloat';f.textContent='+'+fmt(bonus);f.style.left=(Math.random()*50+25)+'%';f.style.top='44%';$('city').parentElement.style.position='relative';$('city').parentElement.appendChild(f);setTimeout(()=>f.remove(),850);ui()}$('city').addEventListener('pointerdown',touchBoost);
-const ctx=$('city').getContext('2d');function scene(t){
-const W=420,H=350;ctx.clearRect(0,0,W,H);
-let sky=ctx.createLinearGradient(0,0,0,260);sky.addColorStop(0,'#8ed6f7');sky.addColorStop(1,'#dcf7f4');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
-ctx.fillStyle='#ffe18a';ctx.beginPath();ctx.arc(350,48,22,0,Math.PI*2);ctx.fill();
-ctx.fillStyle=region().group===4?'#8589a8':region().group>=2?'#9dbed7':'#a6d3bc';ctx.fillRect(0,180,W,80);
-ctx.fillStyle='#6eaa7e';ctx.fillRect(0,242,W,108);
-ctx.fillStyle='#546c78';ctx.fillRect(0,255,W,74);
-ctx.fillStyle='#d3e5df';ctx.fillRect(0,250,W,7);ctx.fillRect(0,326,W,6);
-ctx.strokeStyle='#f9e9a4';ctx.lineWidth=3;ctx.setLineDash([19,15]);ctx.beginPath();let stripeOffset=(progress*650)%34;ctx.moveTo(-stripeOffset,292);ctx.lineTo(W,292);ctx.stroke();ctx.setLineDash([]);
-let riderX=125,riderY=273,buildingX=125+(1-progress)*440;
-let buildingType=active().tier,em=region().group===4?'🚀':region().group===3?'🏙️':region().group===2?'🏯':s.regionTier<4?'🏡':s.regionTier<9?'🏠':buildingType<=4?'🏪':buildingType<=7?'🏬':'🏢';
-let bx=buildingX,by=137;
-if(bx>-130&&bx<550){
-ctx.fillStyle='#3d6e72';ctx.fillRect(bx-5,by+14,113,113);
-ctx.fillStyle=buildingType>7?'#e5c1a3':'#f9e3bd';ctx.fillRect(bx,by,103,105);
-ctx.fillStyle='#d27965';ctx.beginPath();ctx.moveTo(bx-9,by+12);ctx.lineTo(bx+51,by-20);ctx.lineTo(bx+112,by+12);ctx.closePath();ctx.fill();
-ctx.fillStyle='#96d4e0';ctx.fillRect(bx+15,by+28,26,28);ctx.fillRect(bx+61,by+28,26,28);
-ctx.fillStyle='#9e6e54';ctx.fillRect(bx+42,by+65,23,40);
-ctx.font='26px system-ui';ctx.textAlign='center';ctx.fillText(em,bx+53,by+9);
-ctx.fillStyle='#fff';ctx.fillRect(bx+7,by+70,31,22);ctx.fillStyle='#176d68';ctx.font='11px system-ui';ctx.fillText('배송지',bx+22,by+85);
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="신문배달에서 전국 물류회사까지, 3D 배달왕 방치형 게임">
+<title>배달왕 3D · 리마스터</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
+<style>
+:root{--bg:#fff3de;--card:#fffdf8;--ink:#2a2218;--mut:#86786a;--acc:#f26b1d;--acc2:#ffe2c4;--ok:#17894a;--line:#ecdcc4;--dis:#e6dcca;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#17120d;--card:#231c14;--ink:#f6ebdb;--mut:#a39482;--acc:#ff8a3d;--acc2:#3a2714;--ok:#4cc27f;--line:#3a2e20;--dis:#352b1e;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17120d;--card:#231c14;--ink:#f6ebdb;--mut:#a39482;--acc:#ff8a3d;--acc2:#3a2714;--ok:#4cc27f;--line:#3a2e20;--dis:#352b1e;color-scheme:dark}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Jua","Pretendard","Apple SD Gothic Neo","Noto Sans KR",sans-serif;padding:8px 10px 0;max-width:640px;margin-inline:auto;touch-action:manipulation;overflow:hidden}
+#stage{position:relative;height:calc(100vh - 94px);height:calc(100dvh - 94px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:260px;border-radius:20px;overflow:hidden;border:2px solid rgba(255,255,255,.35);box-shadow:0 10px 32px rgba(35,34,54,.24);background:#9bd7ff}
+#cv{width:100%;height:100%;display:block}
+.hud{position:absolute;left:8px;right:8px;top:8px;display:flex;gap:6px;pointer-events:none}
+.pill{flex:1;min-width:0;background:rgba(17,30,48,.78);color:#fff;border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:7px 10px;backdrop-filter:blur(8px)}
+.pill small{display:block;font-size:11px;opacity:.8}
+.pill b{font-size:18px;color:#ffd75e;font-weight:400}
+#ttl{position:absolute;left:8px;bottom:8px;background:rgba(20,14,8,.55);color:#fff;border-radius:12px;padding:3px 10px;font-size:12px}
+#gift{position:absolute;right:8px;bottom:8px;animation:pop .6s infinite alternate}
+@keyframes pop{to{transform:scale(1.08)}}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:9;padding:20px}
+#modal[hidden]{display:none}
+.mb{background:var(--card);border:3px solid var(--ink);border-radius:20px;padding:18px;max-width:340px;text-align:center}
+.mb b{font-size:19px;font-weight:400}
+.mb p{margin:10px 0 14px;line-height:1.6}
+#goal{position:absolute;left:8px;right:8px;bottom:40px;background:rgba(20,14,8,.55);color:#fff;border-radius:12px;padding:5px 10px;font-size:13px;pointer-events:none}
+#sheet{position:fixed;left:0;right:0;bottom:0;max-width:640px;margin:0 auto;max-height:72vh;max-height:72dvh;display:flex;flex-direction:column;background:var(--card);border:3px solid var(--ink);border-bottom:0;border-radius:22px 22px 0 0;box-shadow:0 -6px 0 rgba(0,0,0,.15);transform:translateY(110%);transition:transform .25s;z-index:4}
+#sheet.open{transform:none}
+.sh{display:flex;align-items:center;justify-content:space-between;padding:10px 12px 4px;font-size:18px}
+#x{min-width:0;width:38px;height:38px;padding:0;font-size:24px;line-height:1;background:var(--dis);color:var(--ink)}
+#view{overflow:auto;padding:0 12px 96px;flex:1}
+.card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px;margin:10px 0}
+.card h3{margin:0 0 6px;font-size:16px;font-weight:400}
+.sub{color:var(--mut);font-size:13px}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px dashed var(--line)}
+.row:first-of-type{border-top:0}
+.row .t{flex:1;min-width:0}
+.row .t small{display:block;color:var(--mut);font-size:12px}
+button{font:inherit;border:0;border-radius:14px;padding:9px 12px;background:var(--acc);color:#fff;min-width:92px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.3);transition:transform .05s}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.3)}
+button.dis{background:var(--dis);color:var(--mut);box-shadow:0 4px 0 rgba(0,0,0,.12)}
+button.ghost{background:var(--acc2);color:var(--acc)}
+button.own{background:transparent;color:var(--ok);border:2px solid var(--ok);box-shadow:none}
+#stage{cursor:pointer;user-select:none;-webkit-user-select:none}
+#hint{position:absolute;left:50%;top:62px;transform:translateX(-50%);background:rgba(20,14,8,.45);color:#fff;border-radius:12px;padding:3px 12px;font-size:12px;white-space:nowrap;pointer-events:none}
+.fl{position:absolute;pointer-events:none;font-size:18px;color:#ffd75e;text-shadow:0 2px 0 rgba(0,0,0,.6);animation:up .8s ease-out forwards}
+@keyframes up{to{transform:translateY(-60px);opacity:0}}
+.bar{height:8px;background:var(--dis);border-radius:6px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--ok);width:0}
+.log{font-size:13px;color:var(--mut);margin:0;padding:0;list-style:none}
+nav{z-index:6;position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:3px solid var(--ink);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px)}
+nav div{display:flex;width:100%;max-width:640px}
+nav a{flex:1;min-width:0;text-align:center;padding:7px 0 9px;font-size:clamp(10px,2.8vw,12px);color:var(--mut);cursor:pointer;user-select:none}
+nav a span{display:block;font-size:clamp(18px,5vw,22px)}
+nav a.on{color:var(--acc)}
+#toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 10px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:12px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%;text-align:center;z-index:5}
+#toast.on{opacity:1}
+.tip{background:var(--acc2);border-radius:12px;padding:10px 12px;font-size:13px;margin-top:10px}
+.seg{display:flex;gap:6px;margin:10px 0 0}
+.seg button{min-width:0;padding:9px 12px;flex:1}.seg{position:sticky;top:0;z-index:2;background:var(--card);padding:6px 0}details.card summary{cursor:pointer;padding:4px;font-size:16px}#view{padding-bottom:120px}
+/* 모바일에서도 메뉴를 항상 보이게 유지 */
+nav{z-index:30;min-height:62px;box-shadow:0 -3px 12px #0002}
+nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;font-size:clamp(10px,2.4vw,12px)}
+#stage{height:calc(100dvh - 90px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+#sheet{bottom:62px;max-height:calc(100dvh - 75px);z-index:20}
+#testpanel{bottom:calc(70px + env(safe-area-inset-bottom,0px))!important;right:8px!important;max-width:min(290px,calc(100vw - 16px))!important;max-height:40dvh;overflow:auto}
+@media(max-width:680px){#testpanel{font-size:11px!important}#testpanel:not([open]){width:auto!important}}
+</style>
+</head>
+<body>
+<div id="stage"><canvas id="cv"></canvas>
+ <div class="hud"><div class="pill"><small>💰 게임머니</small><b id="money">0</b></div><div class="pill"><small>⚡ 초당 수익</small><b id="ps">0</b></div></div>
+ <div id="hint">👆 화면을 터치하면 배달 가속! (초당 최대 5회)</div><div id="goal"></div><div id="ttl"></div><button id="gift" hidden>🎁 특별 주문!</button></div>
+<div id="sheet"><div class="sh"><b id="stt"></b><button id="x">×</button></div><div id="view"></div></div>
+<div id="modal" hidden><div class="mb"><b id="mt"></b><p id="mp"></p><button id="mo">확인</button></div></div>
+<div id="toast"></div>
+<nav><div id="nav"></div></nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+window.__simTime=Date.now();window.__simRealNow=Date.now.bind(Date);Date.now=()=>window.__simTime;setInterval(()=>{window.__simTime+=100},100);
+const J=[{e:'📰',n:'신문배달',c:50,i:1},{e:'🍜',n:'분식배달',c:600,i:5},{e:'🍗',n:'치킨배달',c:8000,i:28},{e:'📦',n:'택배',c:1.2e5,i:150},{e:'🚚',n:'물류센터',c:2e6,i:900},{e:'🛒',n:'마트 배송센터',c:3.5e7,i:5500},{e:'✈️',n:'항공 택배',c:6e8,i:35000},{e:'🚁',n:'드론 허브',c:1.2e10,i:240000},{e:'🏭',n:'스마트 물류단지',c:3e11,i:1.6e6},{e:'🛰️',n:'우주 택배',c:7e12,i:1.1e7}];
+const V=[{e:'🚶',n:'도보',m:1,c:0},{e:'🚲',n:'자전거',m:2,c:2e4},{e:'🛵',n:'오토바이',m:4,c:1e6},{e:'🚐',n:'배달 밴',m:8,c:6e7},{e:'🚛',n:'트럭',m:16,c:5e9},{e:'🚁',n:'배송 헬기',m:32,c:3e11},{e:'🛸',n:'우주선',m:64,c:2e13}];
+const R=[{e:'🏘️',n:'동네',m:1,c:0},{e:'🏙️',n:'시내',m:1.5,c:3e5},{e:'🌆',n:'광역',m:2.5,c:3e7},{e:'🇰🇷',n:'전국',m:5,c:3e9},{e:'🌏',n:'아시아',m:10,c:5e11},{e:'🌍',n:'전세계',m:25,c:3e13}];
+const GL=[['신문배달 5개 구매',()=>S.j[0]>=5],['초당 수익 +50원 달성',()=>ps()>=50],['🚲 자전거 구매',()=>S.v>=1],['🏙️ 시내 지역 해금',()=>S.r>=1],['업종 5종 모두 보유',()=>S.j.slice(0,5).every(n=>n>0)],['한 업종 25개 보유 (수익 x2)',()=>S.j.some(n=>n>=25)],['🛵 오토바이 구매',()=>S.v>=2],['누적 수익 1000만원 (환생 가능)',()=>S.run>=1e7],['🌟 첫 환생',()=>S.st>=1],['🌆 광역 지역 해금',()=>S.r>=2],['🚐 배달 밴 구매',()=>S.v>=3],['업종 8종 모두 보유',()=>S.j.slice(0,8).every(n=>n>0)],['한 업종 100개 보유',()=>S.j.some(n=>n>=100)],['🇰🇷 전국 지역 해금',()=>S.r>=3],['🚛 트럭 구매',()=>S.v>=4]];
+const T=['동네 배달 초보','동네 배달 라이더','시내 에이스','지역 물류 사장','전국 배달왕','아시아 물류 제왕','우주 배달 전설'];
+const EVOLUTION=["시골 마을","작은 동네","읍내","면소재지","소도시","중소도시","도심 상권","원룸·아파트 단지","수도권 배달","경기도 전역","서울 주요 상권","서울 전역","수도권 통합","광역시 연합","대한민국 전국망","일본","한일 통합망","동남아시아","인도","아시아 대륙망","미국","북미 전역","유럽","남미","아프리카","세계 주요 도시","세계 배달망","국제우주정거장","달 기지","달 도시","화성 기지","화성 도시","태양계 행성망","우주 정거장 연합","성간 배달망","은하 물류회사","은하계 배달왕","우주 통합 물류","초은하 배송망","우주 배달의 신"];
+const evoCost=i=>Math.floor(3000*Math.pow(1.45,Math.min(i,26))*Math.pow(1.7,Math.max(0,i-26)));
+const evoBonus=()=>Math.pow(1.11,S.evo||0);
+const tapGain=()=>Math.max(1,Math.floor((1+ps()*.04)*(1+Math.min(combo,20)*.05)*(1+(S.evo||0)*.12)));
+const TABS=[['main','🏠','홈'],['jobs','📈','성장'],['idle','🤖','방치형'],['biz','🗺️','지역'],['rec','🏆','기록·환생']];
+GL.push(['🚁 배송 헬기 구매',()=>S.v>=5],['업종 누적 300개 구매',()=>S.bn>=300],['🌏 아시아 지역 해금',()=>S.r>=4],['환생 3회 달성',()=>S.rb>=3],['한 업종 200개 보유',()=>S.j.some(n=>n>=200)],['🛸 우주선 구매',()=>S.v>=6],['🌍 전세계 지역 해금',()=>S.r>=5],['⭐ 별 50개 보유',()=>S.st>=50],['🏆 업적 10개 달성',()=>S.ac.length>=10],['한 업종 400개 보유',()=>S.j.some(n=>n>=400)]);
+const ST=['신문 가방을 메고 첫 배달을 마쳤다. 할아버지의 말이 떠오른다. 빠른 것보다 정확한 게 먼저란다.','동네 사람들이 달봉이를 알아보기 시작했다. 아침마다 문 앞에서 기다리는 단골이 생겼다.','중고 자전거를 샀다. 바퀴 구르는 소리가 응원가처럼 들린다.','시내로 나왔다. 높은 건물과 낯선 골목, 그리고 라이벌 간판 번개배송.','분식집부터 택배까지, 달봉이에겐 다섯 갈래의 배달 노선이 생겼다.','한 노선을 오래 달리자 숙련자가 되었다. 같은 길도 두 배 빠르게 달린다.','오토바이 시동음에 라이벌이 고개를 돌린다. 꽤 하는군, 신입. 번개배송 사장 김번개의 첫 인사다.','첫 큰돈을 모았다. 그때 양복 차림의 낯선 사람이 명함을 건넨다. 로켓물류 인수팀입니다.','환생의 별빛 아래, 달봉이는 처음부터 다시 달리기로 했다. 이번엔 더 멀리.','광역 배송망이 열렸다. 로켓물류가 대리점들에 압력을 넣는다는 소문이 돈다.','배달 밴에 단골들의 응원 쪽지가 붙었다. 달봉이네 꼭 이겨라!','여덟 개 노선이 완성됐다. 김번개가 찾아와 말한다. 로켓에 맞서려면 우리가 손잡아야 해.','백 번째 점포. 달봉이네는 이제 어엿한 회사다.','전국 배송 개시. 로켓물류와의 정면 승부가 시작된다.','대형 트럭이 고속도로를 가른다. 로켓물류 사장이 처음으로 직접 연락을 해 왔다.','하늘길이 열렸다. 배송 헬기가 산골 마을 지붕 위에 택배를 내려놓는다.','셀 수 없는 배달을 해냈다. 그런데 로켓물류의 비밀 창고가 해외에 있다는 제보가 온다.','아시아 진출. 낯선 언어의 골목에도 단골이 생긴다.','세 번의 환생을 거치며 달봉이는 깨달았다. 시작은 매번 같지만 이제 길을 안다.','수백 개의 점포가 같은 시각 문을 연다. 달봉이네 간판은 아시아 어디서나 보인다.','우주선 한 대가 발사대에 선다. 로켓물류 사장이 웃으며 말한다. 같은 하늘이군.','전 세계를 잇는 배송망이 완성됐다. 로켓물류와는 경쟁이 아니라 협력이 되었다.','별 오십 개. 처음 신문 가방을 멨던 그날이 아득하다.','달봉이네 소식이 신문 1면을 장식한다. 그 신문을 배달한 건 물론 달봉이였다.','마지막 배달을 떠난다. 할아버지의 낡은 가방을 메고. 배달왕의 전설은 계속된다!'];
+const DM=[['화면 200번 터치',()=>S.d.tap>=200,()=>`${Math.min(S.d.tap,200)}/200`],['업종 20개 구매',()=>S.d.buy>=20,()=>`${Math.min(S.d.buy,20)}/20`],['특별 주문 3번 수락',()=>S.d.gift>=3,()=>`${Math.min(S.d.gift,3)}/3`]];
+const AC=[['첫걸음','화면 터치 100번',()=>S.tn>=100],['터치 장인','화면 터치 2000번',()=>S.tn>=2000],['구매왕','업종 누적 300개 구매',()=>S.bn>=300],['환생 입문','환생 1회',()=>S.rb>=1],['환생 마스터','환생 5회',()=>S.rb>=5],['특별 단골','특별 주문 20번',()=>S.gn>=20],['비서 고용','비서 고용',()=>S.mg],['출석 달인','7일 연속 출석',()=>S.d.str>=7],['부자','누적 수익 1억',()=>S.run>=1e8],['억만장자','누적 수익 1조',()=>S.run>=1e12],['전국 진출','전국 지역 해금',()=>S.r>=3],['우주 시대','우주선 구매',()=>S.v>=6]];
+const mq=[];const sm=()=>{const m=mq[0];$('mt').textContent=m[0];$('mp').textContent=m[1];$('modal').hidden=false};
+const modal=(t,p)=>{mq.push([t,p]);if(mq.length===1)sm()};
+const nm=()=>{mq.shift();if(mq.length)sm();else $('modal').hidden=true};
+function dayInit(){const d=S.d,today=new Date().toLocaleDateString('sv');if(d.day===today)return;const y=new Date(Date.now()-864e5).toLocaleDateString('sv');d.str=d.last===y?d.str+1:1;d.last=today;d.day=today;d.tap=0;d.buy=0;d.gift=0;d.cl=[0,0,0,0];const r=Math.floor(ps()*300*Math.min(d.str,7)+5000);S.m+=r;log(`📅 출석 ${d.str}일째 보너스 +${f(r)}원`);setTimeout(()=>toast(`📅 출석 ${d.str}일째! +${f(r)}원`),700)}
+function dClaim(i){if(S.d.cl[i]||!DM[i][1]())return;S.d.cl[i]=1;const r=Math.floor(ps()*600+3000);S.m+=r;toast(`✅ 미션 보상 +${f(r)}원`);snd(900,.15);save();render()}
+const KEY='baedalwang-3d-simulation-only';
+const MAX_OFFLINE=24*3600; // 24-hour offline earnings cap
+const fresh=()=>({m:10000,run:0,tn:0,g:0,snd:1,bn:0,gn:0,rb:0,ac:[],mg:0,auto:0,reserve:0,staff:0,dispatch:0,evo:0,pro:0,d:{day:'',tap:0,buy:0,gift:0,cl:[0,0,0,0],str:0,last:''},j:J.map(()=>0),v:0,r:0,st:0,t:Date.now(),ad:0,adc:0,log:['게임을 시작했어요. 업종을 구매해 보세요.']});
+let showAllJobs=false;let S,tab='main',buyN=1,taps=[],resetAt=0,adWait=false,combo=0,comboT=0,bounce=0;
+try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){S=null}
+S=Object.assign(fresh(),S||{});if(!Array.isArray(S.j))S.j=[];S.j=S.j.slice(0,J.length).map(x=>Number.isFinite(x)?Math.max(0,Math.floor(x)):0);while(S.j.length<J.length)S.j.push(0);S.v=Math.max(0,Math.min(V.length-1,Math.floor(Number(S.v)||0)));S.r=Math.max(0,Math.min(R.length-1,Math.floor(Number(S.r)||0)));S.evo=Math.max(0,Math.min(39,Math.floor(Number(S.evo)||0)));S.d=Object.assign(fresh().d,S.d||{});S.d.cl=Array.isArray(S.d.cl)?S.d.cl:[0,0,0,0];S.ac=Array.isArray(S.ac)?S.ac:[];S.log=Array.isArray(S.log)?S.log:[];S.auto=S.auto?1:0;S.reserve=Math.max(0,Number(S.reserve)||0);S.staff=Math.max(0,Math.min(1000,Math.floor(Number(S.staff)||0)));S.dispatch=S.dispatch?1:0;
+const $=id=>document.getElementById(id);
+function f(n){if(n<1e4)return n<10&&n%1?n.toFixed(1):Math.floor(n).toLocaleString('ko-KR');
+ for(const [u,s] of [[1e16,'경'],[1e12,'조'],[1e8,'억'],[1e4,'만']]) if(n>=u){const x=n/u;return (x<100?x.toFixed(2):x.toFixed(1)).replace(/\.?0+$/,'')+s}}
+const cost=(i,n)=>{let s=0;for(let k=0;k<n;k++)s+=Math.ceil(J[i].c*1.2**(S.j[i]+k));return s};
+const mult=()=>V[S.v].m*R[S.r].m*(1+.1*S.st)*(1+.02*S.ac.length)*(Date.now()<S.ad?2:1);
+const jm=n=>2**[25,50,100,200,400].filter(x=>n>=x).length;
+const nx=n=>{const t=[25,50,100,200,400].find(x=>n<x);return t?`${t}개에 x2`:'최대 보너스'};
+// Automatic couriers and batch dispatch add passive income; no tapping required.
+const peak=()=>{const h=new Date().getHours();return (h>=11&&h<14)||(h>=17&&h<21)?1.2:1};
+const ps=()=>(1+J.reduce((a,x,i)=>a+x.i*S.j[i]*jm(S.j[i]),0)) * mult() * (1+Math.min(1000,S.staff||0)*.06) * ((S.dispatch&&S.staff>=2)?1.1:1) * peak() * evoBonus();
+const staffCost=()=>Math.ceil(150000*Math.pow(1.42,S.staff||0));
+const roi=(i)=>{const c=cost(i,1),gain=J[i].i*( (S.j[i]+1)*jm(S.j[i]+1)-S.j[i]*jm(S.j[i]))*mult()*(1+(S.staff||0)*.06)*peak();return gain>0?c/gain:Infinity};
+function autoInvest(){if(!S.mg||!S.auto)return;const available=S.m-Math.max(0,S.reserve||0);if(available<=0)return;let best=-1,seconds=Infinity;J.forEach((_,i)=>{const c=cost(i,1),r=roi(i);if(c<=available&&r<seconds){best=i;seconds=r}});if(best<0)return;S.m-=cost(best,1);S.j[best]++;S.bn++;}
+
+const lv=()=>1+Math.floor(S.j.reduce((a,b)=>a+b,0)/3)+S.v*2+S.r*3;
+const newStars=()=>Math.floor(Math.sqrt(Math.max(0,S.run)/1e7)); // run resets on rebirth
+let AX;const snd=(fq=600,d=.07)=>{if(!S.snd)return;try{AX=AX||new(window.AudioContext||window.webkitAudioContext)();const o=AX.createOscillator(),g=AX.createGain();o.type='triangle';o.frequency.value=fq;g.gain.value=.05;o.connect(g);g.connect(AX.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,AX.currentTime+d);o.stop(AX.currentTime+d)}catch(e){}};
+function log(t){S.log.unshift(t);S.log=S.log.slice(0,6)}
+function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.h);toast.h=setTimeout(()=>e.classList.remove('on'),2400)}
+function save(){S.t=Date.now();try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+const btn=(c,l,cls='')=>`<button class="${cls}" data-cost="${c}">${l}</button>`;
+
+/* ---------- 3D · remastered procedural low-poly world ---------- */
+let G=null;
+try {
+ if(typeof THREE==='undefined')throw Error('Three.js library unavailable');
+ const cv=$('cv'),ren=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:false,powerPreference:'high-performance'});
+ ren.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));
+ ren.shadowMap.enabled=true;ren.shadowMap.type=THREE.PCFSoftShadowMap;
+ if('outputEncoding' in ren)ren.outputEncoding=THREE.sRGBEncoding;
+ const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(42,1,.1,110);
+ cam.position.set(5.4,4.0,10.8);cam.lookAt(0,1.35,0);
+ sc.add(new THREE.HemisphereLight(0xdaf1ff,0x6d8254,1.25));
+ const sun=new THREE.DirectionalLight(0xfff5d7,1.15);sun.position.set(-4,11,7);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-12;sun.shadow.camera.right=12;sun.shadow.camera.top=12;sun.shadow.camera.bottom=-12;sc.add(sun);
+ const mat=(c,metalness=0)=>new THREE.MeshStandardMaterial({color:c,roughness:.78,metalness});
+ const C={road:mat(0x394756),lane:mat(0xfff3c9),grass:mat(0x77bf78),walk:mat(0xd6d7d2),skin:mat(0xffc69d),hair:mat(0x3b2935),jacket:mat(0xff873e),pants:mat(0x344d78),shoe:mat(0x252c39),white:mat(0xffffff),glass:mat(0x8bd5ee,.15),tire:mat(0x232934),metal:mat(0x9ca8b5,.45),gold:mat(0xffcb39,.45)};
+ const cube=(parent,w,h,d,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o};
+ const ball=(parent,r,m,x,y,z,sw=12,sh=9)=>{const o=new THREE.Mesh(new THREE.SphereGeometry(r,sw,sh),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
+ const cyl=(parent,r,h,m,x,y,z)=>{const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,12),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
+ const road=cube(sc,110,.14,5.6,C.road,0,-.15,0);road.castShadow=false;
+ cube(sc,110,.12,1.35,C.walk,0,-.08,-3.65);cube(sc,110,.12,1.35,C.walk,0,-.08,3.65);
+ cube(sc,110,.12,26,C.grass,0,-.22,0);
+ const lines=[];for(let i=0;i<22;i++)lines.push(cube(sc,1.8,.025,.11,C.lane,i*5-50,-.06,0));
+ const PAL=[[0xf3a96e,0xf5d37c,0x80c6de],[0x8aa5c2,0xc2c9d8,0x728fae],[0xffad87,0xffd177,0x8dcbd2],[0x9b8cdb,0x70b9e6,0xe8a1d1],[0x65b9b6,0xb0d2cc,0xffce77],[0x8276b4,0x7298d0,0xa6a3c6]];
+ const SKY=[0x9bd7ff,0xcbdcec,0xffcb9d,0xafa6e2,0x88c8d6,0x192b4a];
+ const scenery=[];
+ function building(x,z,i){const g=new THREE.Group();sc.add(g);g.position.set(x,0,z);
+  const h=1.5+(i*17%11)*.36,w=1.8+(i%3)*.46;
+  const wall=mat(PAL[0][i%3]);const body=cube(g,w,h,1.7,wall,0,h/2,0);body.castShadow=false;
+  cube(g,w+.15,.15,1.9,mat(0xf3f0e7),0,h+.07,0);
+  const glass=mat(0xb3e9f3,.15);
+  for(let y=.55;y<h-.25;y+=.73)for(let xx=-w/2+.42;xx<w/2-.2;xx+=.67)(()=>{const win=cube(g,.31,.38,.035,glass,xx,y,z<0?.88:-.88);win.castShadow=false})() ;
+  cube(g,.65,.85,.055,mat(0x526b86),0,.44,z<0?.89:-.89);
+  g.userData={x,h,wall,i,baseH:h,building:true};scenery.push(g);
+ }
+ function tree(x,z,i){const g=new THREE.Group();sc.add(g);g.position.set(x,0,z);
+  cyl(g,.12,.8,mat(0x896447),0,.42,0);
+  const leaf=mat([0x3ca96b,0x62bd6a,0x84c45e][i%3]);ball(g,.65,leaf,0,1.32,0,10,8);ball(g,.46,leaf,.3,1.1,.1,9,7);
+  g.userData={x,i};scenery.push(g);
+ }
+ for(let i=0;i<18;i++){const x=(i%9)*6.5-27,z=i<9?-7.0:7.0;building(x,z,i);tree(x+2.6,z<0?-4.6:4.6,i)}
+ const rider=new THREE.Group();sc.add(rider);rider.position.set(-.2,0,0);
+ let wheels=[],rotors=[],legs=[],arms=[],vehicleId=-1,regionId=-1,time=0,bounceValue=0;
+ const wheel=(g,x,y,z,r=.39)=>{const a=new THREE.Group();a.position.set(x,y,z);g.add(a);const tire=new THREE.Mesh(new THREE.TorusGeometry(r,.085,8,20),C.tire);a.add(tire);const hub=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,.16,12),C.metal);hub.rotation.x=Math.PI/2;a.add(hub);for(let k=0;k<6;k++){const spoke=cube(a,r*1.6,.018,.018,C.metal);spoke.rotation.z=k*Math.PI/6}wheels.push(a);return a};
+ const person=(g,x,y,z,scale=1,sitting=false)=>{const p=new THREE.Group();g.add(p);p.position.set(x,y,z);p.scale.setScalar(scale);
+  const torso=cube(p,.55,.72,.37,C.jacket,0,.98,0);cube(p,.39,.19,.38,C.white,0,1.36,0);
+  ball(p,.27,C.skin,0,1.64,0);const hair=ball(p,.28,C.hair,0,1.79,-.065);hair.scale.y=.62;
+  for(const zz of [-.14,.14])ball(p,.035,C.tire,.23,1.65,zz,8,6);
+  const helmet=ball(p,.32,mat(0xffd24a),0,1.83,0);helmet.scale.y=.58;
+  for(const zSide of [-.3,.3]){const a=cube(p,.18,.57,.19,C.jacket,0,.99,zSide);arms.push(a)}
+  for(const zSide of [-.16,.16]){const leg=cube(p,.2,.66,.2,C.pants,sitting?.17:0,.36,zSide);legs.push(leg);cube(p,.32,.15,.23,C.shoe,sitting?.3:.06,.06,zSide)}
+  return p;
+ };
+ const frame=(g,x1,y1,x2,y2,z,m=C.metal,r=.045)=>{const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy);const o=cyl(g,r,len,m,(x1+x2)/2,(y1+y2)/2,z);o.rotation.z=-Math.atan2(dx,dy);return o};
+ function makeVehicle(){while(rider.children.length)rider.remove(rider.children[0]);wheels=[];rotors=[];legs=[];arms=[];
+  const v=S.v;
+  if(v===0){person(rider,0,0,0,1);cube(rider,.42,.6,.36,mat(0xe6a75d),-.4,.88,-.18)}
+  else if(v===1||v===2){const motor=v===2;
+   wheel(rider,-.82,.45,0,.43);wheel(rider,.86,.45,0,.43);
+   frame(rider,-.82,.45,-.24,1.08,0,motor?C.metal:mat(0x3285d5));frame(rider,-.24,1.08,.35,.45,0);frame(rider,.35,.45,-.82,.45,0);
+   if(motor){cube(rider,1.25,.42,.53,mat(0xe94b46),-.04,.85,0);cube(rider,.6,.55,.55,mat(0xffbd3c),-.7,1.03,0);cube(rider,.48,.42,.52,mat(0xf5a94c),-.9,1.3,0)}
+   frame(rider,.7,.9,.98,1.4,0);cube(rider,.65,.08,.1,C.tire,.85,1.42,0);cube(rider,.58,.12,.35,C.tire,-.28,1.18,0);
+   const p=person(rider,-.22,.78,0,.73,true);p.rotation.z=-.12;
+   cube(rider,.65,.6,.65,mat(0xf6b14e),-1.18,1.28,0);
+  }else if(v===3||v===4){const truck=v===4,L=truck?4.8:3.2,body=mat(truck?0x8063d6:0x3ab879);
+   cube(rider,L,truck?1.55:1.15,1.55,body,-.28,truck?1.55:1.36,0);
+   cube(rider,1.25,1.42,1.58,mat(0xf4f4ef),L/2-.15,1.5,0);
+   cube(rider,.06,.65,1.22,C.glass,L/2+.49,1.73,0);
+   for(const x of (truck?[-2,-.65,1.65]:[-1.25,1.18]))for(const z of [-.77,.77])wheel(rider,x,.49,z,.42);
+   cube(rider,.7,.35,.05,C.lane,-L/2-.2,1.5,.82);
+  }else if(v===5){const hull=ball(rider,1.4,mat(0xffd344),0,1.8,0,16,10);hull.scale.set(1.4,.55,.72);
+   cube(rider,1.2,.48,.9,C.glass,.35,2.0,0);cube(rider,2.4,.1,.12,C.metal,-.1,1.25,0);
+   const rotor=cube(rider,4.4,.065,.2,C.tire,0,2.8,0);rotors.push(rotor);cyl(rider,.08,.55,C.metal,0,2.52,0);
+   for(const z of [-.75,.75])cube(rider,2.4,.07,.08,C.metal,0,.92,z);
+  }else{const hull=ball(rider,1.1,mat(0xb9c6e0,.25),0,1.85,0,16,12);hull.scale.set(1.6,.65,.82);
+   const canopy=ball(rider,.58,C.glass,.35,2.15,0);canopy.scale.set(1.15,.8,1);
+   for(const z of [-1,1]){const wing=cube(rider,1.6,.09,1.0,mat(0x6575a9),-.35,1.7,z);wing.rotation.x=z*.14}
+   for(const z of [-.55,.55]){const flame=ball(rider,.23,mat(0xffa12b),-1.8,1.73,z);flame.scale.x=2}
+  }
+  rider.position.set(-.2,0,0);
+ }
+ function world(){const idx=S.r;sc.background=new THREE.Color(SKY[idx]);sc.fog=new THREE.Fog(SKY[idx],28,67);
+  scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[idx][g.userData.i%3]);g.scale.y=1+idx*.19;}});
+  C.grass.color.setHex([0x77bf78,0x7cae8a,0xc4b781,0x6d9a81,0x78a89d,0x4c6885][idx]);
+ }
+ const coins=[];for(let i=0;i<14;i++){const c=new THREE.Group();sc.add(c);const disk=cyl(c,.19,.055,C.gold,0,0,0);disk.rotation.x=Math.PI/2;ball(c,.07,C.white,0,0,.04,8,6);c.visible=false;c.userData.life=0;coins.push(c)}
+ function coin(){const c=coins.find(x=>!x.visible);if(!c)return;c.visible=true;c.userData.life=.9;c.position.set((Math.random()-.5)*1.7,1.5,Math.random()-.5);c.scale.setScalar(1)}
+ function resize(){const w=Math.max(1,$('stage').clientWidth),h=Math.max(1,$('stage').clientHeight);ren.setSize(w,h,false);cam.aspect=w/h;cam.position.set(h>w?5.7:5.1,4.2,h>w?11.5:10.1);cam.lookAt(0,1.5,0);cam.updateProjectionMatrix()}
+ const observer=typeof ResizeObserver!=='undefined'?new ResizeObserver(resize):null;if(observer)observer.observe($('stage'));addEventListener('resize',resize);resize();
+ let prev=performance.now(),spawn=.8;
+ function loop(now){requestAnimationFrame(loop);if(document.hidden){prev=now;return}const dt=Math.min(.05,(now-prev)/1000);prev=now;time+=dt;
+  if(vehicleId!==S.v){vehicleId=S.v;makeVehicle()}if(regionId!==S.r){regionId=S.r;world()}
+  const speed=Math.min(24,2.7+Math.log10(Math.max(1,ps())+1)*2.0)*(Date.now()<S.ad?1.25:1);
+  lines.forEach(d=>{d.position.x-=speed*dt;if(d.position.x< -52)d.position.x+=110});
+  scenery.forEach(g=>{g.userData.x-=speed*dt*.75;if(g.userData.x< -32)g.userData.x+=61;g.position.x=g.userData.x});
+  wheels.forEach(w=>w.rotation.z-=speed*dt*1.6);rotors.forEach(r=>r.rotation.y+=dt*22);
+  bounceValue=Math.max(0,bounceValue-dt*2.6);
+  const fly=S.v>=5;rider.position.y=(fly?Math.sin(time*2)*.13:.025*Math.sin(time*11))+(fly?.4:0)+Math.sin(bounceValue*Math.PI)*.25;
+  if(S.v===0){legs.forEach((l,i)=>l.rotation.z=Math.sin(time*speed*1.2+i*Math.PI)*.55);arms.forEach((a,i)=>a.rotation.z=-Math.sin(time*speed*1.2+i*Math.PI)*.4)}
+  spawn-=dt;if(spawn<=0){spawn=Math.max(.38,1.6-Math.log10(Math.max(1,ps())+1)*.15);coin()}
+  coins.forEach(c=>{if(!c.visible)return;c.userData.life-=dt;c.position.y+=dt*1.8;c.rotation.y+=dt*8;c.scale.setScalar(Math.max(.01,c.userData.life/.9));if(c.userData.life<=0)c.visible=false});
+  ren.render(sc,cam)
+ }
+ requestAnimationFrame(loop);G={coin,bump:()=>{bounceValue=1;coin()}};
+}catch(e){console.warn('3D rendering unavailable',e);G=null;$('cv').style.display='none';$('stage').style.background='linear-gradient(155deg,#9bd7ff,#68b879)';$('hint').textContent='3D를 표시할 수 없습니다. 인터넷 연결과 WebGL을 확인해 주세요.'}
+
+/* ---------- UI ---------- */
+function render(){
+ const navTab=tab==='veh'?'jobs':tab==='reg'||tab==='evolution'?'biz':tab;
+ $('nav').innerHTML=TABS.map(([k,e,n])=>`<a data-tab="${k}" class="${k===navTab?'on':''}"><span>${e}</span>${n}</a>`).join('');
+ let h='';
+ if(tab==='main'){
+  const jobs=J.map((x,i)=>S.j[i]?`${x.e}${S.j[i]}`:'').filter(Boolean).join(' ');
+  h=`
+  <div class="card"><h3>${V[S.v].e} ${V[S.v].n} · ${R[S.r].e} ${R[S.r].n}</h3><div class="sub">보유 업종: ${jobs||'아직 없음'}</div>
+  <div class="sub">🚴 자동 라이더 ${S.staff||0}명 · ${peak()>1?'🔥 피크 할증 +20%':'일반 시간'} · ⭐ 환생 보너스 +${S.st*10}% · 수익 배율 x${mult().toFixed(2)}</div></div>
+  ${S.j.every(n=>!n)?'<div class="tip">💡 첫 목표: 위 화면을 터치해 돈을 모으고, 성장 탭에서 📰 신문배달을 구매하세요.</div>':''}
+  <div class="card"><h3>🚀 진화 ${(S.evo||0)+1}/40단계 · ${EVOLUTION[S.evo||0]}</h3><div class="sub">다음 진화: ${EVOLUTION[Math.min(39,(S.evo||0)+1)]} · 자동 수익 x${evoBonus().toFixed(2)} · 터치 수익 +${f(tapGain())}원</div><button data-section="evolution">진화 단계 보기</button></div><div class="card"><h3>🎯 목표 ${Math.min(S.g+1,GL.length)}/${GL.length}</h3>${S.g<GL.length?`<div>${GL[S.g][0]}</div><div class="sub">보상 +${f(ps()*120+1000*(S.g+1))}원</div>`:'<div>모든 목표 달성! 환생으로 더 높은 기록에 도전하세요.</div>'}</div>
+  <div class="card"><h3>📋 최근 기록</h3><ul class="log">${S.log.map(l=>`<li>· ${l}</li>`).join('')}</ul></div>`;
+ }
+ if(tab==='jobs'){
+  h=`<div class="seg"><button data-section="jobs">📦 업종</button><button class="ghost" data-section="veh">🚲 차량</button></div>`+`<div class="seg"><button class="${buyN===1?'':'ghost'}" data-n="1">x1</button><button class="${buyN===10?'':'ghost'}" data-n="10">x10</button></div><div class="card">`+
+  J.map((x,i)=>{const c=cost(i,buyN);if(!showAllJobs && i>2 && !S.j[i] && c>S.m*2)return '';return `<div class="row"><div class="t">${x.e} ${x.n}<small>보유 ${S.j[i]}개 · 개당 +${f(x.i*jm(S.j[i])*mult())}/초 · ${nx(S.j[i])} · 회수 약 ${roi(i)<3600?Math.ceil(roi(i)/60)+'분':(roi(i)/3600).toFixed(1)+'시간'}</small></div>${btn(c,`${f(c)}원<br><small>구매 x${buyN}</small>`)}</div>`}).join('')+`</div><button class="ghost" data-showjobs="1">${showAllJobs?'간단히 보기':'전체 업종 보기'}</button>`;
+ }
+ if(tab==='veh'||tab==='reg'){
+  const L=tab==='veh'?V:R,cur=tab==='veh'?S.v:S.r;
+  h=`<div class="seg">${tab==='veh'?'<button class="ghost" data-section="jobs">📦 업종</button><button data-section="veh">🚲 차량</button>':'<button class="ghost" data-section="biz">🤖 자동 운영</button><button data-section="reg">🗺️ 지역</button>'}</div><div class="card"><h3>${tab==='veh'?'🚲 차량 강화':'🗺️ 지역 해금'}</h3><div class="sub">구매하면 전체 수익 배율이 오르고 3D 화면이 바뀌어요.</div>`+
+  L.map((x,i)=>i>cur+1?'':`<div class="row"><div class="t">${x.e} ${x.n}<small>수익 x${x.m}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'사용 중':'보유'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`).join('')+`</div>`;
+ }
+ if(tab==='evolution'){
+ const i=S.evo||0,c=evoCost(i+1);
+ h=`<div class="card"><h3>🚀 진화 ${i+1} / 40단계</h3><div class="sub">현재: ${EVOLUTION[i]} · 자동 수익 x${evoBonus().toFixed(2)} · 터치 +${f(tapGain())}원</div>${i<39?`<div class="row"><div class="t">다음: ${EVOLUTION[i+1]}<small>진화 비용 ${f(c)}원 · 자동·터치 수익 동시 증가</small></div><button id="evolve" class="${S.m<c?'dis':''}">진화하기</button></div>`:'<div class="tip">최종 진화 완료!</div>'}</div><details class="card"><summary>📜 전체 40단계 보기</summary>${EVOLUTION.map((n,k)=>`<div class="row"><div class="t">${k+1}. ${n}</div><small>${k<i?'완료':k===i?'현재':'잠김'}</small></div>`).join('')}</details>`;
+ }
+ if(tab==='rec'){
+  h=`<div class="card"><h3>📅 출석 ${S.d.str}일째</h3><div class="sub">매일 접속하면 보너스가 커져요 (최대 7일)</div></div><div class="card"><h3>✅ 오늘의 미션</h3>`+DM.map((m,i)=>{const ok=m[1](),dn=S.d.cl[i];return `<div class="row"><div class="t">${m[0]}<small>${m[2]()}</small></div><button data-claim="${i}" class="${dn?'own':ok?'':'dis'}">${dn?'완료':'보상 받기'}</button></div>`}).join('')+`</div><div class="card"><h3>🏆 업적 ${S.ac.length}/${AC.length}</h3><div class="sub">업적 1개당 전체 수익 +2%</div>`+AC.map((a,k)=>`<div class="row"><div class="t">${S.ac.includes(k)?'🏆':'🔒'} ${a[0]}<small>${a[1]}</small></div></div>`).join('')+`</div><div class="card"><h3>📖 스토리</h3>`+(S.g?ST.slice(0,S.g).map((s,i)=>`<div class="row"><div class="t"><small>챕터 ${i+1}</small>${s}</div></div>`).join(''):'<div class="sub">목표를 달성하면 이야기가 열려요.</div>')+`</div>`;
+
+  const ns=newStars(),adOn=Date.now()<S.ad,cd=Math.max(0,Math.ceil((S.adc-Date.now())/1000));
+  h+=`<details class="card"><summary>📋 최근 기록 · 광고 · 환생</summary><div class="card"><h3>📋 최근 기록</h3><ul class="log">${S.log.map(l=>`<li>· ${l}</li>`).join('')}</ul></div>
+  <div class="card"><h3>🎁 광고 보상 (시연)</h3><div class="sub">시청하면 60초간 수익 2배, 배달 속도도 빨라져요. 실제 광고는 연결 전이라 3초 대기로 대신합니다.</div>
+  <div class="row"><div class="t">${adOn?'수익 2배 적용 중':'수익 2배 · 60초'}<div class="bar"><i id="adbar"></i></div></div><button id="ad" class="${adOn||cd||adWait?'dis':''}">${adWait?'재생 중…':adOn?'적용 중':cd?`대기 ${cd}초`:'광고 보기'}</button></div></div>
+  <div class="card"><h3>🌟 환생 · 영구 수익</h3><div class="sub">이번 판 누적 ${f(S.run)}원 · 1000만원부터 별을 얻어요. 환생하면 돈, 업종, 차량, 지역이 초기화되고 별 1개당 수익 +10%.</div>
+  <div class="row"><div class="t">획득 예정 ⭐ ${ns}개<small>보유 ⭐ ${S.st}개</small></div><button id="reb" class="${ns<1?'dis':''}">환생하기</button></div></div>
+  </details>`;
+ }
+ if(tab==='idle'){
+  h=`<div class="tip">🤖 자동 배달은 항상 진행돼요. 비서와 라이더를 고용하면 방치 수익이 더 커집니다.</div>
+<div class="card"><h3>🤖 방치형 자동 운영</h3><div class="sub">화면을 터치하지 않아도 자동 배달합니다. 비서가 있으면 2초마다 투자 효율이 좋은 업종을 구매해요.</div>
+  <div class="row"><div class="t">자동 구매 비서<small>2,000만원 · 환생 후에도 유지</small></div><button id="mgr" class="${S.mg?'own':S.m<2e7?'dis':''}">${S.mg?'고용됨':'고용'}</button></div>
+  <div class="row"><div class="t">자동 투자<small>보유금 설정 이하로는 구매하지 않음</small></div><button id="auto" class="ghost">${S.auto?'ON':'OFF'}</button></div>
+  <div class="row"><div class="t">최소 보유금<small>${f(S.reserve||0)}원 유지</small></div><button id="reserve" class="ghost">설정</button></div>
+  <div class="row"><div class="t">자동 배달 라이더 ${S.staff||0}명<small>라이더당 전체 수익 +6% · 다음 고용 ${f(staffCost())}원</small></div><button id="hire" class="${S.m<staffCost()?'dis':''}">고용</button></div>
+  <div class="row"><div class="t">자동 묶음 배달<small>라이더 2명 이상이면 수익 +10%</small></div><button id="dispatch" class="ghost">${S.dispatch?'ON':'OFF'}</button></div>
+  <div class="tip">🕒 점심 11~14시, 저녁 17~21시 수익 +20% · 오프라인 최대 24시간 65% 적립</div></div>
+
+  `;
+ }
+ if(tab==='biz'){
+  h=`<div class="seg"><button class="ghost" data-section="evolution">🚀 40단계 진화</button><button class="ghost" data-section="reg">🗺️ 지역 확장</button></div><div class="card"><h3>🌍 배송 지역 관리</h3><div class="sub">지역을 확장하면 전체 배달 수익이 증가합니다.</div><button data-section="reg">지역 업그레이드</button></div>
+<details class="card"><summary>💾 저장 코드 · 백업/복원</summary><h3>저장 코드</h3><div class="sub">내보내기로 만든 코드를 보관했다가 불러오기로 복원하세요.</div><textarea id="sv" rows="3" style="width:100%;margin-top:6px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);padding:6px"></textarea><div class="row"><button id="exp" class="ghost">내보내기</button><button id="imp">불러오기</button></div></details>
+  <details class="card"><summary>⚙️ 설정 · 초기화</summary><h3>설정</h3><div class="row"><div class="t">효과음·진동</div><button id="snd" class="ghost">${S.snd?'켜짐':'꺼짐'}</button></div><div class="row"><div class="t">진행은 자동 저장돼요<small>3초 안에 한 번 더 누르면 초기화</small></div><button id="rst" class="ghost">초기화</button></div></details>`;
+ }
+
+ const keep=$('view').scrollTop;$('view').innerHTML=h;$('view').scrollTop=window.lt===tab?keep:0;window.lt=tab;
+ $('sheet').classList.toggle('open',tab!=='main');$('stt').textContent=(TABS.find(x=>x[0]===navTab)||[])[2]||'';upd();
 }
-ctx.textAlign='center';ctx.font='44px system-ui';ctx.fillText(s.vehicleTier>=7?'🚚':s.vehicleTier>=6?'🚐':s.vehicleTier>=4?'🚗':s.vehicleTier>=3?'🛵':s.vehicleTier>=1?'🚲':'🚶',riderX,riderY+22+Math.sin(t/110)*2);
-ctx.font='24px system-ui';ctx.fillText(active().emoji,riderX+34,riderY-16);
-ctx.font='bold 13px system-ui';ctx.fillStyle='#205b58';ctx.fillText('배달왕',riderX,riderY-40);
-ctx.fillStyle='#ffffffdd';ctx.beginPath();ctx.roundRect(10,10,200,35,10);ctx.fill();ctx.fillStyle='#276b65';ctx.font='bold 13px system-ui';ctx.textAlign='left';ctx.fillText(region().name+' · 배송 중',21,32);
-if(tapEffect>0){ctx.fillStyle='#fff';ctx.font='bold 16px system-ui';ctx.textAlign='center';ctx.fillText('⚡',riderX+58,riderY-45)}if(deliveryFlash>0){ctx.fillStyle='rgba(16,141,109,'+(Math.min(.8,deliveryFlash*.6))+')';ctx.beginPath();ctx.roundRect(118,65,190,41,14);ctx.fill();ctx.textAlign='center';ctx.fillStyle='white';ctx.font='bold 19px system-ui';ctx.fillText('📦 배달 완료!',213,92)}
-for(const coin of floatingCoins){let opacity=Math.max(0,1-coin.age/1.65),y=195-coin.age*62;ctx.globalAlpha=opacity;ctx.fillStyle='#f6c647';ctx.beginPath();ctx.arc(155,y-14,15,0,Math.PI*2);ctx.fill();ctx.fillStyle='#815200';ctx.textAlign='center';ctx.font='bold 17px system-ui';ctx.fillText('₩',155,y-8);ctx.fillStyle='#fff';ctx.strokeStyle='#175c4e';ctx.lineWidth=3;ctx.font='bold 20px system-ui';let label='+'+fmt(coin.amount);ctx.strokeText(label,230,y-8);ctx.fillText(label,230,y-8);ctx.globalAlpha=1}
+function upd(){
+ $('money').textContent=f(S.m)+'원';$('ps').textContent='+'+f(ps())+'원';
+ $('ttl').textContent=T[Math.min(6,Math.floor(lv()/10))]+' · LV.'+lv();
+ $('goal').textContent=S.g<GL.length?'🎯 '+GL[S.g][0]:'🎯 모든 목표 달성!';
+ document.querySelectorAll('[data-cost]').forEach(b=>b.classList.toggle('dis',S.m<+b.dataset.cost));
+ const bar=$('adbar');if(bar)bar.style.width=Math.max(0,(S.ad-Date.now())/600)+'%';
 }
-function frame(t){let dt=Math.min(.08,(t-lastFrame)/1000||0);lastFrame=t;earn((passive()*regionBonus()*prestigeBonus()+s.staff*(60+c.level*5)*regionBonus()*prestigeBonus()+(s.regions-1)*150*regionBonus())*dt);progress+=speed()*dt/10;if(progress>=1){progress-=1;delivery()}tapEffect=Math.max(0,tapEffect-dt);floatingCoins=floatingCoins.filter(x=>(x.age+=dt)<1.65);deliveryFlash=Math.max(0,deliveryFlash-dt);if(t-lastUi>450){lastUi=t;ui()}scene(t);if(Date.now()-lastSave>10000){save();lastSave=Date.now()}requestAnimationFrame(frame)}
-// Ad provider bridge: real verified completion is required before any reward.
-const pending=new Map();let adBusy=false,adLast=Date.now(),adShown=0;
-function adApi(){return window.BaedalwangAds||window.BaedalwangWebAds||null}function adStatus(){let e=$('adInfo');if(e)e.textContent=adApi()?'광고 연동 모듈 감지':'⚠️ 실제 광고 서비스 미연결'}
-window.baedalwangAdResult=(id,status)=>{let p=pending.get(id);if(!p)return;pending.delete(id);clearTimeout(p.timer);p.resolve(status)};
-function showAd(kind,placement){let api=adApi(),fn=kind==='rewarded'?'showRewarded':'showInterstitial';if(adBusy||!api||typeof api[fn]!=='function')return Promise.resolve('unavailable');adBusy=true;let id='bw-'+Date.now()+'-'+Math.random().toString(36).slice(2);return new Promise(resolve=>{let timer=setTimeout(()=>window.baedalwangAdResult(id,'failed'),60000);pending.set(id,{resolve,timer});try{let out=api[fn](id,placement);if(out&&typeof out.then==='function')out.then(v=>window.baedalwangAdResult(id,v===true?'rewarded':v)).catch(()=>window.baedalwangAdResult(id,'failed'))}catch(e){window.baedalwangAdResult(id,'failed')}}).then(v=>{adBusy=false;return v})}
-async function reward(type){let day=new Date().toLocaleDateString('en-CA');if(s.adDay!==day){s.adDay=day;s.adCounts={};s.adTotal=0}if(s.adTotal>=6||(s.adCounts[type]||0)>=3)return alert('오늘 보상 횟수 초과');if(!adApi())return alert('광고 서비스가 연결되지 않았습니다');let v=await showAd('rewarded',type);if(v!=='rewarded')return log('광고 미완료 · 보상 미지급');s.adTotal++;s.adCounts[type]=(s.adCounts[type]||0)+1;if(type==='boost')s.boostUntil=Date.now()+300000;else earn(pay()*3);log('🎁 광고 보상 완료');save();ui()}
-async function interstitial(){if(adBusy||!adApi()||adShown>=3||Date.now()-adLast<1200000)return;adLast=Date.now();adShown++;await showAd('interstitial','menu-transition')}
-let away=Math.min(14400000,Math.max(0,now-s.lastIdleSave));if(away>30000){let gain=Math.floor(rate()*away/1000*.5);earn(gain);log('🌙 오프라인 수익 +'+fmt(gain))}save();ui();requestAnimationFrame(frame);</script></body></html>
+function buy(el){
+ const c=+el.dataset.cost;if(S.m<c)return toast('게임머니가 부족해요');
+ if(tab==='jobs'){const i=[...el.closest('.card').querySelectorAll('[data-cost]')].indexOf(el);const o=S.j[i];S.bn+=buyN;S.d.buy+=buyN;S.m-=c;S.j[i]+=buyN;log(`${J[i].e} ${J[i].n} ${buyN}개 구매`);if(jm(S.j[i])>jm(o))toast(`🔥 ${J[i].n} 수익 x2 보너스!`)}
+ else if(tab==='veh'){S.m-=c;S.v++;log(`${V[S.v].e} ${V[S.v].n}(으)로 업그레이드`)}
+ else if(tab==='reg'){S.m-=c;S.r++;log(`${R[S.r].e} ${R[S.r].n} 지역 해금`)}
+ snd(880,.12);G&&G.bump();save();render();
+}
+document.addEventListener('click',e=>{
+ const t=e.target.closest('[data-tab],[data-section],[data-showjobs],[data-n],[data-cost],#stage,#ad,#reb,#rst,#gift,#snd,#x,#mo,#mgr,#exp,#imp,[data-claim],#auto,#reserve,#hire,#dispatch,#evolve');if(!t)return;
+ if(t.id==='mo')return nm();
+ if(t.id==='evolve'){const i=S.evo||0;if(i>=39)return;const c=evoCost(i+1);if(S.m<c)return toast('진화 비용이 부족해요');S.m-=c;S.evo=i+1;log('🚀 '+EVOLUTION[S.evo]+' 진화 완료!');save();return render()}
+
+ if(t.dataset.claim!==undefined)return dClaim(+t.dataset.claim);
+ if(t.id==='auto'){if(!S.mg)return toast('비서를 먼저 고용하세요');S.auto=S.auto?0:1;save();return render()}
+ if(t.id==='reserve'){const x=prompt('자동 투자 후 남겨둘 최소 보유금(원)',String(S.reserve||0));if(x===null)return;const v=Number(x.replace(/,/g,''));if(!Number.isFinite(v)||v<0)return toast('0 이상의 숫자를 입력하세요');S.reserve=Math.floor(v);save();return render()}
+ if(t.id==='hire'){const c=staffCost();if(S.m<c)return toast('게임머니가 부족해요');S.m-=c;S.staff++;save();return render()}
+ if(t.id==='dispatch'){if(S.staff<2)return toast('라이더 2명부터 사용할 수 있어요');S.dispatch=S.dispatch?0:1;save();return render()}
+ if(t.id==='mgr'){if(S.mg)return;if(S.m<2e7)return toast('게임머니가 부족해요');S.m-=2e7;S.mg=1;S.auto=1;log('🧑‍💼 비서를 고용했어요');save();return render()}
+ if(t.id==='exp'){const c=btoa(unescape(encodeURIComponent(JSON.stringify(S))));$('sv').value=c;$('sv').select();try{navigator.clipboard.writeText(c)}catch(e){}return toast('저장 코드를 만들었어요. 복사해 보관하세요')}
+ if(t.id==='imp'){try{const o=JSON.parse(decodeURIComponent(escape(atob($('sv').value.trim()))));if(!Number.isFinite(o.m)||o.m<0||!Array.isArray(o.j))throw 0;S=Object.assign(fresh(),o);S.j=S.j.slice(0,J.length).map(x=>Number.isFinite(x)?Math.max(0,Math.floor(x)):0);while(S.j.length<J.length)S.j.push(0);S.v=Math.max(0,Math.min(V.length-1,Math.floor(Number(S.v)||0)));S.r=Math.max(0,Math.min(R.length-1,Math.floor(Number(S.r)||0)));S.d=Object.assign(fresh().d,S.d||{});S.ac=Array.isArray(S.ac)?S.ac:[];S.log=Array.isArray(S.log)?S.log:[];S.staff=Math.max(0,Math.min(1000,Math.floor(Number(S.staff)||0)));S.reserve=Math.max(0,Number(S.reserve)||0);save();toast('불러왔어요');render()}catch(e){toast('코드가 올바르지 않아요')}return}
+ if(t.id==='x'){tab='main';return render()}
+ if(t.dataset.tab){const cur=tab==='veh'?'jobs':tab==='reg'?'biz':tab;tab=cur===t.dataset.tab?'main':t.dataset.tab;return render()}
+ if(t.dataset.section){tab=t.dataset.section;return render()}
+ if(t.dataset.showjobs){showAllJobs=!showAllJobs;return render()}
+ if(t.dataset.n){buyN=+t.dataset.n;return render()}
+ if(t.dataset.cost)return buy(t);
+ if(t.id==='snd'){S.snd=S.snd?0:1;save();return render()}
+ if(t.id==='gift'){const g=ps()*45+100;S.m+=g;S.run+=g;S.gn++;S.d.gift++;t.hidden=true;toast(`🎁 특별 주문 완료! +${f(g)}원`);if(G)for(let i=0;i<8;i++)G.coin();return upd()}
+ if(t.id==='stage'){if(e.target.closest('button'))return;const now=Date.now();taps=taps.filter(x=>now-x<1000);if(taps.length>=5)return;taps.push(now);
+  combo=now-comboT<1200?combo+1:1;comboT=now;
+  const g=tapGain();S.m+=g;S.run+=g;S.tn++;S.d.tap++;snd(500+Math.min(combo,20)*25);navigator.vibrate&&navigator.vibrate(8);G&&G.bump();
+  $('hint').textContent=`🔥 콤보 x${combo} (+${Math.min(combo,20)*5}%)`;$('hint').style.display=combo>=3||S.tn<20?'':'none';
+  const s=document.createElement('span');s.className='fl';s.textContent='+'+f(g);
+  const r=t.getBoundingClientRect();s.style.left=(e.clientX-r.left-12)+'px';s.style.top=(e.clientY-r.top-12)+'px';t.appendChild(s);setTimeout(()=>s.remove(),800);return upd()}
+ if(t.id==='ad'){if(adWait||Date.now()<S.ad||Date.now()<S.adc)return;adWait=true;render();
+  setTimeout(()=>{adWait=false;S.ad=Date.now()+6e4;S.adc=Date.now()+9e4;log('🎁 광고 보상: 60초간 수익 2배');toast('수익 2배 시작!');save();render()},3000)}
+ if(t.id==='reb'){const n=newStars();if(n<1)return toast('누적 수익 1000만원부터 환생할 수 있어요');
+  const o=S;S=fresh();Object.assign(S,{st:o.st+n,ad:o.ad,adc:o.adc,g:o.g,tn:o.tn,snd:o.snd,bn:o.bn,gn:o.gn,rb:o.rb+1,ac:o.ac,mg:o.mg,auto:o.auto,reserve:o.reserve,pro:o.pro,d:o.d});log(`🌟 환생! 별 ${n}개 획득`);toast(`환생 완료 · 별 ${n}개`);save();render()}
+ if(t.id==='rst'){if(Date.now()-resetAt<3000){S=fresh();save();toast('초기화했어요');render()}else{resetAt=Date.now();toast('한 번 더 누르면 초기화돼요')}}
+});
+const off=Math.min(Math.max(0,(Date.now()-S.t)/1000),MAX_OFFLINE);
+if(off>60){const g=off*ps()*.65;S.m+=g;S.run+=g;S.offlineReport={time:off,earn:g};log(`💤 오프라인 ${Math.floor(off/3600)}시간 ${Math.floor(off%3600/60)}분 · +${f(g)}원`);setTimeout(()=>modal('💤 오프라인 배달 정산',`${Math.floor(off/3600)}시간 ${Math.floor(off%3600/60)}분 동안 자동 배달로 ${f(g)}원을 벌었어요! (최대 24시간, 수익 65%)`),900)}
+dayInit();if(!S.pro){S.pro=1;modal('📖 프롤로그','할아버지가 물려주신 낡은 신문 가방 하나. 소년 달봉이는 오늘부터 동네 배달을 시작합니다. 화면을 터치해 달려 보세요!')}
+let last=Date.now(),n=0,giftT=20;
+window.__simTick=()=>{const now=Date.now(),dt=(now-last)/1000;last=now;const g=ps()*dt;S.m+=g;S.run+=g;
+ if(now-comboT>1200&&G){combo=0;const c=$('hint');c.textContent='👆 화면을 터치하면 배달 가속! (초당 최대 5회)';c.style.display=S.tn<20?'':'none'}
+ giftT-=dt;if(giftT<0){const b=$('gift');if(b.hidden){b.hidden=false;giftT=8}else{b.hidden=true;giftT=30+Math.random()*25}}
+ if(S.g<GL.length&&GL[S.g][1]()){const rw=Math.floor(ps()*120+1000*(S.g+1));S.m+=rw;log(`🎯 목표 달성: ${GL[S.g][0]} (+${f(rw)}원)`);toast(`🎯 목표 달성! +${f(rw)}원`);if(ST[S.g])modal('📖 챕터 '+(S.g+1),ST[S.g]);S.g++;snd(988,.2);G&&G.bump();save();if(tab==='main')render()}
+ if(n%10===0)AC.forEach((a,k)=>{if(!S.ac.includes(k)&&a[2]()){S.ac.push(k);S.m+=Math.floor(ps()*200+2000);log(`🏆 업적: ${a[0]}`);toast(`🏆 업적 달성: ${a[0]} (수익 +2%)`)}});
+ if(n%20===0)autoInvest();
+ upd();if(++n%50===0){save();if(tab==='rec'||(tab==='biz'&&document.activeElement.id!=='sv'))render()}};
+setInterval(window.__simTick,100);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)save()});
+render();
+</script>
+<style>#testpanel{position:fixed;top:92px;right:8px;z-index:8;background:#101a2beF;color:white;padding:10px;border-radius:12px;max-width:220px;font:12px sans-serif;box-shadow:0 3px 10px #0005}#testpanel button{min-width:0;font:12px sans-serif;padding:7px;margin:3px;background:#2266a9}#testpanel summary{cursor:pointer}#testlog{max-height:115px;overflow:auto;white-space:pre-wrap}</style>
+<details id="testpanel" open><summary>🧪 7일 가속 테스트 (별도 저장)</summary><div><button id="day1">+1일</button><button id="day7">+7일</button><button id="testad">광고 2배 60초</button><button id="testoffline">오프라인 8시간</button><button id="testauto">자동 투자 활성화</button><button id="testreset">테스트 초기화</button></div><div id="testlog">테스트 전용 파일입니다.</div></details>
+<script>
+(function(){const out=document.getElementById('testlog');function report(t){out.textContent=t+'\n'+out.textContent.slice(0,400)}function simulate(days){const oldSnd=S.snd;S.snd=0;let step=0;const total=days*288;function batch(){const end=Math.min(total,step+24);for(;step<end;step++){window.__simTime+=300000;window.__simTick();if(S.mg&&S.auto)for(let q=0;q<5;q++)autoInvest();if((step+1)%288===0){dayInit();report('가상 '+((step+1)/288)+'일 · 잔액 '+f(S.m)+'원 · 초당 '+f(ps())+'원 · 업종 '+S.j.reduce((a,b)=>a+b,0)+'개')}}if(step<total)setTimeout(batch,0);else{S.snd=oldSnd;save();render();report('가상 '+days+'일 테스트 완료')}}batch()}
+document.getElementById('day1').onclick=()=>simulate(1);document.getElementById('day7').onclick=()=>simulate(7);
+document.getElementById('testad').onclick=()=>{S.ad=Date.now()+60000;S.adc=Date.now()+90000;report('광고 보상 60초 적용 (실제 광고 아님)');save();render()};
+document.getElementById('testoffline').onclick=()=>{const g=8*3600*ps()*.65;S.m+=g;S.run+=g;report('8시간 오프라인 정산 +'+f(g)+'원');save();render()};
+document.getElementById('testauto').onclick=()=>{S.mg=1;S.auto=1;S.reserve=1000;report('테스트용 비서 활성화 · 최소 보유금 1,000원');save();render()};
+document.getElementById('testreset').onclick=()=>{S=fresh();S.pro=1;save();render();report('테스트 데이터 초기화')};
+})();</script>
+</body>
+</html>
