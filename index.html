@@ -53,8 +53,8 @@ button.own{background:transparent;color:var(--ok);border:2px solid var(--ok);box
 .log{font-size:13px;color:var(--mut);margin:0;padding:0;list-style:none}
 nav{z-index:6;position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:3px solid var(--ink);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom,0px)}
 nav div{display:flex;width:100%;max-width:640px}
-nav a{flex:1;min-width:0;text-align:center;padding:7px 0 9px;font-size:clamp(10px,2.8vw,12px);color:var(--mut);cursor:pointer;user-select:none}
-nav a span{display:block;font-size:clamp(18px,5vw,22px)}
+nav a{flex:1;min-width:0;text-align:center;padding:7px 0 9px;font-size:clamp(9px,2.1vw,11px);color:var(--mut);cursor:pointer;user-select:none}
+nav a span{display:block;font-size:clamp(16px,4.2vw,20px)}
 nav a.on{color:var(--acc)}
 #toast{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 10px);transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:12px;font-size:13px;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%;text-align:center;z-index:5}
 #toast.on{opacity:1}
@@ -296,9 +296,9 @@ function render(){
  if(tab==='rec'){
   h=`<div class="card"><h3>🏅 명예의 전당 · 개인 기록</h3><div class="sub">현재는 이 기기의 기록만 표시해요. 전체 유저 순위는 서버·로그인이 연결되면 제공할 수 있어요.</div><div class="row"><div class="t">🏆 최고 누적 수익</div><b>${f(S.best||S.run)}원</b></div><div class="row"><div class="t">🚀 최고 지역</div><b>${S.r+1}/40단계</b></div><div class="row"><div class="t">⭐ 환생 횟수</div><b>${S.rb}회</b></div><div class="row"><div class="t">💎 누적 획득 루비</div><b>${f(S.totalRuby||0)}개</b></div><div class="row"><div class="t">👆 누적 터치</div><b>${f(S.tn)}회</b></div></div><div class="card"><h3>📅 출석 ${S.d.str}일째</h3><div class="sub">매일 접속하면 보너스가 커져요 (최대 7일)</div></div><div class="card"><h3>✅ 오늘의 미션</h3>`+DM.map((m,i)=>{const ok=m[1](),dn=S.d.cl[i];return `<div class="row"><div class="t">${m[0]}<small>${m[2]()}</small></div><button data-claim="${i}" class="${dn?'own':ok?'':'dis'}">${dn?'완료':'보상 받기'}</button></div>`}).join('')+`</div><div class="card"><h3>🏆 업적 ${S.ac.length}/${AC.length}</h3><div class="sub">업적 1개당 전체 수익 +2%</div>`+AC.map((a,k)=>`<div class="row"><div class="t">${S.ac.includes(k)?'🏆':'🔒'} ${a[0]}<small>${a[1]}</small></div></div>`).join('')+`</div><div class="card"><h3>📖 스토리</h3>`+(S.g?ST.slice(0,S.g).map((s,i)=>`<div class="row"><div class="t"><small>챕터 ${i+1}</small>${s}</div></div>`).join(''):'<div class="sub">목표를 달성하면 이야기가 열려요.</div>')+`</div>`;
 
-  const ns=newStars(),adOn=Date.now()<S.ad,cd=Math.max(0,Math.ceil((S.adc-Date.now())/1000));
+  const ns=newStars();
   h+=`<details class="card"><summary>📋 최근 기록 · 광고 · 환생</summary><div class="card"><h3>📋 최근 기록</h3><ul class="log">${S.log.map(l=>`<li>· ${l}</li>`).join('')}</ul></div>
-  <div class="card"><h3>🎁 광고 보상 (시연)</h3><div class="sub">시청하면 60초간 수익 2배, 배달 속도도 빨라져요. 실제 광고는 연결 전이라 3초 대기로 대신합니다.</div>
+  <div class="card"><h3>🎁 광고 보상 · 상점</h3><div class="sub">9종의 보상형 광고 시연과 루비 교환소가 있어요.</div>
   <div class="row"><div class="t">광고 보상 9종 · 루비 교환소<small>상점에서 보상과 유료 상품을 확인하세요</small></div><button id="ad">상점 보기</button></div></div>
   <div class="card"><h3>🌟 환생 · 영구 수익</h3><div class="sub">이번 판 누적 ${f(S.run)}원 · 1000만원부터 별을 얻어요. 환생하면 돈, 업종, 차량, 지역이 초기화되고 별 1개당 수익 +10%.</div>
   <div class="row"><div class="t">획득 예정 ⭐ ${ns}개<small>보유 ⭐ ${S.st}개</small></div><button id="reb" class="${ns<1?'dis':''}">환생하기</button></div></div>
