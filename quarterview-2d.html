@@ -4,9 +4,9 @@
 </style></head><body><canvas id="game"></canvas>
 <div class="hud"><div class="panel">🛵 배달왕 <b>2D</b><div>쿼터뷰 테스트 · 별도 저장</div></div><div class="panel">💰 <b id="money">0</b>원<div>완료 <span id="count">0</span>건</div></div></div>
 <div class="mission"><strong id="title">🍗 치킨집으로 이동하세요</strong><span id="detail">노란 화살표를 따라 이동한 뒤 배달 버튼을 누르세요.</span></div>
-<div class="controls" id="stick"><div class="knob" id="knob"></div></div>
-<div class="actions"><button class="small" id="reset">위치 초기화</button><button id="act">📦 픽업</button></div>
-<div class="toast" id="toast"></div><div class="help">왼쪽 조이스틱 이동 · 키보드 WASD / 방향키 · 스페이스 배달</div>
+
+<div class="actions"><button class="small" id="speed">⚡ 속도 강화</button><button id="act">💰 수익 강화</button></div>
+<div class="toast" id="toast"></div><div class="help">자동 배달 중 · 강화 버튼만 눌러주세요</div>
 <script>
 (()=>{
 'use strict';
@@ -15,8 +15,8 @@ const $=id=>document.getElementById(id);
 let W=0,H=0,dpr=1;
 function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=W*dpr;canvas.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0)}
 addEventListener('resize',resize);resize();
-const saveKey='baedalwang-2d-quarterview-test-v1';let save={money:0,count:0};try{const v=JSON.parse(localStorage.getItem(saveKey));if(v&&Number.isFinite(v.money)&&Number.isFinite(v.count))save=v}catch(e){}
-function persist(){try{localStorage.setItem(saveKey,JSON.stringify(save))}catch(e){}$('money').textContent=save.money.toLocaleString('ko-KR');$('count').textContent=save.count}persist();
+const saveKey='baedalwang-2d-quarterview-test-v1';let save={money:0,count:0,speed:0,earn:0,last:Date.now()};try{const v=JSON.parse(localStorage.getItem(saveKey));if(v&&Number.isFinite(v.money)&&Number.isFinite(v.count))save={...save,...v}}catch(e){}
+function persist(){save.last=Date.now();try{localStorage.setItem(saveKey,JSON.stringify(save))}catch(e){}$('money').textContent=save.money.toLocaleString('ko-KR');$('count').textContent=save.count}persist();
 const mapN=17,tw=72,th=36;let player={x:8,y:9},direction=1,phase=0,missionIndex=0;
 const missions=[{pickup:[5,5],drop:[12,12],shop:'치킨집',reward:3800},{pickup:[12,5],drop:[4,12],shop:'피자집',reward:4500},{pickup:[5,12],drop:[12,5],shop:'분식집',reward:3200}];
 const blocks=[{x:3,y:3,c:'#f4a66e',name:'치킨',roof:'#de7257'},{x:10,y:3,c:'#f4d28b',name:'피자',roof:'#e99a51'},{x:3,y:10,c:'#ffbdc8',name:'분식',roof:'#d77f9d'},{x:10,y:10,c:'#b7d5fb',name:'주택',roof:'#6e9dce'},{x:3,y:7,c:'#c7b2e5',name:'상점',roof:'#8f79bb'},{x:10,y:7,c:'#a9ddc5',name:'카페',roof:'#5da991'},{x:7,y:3,c:'#ffcc9b',name:'마트',roof:'#d98c67'},{x:7,y:10,c:'#c3cbe8',name:'빌라',roof:'#8e9fce'}];
@@ -28,16 +28,14 @@ function building(b){let p=project(b.x+.4,b.y+.4),z=58,dx=tw*.75,dy=th*.75;let a
 function tree(x,y){let p=project(x,y);ctx.fillStyle='#8c7456';ctx.fillRect(p.x-3,p.y-26,6,27);ctx.fillStyle='#55ad7c';ctx.beginPath();ctx.ellipse(p.x,p.y-37,16,20,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#7cd29c';ctx.beginPath();ctx.ellipse(p.x-5,p.y-43,9,12,0,0,Math.PI*2);ctx.fill()}
 function scooter(){let p=project(player.x,player.y);ctx.save();ctx.translate(p.x,p.y-5);ctx.fillStyle='#193f4b';ctx.beginPath();ctx.ellipse(0,5,21,9,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#263f4a';ctx.beginPath();ctx.ellipse(-13,2,6,7,0,0,Math.PI*2);ctx.ellipse(12,2,6,7,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#f06b40';poly([[-13,-5],[11,-9],[16,-2],[-5,1]],'#f06b40');ctx.fillStyle='#ffd16b';ctx.fillRect(-5,-24,13,15);ctx.fillStyle='#e4a779';ctx.beginPath();ctx.arc(0,-32,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='#2f6070';ctx.beginPath();ctx.arc(0,-35,11,Math.PI,Math.PI*2);ctx.lineTo(11,-33);ctx.lineTo(-11,-33);ctx.closePath();ctx.fill();ctx.fillStyle='#ffd47e';ctx.fillRect(-17,-23,12,15);ctx.strokeStyle='#335a60';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(10,-10);ctx.lineTo(16,-21);ctx.lineTo(22,-21);ctx.stroke();ctx.restore()}
 function target(){const m=missions[missionIndex%missions.length];return phase===0?m.pickup:m.drop}
-function updateHud(){const m=missions[missionIndex%missions.length];$('title').textContent=phase===0?'🍗 '+m.shop+'에서 음식 픽업':'🏠 고객에게 '+m.shop+' 배달';$('detail').textContent=phase===0?'노란 표식으로 이동 → 픽업 버튼':'파란 표식으로 이동 → 배달완료 버튼 · 보상 '+m.reward.toLocaleString()+'원';$('act').textContent=phase===0?'📦 픽업':'🛵 배달완료'}updateHud();
+function speedCost(){return Math.round(600*Math.pow(1.7,save.speed||0))}
+function earnCost(){return Math.round(800*Math.pow(1.8,save.earn||0))}
+function updateHud(){const m=missions[missionIndex%missions.length];$('title').textContent=phase===0?'🛵 '+m.shop+'으로 자동 이동 중':'🏠 고객에게 자동 배달 중';$('detail').textContent='자동 배달 · 기본 보상 '+m.reward.toLocaleString()+'원 · 속도 Lv.'+(save.speed||0)+' · 수익 Lv.'+(save.earn||0);$('speed').textContent='⚡ 속도 강화 '+speedCost().toLocaleString()+'원';$('act').textContent='💰 수익 강화 '+earnCost().toLocaleString()+'원'}updateHud();
 let toastTimer=0;function toast(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),1900)}
-function action(){let t=target(),dist=Math.hypot(player.x-t[0],player.y-t[1]);if(dist>1.5){toast('📍 목표 지점에 더 가까이 이동하세요');return}if(phase===0){phase=1;toast('📦 픽업 성공! 고객에게 배달하세요')}else{const m=missions[missionIndex%missions.length];save.money+=m.reward;save.count++;persist();phase=0;missionIndex++;toast('🎉 배달 완료! +'+m.reward.toLocaleString()+'원')}updateHud()}
-$('act').addEventListener('click',action);$('reset').addEventListener('click',()=>{player={x:8,y:9};toast('출발 위치로 이동했어요')});
-let stick={x:0,y:0},activePointer=null;const el=$('stick'),knob=$('knob');
-function setStick(e){const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=e.clientX-cx,dy=e.clientY-cy,max=r.width*.34,len=Math.hypot(dx,dy)||1,scale=Math.min(1,max/len);let x=dx*scale,y=dy*scale;knob.style.transform='translate('+x+'px,'+y+'px)';stick.x=x/max;stick.y=y/max}
-el.addEventListener('pointerdown',e=>{activePointer=e.pointerId;el.setPointerCapture(e.pointerId);setStick(e)});el.addEventListener('pointermove',e=>{if(e.pointerId===activePointer)setStick(e)});
-function release(e){if(e.pointerId===activePointer){activePointer=null;stick.x=stick.y=0;knob.style.transform='translate(0,0)'}}el.addEventListener('pointerup',release);el.addEventListener('pointercancel',release);
-const keys={};addEventListener('keydown',e=>{if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(e.key))e.preventDefault();keys[e.key.toLowerCase()]=true;if(e.code==='Space'&&!e.repeat)action()});addEventListener('keyup',e=>keys[e.key.toLowerCase()]=false);
-let prev=performance.now();function frame(now){let dt=Math.min((now-prev)/1000,.05);prev=now;let dx=stick.x+(keys.d||keys.arrowright?1:0)-(keys.a||keys.arrowleft?1:0),dy=stick.y+(keys.s||keys.arrowdown?1:0)-(keys.w||keys.arrowup?1:0);let len=Math.hypot(dx,dy);if(len>.08){dx/=Math.max(1,len);dy/=Math.max(1,len);const speed=3.3;player.x=Math.max(.4,Math.min(mapN-.4,player.x+(dx+dy)*speed*dt*.72));player.y=Math.max(.4,Math.min(mapN-.4,player.y+(dy-dx)*speed*dt*.72))}
+$('speed').addEventListener('click',()=>{const cost=speedCost();if(save.money<cost){toast('💰 강화 비용이 부족해요');return}save.money-=cost;save.speed=(save.speed||0)+1;persist();updateHud();toast('⚡ 배달 속도가 빨라졌어요')});
+$('act').addEventListener('click',()=>{const cost=earnCost();if(save.money<cost){toast('💰 강화 비용이 부족해요');return}save.money-=cost;save.earn=(save.earn||0)+1;persist();updateHud();toast('💰 배달 수익이 증가했어요')});
+let lastSave=Date.now(), offline=Math.max(0,Date.now()-(Number(save.last)||Date.now()));if(offline>30000){let secs=Math.min(offline/1000,3600);let reward=Math.floor(secs/35)*Math.round(3200*(1+(save.earn||0)*.25));if(reward>0){save.money+=reward;save.count+=Math.floor(secs/35);persist();toast('🌙 방치 수익 +'+reward.toLocaleString()+'원')}}
+let prev=performance.now();function frame(now){let dt=Math.min((now-prev)/1000,.05);prev=now;const t=target(),dx=t[0]-player.x,dy=t[1]-player.y,dist=Math.hypot(dx,dy);if(dist>.12){const step=Math.min(dist,(1.2+(save.speed||0)*.35)*dt);player.x+=dx/dist*step;player.y+=dy/dist*step}else{if(phase===0){phase=1;updateHud()}else{const m=missions[missionIndex%missions.length];const reward=Math.round(m.reward*(1+(save.earn||0)*.25));save.money+=reward;save.count++;persist();phase=0;missionIndex++;updateHud();toast('🎉 자동 배달 완료 +'+reward.toLocaleString()+'원')}}if(Date.now()-lastSave>10000){persist();lastSave=Date.now()}
 ctx.clearRect(0,0,W,H);ctx.fillStyle='#c9ede5';ctx.fillRect(0,0,W,H);
 const center=project(player.x,player.y);ctx.save();ctx.translate(W/2-center.x,H*.55-center.y);ctx.fillStyle='#b0e1ce';ctx.fillRect(-mapN*tw,0,mapN*tw*2,mapN*th*2);
 for(let s=0;s<mapN*2;s++)for(let x=0;x<mapN;x++){let y=s-x;if(y<0||y>=mapN)continue;let road=isRoad(x,y);diamond(x,y,road?'#7e9298':(x+y)%2?'#a8ddaa':'#b5e5b1');if(road&&(x===8||y===8)&&((x+y)%3===0)){let p=project(x+.5,y+.5);ctx.fillStyle='#f9e7ad';ctx.fillRect(p.x-5,p.y+7,10,2)}}
