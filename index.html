@@ -212,8 +212,9 @@ try {
  ren.setPixelRatio(Math.min(window.devicePixelRatio||1,1.75));
  ren.shadowMap.enabled=true;ren.shadowMap.type=THREE.PCFSoftShadowMap;
  if('outputEncoding' in ren)ren.outputEncoding=THREE.sRGBEncoding;
- const sc=new THREE.Scene(),cam=new THREE.PerspectiveCamera(42,1,.1,110);
- cam.position.set(5.4,4.0,10.8);cam.lookAt(0,1.35,0);
+ const sc=new THREE.Scene(),cam=new THREE.OrthographicCamera(-12,12,7,-7,.1,100);
+ // Fixed isometric diorama: the entire delivery route is visible and never passes behind a building.
+ cam.position.set(12,15,19);cam.lookAt(0,.65,0);
  sc.add(new THREE.HemisphereLight(0xdaf1ff,0x6d8254,1.25));
  const sun=new THREE.DirectionalLight(0xfff5d7,1.15);sun.position.set(-4,11,7);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-12;sun.shadow.camera.right=12;sun.shadow.camera.top=12;sun.shadow.camera.bottom=-12;sc.add(sun);
  const mat=(c,metalness=0)=>new THREE.MeshStandardMaterial({color:c,roughness:.78,metalness});
@@ -222,23 +223,30 @@ try {
  const ball=(parent,r,m,x,y,z,sw=12,sh=9)=>{const o=new THREE.Mesh(new THREE.SphereGeometry(r,sw,sh),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
  const cyl=(parent,r,h,m,x,y,z)=>{const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,12),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
  // City foundation: build the terrain first so it cannot hide the road surface.
- const ground=cube(sc,110,.12,26,C.grass,0,-.30,0);ground.castShadow=false;
- const road=cube(sc,110,.14,5.6,C.road,0,-.15,0);road.castShadow=false;
- for(const z of [-3.65,3.65]){const sidewalk=cube(sc,110,.12,1.35,C.walk,0,-.075,z);sidewalk.castShadow=false;
-  const curb=cube(sc,110,.17,.13,mat(0x9fa7a9),0,-.045,z<0?-2.94:2.94);curb.castShadow=false;}
+ const diorama=new THREE.Group();sc.add(diorama);
+ const base=cube(diorama,21,.48,13,mat(0x45566b),0,-.54,0);base.castShadow=false;
+ const ground=cube(diorama,20.6,.12,12.6,C.grass,0,-.26,0);ground.castShadow=false;
+ const road=cube(diorama,20.6,.12,5.3,C.road,0,-.145,0);road.castShadow=false;
+ for(const z of [-3.2,3.2]){const sidewalk=cube(diorama,20.6,.12,1.05,C.walk,0,-.075,z);sidewalk.castShadow=false;
+  const curb=cube(diorama,20.6,.17,.12,mat(0x9fa7a9),0,-.045,z<0?-2.72:2.72);curb.castShadow=false;}
  const marking=mat(0xf6f0d5);
- for(let x=-48;x<52;x+=16)for(let j=0;j<6;j++)cube(sc,.38,.018,.55,marking,x+j*.67,-.069,-.7);
+ for(let x=-8;x<=8;x+=2.6)cube(diorama,1.05,.016,.065,marking,x,-.075,0);
+ for(let j=0;j<5;j++)for(const x of [-6.5,6.5])cube(diorama,.34,.018,.46,marking,x+j*.12,-.074,0);
+ // Warm perimeter accents make the city read as a miniature game board.
+ const trim=mat(0xf3ba63,.25);
+ for(const z of [-6.47,6.47])cube(diorama,21,.055,.09,trim,0,-.32,z);
+ for(const x of [-10.47,10.47])cube(diorama,.09,.055,13,trim,x,-.32,0);
  // Roadside details remain lightweight procedural meshes for mobile WebGL.
  const props=[];
  const pole=mat(0x566a78,.3),lightGlass=mat(0xffedb2),signBlue=mat(0x2677a0);
- for(let i=0;i<16;i++){const x=i*6.5-48,z=i%2?-4.75:4.75,g=new THREE.Group();sc.add(g);g.position.x=x;g.position.z=z;
+ for(let i=0;i<8;i++){const x=(i%4)*5.2-7.8,z=i<4?-4.5:4.5,g=new THREE.Group();diorama.add(g);g.position.x=x;g.position.z=z;
   cyl(g,.055,2.3,pole,0,1.15,0);cube(g,.64,.065,.11,pole,.28,2.28,0);cube(g,.25,.12,.2,lightGlass,.57,2.21,0);
   if(i%3===0){cube(g,.75,.55,.08,signBlue,0,1.78,z<0?.18:-.18);cube(g,.5,.04,.03,C.white,0,1.83,z<0?.235:-.235)}
   props.push(g);}
  // Two storefronts with entrances, awnings, and delivery pickup points.
  const shops=[];
- for(const [x,z,color] of [[-9,-5.5,0xd65544],[10,5.5,0x32918e]]){
-  const g=new THREE.Group();sc.add(g);g.position.set(x,0,z);
+ for(const [x,z,color] of [[-5.4,-4.75,0xd65544],[5.4,-4.75,0x32918e]]){
+  const g=new THREE.Group();diorama.add(g);g.position.set(x,0,z);
   cube(g,2.8,1.95,1.7,mat(0xe6dfd0),0,.98,0);
   cube(g,2.65,.34,1.82,mat(color),0,1.85,0);
   cube(g,1.05,1.28,.06,C.glass,-.55,.76,z<0?.9:-.9);
@@ -264,27 +272,32 @@ try {
   const leaf=mat([0x3ca96b,0x62bd6a,0x84c45e][i%3]);ball(g,.65,leaf,0,1.32,0,10,8);ball(g,.46,leaf,.3,1.1,.1,9,7);
   g.userData={x,i};scenery.push(g);
  }
- for(let i=0;i<18;i++){const x=(i%9)*6.5-27,z=i<9?-7.0:7.0;building(x,z,i);tree(x+2.6,z<0?-4.6:4.6,i)}
- const rider=new THREE.Group();sc.add(rider);rider.position.set(-.2,0,0);
- const deliveryFX=new THREE.Group();sc.add(deliveryFX);
+ // Background skyline only: no foreground buildings between the camera and the rider.
+ for(let i=0;i<7;i++){const x=i*2.8-8.4,z=-5.5;building(x,z,i);if(i%2===0)tree(x+1.2,-3.85,i)}
+ for(let i=0;i<5;i++)tree(i*4-8,5.25,i+10);
+ // Prevent nearby scenery from occluding the play route regardless of camera angle.
+ scenery.forEach(g=>{if(g.userData.building){g.scale.setScalar(.7);g.position.z=-5.4;g.userData.x=g.position.x;}});
+
+ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
+ const deliveryFX=new THREE.Group();diorama.add(deliveryFX);
  const pickupMat=mat(0xffbd51),dropMat=mat(0x54d4a2);
- const pickup=cyl(deliveryFX,.29,.035,pickupMat,-2.5,.06,-2.12),drop=cyl(deliveryFX,.29,.035,dropMat,2.65,.06,2.1);
+ const pickup=cyl(deliveryFX,.29,.035,pickupMat,-3.7,.06,-2.12),drop=cyl(deliveryFX,.29,.035,dropMat,3.7,.06,2.1);
  const parcel=cube(deliveryFX,.42,.42,.42,mat(0xd69c53),0,1.05,.25);
  const parcelTape=cube(deliveryFX,.43,.045,.11,C.white,0,1.285,.25);
  const deliveryState={phase:0,cycle:0,delivered:0};
  // Ambient traffic travels independently from the player vehicle.
  const traffic=[];
- for(let i=0;i<5;i++){const car=new THREE.Group();sc.add(car);
+ for(let i=0;i<3;i++){const car=new THREE.Group();diorama.add(car);
   const body=mat([0xd95d51,0x3c9ab1,0xe0b75b,0x8b82bd,0xeeeeeb][i]);
   cube(car,1.15,.42,.65,body,0,.43,0);cube(car,.58,.33,.6,C.glass,-.12,.77,0);
   for(const x of [-.37,.39])for(const z of [-.36,.36]){const w=cyl(car,.14,.09,C.tire,x,.2,z);w.rotation.x=Math.PI/2}
-  car.position.set(i*13-29,0,i%2?1.6:-1.65);traffic.push({mesh:car,dir:i%2?-1:1,speed:2+i*.5});}
+  car.position.set(i*5-5,0,i%2?1.6:-1.65);traffic.push({mesh:car,dir:i%2?-1:1,speed:.9+i*.3});}
  const pedestrians=[];
- for(let i=0;i<7;i++){const g=new THREE.Group();sc.add(g);
+ for(let i=0;i<5;i++){const g=new THREE.Group();diorama.add(g);
   const shirt=mat([0x6e9ac1,0xce776d,0x7caa87,0xd4a957][i%4]);
   cube(g,.3,.52,.24,shirt,0,.84,0);ball(g,.18,C.skin,0,1.26,0);
   const l1=cube(g,.11,.47,.13,C.pants,-.09,.35,0),l2=cube(g,.11,.47,.13,C.pants,.09,.35,0);
-  g.position.set(i*8-27,0,i%2?-4.2:4.2);pedestrians.push({g,l1,l2,dir:i%2?1:-1,offset:i});}
+  g.position.set(i*3.4-7,0,i%2?-3.65:3.65);pedestrians.push({g,l1,l2,dir:i%2?1:-1,offset:i});}
 
  let wheels=[],rotors=[],legs=[],arms=[],vehicleId=-1,regionId=-1,time=0,bounceValue=0;
  const wheel=(g,x,y,z,r=.39)=>{const a=new THREE.Group();a.position.set(x,y,z);g.add(a);const tire=new THREE.Mesh(new THREE.TorusGeometry(r,.085,8,20),C.tire);a.add(tire);const hub=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,.16,12),C.metal);hub.rotation.x=Math.PI/2;a.add(hub);for(let k=0;k<6;k++){const spoke=cube(a,r*1.6,.018,.018,C.metal);spoke.rotation.z=k*Math.PI/6}wheels.push(a);return a};
@@ -323,38 +336,40 @@ try {
    for(const z of [-1,1]){const wing=cube(rider,1.6,.09,1.0,mat(0x6575a9),-.35,1.7,z);wing.rotation.x=z*.14}
    for(const z of [-.55,.55]){const flame=ball(rider,.23,mat(0xffa12b),-1.8,1.73,z);flame.scale.x=2}
   }
-  rider.position.set(-.2,0,0);
+  rider.position.set(-3.7,0,0);
  }
  function world(){const idx=Math.max(0,Math.min(39,S.r)),theme=Math.min(SKY.length-1,Math.floor(idx/7));
-  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],28,67);
-  scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[theme][g.userData.i%3]);g.scale.y=1+Math.min(idx,25)*.055;}});
+  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],35,75);
+  scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[theme][g.userData.i%3]);g.scale.y=.7+Math.min(idx,25)*.012;}});
   C.grass.color.setHex([0x77bf78,0x7cae8a,0xc4b781,0x6d9a81,0x78a89d,0x4c6885][theme]);
  }
  const coins=[];for(let i=0;i<14;i++){const c=new THREE.Group();sc.add(c);const disk=cyl(c,.19,.055,C.gold,0,0,0);disk.rotation.x=Math.PI/2;ball(c,.07,C.white,0,0,.04,8,6);c.visible=false;c.userData.life=0;coins.push(c)}
  function coin(){const c=coins.find(x=>!x.visible);if(!c)return;c.visible=true;c.userData.life=.9;c.position.set((Math.random()-.5)*1.7,1.5,Math.random()-.5);c.scale.setScalar(1)}
- function resize(){const w=Math.max(1,$('stage').clientWidth),h=Math.max(1,$('stage').clientHeight);ren.setSize(w,h,false);cam.aspect=w/h;cam.position.set(h>w?5.7:5.1,4.2,h>w?11.5:10.1);cam.lookAt(0,1.5,0);cam.updateProjectionMatrix()}
+ function resize(){const w=Math.max(1,$('stage').clientWidth),h=Math.max(1,$('stage').clientHeight);ren.setSize(w,h,false);
+  const aspect=w/h,span=aspect<.85?13.8:aspect<1.3?12.4:11.6;
+  cam.left=-span*aspect;cam.right=span*aspect;cam.top=span;cam.bottom=-span;
+  cam.position.set(11.5,17.5,20);cam.lookAt(0,.45,0);cam.updateProjectionMatrix()}
  const observer=typeof ResizeObserver!=='undefined'?new ResizeObserver(resize):null;if(observer)observer.observe($('stage'));addEventListener('resize',resize);resize();
  let prev=performance.now(),spawn=.8;
  function loop(now){requestAnimationFrame(loop);if(document.hidden){prev=now;return}const dt=Math.min(.05,(now-prev)/1000);prev=now;time+=dt;
   if(vehicleId!==S.v){vehicleId=S.v;makeVehicle()}if(regionId!==S.r){regionId=S.r;world()}
   const speed=Math.min(24,2.7+Math.log10(Math.max(1,ps())+1)*2.0)*(Date.now()<S.ad?1.25:1);
-  lines.forEach(d=>{d.position.x-=speed*dt;if(d.position.x< -52)d.position.x+=110});
-  scenery.forEach(g=>{g.userData.x-=speed*dt*.75;if(g.userData.x< -32)g.userData.x+=61;g.position.x=g.userData.x});
+  // Fixed diorama: the world never scrolls through the camera. Only actors animate.
   wheels.forEach(w=>w.rotation.z-=speed*dt*1.6);rotors.forEach(r=>r.rotation.y+=dt*22);
   bounceValue=Math.max(0,bounceValue-dt*2.6);
-  const fly=S.v>=9;const cycle=time*.23,phase=cycle%1;
+  const fly=S.v>=9;const cycle=time*.17,phase=cycle%1;
   // Visual delivery loop: pickup -> travel -> doorstep -> return, with no economy duplication.
   deliveryState.phase=phase;
-  const routeX=phase<.46?-2.4+phase/.46*5.1:phase<.55?2.7:phase<.96?2.7-(phase-.55)/.41*5.1:-2.4;
+  const routeX=phase<.46?-3.7+phase/.46*7.4:phase<.55?3.7:phase<.96?3.7-(phase-.55)/.41*7.4:-3.7;
   const facing=phase<.55?0:Math.PI;
   rider.position.x=routeX;rider.rotation.y=facing;
   rider.position.y=(fly?Math.sin(time*2)*.13:.025*Math.sin(time*11))+(fly?.4:0)+Math.sin(bounceValue*Math.PI)*.25;
   parcel.visible=parcelTape.visible=phase<.46;
   parcel.position.set(routeX-.3,1.1,.35);parcelTape.position.set(routeX-.3,1.335,.35);
   pickup.scale.setScalar(1+.12*Math.sin(time*4));drop.scale.setScalar(1+.12*Math.sin(time*4+2));
-  traffic.forEach(t=>{t.mesh.position.x+=dt*t.speed*t.dir;if(t.mesh.position.x>32)t.mesh.position.x=-32;if(t.mesh.position.x< -32)t.mesh.position.x=32;t.mesh.rotation.y=t.dir<0?Math.PI:0});
-  pedestrians.forEach(p=>{p.g.position.x+=dt*.45*p.dir;if(p.g.position.x>31)p.g.position.x=-31;if(p.g.position.x< -31)p.g.position.x=31;p.l1.rotation.z=Math.sin(time*5+p.offset)*.3;p.l2.rotation.z=-p.l1.rotation.z});
-  props.forEach(p=>{p.position.x-=speed*dt*.65;if(p.position.x< -50)p.position.x+=104});
+  traffic.forEach(t=>{t.mesh.position.x+=dt*t.speed*t.dir;if(t.mesh.position.x>9)t.mesh.position.x=-9;if(t.mesh.position.x< -9)t.mesh.position.x=9;t.mesh.rotation.y=t.dir<0?Math.PI:0});
+  pedestrians.forEach(p=>{p.g.position.x+=dt*.45*p.dir;if(p.g.position.x>8.5)p.g.position.x=-8.5;if(p.g.position.x< -8.5)p.g.position.x=8.5;p.l1.rotation.z=Math.sin(time*5+p.offset)*.3;p.l2.rotation.z=-p.l1.rotation.z});
+  // Street furniture stays anchored to its sidewalk.
 
   if(S.v===0){legs.forEach((l,i)=>l.rotation.z=Math.sin(time*speed*1.2+i*Math.PI)*.55);arms.forEach((a,i)=>a.rotation.z=-Math.sin(time*speed*1.2+i*Math.PI)*.4)}
   spawn-=dt;if(spawn<=0){spawn=Math.max(.38,1.6-Math.log10(Math.max(1,ps())+1)*.15);coin()}
