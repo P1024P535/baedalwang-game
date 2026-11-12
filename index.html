@@ -222,9 +222,9 @@ try {
  const mat=(c,metalness=0)=>new THREE.MeshStandardMaterial({color:c,roughness:.78,metalness});
  const assets=window.BaedalAssets3D?.install(THREE);
  // GLB remaster staging: fail-safe optional model replacement. Never touches game save.
- const remasterGLB={rider_kickboard:null,restaurant_chicken:null};
+ const remasterGLB={};
  const remasterLoader=THREE.GLTFLoader?new THREE.GLTFLoader():null;
- const remasterPaths={rider_kickboard:'assets/glb/rider_kickboard_20k.glb',restaurant_chicken:'assets/glb/chicken_restaurant_20k.glb'};
+ const remasterPaths={rider_main:'assets/glb/rider_main.glb',kickboard:'assets/glb/kickboard.glb',bicycle:'assets/glb/bicycle.glb',scooter:'assets/glb/scooter.glb',restaurant_chicken:'assets/glb/restaurant_chicken.glb',restaurant_pizza:'assets/glb/restaurant_pizza.glb',restaurant_snack:'assets/glb/restaurant_snack.glb',home_small:'assets/glb/home_small.glb',villa:'assets/glb/villa.glb'};
  const remasterReady={};
  function loadRemasterGLB(id){
    if(!remasterLoader||!remasterPaths[id])return Promise.resolve(null);
@@ -232,16 +232,13 @@ try {
    remasterReady[id]=new Promise(resolve=>remasterLoader.load(remasterPaths[id],gltf=>{
      const model=gltf.scene;
      model.traverse(node=>{if(node.isMesh){node.castShadow=true;node.receiveShadow=true}});
-     remasterGLB[id]=model;
-     resolve(model);
-   },undefined,err=>{console.warn('GLB unavailable, keeping existing mesh:',id,err);resolve(null)}));
+     remasterGLB[id]=model;resolve(model);
+   },undefined,err=>{console.warn('GLB fallback:',id,err);resolve(null)}));
    return remasterReady[id];
  }
- // Explicit opt-in only for staging preview. Production keeps the current procedural assets.
- const remasterPreview=new URLSearchParams(location.search).get('glbpreview')==='1';
- if(remasterPreview)loadRemasterGLB('rider_kickboard').then(model=>{if(model&&typeof makeVehicle==='function'&&S.v===2)makeVehicle()});
-
- const C={road:mat(0x394756),lane:mat(0xfff3c9),grass:mat(0x77bf78),walk:mat(0xd6d7d2),skin:mat(0xffc69d),hair:mat(0x3b2935),jacket:mat(0xff873e),pants:mat(0x344d78),shoe:mat(0x252c39),white:mat(0xffffff),glass:mat(0x8bd5ee,.15),tire:mat(0x232934),metal:mat(0x9ca8b5,.45),gold:mat(0xffcb39,.45)};
+ const remasterPreview=true;
+ Promise.all(Object.keys(remasterPaths).map(loadRemasterGLB)).then(()=>{if(typeof makeVehicle==='function')makeVehicle()});
+  const C={road:mat(0x394756),lane:mat(0xfff3c9),grass:mat(0x77bf78),walk:mat(0xd6d7d2),skin:mat(0xffc69d),hair:mat(0x3b2935),jacket:mat(0xff873e),pants:mat(0x344d78),shoe:mat(0x252c39),white:mat(0xffffff),glass:mat(0x8bd5ee,.15),tire:mat(0x232934),metal:mat(0x9ca8b5,.45),gold:mat(0xffcb39,.45)};
  const cube=(parent,w,h,d,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o};
  const ball=(parent,r,m,x,y,z,sw=12,sh=9)=>{const o=new THREE.Mesh(new THREE.SphereGeometry(r,sw,sh),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
  const cyl=(parent,r,h,m,x,y,z)=>{const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,12),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
@@ -508,10 +505,10 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
  const frame=(g,x1,y1,x2,y2,z,m=C.metal,r=.045)=>{const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy);const o=cyl(g,r,len,m,(x1+x2)/2,(y1+y2)/2,z);o.rotation.z=-Math.atan2(dx,dy);return o};
  function makeVehicle(){while(rider.children.length)rider.remove(rider.children[0]);wheels=[];rotors=[];legs=[];arms=[];
   const v=S.v;
-  if(remasterPreview&&v===2&&remasterGLB.rider_kickboard){
-    const model=remasterGLB.rider_kickboard.clone(true);
-    // Staging GLB preview only. Scene units will be calibrated against the reference model.
-    model.scale.setScalar(.78);
+  const modelId=v===0?'rider_main':v===1?'bicycle':v===2?'kickboard':v===3?'scooter':null;
+  if(remasterPreview&&modelId&&remasterGLB[modelId]){
+    const model=remasterGLB[modelId].clone(true);
+    model.scale.setScalar(v===2?.78:v===0?1:.88);
     rider.add(model);model.userData.assetPack=true;
     return;
   }
