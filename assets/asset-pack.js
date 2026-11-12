@@ -54,6 +54,34 @@ function install(THREE){
  shape([.22,.08,.17],.63,1.68,0,black,'dashboard');
  const pilot=person(g,-.25,.57,0,.76,true);pilot.name='delivery_rider';
  return g}
+ function kickboard(){const g=new THREE.Group(),deck=m(0x252d37,.12,.5),accent=m(0x22b9cf,.25,.32),steel=m(0x9ca9b3,.65,.33),rubber=m(0x161c23,0,.92),lamp=m(0xfaf4ca,0,.22);
+ // Electric standing kick scooter: short deck, tiny wheels, upright steering stem.
+ for(const x of [-.78,.78]){
+  const wheel=mesh(g,new THREE.TorusGeometry(.235,.085,10,24),rubber,x,.265,0);wheel.name='kickboard_wheel';
+  const hub=mesh(g,new THREE.CylinderGeometry(.095,.095,.13,16),steel,x,.265,0);hub.rotation.x=Math.PI/2;
+  for(let i=0;i<6;i++){const a=i*Math.PI/3;rod(g,[x,.265,0],[x+Math.cos(a)*.17,.265+Math.sin(a)*.17,0],.013,steel)}
+ }
+ const platform=box(g,1.52,.14,.39,deck,0,.35,0);platform.name='non_slip_deck';
+ box(g,1.22,.018,.32,accent,-.02,.43,0);
+ for(let i=-4;i<=4;i++)box(g,.025,.024,.30,rubber,i*.12,.448,0);
+ rod(g,[.69,.36,0],[.81,1.92,0],.066,steel,'steering_stem');
+ rod(g,[.81,1.92,-.41],[.81,1.92,.41],.045,deck,'handlebar');
+ for(const z of [-.39,.39])box(g,.21,.09,.12,rubber,.81,1.92,z);
+ const light=ball(g,.11,lamp,.87,1.69,0);light.name='front_LED';
+ box(g,.12,.08,.23,m(0xe43f3f),-.83,.46,0).name='rear_brake_light';
+ box(g,.38,.29,.28,deck,-.26,.64,0).name='battery_pack';
+ // Standing rider, one foot forward, hands reaching handlebar.
+ const pilot=new THREE.Group();g.add(pilot);pilot.name='standing_delivery_rider';
+ ball(pilot,.21,p.skin,-.2,2.17,0);
+ const helmet=mesh(pilot,new THREE.SphereGeometry(.25,16,12,0,Math.PI*2,0,Math.PI*.63),p.dark,-.2,2.28,0);helmet.name='helmet';
+ box(pilot,.38,.58,.31,p.orange,-.25,1.65,0);
+ box(pilot,.35,.49,.33,p.orange,-.49,1.7,-.12).name='delivery_backpack';
+ for(const z of [-.16,.16]){
+  rod(pilot,[-.08,1.86,z],[.77,1.91,z*2.1],.075,p.orange,'arm');
+  rod(pilot,[-.27,1.37,z],[-.35+(z>0?.30:0),.55,z],.09,p.dark,'leg');
+  box(pilot,.34,.12,.19,rubber,-.23+(z>0?.30:0),.47,z);
+ }
+ return g}
  function storefront(type=0){const g=new THREE.Group(),colors=[p.red,p.blue,p.orange],c=colors[type%3];
  box(g,2.65,1.72,1.65,p.white,0,.86,0);box(g,2.85,.22,1.88,p.dark,0,1.82,0);
  box(g,2.7,.33,.32,c,0,1.48,.86);for(let i=0;i<6;i++)box(g,.43,.055,.4,i%2?p.white:c,-1.11+i*.445,1.23,1.0);
@@ -64,7 +92,7 @@ function install(THREE){
  box(g,2.4,.18,2,p.dark,0,height+.09,0);
  for(let y=.8;y<height-.2;y+=.83)for(const x of [-.55,.55]){box(g,.45,.44,.04,p.glass,x,y,.93);box(g,.48,.05,.065,p.white,x,y-.24,.96)}
  box(g,.55,.85,.07,p.brown,0,.43,.94);return g}
- return {person,bicycle,scooter,storefront,home,p};
+ return {person,bicycle,kickboard,scooter,storefront,home,p};
 }
 window.BaedalAssets3D={install};
 })();
