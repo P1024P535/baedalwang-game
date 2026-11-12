@@ -226,8 +226,8 @@ try {
  const cyl=(parent,r,h,m,x,y,z)=>{const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,12),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
  // City foundation: build the terrain first so it cannot hide the road surface.
  const diorama=new THREE.Group();sc.add(diorama);
- const base=cube(diorama,56,.48,42,mat(0x45566b),0,-.54,0);base.castShadow=false;
- const ground=cube(diorama,55.6,.12,41.6,C.grass,0,-.26,0);ground.castShadow=false;
+ // No miniature board or visible world-edge wall: the terrain continues beyond the playable streets.
+ const ground=cube(diorama,240,.12,240,C.grass,0,-.26,0);ground.castShadow=false;
  const road=cube(diorama,20.6,.12,5.3,C.road,0,-.145,0);road.castShadow=false;
  for(const z of [-3.2,3.2]){const sidewalk=cube(diorama,20.6,.12,1.05,C.walk,0,-.075,z);sidewalk.castShadow=false;
   const curb=cube(diorama,20.6,.17,.12,mat(0x9fa7a9),0,-.045,z<0?-2.72:2.72);curb.castShadow=false;}
@@ -235,9 +235,7 @@ try {
  for(let x=-8;x<=8;x+=2.6)cube(diorama,1.05,.016,.065,marking,x,-.075,0);
  for(let j=0;j<5;j++)for(const x of [-6.5,6.5])cube(diorama,.34,.018,.46,marking,x+j*.12,-.074,0);
  // Warm perimeter accents make the city read as a miniature game board.
- const trim=mat(0xf3ba63,.25);
- for(const z of [-20.97,20.97])cube(diorama,56,.055,.09,trim,0,-.32,z);
- for(const x of [-27.97,27.97])cube(diorama,.09,.055,42,trim,x,-.32,0);
+ // Removed gold border lines around the playable map.
  // Roadside details remain lightweight procedural meshes for mobile WebGL.
  const props=[];
  const pole=mat(0x566a78,.3),lightGlass=mat(0xffedb2),signBlue=mat(0x2677a0);
@@ -475,7 +473,7 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
   rider.position.set(-3.7,0,0);
  }
  function world(){const idx=Math.max(0,Math.min(39,S.r)),theme=Math.min(SKY.length-1,Math.floor(idx/7));
-  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],35,75);lastDayPhase=-1;
+  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],60,115);lastDayPhase=-1;
   scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[theme][g.userData.i%3]);g.scale.y=.7+Math.min(idx,25)*.012;}});
   C.grass.color.setHex([0x77bf78,0x7cae8a,0xc4b781,0x6d9a81,0x78a89d,0x4c6885][theme]);districtRegion(idx);
  }
