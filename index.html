@@ -221,9 +221,31 @@ try {
  const cube=(parent,w,h,d,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o};
  const ball=(parent,r,m,x,y,z,sw=12,sh=9)=>{const o=new THREE.Mesh(new THREE.SphereGeometry(r,sw,sh),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
  const cyl=(parent,r,h,m,x,y,z)=>{const o=new THREE.Mesh(new THREE.CylinderGeometry(r,r,h,12),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
+ // City foundation: build the terrain first so it cannot hide the road surface.
+ const ground=cube(sc,110,.12,26,C.grass,0,-.30,0);ground.castShadow=false;
  const road=cube(sc,110,.14,5.6,C.road,0,-.15,0);road.castShadow=false;
- cube(sc,110,.12,1.35,C.walk,0,-.08,-3.65);cube(sc,110,.12,1.35,C.walk,0,-.08,3.65);
- cube(sc,110,.12,26,C.grass,0,-.22,0);
+ for(const z of [-3.65,3.65]){const sidewalk=cube(sc,110,.12,1.35,C.walk,0,-.075,z);sidewalk.castShadow=false;
+  const curb=cube(sc,110,.17,.13,mat(0x9fa7a9),0,-.045,z<0?-2.94:2.94);curb.castShadow=false;}
+ const marking=mat(0xf6f0d5);
+ for(let x=-48;x<52;x+=16)for(let j=0;j<6;j++)cube(sc,.38,.018,.55,marking,x+j*.67,-.069,-.7);
+ // Roadside details remain lightweight procedural meshes for mobile WebGL.
+ const props=[];
+ const pole=mat(0x566a78,.3),lightGlass=mat(0xffedb2),signBlue=mat(0x2677a0);
+ for(let i=0;i<16;i++){const x=i*6.5-48,z=i%2?-4.75:4.75,g=new THREE.Group();sc.add(g);g.position.x=x;g.position.z=z;
+  cyl(g,.055,2.3,pole,0,1.15,0);cube(g,.64,.065,.11,pole,.28,2.28,0);cube(g,.25,.12,.2,lightGlass,.57,2.21,0);
+  if(i%3===0){cube(g,.75,.55,.08,signBlue,0,1.78,z<0?.18:-.18);cube(g,.5,.04,.03,C.white,0,1.83,z<0?.235:-.235)}
+  props.push(g);}
+ // Two storefronts with entrances, awnings, and delivery pickup points.
+ const shops=[];
+ for(const [x,z,color] of [[-9,-5.5,0xd65544],[10,5.5,0x32918e]]){
+  const g=new THREE.Group();sc.add(g);g.position.set(x,0,z);
+  cube(g,2.8,1.95,1.7,mat(0xe6dfd0),0,.98,0);
+  cube(g,2.65,.34,1.82,mat(color),0,1.85,0);
+  cube(g,1.05,1.28,.06,C.glass,-.55,.76,z<0?.9:-.9);
+  cube(g,.65,1.2,.07,mat(0x66594b),.7,.61,z<0?.9:-.9);
+  cube(g,3,.12,2.05,mat(0x5d6c79),0,2.05,0);
+  shops.push(g);
+ }
  const lines=[];for(let i=0;i<22;i++)lines.push(cube(sc,1.8,.025,.11,C.lane,i*5-50,-.06,0));
  const PAL=[[0xf3a96e,0xf5d37c,0x80c6de],[0x8aa5c2,0xc2c9d8,0x728fae],[0xffad87,0xffd177,0x8dcbd2],[0x9b8cdb,0x70b9e6,0xe8a1d1],[0x65b9b6,0xb0d2cc,0xffce77],[0x8276b4,0x7298d0,0xa6a3c6]];
  const SKY=[0x9bd7ff,0xcbdcec,0xffcb9d,0xafa6e2,0x88c8d6,0x192b4a];
@@ -244,6 +266,26 @@ try {
  }
  for(let i=0;i<18;i++){const x=(i%9)*6.5-27,z=i<9?-7.0:7.0;building(x,z,i);tree(x+2.6,z<0?-4.6:4.6,i)}
  const rider=new THREE.Group();sc.add(rider);rider.position.set(-.2,0,0);
+ const deliveryFX=new THREE.Group();sc.add(deliveryFX);
+ const pickupMat=mat(0xffbd51),dropMat=mat(0x54d4a2);
+ const pickup=cyl(deliveryFX,.29,.035,pickupMat,-2.5,.06,-2.12),drop=cyl(deliveryFX,.29,.035,dropMat,2.65,.06,2.1);
+ const parcel=cube(deliveryFX,.42,.42,.42,mat(0xd69c53),0,1.05,.25);
+ const parcelTape=cube(deliveryFX,.43,.045,.11,C.white,0,1.285,.25);
+ const deliveryState={phase:0,cycle:0,delivered:0};
+ // Ambient traffic travels independently from the player vehicle.
+ const traffic=[];
+ for(let i=0;i<5;i++){const car=new THREE.Group();sc.add(car);
+  const body=mat([0xd95d51,0x3c9ab1,0xe0b75b,0x8b82bd,0xeeeeeb][i]);
+  cube(car,1.15,.42,.65,body,0,.43,0);cube(car,.58,.33,.6,C.glass,-.12,.77,0);
+  for(const x of [-.37,.39])for(const z of [-.36,.36]){const w=cyl(car,.14,.09,C.tire,x,.2,z);w.rotation.x=Math.PI/2}
+  car.position.set(i*13-29,0,i%2?1.6:-1.65);traffic.push({mesh:car,dir:i%2?-1:1,speed:2+i*.5});}
+ const pedestrians=[];
+ for(let i=0;i<7;i++){const g=new THREE.Group();sc.add(g);
+  const shirt=mat([0x6e9ac1,0xce776d,0x7caa87,0xd4a957][i%4]);
+  cube(g,.3,.52,.24,shirt,0,.84,0);ball(g,.18,C.skin,0,1.26,0);
+  const l1=cube(g,.11,.47,.13,C.pants,-.09,.35,0),l2=cube(g,.11,.47,.13,C.pants,.09,.35,0);
+  g.position.set(i*8-27,0,i%2?-4.2:4.2);pedestrians.push({g,l1,l2,dir:i%2?1:-1,offset:i});}
+
  let wheels=[],rotors=[],legs=[],arms=[],vehicleId=-1,regionId=-1,time=0,bounceValue=0;
  const wheel=(g,x,y,z,r=.39)=>{const a=new THREE.Group();a.position.set(x,y,z);g.add(a);const tire=new THREE.Mesh(new THREE.TorusGeometry(r,.085,8,20),C.tire);a.add(tire);const hub=new THREE.Mesh(new THREE.CylinderGeometry(.12,.12,.16,12),C.metal);hub.rotation.x=Math.PI/2;a.add(hub);for(let k=0;k<6;k++){const spoke=cube(a,r*1.6,.018,.018,C.metal);spoke.rotation.z=k*Math.PI/6}wheels.push(a);return a};
  const person=(g,x,y,z,scale=1,sitting=false)=>{const p=new THREE.Group();g.add(p);p.position.set(x,y,z);p.scale.setScalar(scale);
@@ -259,20 +301,20 @@ try {
  function makeVehicle(){while(rider.children.length)rider.remove(rider.children[0]);wheels=[];rotors=[];legs=[];arms=[];
   const v=S.v;
   if(v===0){person(rider,0,0,0,1);cube(rider,.42,.6,.36,mat(0xe6a75d),-.4,.88,-.18)}
-  else if(v===1||v===2){const motor=v===2;
+  else if(v===1||v===2||v===3){const motor=v>=2;
    wheel(rider,-.82,.45,0,.43);wheel(rider,.86,.45,0,.43);
    frame(rider,-.82,.45,-.24,1.08,0,motor?C.metal:mat(0x3285d5));frame(rider,-.24,1.08,.35,.45,0);frame(rider,.35,.45,-.82,.45,0);
    if(motor){cube(rider,1.25,.42,.53,mat(0xe94b46),-.04,.85,0);cube(rider,.6,.55,.55,mat(0xffbd3c),-.7,1.03,0);cube(rider,.48,.42,.52,mat(0xf5a94c),-.9,1.3,0)}
    frame(rider,.7,.9,.98,1.4,0);cube(rider,.65,.08,.1,C.tire,.85,1.42,0);cube(rider,.58,.12,.35,C.tire,-.28,1.18,0);
    const p=person(rider,-.22,.78,0,.73,true);p.rotation.z=-.12;
    cube(rider,.65,.6,.65,mat(0xf6b14e),-1.18,1.28,0);
-  }else if(v===3||v===4){const truck=v===4,L=truck?4.8:3.2,body=mat(truck?0x8063d6:0x3ab879);
+  }else if(v>=4&&v<=8){const truck=v>=7,L=truck?4.8:v===6?4:3.2,body=mat(truck?0x8063d6:0x3ab879);
    cube(rider,L,truck?1.55:1.15,1.55,body,-.28,truck?1.55:1.36,0);
    cube(rider,1.25,1.42,1.58,mat(0xf4f4ef),L/2-.15,1.5,0);
    cube(rider,.06,.65,1.22,C.glass,L/2+.49,1.73,0);
    for(const x of (truck?[-2,-.65,1.65]:[-1.25,1.18]))for(const z of [-.77,.77])wheel(rider,x,.49,z,.42);
    cube(rider,.7,.35,.05,C.lane,-L/2-.2,1.5,.82);
-  }else if(v===5){const hull=ball(rider,1.4,mat(0xffd344),0,1.8,0,16,10);hull.scale.set(1.4,.55,.72);
+  }else if(v===9){const hull=ball(rider,1.4,mat(0xffd344),0,1.8,0,16,10);hull.scale.set(1.4,.55,.72);
    cube(rider,1.2,.48,.9,C.glass,.35,2.0,0);cube(rider,2.4,.1,.12,C.metal,-.1,1.25,0);
    const rotor=cube(rider,4.4,.065,.2,C.tire,0,2.8,0);rotors.push(rotor);cyl(rider,.08,.55,C.metal,0,2.52,0);
    for(const z of [-.75,.75])cube(rider,2.4,.07,.08,C.metal,0,.92,z);
@@ -283,9 +325,10 @@ try {
   }
   rider.position.set(-.2,0,0);
  }
- function world(){const idx=S.r;sc.background=new THREE.Color(SKY[idx]);sc.fog=new THREE.Fog(SKY[idx],28,67);
-  scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[idx][g.userData.i%3]);g.scale.y=1+idx*.19;}});
-  C.grass.color.setHex([0x77bf78,0x7cae8a,0xc4b781,0x6d9a81,0x78a89d,0x4c6885][idx]);
+ function world(){const idx=Math.max(0,Math.min(39,S.r)),theme=Math.min(SKY.length-1,Math.floor(idx/7));
+  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],28,67);
+  scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[theme][g.userData.i%3]);g.scale.y=1+Math.min(idx,25)*.055;}});
+  C.grass.color.setHex([0x77bf78,0x7cae8a,0xc4b781,0x6d9a81,0x78a89d,0x4c6885][theme]);
  }
  const coins=[];for(let i=0;i<14;i++){const c=new THREE.Group();sc.add(c);const disk=cyl(c,.19,.055,C.gold,0,0,0);disk.rotation.x=Math.PI/2;ball(c,.07,C.white,0,0,.04,8,6);c.visible=false;c.userData.life=0;coins.push(c)}
  function coin(){const c=coins.find(x=>!x.visible);if(!c)return;c.visible=true;c.userData.life=.9;c.position.set((Math.random()-.5)*1.7,1.5,Math.random()-.5);c.scale.setScalar(1)}
@@ -299,7 +342,20 @@ try {
   scenery.forEach(g=>{g.userData.x-=speed*dt*.75;if(g.userData.x< -32)g.userData.x+=61;g.position.x=g.userData.x});
   wheels.forEach(w=>w.rotation.z-=speed*dt*1.6);rotors.forEach(r=>r.rotation.y+=dt*22);
   bounceValue=Math.max(0,bounceValue-dt*2.6);
-  const fly=S.v>=5;rider.position.y=(fly?Math.sin(time*2)*.13:.025*Math.sin(time*11))+(fly?.4:0)+Math.sin(bounceValue*Math.PI)*.25;
+  const fly=S.v>=9;const cycle=time*.23,phase=cycle%1;
+  // Visual delivery loop: pickup -> travel -> doorstep -> return, with no economy duplication.
+  deliveryState.phase=phase;
+  const routeX=phase<.46?-2.4+phase/.46*5.1:phase<.55?2.7:phase<.96?2.7-(phase-.55)/.41*5.1:-2.4;
+  const facing=phase<.55?0:Math.PI;
+  rider.position.x=routeX;rider.rotation.y=facing;
+  rider.position.y=(fly?Math.sin(time*2)*.13:.025*Math.sin(time*11))+(fly?.4:0)+Math.sin(bounceValue*Math.PI)*.25;
+  parcel.visible=parcelTape.visible=phase<.46;
+  parcel.position.set(routeX-.3,1.1,.35);parcelTape.position.set(routeX-.3,1.335,.35);
+  pickup.scale.setScalar(1+.12*Math.sin(time*4));drop.scale.setScalar(1+.12*Math.sin(time*4+2));
+  traffic.forEach(t=>{t.mesh.position.x+=dt*t.speed*t.dir;if(t.mesh.position.x>32)t.mesh.position.x=-32;if(t.mesh.position.x< -32)t.mesh.position.x=32;t.mesh.rotation.y=t.dir<0?Math.PI:0});
+  pedestrians.forEach(p=>{p.g.position.x+=dt*.45*p.dir;if(p.g.position.x>31)p.g.position.x=-31;if(p.g.position.x< -31)p.g.position.x=31;p.l1.rotation.z=Math.sin(time*5+p.offset)*.3;p.l2.rotation.z=-p.l1.rotation.z});
+  props.forEach(p=>{p.position.x-=speed*dt*.65;if(p.position.x< -50)p.position.x+=104});
+
   if(S.v===0){legs.forEach((l,i)=>l.rotation.z=Math.sin(time*speed*1.2+i*Math.PI)*.55);arms.forEach((a,i)=>a.rotation.z=-Math.sin(time*speed*1.2+i*Math.PI)*.4)}
   spawn-=dt;if(spawn<=0){spawn=Math.max(.38,1.6-Math.log10(Math.max(1,ps())+1)*.15);coin()}
   coins.forEach(c=>{if(!c.visible)return;c.userData.life-=dt;c.position.y+=dt*1.8;c.rotation.y+=dt*8;c.scale.setScalar(Math.max(.01,c.userData.life/.9));if(c.userData.life<=0)c.visible=false});
