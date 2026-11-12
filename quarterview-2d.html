@@ -41,7 +41,7 @@ const center=project(player.x,player.y);ctx.save();ctx.translate(W/2-center.x,H*
 for(let s=0;s<mapN*2;s++)for(let x=0;x<mapN;x++){let y=s-x;if(y<0||y>=mapN)continue;let road=isRoad(x,y);diamond(x,y,road?'#7e9298':(x+y)%2?'#a8ddaa':'#b5e5b1');if(road&&(x===8||y===8)&&((x+y)%3===0)){let p=project(x+.5,y+.5);ctx.fillStyle='#f9e7ad';ctx.fillRect(p.x-5,p.y+7,10,2)}}
 for(const b of blocks)building(b);
 for(const p of [[2,6],[6,3],[13,3],[14,10],[2,14],[12,14],[6,13],[14,6]])tree(...p);
-const t=target(),tp=project(t[0],t[1]);ctx.fillStyle=phase===0?'#ffd75b':'#66e0fa';ctx.beginPath();ctx.ellipse(tp.x,tp.y+8,25,12,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();let bounce=Math.sin(now/250)*6;ctx.fillStyle=phase===0?'#f7a42b':'#3b9ebc';ctx.beginPath();ctx.moveTo(tp.x,tp.y-37+bounce);ctx.lineTo(tp.x-12,tp.y-55+bounce);ctx.lineTo(tp.x+12,tp.y-55+bounce);ctx.closePath();ctx.fill();
+const markerTarget=target(),tp=project(markerTarget[0],markerTarget[1]);ctx.fillStyle=phase===0?'#ffd75b':'#66e0fa';ctx.beginPath();ctx.ellipse(tp.x,tp.y+8,25,12,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();let bounce=Math.sin(now/250)*6;ctx.fillStyle=phase===0?'#f7a42b':'#3b9ebc';ctx.beginPath();ctx.moveTo(tp.x,tp.y-37+bounce);ctx.lineTo(tp.x-12,tp.y-55+bounce);ctx.lineTo(tp.x+12,tp.y-55+bounce);ctx.closePath();ctx.fill();
 scooter();ctx.restore();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 })();
