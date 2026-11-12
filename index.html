@@ -374,7 +374,7 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
  function makeVehicle(){while(rider.children.length)rider.remove(rider.children[0]);wheels=[];rotors=[];legs=[];arms=[];
   const v=S.v;
   if(v===0){if(assets)rider.add(assets.person());else{person(rider,0,0,0,1);cube(rider,.42,.6,.36,mat(0xe6a75d),-.4,.88,-.18)}}
-  else if(assets&&(v===1||v===2||v===3)){let model;try{model=v===3?assets.scooter():v===2&&typeof assets.kickboard==='function'?assets.kickboard():assets.bicycle(v===2)}catch(err){console.error('Vehicle asset failed:',err);model=assets.bicycle(false)}rider.add(model);model.userData.assetPack=true;
+  else if(assets&&(v===1||v===2||v===3)){let model;try{model=v===3?assets.scooter():v===2&&typeof assets.kickboard==='function'?assets.kickboard():assets.bicycle(v===2)}catch(err){console.error('Vehicle asset failed:',err);model=assets.bicycle(false)}rider.add(model);model.scale.setScalar(v===2?.78:.88);model.userData.assetPack=true;
   model.traverse(o=>{if(o.isMesh&&o.geometry?.type==='TorusGeometry')wheels.push(o)});
  }else if(v===1||v===2||v===3){const motor=v>=2;
    wheel(rider,-.82,.45,0,.43);wheel(rider,.86,.45,0,.43);
