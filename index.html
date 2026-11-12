@@ -407,16 +407,18 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
  }
  const coins=[];for(let i=0;i<14;i++){const c=new THREE.Group();sc.add(c);const disk=cyl(c,.19,.055,C.gold,0,0,0);disk.rotation.x=Math.PI/2;ball(c,.07,C.white,0,0,.04,8,6);c.visible=false;c.userData.life=0;coins.push(c)}
  function coin(){const c=coins.find(x=>!x.visible);if(!c)return;c.visible=true;c.userData.life=.9;c.position.set((Math.random()-.5)*1.7,1.5,Math.random()-.5);c.scale.setScalar(1)}
+ // Camera follows the delivery rider with a closer, edge-clamped view.
+ const cameraLook=new THREE.Vector3(0,.75,0),cameraOffset=new THREE.Vector3(9,13.5,17);
  function resize(){const w=Math.max(1,$('stage').clientWidth),h=Math.max(1,$('stage').clientHeight);ren.setSize(w,h,false);
-  const aspect=w/h,span=Math.max(7.7,11.5/aspect);
+  const aspect=w/h,span=Math.max(5.0,7.8/aspect);
   cam.left=-span*aspect;cam.right=span*aspect;cam.top=span;cam.bottom=-span;
-  cam.position.set(11.5,17.5,20);cam.lookAt(0,.45,0);cam.updateProjectionMatrix()}
+  cam.position.copy(cameraLook).add(cameraOffset);cam.lookAt(cameraLook);cam.updateProjectionMatrix()}
  const observer=typeof ResizeObserver!=='undefined'?new ResizeObserver(resize):null;if(observer)observer.observe($('stage'));addEventListener('resize',resize);resize();
  let prev=performance.now(),spawn=.8;
  function loop(now){requestAnimationFrame(loop);if(document.hidden){prev=now;return}const dt=Math.min(.05,(now-prev)/1000);prev=now;time+=dt;
   if(vehicleId!==S.v){vehicleId=S.v;makeVehicle()}if(regionId!==S.r){regionId=S.r;world()}if(Math.floor(time)%3===0)updateEnvironment();
   const speed=Math.min(24,2.7+Math.log10(Math.max(1,ps())+1)*2.0)*(Date.now()<S.ad?1.25:1);
-  // Fixed diorama: the world never scrolls through the camera. Only actors animate.
+  // Follow-cam: keep the rider prominent while panning smoothly along the road.
   wheels.forEach(w=>w.rotation.z-=speed*dt*1.6);rotors.forEach(r=>r.rotation.y+=dt*22);
   bounceValue=Math.max(0,bounceValue-dt*2.6);
   const fly=S.v>=9;const cycle=time*.17,phase=cycle%1;
@@ -425,6 +427,11 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
   const routeX=phase<.46?-3.7+phase/.46*7.4:phase<.55?3.7:phase<.96?3.7-(phase-.55)/.41*7.4:-3.7;
   const facing=phase<.55?0:Math.PI;
   rider.position.x=routeX;rider.rotation.y=facing;
+  const targetCameraX=Math.max(-4.4,Math.min(4.4,routeX*.9));
+  const cameraEase=1-Math.exp(-dt*3.4);
+  cameraLook.x+=(targetCameraX-cameraLook.x)*cameraEase;
+  cameraLook.y+=(.83-cameraLook.y)*cameraEase;
+  cam.position.copy(cameraLook).add(cameraOffset);cam.lookAt(cameraLook);
   rider.position.y=(fly?Math.sin(time*2)*.13:.025*Math.sin(time*11))+(fly?.4:0)+Math.sin(bounceValue*Math.PI)*.25;
   parcel.visible=parcelTape.visible=phase<.46;
   parcel.position.set(routeX-.3,1.1,.35);parcelTape.position.set(routeX-.3,1.335,.35);
