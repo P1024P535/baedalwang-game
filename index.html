@@ -119,6 +119,8 @@ nav a.on:before{content:"";position:absolute;top:0;left:29%;right:29%;height:3px
 @media(max-width:360px){.row{gap:6px}.row button{min-width:70px;padding:8px 7px;font-size:12px}.pill{padding:8px}.pill b{font-size:15px}nav a{font-size:10px}nav a span{font-size:18px}}
 @media(min-width:641px){#stage{border-radius:0 0 20px 20px}nav{left:calc(50% - 320px);right:calc(50% - 320px)}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+.row .t{overflow-wrap:anywhere}.row button{flex-shrink:0}
 </style>
 </head>
 <body>
@@ -326,8 +328,8 @@ function render(){
  }
  if(tab==='veh'||tab==='reg'){
   const L=tab==='veh'?V:R,cur=tab==='veh'?S.v:S.r;
-  h=`<div class="seg">${tab==='veh'?'<button class="ghost" data-section="jobs">📦 업종</button><button data-section="veh">🚲 차량</button>':'<button data-section="reg">🗺️ 지역 진화</button><button class="ghost" data-section="biz">🏢 지역 운영</button>'}</div><div class="card"><h3>${tab==='veh'?'🚲 차량 강화':'🗺️ 지역 해금'}</h3><div class="sub">구매하면 전체 수익 배율이 오르고 3D 화면이 바뀌어요.</div>`+
-  L.map((x,i)=>i>cur+1?'':`<div class="row"><div class="t">${x.e} ${x.n}<small>${tab==='reg'?'진화 '+(i+1)+'/40 · ':''}수익 x${x.m}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'사용 중':'보유'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`).join('')+`</div>${tab==='reg'?`<details class="card"><summary>📜 전체 40단계 미리보기</summary>${R.map((x,i)=>`<div class="row"><div class="t">${i+1}. ${x.n}</div><small>${i<=S.r?'완료':'잠김'}</small></div>`).join('')}</details>`:''}`;
+  h=`<div class="seg">${tab==='veh'?'<button class="ghost" data-section="jobs">📦 업종</button><button data-section="veh">🚲 차량</button>':'<button data-section="reg">🗺️ 지역 진화</button><button class="ghost" data-section="biz">🏢 지역 운영</button>'}</div><div class="card"><h3>${tab==='veh'?'🏍️ 차량 도감 · '+V.length+'종':'🗺️ 지역 해금 · 40단계'}</h3><div class="sub">잠긴 차량과 지역도 모두 확인할 수 있어요. 다음 단계를 구매하면 수익 배율이 오르고 3D 화면이 바뀌어요.</div>`+
+  L.map((x,i)=>`<div class="row"><div class="t">${x.e} ${x.n}<small>${tab==='reg'?'진화 '+(i+1)+'/40 · ':''}수익 x${x.m}${i>cur?' · 해금 비용 '+f(x.c)+'원':''}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'사용 중':'보유'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`).join('')+`</div>${tab==='reg'?`<details class="card"><summary>📜 전체 40단계 미리보기</summary>${R.map((x,i)=>`<div class="row"><div class="t">${i+1}. ${x.n}</div><small>${i<=S.r?'완료':'잠김'}</small></div>`).join('')}</details>`:''}`;
  }
  if(tab==='items'){
   h=`<div class="seg"><button class="ghost" data-section="shop">💎 루비·혜택 상점</button><button data-section="items">🎒 장비·의상</button></div><div class="card"><h3>💎 루비 ${f(S.ruby)}개 · 🎒 보유템 ${S.items.length}/${ITEMS.length}</h3><div class="sub">지역 진화 +3루비 · 목표 달성 +2루비 · 업적 +5루비. 장비는 구매 후 장착해야 효과가 적용돼요.</div><div class="sub">장착 효과: 👆 터치 +${itemBonus('tap')}% · ⚡ 초당 +${itemBonus('idle')}% (각 슬롯 1개)</div></div>`+
