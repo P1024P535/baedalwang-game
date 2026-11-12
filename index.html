@@ -63,7 +63,7 @@ nav a.on{color:var(--acc)}
 .seg button{min-width:0;padding:9px 12px;flex:1}.seg{position:sticky;top:0;z-index:2;background:var(--card);padding:6px 0}details.card summary{cursor:pointer;padding:4px;font-size:16px}#view{padding-bottom:120px}
 /* 모바일에서도 메뉴를 항상 보이게 유지 */
 nav{z-index:30;min-height:62px;box-shadow:0 -3px 12px #0002}
-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px}
+nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56px;font-size:clamp(10px,2.4vw,12px)}
 #stage{height:calc(100dvh - 90px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
 #sheet{bottom:62px;max-height:calc(100dvh - 75px);z-index:20}
 #testpanel{bottom:calc(70px + env(safe-area-inset-bottom,0px))!important;right:8px!important;max-width:min(290px,calc(100vw - 16px))!important;max-height:40dvh;overflow:auto}
@@ -86,7 +86,7 @@ const V=[{e:'🚶',n:'도보',m:1,c:0},{e:'🚲',n:'자전거',m:2,c:2e4},{e:'�
 const R=[{e:'🏘️',n:'동네',m:1,c:0},{e:'🏙️',n:'시내',m:1.5,c:3e5},{e:'🌆',n:'광역',m:2.5,c:3e7},{e:'🇰🇷',n:'전국',m:5,c:3e9},{e:'🌏',n:'아시아',m:10,c:5e11},{e:'🌍',n:'전세계',m:25,c:3e13}];
 const GL=[['신문배달 5개 구매',()=>S.j[0]>=5],['초당 수익 +50원 달성',()=>ps()>=50],['🚲 자전거 구매',()=>S.v>=1],['🏙️ 시내 지역 해금',()=>S.r>=1],['업종 5종 모두 보유',()=>S.j.slice(0,5).every(n=>n>0)],['한 업종 25개 보유 (수익 x2)',()=>S.j.some(n=>n>=25)],['🛵 오토바이 구매',()=>S.v>=2],['누적 수익 1000만원 (환생 가능)',()=>S.run>=1e7],['🌟 첫 환생',()=>S.st>=1],['🌆 광역 지역 해금',()=>S.r>=2],['🚐 배달 밴 구매',()=>S.v>=3],['업종 8종 모두 보유',()=>S.j.slice(0,8).every(n=>n>0)],['한 업종 100개 보유',()=>S.j.some(n=>n>=100)],['🇰🇷 전국 지역 해금',()=>S.r>=3],['🚛 트럭 구매',()=>S.v>=4]];
 const T=['동네 배달 초보','동네 배달 라이더','시내 에이스','지역 물류 사장','전국 배달왕','아시아 물류 제왕','우주 배달 전설'];
-const TABS=[['main','🏠','홈'],['jobs','📈','성장'],['biz','🏢','운영'],['rec','🏆','기록']];
+const TABS=[['main','🏠','홈'],['jobs','📈','성장'],['idle','🤖','방치형'],['biz','🗺️','지역'],['rec','🏆','기록·환생']];
 GL.push(['🚁 배송 헬기 구매',()=>S.v>=5],['업종 누적 300개 구매',()=>S.bn>=300],['🌏 아시아 지역 해금',()=>S.r>=4],['환생 3회 달성',()=>S.rb>=3],['한 업종 200개 보유',()=>S.j.some(n=>n>=200)],['🛸 우주선 구매',()=>S.v>=6],['🌍 전세계 지역 해금',()=>S.r>=5],['⭐ 별 50개 보유',()=>S.st>=50],['🏆 업적 10개 달성',()=>S.ac.length>=10],['한 업종 400개 보유',()=>S.j.some(n=>n>=400)]);
 const ST=['신문 가방을 메고 첫 배달을 마쳤다. 할아버지의 말이 떠오른다. 빠른 것보다 정확한 게 먼저란다.','동네 사람들이 달봉이를 알아보기 시작했다. 아침마다 문 앞에서 기다리는 단골이 생겼다.','중고 자전거를 샀다. 바퀴 구르는 소리가 응원가처럼 들린다.','시내로 나왔다. 높은 건물과 낯선 골목, 그리고 라이벌 간판 번개배송.','분식집부터 택배까지, 달봉이에겐 다섯 갈래의 배달 노선이 생겼다.','한 노선을 오래 달리자 숙련자가 되었다. 같은 길도 두 배 빠르게 달린다.','오토바이 시동음에 라이벌이 고개를 돌린다. 꽤 하는군, 신입. 번개배송 사장 김번개의 첫 인사다.','첫 큰돈을 모았다. 그때 양복 차림의 낯선 사람이 명함을 건넨다. 로켓물류 인수팀입니다.','환생의 별빛 아래, 달봉이는 처음부터 다시 달리기로 했다. 이번엔 더 멀리.','광역 배송망이 열렸다. 로켓물류가 대리점들에 압력을 넣는다는 소문이 돈다.','배달 밴에 단골들의 응원 쪽지가 붙었다. 달봉이네 꼭 이겨라!','여덟 개 노선이 완성됐다. 김번개가 찾아와 말한다. 로켓에 맞서려면 우리가 손잡아야 해.','백 번째 점포. 달봉이네는 이제 어엿한 회사다.','전국 배송 개시. 로켓물류와의 정면 승부가 시작된다.','대형 트럭이 고속도로를 가른다. 로켓물류 사장이 처음으로 직접 연락을 해 왔다.','하늘길이 열렸다. 배송 헬기가 산골 마을 지붕 위에 택배를 내려놓는다.','셀 수 없는 배달을 해냈다. 그런데 로켓물류의 비밀 창고가 해외에 있다는 제보가 온다.','아시아 진출. 낯선 언어의 골목에도 단골이 생긴다.','세 번의 환생을 거치며 달봉이는 깨달았다. 시작은 매번 같지만 이제 길을 안다.','수백 개의 점포가 같은 시각 문을 연다. 달봉이네 간판은 아시아 어디서나 보인다.','우주선 한 대가 발사대에 선다. 로켓물류 사장이 웃으며 말한다. 같은 하늘이군.','전 세계를 잇는 배송망이 완성됐다. 로켓물류와는 경쟁이 아니라 협력이 되었다.','별 오십 개. 처음 신문 가방을 멨던 그날이 아득하다.','달봉이네 소식이 신문 1면을 장식한다. 그 신문을 배달한 건 물론 달봉이였다.','마지막 배달을 떠난다. 할아버지의 낡은 가방을 메고. 배달왕의 전설은 계속된다!'];
 const DM=[['화면 200번 터치',()=>S.d.tap>=200,()=>`${Math.min(S.d.tap,200)}/200`],['업종 20개 구매',()=>S.d.buy>=20,()=>`${Math.min(S.d.buy,20)}/20`],['특별 주문 3번 수락',()=>S.d.gift>=3,()=>`${Math.min(S.d.gift,3)}/3`]];
@@ -253,24 +253,33 @@ function render(){
  }
  if(tab==='rec'){
   h=`<div class="card"><h3>📅 출석 ${S.d.str}일째</h3><div class="sub">매일 접속하면 보너스가 커져요 (최대 7일)</div></div><div class="card"><h3>✅ 오늘의 미션</h3>`+DM.map((m,i)=>{const ok=m[1](),dn=S.d.cl[i];return `<div class="row"><div class="t">${m[0]}<small>${m[2]()}</small></div><button data-claim="${i}" class="${dn?'own':ok?'':'dis'}">${dn?'완료':'보상 받기'}</button></div>`}).join('')+`</div><div class="card"><h3>🏆 업적 ${S.ac.length}/${AC.length}</h3><div class="sub">업적 1개당 전체 수익 +2%</div>`+AC.map((a,k)=>`<div class="row"><div class="t">${S.ac.includes(k)?'🏆':'🔒'} ${a[0]}<small>${a[1]}</small></div></div>`).join('')+`</div><div class="card"><h3>📖 스토리</h3>`+(S.g?ST.slice(0,S.g).map((s,i)=>`<div class="row"><div class="t"><small>챕터 ${i+1}</small>${s}</div></div>`).join(''):'<div class="sub">목표를 달성하면 이야기가 열려요.</div>')+`</div>`;
- }
- if(tab==='biz'){
+
   const ns=newStars(),adOn=Date.now()<S.ad,cd=Math.max(0,Math.ceil((S.adc-Date.now())/1000));
-  h=`<div class="seg"><button data-section="biz">🤖 자동 운영</button><button class="ghost" data-section="reg">🗺️ 지역</button></div><div class="card"><h3>📋 최근 기록</h3><ul class="log">${S.log.map(l=>`<li>· ${l}</li>`).join('')}</ul></div>
+  h+=`<details class="card"><summary>📋 최근 기록 · 광고 · 환생</summary><div class="card"><h3>📋 최근 기록</h3><ul class="log">${S.log.map(l=>`<li>· ${l}</li>`).join('')}</ul></div>
   <div class="card"><h3>🎁 광고 보상 (시연)</h3><div class="sub">시청하면 60초간 수익 2배, 배달 속도도 빨라져요. 실제 광고는 연결 전이라 3초 대기로 대신합니다.</div>
   <div class="row"><div class="t">${adOn?'수익 2배 적용 중':'수익 2배 · 60초'}<div class="bar"><i id="adbar"></i></div></div><button id="ad" class="${adOn||cd||adWait?'dis':''}">${adWait?'재생 중…':adOn?'적용 중':cd?`대기 ${cd}초`:'광고 보기'}</button></div></div>
   <div class="card"><h3>🌟 환생 · 영구 수익</h3><div class="sub">이번 판 누적 ${f(S.run)}원 · 1000만원부터 별을 얻어요. 환생하면 돈, 업종, 차량, 지역이 초기화되고 별 1개당 수익 +10%.</div>
   <div class="row"><div class="t">획득 예정 ⭐ ${ns}개<small>보유 ⭐ ${S.st}개</small></div><button id="reb" class="${ns<1?'dis':''}">환생하기</button></div></div>
-  <div class="card"><h3>🤖 방치형 자동 운영</h3><div class="sub">화면을 터치하지 않아도 자동 배달합니다. 비서가 있으면 2초마다 투자 효율이 좋은 업종을 구매해요.</div>
+  </details>`;
+ }
+ if(tab==='idle'){
+  h=`<div class="tip">🤖 자동 배달은 항상 진행돼요. 비서와 라이더를 고용하면 방치 수익이 더 커집니다.</div>
+<div class="card"><h3>🤖 방치형 자동 운영</h3><div class="sub">화면을 터치하지 않아도 자동 배달합니다. 비서가 있으면 2초마다 투자 효율이 좋은 업종을 구매해요.</div>
   <div class="row"><div class="t">자동 구매 비서<small>2,000만원 · 환생 후에도 유지</small></div><button id="mgr" class="${S.mg?'own':S.m<2e7?'dis':''}">${S.mg?'고용됨':'고용'}</button></div>
   <div class="row"><div class="t">자동 투자<small>보유금 설정 이하로는 구매하지 않음</small></div><button id="auto" class="ghost">${S.auto?'ON':'OFF'}</button></div>
   <div class="row"><div class="t">최소 보유금<small>${f(S.reserve||0)}원 유지</small></div><button id="reserve" class="ghost">설정</button></div>
   <div class="row"><div class="t">자동 배달 라이더 ${S.staff||0}명<small>라이더당 전체 수익 +6% · 다음 고용 ${f(staffCost())}원</small></div><button id="hire" class="${S.m<staffCost()?'dis':''}">고용</button></div>
   <div class="row"><div class="t">자동 묶음 배달<small>라이더 2명 이상이면 수익 +10%</small></div><button id="dispatch" class="ghost">${S.dispatch?'ON':'OFF'}</button></div>
   <div class="tip">🕒 점심 11~14시, 저녁 17~21시 수익 +20% · 오프라인 최대 24시간 65% 적립</div></div>
-  <details class="card"><summary>💾 저장 코드 · 백업/복원</summary><h3>저장 코드</h3><div class="sub">내보내기로 만든 코드를 보관했다가 불러오기로 복원하세요.</div><textarea id="sv" rows="3" style="width:100%;margin-top:6px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);padding:6px"></textarea><div class="row"><button id="exp" class="ghost">내보내기</button><button id="imp">불러오기</button></div></details>
+
+  `;
+ }
+ if(tab==='biz'){
+  h=`<div class="seg"><button class="ghost" data-section="reg">🗺️ 지역 확장 보기</button></div><div class="card"><h3>🌍 배송 지역 관리</h3><div class="sub">지역을 확장하면 전체 배달 수익이 증가합니다.</div><button data-section="reg">지역 업그레이드</button></div>
+<details class="card"><summary>💾 저장 코드 · 백업/복원</summary><h3>저장 코드</h3><div class="sub">내보내기로 만든 코드를 보관했다가 불러오기로 복원하세요.</div><textarea id="sv" rows="3" style="width:100%;margin-top:6px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);padding:6px"></textarea><div class="row"><button id="exp" class="ghost">내보내기</button><button id="imp">불러오기</button></div></details>
   <details class="card"><summary>⚙️ 설정 · 초기화</summary><h3>설정</h3><div class="row"><div class="t">효과음·진동</div><button id="snd" class="ghost">${S.snd?'켜짐':'꺼짐'}</button></div><div class="row"><div class="t">진행은 자동 저장돼요<small>3초 안에 한 번 더 누르면 초기화</small></div><button id="rst" class="ghost">초기화</button></div></details>`;
  }
+
  const keep=$('view').scrollTop;$('view').innerHTML=h;$('view').scrollTop=window.lt===tab?keep:0;window.lt=tab;
  $('sheet').classList.toggle('open',tab!=='main');$('stt').textContent=(TABS.find(x=>x[0]===navTab)||[])[2]||'';upd();
 }
