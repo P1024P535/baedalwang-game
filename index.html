@@ -133,6 +133,7 @@ nav a.on:before{content:"";position:absolute;top:0;left:29%;right:29%;height:3px
 <nav><div id="nav"></div></nav>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="assets/asset-pack.js?v=detail-97664fd"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/loaders/GLTFLoader.js"></script>
 <script>
 // Live mode: use the real clock. Accelerated testing stays in 3d-test.html.
 const J=[{"e":"📰","n":"신문배달","c":50,"i":1},{"e":"📰","n":"전단지배달","c":5000,"i":2},{"e":"📰","n":"우유배달","c":10000,"i":5},{"e":"📰","n":"요구르트배달","c":15000,"i":8},{"e":"📰","n":"생수배달","c":20000,"i":11},{"e":"🥛","n":"빵배달","c":30000,"i":16},{"e":"🥛","n":"도시락배달","c":40000,"i":22},{"e":"🥛","n":"반찬배달","c":60000,"i":33},{"e":"🥛","n":"세탁물배달","c":80000,"i":44},{"e":"🥛","n":"약국 심부름배달","c":100000,"i":55},{"e":"🍞","n":"김밥배달","c":150000,"i":83},{"e":"🍞","n":"중국집배달","c":200000,"i":111},{"e":"🍞","n":"피자배달","c":280000,"i":155},{"e":"🍞","n":"치킨배달","c":400000,"i":222},{"e":"🍞","n":"족발·보쌈배달","c":600000,"i":333},{"e":"🍕","n":"케이크배달","c":800000,"i":444},{"e":"🍕","n":"꽃다발배달","c":1100000,"i":611},{"e":"🍕","n":"과일바구니배달","c":1500000,"i":833},{"e":"🍕","n":"선물세트배달","c":2200000,"i":1222},{"e":"🍕","n":"고급 디저트배달","c":3000000,"i":1666},{"e":"🛵","n":"배민 일반배달","c":4000000,"i":2222},{"e":"🛵","n":"쿠팡이츠 일반배달","c":5500000,"i":3055},{"e":"🛵","n":"배민 묶음배달","c":7000000,"i":3888},{"e":"🛵","n":"쿠팡이츠 묶음배달","c":10000000,"i":5555},{"e":"🛵","n":"피크시간 특급배달","c":15000000,"i":8333},{"e":"📦","n":"서류 퀵배달","c":20000000,"i":11111},{"e":"📦","n":"소형 택배배달","c":27000000,"i":15000},{"e":"📦","n":"긴급 부품배달","c":35000000,"i":19444},{"e":"📦","n":"전자제품 퀵배달","c":50000000,"i":27777},{"e":"📦","n":"장거리 퀵배달","c":70000000,"i":38888},{"e":"🚗","n":"자동차 음식배달","c":100000000,"i":55555},{"e":"🚗","n":"대형 케이크배달","c":140000000,"i":77777},{"e":"🚗","n":"행사 꽃장식배달","c":200000000,"i":111111},{"e":"🚗","n":"기업 선물배달","c":300000000,"i":166666},{"e":"🚗","n":"고급 물품 특송배달","c":500000000,"i":277777},{"e":"🚐","n":"마트 대량배달","c":700000000,"i":388888},{"e":"🚐","n":"행사 도시락배달","c":1000000000,"i":555555},{"e":"🚐","n":"사무실 정기배달","c":1500000000,"i":833333},{"e":"🚐","n":"쇼핑몰배달","c":2000000000,"i":1111111},{"e":"🚐","n":"소형 이사배달","c":3000000000,"i":1666666},{"e":"🚚","n":"가구배달","c":5000000000,"i":2777777},{"e":"🚚","n":"가전제품배달","c":7000000000,"i":3888888},{"e":"🚚","n":"건축자재배달","c":10000000000,"i":5555555},{"e":"🚚","n":"기업 화물배달","c":15000000000,"i":8333333},{"e":"🚚","n":"장거리 대형화물배달","c":20000000000,"i":11111111},{"e":"🏢","n":"지역 물류센터배달","c":30000000000,"i":16666666},{"e":"🏢","n":"냉장·냉동 물류배달","c":45000000000,"i":25000000},{"e":"🏢","n":"전국 택배망배달","c":65000000000,"i":36111111},{"e":"🏢","n":"대형 물류 계약배달","c":100000000000,"i":55555555},{"e":"🏢","n":"전국 배송망배달","c":200000000000,"i":111111111}];
@@ -220,6 +221,26 @@ try {
  const sun=new THREE.DirectionalLight(0xfff5d7,1.15);sun.position.set(-4,11,7);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-12;sun.shadow.camera.right=12;sun.shadow.camera.top=12;sun.shadow.camera.bottom=-12;sc.add(sun);
  const mat=(c,metalness=0)=>new THREE.MeshStandardMaterial({color:c,roughness:.78,metalness});
  const assets=window.BaedalAssets3D?.install(THREE);
+ // GLB remaster staging: fail-safe optional model replacement. Never touches game save.
+ const remasterGLB={rider_kickboard:null,restaurant_chicken:null};
+ const remasterLoader=THREE.GLTFLoader?new THREE.GLTFLoader():null;
+ const remasterPaths={rider_kickboard:'assets/glb/rider_kickboard_20k.glb',restaurant_chicken:'assets/glb/chicken_restaurant_20k.glb'};
+ const remasterReady={};
+ function loadRemasterGLB(id){
+   if(!remasterLoader||!remasterPaths[id])return Promise.resolve(null);
+   if(remasterReady[id])return remasterReady[id];
+   remasterReady[id]=new Promise(resolve=>remasterLoader.load(remasterPaths[id],gltf=>{
+     const model=gltf.scene;
+     model.traverse(node=>{if(node.isMesh){node.castShadow=true;node.receiveShadow=true}});
+     remasterGLB[id]=model;
+     resolve(model);
+   },undefined,err=>{console.warn('GLB unavailable, keeping existing mesh:',id,err);resolve(null)}));
+   return remasterReady[id];
+ }
+ // Explicit opt-in only for staging preview. Production keeps the current procedural assets.
+ const remasterPreview=new URLSearchParams(location.search).get('glbpreview')==='1';
+ if(remasterPreview)loadRemasterGLB('rider_kickboard');
+
  const C={road:mat(0x394756),lane:mat(0xfff3c9),grass:mat(0x77bf78),walk:mat(0xd6d7d2),skin:mat(0xffc69d),hair:mat(0x3b2935),jacket:mat(0xff873e),pants:mat(0x344d78),shoe:mat(0x252c39),white:mat(0xffffff),glass:mat(0x8bd5ee,.15),tire:mat(0x232934),metal:mat(0x9ca8b5,.45),gold:mat(0xffcb39,.45)};
  const cube=(parent,w,h,d,m,x=0,y=0,z=0)=>{const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o};
  const ball=(parent,r,m,x,y,z,sw=12,sh=9)=>{const o=new THREE.Mesh(new THREE.SphereGeometry(r,sw,sh),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o};
@@ -351,10 +372,10 @@ try {
   districtCars.push({car,north,velocity:.7+i*.12,dir:i%3===0?-1:1});
  }
  // Soft cloud banks disguise the playable terrain's outer transition.
- const horizonMist=new THREE.Group();diorama.add(horizonMist);horizonMist.visible=false; // No opaque 3D cloud meshes in the gameplay view.
+ const horizonMist=new THREE.Group();diorama.add(horizonMist);horizonMist.visible=true; // Clouds exist only beyond the active map perimeter.
  const mistMaterial=new THREE.MeshBasicMaterial({color:0xdce9e8,transparent:true,opacity:.38,depthWrite:false,fog:false});
  for(let i=0;i<44;i++){
-  const angle=i*Math.PI*2/44,radius=24+(i%4)*1.8;
+  const angle=i*Math.PI*2/44,radius=38+(i%4)*2.2;
   const cloud=new THREE.Mesh(new THREE.SphereGeometry(1,9,6),mistMaterial);
   cloud.position.set(Math.cos(angle)*radius,1.3+(i%3)*.42,Math.sin(angle)*radius);
   cloud.scale.set(5.3+(i%3),2.0+(i%4)*.32,4.3+(i%3));
@@ -432,6 +453,7 @@ let weatherMode='clear',lastWeather=-1,lastDayPhase=-1;
 const atmosphere=document.createElement('div');atmosphere.id='atmosphere-haze';
 atmosphere.setAttribute('aria-hidden','true');
 atmosphere.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;background:radial-gradient(ellipse 92% 90% at 50% 50%,transparent 0%,transparent 76%,rgba(204,228,235,.10) 87%,rgba(204,228,235,.30) 100%);';
+atmosphere.style.background='none';
 $('stage').appendChild(atmosphere);
 // Edge-only vignette; no drifting translucent clouds over the rider or roads.
 const cityStatus=document.createElement('div');
@@ -445,8 +467,8 @@ function updateEnvironment(){
  if(lastWeather===weather&&lastDayPhase===phase)return;
  lastWeather=weather;lastDayPhase=phase;weatherMode=mode;
  const sky=[0xffd4a2,0x9bd7ff,0xf4b78e,0x24375a][phase];
- sc.background.setHex(sky);sc.fog.color.setHex(sky);
- atmosphere.style.background=phase===3?'radial-gradient(ellipse 92% 90% at 50% 50%,transparent 0%,transparent 76%,rgba(86,114,156,.09) 87%,rgba(86,114,156,.28) 100%)':'radial-gradient(ellipse 92% 90% at 50% 50%,transparent 0%,transparent 76%,rgba(204,228,235,.10) 87%,rgba(204,228,235,.30) 100%)';
+ sc.background.setHex(sky);sc.fog=null;
+ atmosphere.style.background='none';
  sun.intensity=[.85,1.15,.62,.25][phase];
  sun.color.setHex([0xffdfae,0xfff5d7,0xffa76e,0xa8c4ff][phase]);
  sc.children.find(o=>o.isHemisphereLight).intensity=phase===3?.65:1.25;
@@ -486,6 +508,13 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
  const frame=(g,x1,y1,x2,y2,z,m=C.metal,r=.045)=>{const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy);const o=cyl(g,r,len,m,(x1+x2)/2,(y1+y2)/2,z);o.rotation.z=-Math.atan2(dx,dy);return o};
  function makeVehicle(){while(rider.children.length)rider.remove(rider.children[0]);wheels=[];rotors=[];legs=[];arms=[];
   const v=S.v;
+  if(remasterPreview&&v===2&&remasterGLB.rider_kickboard){
+    const model=remasterGLB.rider_kickboard.clone(true);
+    // Staging GLB preview only. Scene units will be calibrated against the reference model.
+    model.scale.setScalar(.78);
+    rider.add(model);model.userData.assetPack=true;
+    return;
+  }
   if(v===0){if(assets)rider.add(assets.person());else{person(rider,0,0,0,1);cube(rider,.42,.6,.36,mat(0xe6a75d),-.4,.88,-.18)}}
   else if(assets&&(v===1||v===2||v===3)){let model;try{model=v===3?assets.scooter():v===2&&typeof assets.kickboard==='function'?assets.kickboard():assets.bicycle(v===2)}catch(err){console.error('Vehicle asset failed:',err);model=assets.bicycle(false)}rider.add(model);model.scale.setScalar(v===2?.78:.88);model.userData.assetPack=true;
   model.traverse(o=>{if(o.isMesh&&o.geometry?.type==='TorusGeometry')wheels.push(o)});
@@ -514,7 +543,7 @@ const rider=new THREE.Group();diorama.add(rider);rider.position.set(-2.4,0,0);
   rider.position.set(-3.7,0,0);
  }
  function world(){const idx=Math.max(0,Math.min(39,S.r)),theme=Math.min(SKY.length-1,Math.floor(idx/7));
-  sc.background=new THREE.Color(SKY[theme]);sc.fog=new THREE.Fog(SKY[theme],75,145);lastDayPhase=-1;
+  sc.background=new THREE.Color(SKY[theme]);sc.fog=null;lastDayPhase=-1;
   scenery.forEach(g=>{if(g.userData.wall){g.userData.wall.color.setHex(PAL[theme][g.userData.i%3]);g.scale.y=.7+Math.min(idx,25)*.012;}});
   C.grass.color.setHex([0x77bf78,0x7cae8a,0xc4b781,0x6d9a81,0x78a89d,0x4c6885][theme]);districtRegion(idx);
  }
