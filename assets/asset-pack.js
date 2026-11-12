@@ -25,13 +25,35 @@ function install(THREE){
  if(electric)box(g,.55,.24,.22,p.dark,-.12,.75,0);
  box(g,.58,.57,.53,p.orange,-1.07,1.23,0);box(g,.59,.06,.54,p.white,-1.07,1.53,0);
  person(g,-.22,.47,0,.72,true);return g}
- function scooter(){const g=new THREE.Group();for(const x of [-.91,.92])tire(g,x,.43,0,.4);
- const body=mesh(g,new THREE.CapsuleGeometry(.43,1.15,5,12),p.orange,-.04,.89,0);body.rotation.z=Math.PI/2;
- box(g,.72,.19,.64,p.dark,-.32,1.16,0);box(g,.55,.6,.57,p.orange,.72,1.01,0);
- ball(g,.27,p.glass,.98,1.18,0);box(g,.18,.15,.57,p.steel,.99,1.3,0);
- rod(g,[.81,1.16,0],[.68,1.54,0],.06,p.steel);rod(g,[.68,1.54,-.34],[.68,1.54,.34],.055,p.dark);
- box(g,.72,.7,.72,p.orange,-1.07,1.46,0);box(g,.75,.09,.75,p.dark,-1.07,1.84,0);box(g,.57,.11,.025,p.white,-1.07,1.57,.38);
- person(g,-.25,.57,0,.76,true);return g}
+ function scooter(){const g=new THREE.Group(),orange=m(0xf46f0e,.15,.29),black=m(0x16191f,0,.83),silver=m(0x9da7ae,.68,.36),white=m(0xedf4f6,0,.24),glass=m(0xb8e0f0,.15,.18),red=m(0xd5262b,0,.35);
+ const shape=(r,x,y,z,ma,n)=>{const o=mesh(g,new THREE.SphereGeometry(1,18,12),ma,x,y,z);o.scale.set(...r);o.name=n;return o};
+ for(const x of [-.91,.94]){const t=tire(g,x,.43,0,.4);t.name=x<0?'rear_wheel':'front_wheel';
+  const disc=mesh(g,new THREE.CylinderGeometry(.28,.28,.03,24),silver,x,.43,.11);disc.rotation.x=Math.PI/2;
+  for(let j=0;j<8;j++){const a=j*Math.PI/4;rod(g,[x,.43,0],[x+Math.cos(a)*.24,.43+Math.sin(a)*.24,0],.014,silver)}
+ }
+ shape([1.08,.28,.37],-.05,.73,0,black,'undercarriage');
+ shape([.83,.39,.34],.12,.91,0,orange,'sculpted_body');
+ shape([.54,.26,.32],-.48,1.12,0,black,'padded_seat');
+ shape([.42,.42,.3],.72,1.1,0,orange,'front_fairing');
+ shape([.38,.19,.31],.95,1.22,0,black,'headlight_cowl');
+ shape([.32,.13,.26],1.14,1.15,0,white,'LED_headlight');
+ shape([.33,.09,.32],.9,1.51,0,glass,'windscreen');
+ rod(g,[.77,1.25,0],[.67,1.64,0],.045,silver);
+ rod(g,[.67,1.64,-.42],[.67,1.64,.42],.045,black);
+ for(const z of [-.43,.43]){rod(g,[.67,1.64,z],[.8,1.88,z*1.35],.025,black);shape([.17,.095,.09],.8,1.88,z*1.35,black,'mirror')}
+ for(const z of [-.24,.24])rod(g,[.85,1.05,z],[.98,.47,z],.05,silver);
+ shape([.55,.18,.21],-.67,.62,-.29,silver,'exhaust');
+ shape([.23,.26,.31],-.42,.6,-.15,black,'engine');
+ box(g,.79,.72,.78,orange,-1.03,1.61,0).name='insulated_delivery_box';
+ box(g,.84,.11,.84,black,-1.03,2.02,0);
+ box(g,.73,.07,.045,white,-1.03,1.75,.41);
+ box(g,.19,.12,.045,orange,-1.03,1.79,.45);
+ box(g,.43,.11,.11,red,-1.22,1.01,0);
+ for(const z of [-.31,.31])rod(g,[-.65,1.16,z],[-.65,1.3,z],.035,silver);
+ rod(g,[-.28,.54,.18],[-.48,.13,.46],.027,black);
+ shape([.22,.08,.17],.63,1.68,0,black,'dashboard');
+ const pilot=person(g,-.25,.57,0,.76,true);pilot.name='delivery_rider';
+ return g}
  function storefront(type=0){const g=new THREE.Group(),colors=[p.red,p.blue,p.orange],c=colors[type%3];
  box(g,2.65,1.72,1.65,p.white,0,.86,0);box(g,2.85,.22,1.88,p.dark,0,1.82,0);
  box(g,2.7,.33,.32,c,0,1.48,.86);for(let i=0;i<6;i++)box(g,.43,.055,.4,i%2?p.white:c,-1.11+i*.445,1.23,1.0);
