@@ -253,7 +253,7 @@ function drawRider(x,y){const [px,py]=iso(x,y);c.save();c.translate(px,py-8-Math
 function draw(now){requestAnimationFrame(draw);if(document.hidden)return;clock=now/1000;bump=Math.max(0,bump-.035);c.setTransform(dpr,0,0,dpr,0,0);c.globalAlpha=1;const hour=new Date().getHours(),night=hour<6||hour>=20;nightNow=night;c.clearRect(0,0,w,h);c.fillStyle=night?'#789cbb':'#d9f2ed';c.fillRect(0,0,w,h);c.save();
 const progress=clock*.12;const route=[[6,6],[6,2],[6,6],[10,6],[6,6],[6,10],[6,6],[2,6],[6,6]];const ri=Math.floor(progress)%(route.length-1),mix=progress%1;const x=route[ri][0]*(1-mix)+route[ri+1][0]*mix,y=route[ri][1]*(1-mix)+route[ri+1][1]*mix;const [cx,cy]=iso(x,y);const zoom=Math.max(.78,Math.min(1.18,w/580));c.translate(w/2,h*.54);c.scale(zoom,zoom);c.translate(-cx,-cy);
 // Paint a continuous neighborhood instead of a finite diamond with empty edges.
-for(let z=-30;z<57;z++)for(let tx=-15;tx<28;tx++){let ty=z-tx;if(ty< -15||ty>=28)continue;
+for(let z=-16;z<41;z++)for(let tx=-8;tx<21;tx++){let ty=z-tx;if(ty< -8||ty>=21)continue;
 const road=tx>=5&&tx<=7||ty>=5&&ty<=7;
 tile(tx,ty,road?'#788e99':(tx+ty)%2?'#a9d7ac':'#b7dfb5');
 if(road&&(tx===6||ty===6)&&((tx+ty)%3===0)){const [a,b]=iso(tx+.5,ty+.5);c.fillStyle='#ffe9ad';c.save();c.translate(a,b+9);c.rotate(tx===6?-.46:.46);c.fillRect(-7,-1.5,14,3);c.restore()}
