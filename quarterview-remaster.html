@@ -129,6 +129,9 @@ body{padding-top:env(safe-area-inset-top,0px)}
 #sprite-status{position:absolute;top:110px;left:50%;transform:translateX(-50%);padding:5px 10px;border-radius:9px;background:#102337dd;color:#fff;font-size:11px;pointer-events:none}
 #sprite-status[hidden]{display:none}
 @media(max-height:450px){.hud{top:6px}.pill{padding:5px 10px}.pill small{font-size:9px}#hint{top:60px}#goal{bottom:38px;padding:4px 8px}#sprite-status{top:82px}}
+#region-visual{position:absolute;top:112px;left:12px;max-width:calc(100% - 24px);padding:6px 10px;border-radius:10px;background:#142b3de6;color:#fff1d0;font-size:12px;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#stage{height:calc(100dvh - 66px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:0}
+@media(max-height:500px){#region-visual{top:72px}#hint{display:none}.hud{top:6px}.pill{padding:5px 9px}#goal{bottom:40px;padding:4px 8px}}
 </style>
 </head>
 <body>
@@ -141,6 +144,7 @@ body{padding-top:env(safe-area-inset-top,0px)}
 <nav><div id="nav"></div></nav>
 
 
+<script src="assets/world-2d.js"></script>
 <script>
 // Live mode: use the real clock. Accelerated testing stays in 3d-test.html.
 const J=[{"e":"📰","n":"신문배달","c":50,"i":1},{"e":"📰","n":"전단지배달","c":5000,"i":2},{"e":"📰","n":"우유배달","c":10000,"i":5},{"e":"📰","n":"요구르트배달","c":15000,"i":8},{"e":"📰","n":"생수배달","c":20000,"i":11},{"e":"🥛","n":"빵배달","c":30000,"i":16},{"e":"🥛","n":"도시락배달","c":40000,"i":22},{"e":"🥛","n":"반찬배달","c":60000,"i":33},{"e":"🥛","n":"세탁물배달","c":80000,"i":44},{"e":"🥛","n":"약국 심부름배달","c":100000,"i":55},{"e":"🍞","n":"김밥배달","c":150000,"i":83},{"e":"🍞","n":"중국집배달","c":200000,"i":111},{"e":"🍞","n":"피자배달","c":280000,"i":155},{"e":"🍞","n":"치킨배달","c":400000,"i":222},{"e":"🍞","n":"족발·보쌈배달","c":600000,"i":333},{"e":"🍕","n":"케이크배달","c":800000,"i":444},{"e":"🍕","n":"꽃다발배달","c":1100000,"i":611},{"e":"🍕","n":"과일바구니배달","c":1500000,"i":833},{"e":"🍕","n":"선물세트배달","c":2200000,"i":1222},{"e":"🍕","n":"고급 디저트배달","c":3000000,"i":1666},{"e":"🛵","n":"배민 일반배달","c":4000000,"i":2222},{"e":"🛵","n":"쿠팡이츠 일반배달","c":5500000,"i":3055},{"e":"🛵","n":"배민 묶음배달","c":7000000,"i":3888},{"e":"🛵","n":"쿠팡이츠 묶음배달","c":10000000,"i":5555},{"e":"🛵","n":"피크시간 특급배달","c":15000000,"i":8333},{"e":"📦","n":"서류 퀵배달","c":20000000,"i":11111},{"e":"📦","n":"소형 택배배달","c":27000000,"i":15000},{"e":"📦","n":"긴급 부품배달","c":35000000,"i":19444},{"e":"📦","n":"전자제품 퀵배달","c":50000000,"i":27777},{"e":"📦","n":"장거리 퀵배달","c":70000000,"i":38888},{"e":"🚗","n":"자동차 음식배달","c":100000000,"i":55555},{"e":"🚗","n":"대형 케이크배달","c":140000000,"i":77777},{"e":"🚗","n":"행사 꽃장식배달","c":200000000,"i":111111},{"e":"🚗","n":"기업 선물배달","c":300000000,"i":166666},{"e":"🚗","n":"고급 물품 특송배달","c":500000000,"i":277777},{"e":"🚐","n":"마트 대량배달","c":700000000,"i":388888},{"e":"🚐","n":"행사 도시락배달","c":1000000000,"i":555555},{"e":"🚐","n":"사무실 정기배달","c":1500000000,"i":833333},{"e":"🚐","n":"쇼핑몰배달","c":2000000000,"i":1111111},{"e":"🚐","n":"소형 이사배달","c":3000000000,"i":1666666},{"e":"🚚","n":"가구배달","c":5000000000,"i":2777777},{"e":"🚚","n":"가전제품배달","c":7000000000,"i":3888888},{"e":"🚚","n":"건축자재배달","c":10000000000,"i":5555555},{"e":"🚚","n":"기업 화물배달","c":15000000000,"i":8333333},{"e":"🚚","n":"장거리 대형화물배달","c":20000000000,"i":11111111},{"e":"🏢","n":"지역 물류센터배달","c":30000000000,"i":16666666},{"e":"🏢","n":"냉장·냉동 물류배달","c":45000000000,"i":25000000},{"e":"🏢","n":"전국 택배망배달","c":65000000000,"i":36111111},{"e":"🏢","n":"대형 물류 계약배달","c":100000000000,"i":55555555},{"e":"🏢","n":"전국 배송망배달","c":200000000000,"i":111111111}];
@@ -216,94 +220,7 @@ const btn=(c,l,cls='')=>`<button class="${cls}" data-cost="${c}">${l}</button>`;
 
 /* ---------- 2D quarter-view renderer; original economy and UI preserved ---------- */
 let G=null;
-(()=>{
-const cv=$('cv'),c=cv.getContext('2d');if(!c){$('hint').textContent='2D 캔버스를 지원하지 않습니다.';return}
-let w=1,h=1,dpr=1,clock=0,bump=0,particles=[];
-const tileW=90,tileH=45;
-function resize(){w=Math.max(1,$('stage').clientWidth);h=Math.max(1,$('stage').clientHeight);dpr=Math.min(devicePixelRatio||1,2);cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);cv.style.width=w+'px';cv.style.height=h+'px';c.setTransform(dpr,0,0,dpr,0,0)}
-addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe($('stage'));resize();
-function iso(x,y){return [(x-y)*tileW*.5,(x+y)*tileH*.5]}
-function poly(pts,fill,stroke){c.beginPath();c.moveTo(...pts[0]);for(let i=1;i<pts.length;i++)c.lineTo(...pts[i]);c.closePath();c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=1;c.stroke()}}
-function tile(x,y,color){const [px,py]=iso(x,y);poly([[px,py],[px+tileW/2,py+tileH/2],[px,py+tileH],[px-tileW/2,py+tileH/2]],color,'#ffffff2a')}
-function oval(x,y,rx,ry,color){c.fillStyle=color;c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fill()}
-function line(x1,y1,x2,y2,color,width=2){c.strokeStyle=color;c.lineWidth=width;c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke()}
-function flower(x,y){const [px,py]=iso(x,y);oval(px,py+4,7,3,'#2c70462a');for(let i=0;i<5;i++){const a=i*Math.PI*2/5;oval(px+Math.cos(a)*4,py-4+Math.sin(a)*4,3,3,i%2?'#ffe8a3':'#fff3f0')}oval(px,py-4,2,2,'#e5b957')}
-function streetlamp(x,y){const [px,py]=iso(x,y);oval(px+4,py+4,11,4,'#214c4b38');line(px,py,px,py-62,'#5a727e',5);line(px,py-62,px+17,py-68,'#5a727e',4);oval(px+18,py-67,9,5,'#ffdc80');if(nightNow){const g=c.createRadialGradient(px+18,py-65,1,px+18,py-65,39);g.addColorStop(0,'#ffdb7888');g.addColorStop(1,'#ffdb7800');oval(px+18,py-65,39,39,g)}}
-function bench(x,y){const [px,py]=iso(x,y);oval(px,py+6,23,6,'#355d4930');poly([[px-22,py-10],[px+4,py-19],[px+24,py-9],[px-2,py]],'#bc855b');poly([[px-22,py-19],[px+4,py-28],[px+24,py-19],[px-2,py-10]],'#d6a274');line(px-13,py-5,px-13,py+8,'#6c747a',3);line(px+14,py-9,px+14,py+5,'#6c747a',3)}
-function car(x,y,col){const [px,py]=iso(x,y);c.save();c.translate(px,py-5);oval(2,11,32,10,'#243d4b38');poly([[-28,0],[0,-13],[29,0],[0,14]],col,'#ffffff88');poly([[-15,-4],[0,-13],[17,-5],[0,3]],'#bde9f2');poly([[-28,0],[0,14],[0,20],[-28,6]],'#42617a');poly([[0,14],[29,0],[29,6],[0,20]],col);oval(-14,10,5,4,'#273e4a');oval(15,11,5,4,'#273e4a');c.restore()}
-let nightNow=false;
-function building(x,y,label,color,roof,height){
- const [px,py]=iso(x+.45,y+.45),dx=35,dy=18,z=height,base=py+dy*2;
- // Ground shadow, wall faces and contrasting roof trim
- c.fillStyle='#204f4433';c.beginPath();c.ellipse(px+3,base+5,48,15,0,0,Math.PI*2);c.fill();
- poly([[px-dx,py+dy],[px,base],[px,base-z],[px-dx,py+dy-z]],color);
- poly([[px,base],[px+dx,py+dy],[px+dx,py+dy-z],[px,base-z]],color);
- c.fillStyle='#213e4930';poly([[px,base],[px+dx,py+dy],[px+dx,py+dy-z],[px,base-z]],'#31536b30');
- poly([[px-dx-3,py+dy-z-3],[px,base-z-3],[px+dx+3,py+dy-z-3],[px,py-z-3]],roof,'#ffffffaa');
- // Roof ridge and front glass shopfront
- c.strokeStyle='#ffffff77';c.lineWidth=2;c.beginPath();c.moveTo(px-dx,py+dy-z-3);c.lineTo(px,base-z-3);c.lineTo(px+dx,py+dy-z-3);c.stroke();
- const shop=!['빌라','주택'].includes(label),signY=base-z+11;
- if(shop){
-  c.fillStyle='#fff9e8';c.fillRect(px-28,signY,55,18);c.strokeStyle='#d9a785';c.lineWidth=1.5;c.strokeRect(px-28,signY,55,18);
-  c.fillStyle='#35566a';c.font='bold 11px system-ui';c.textAlign='center';c.fillText(label,px,signY+13);
-  for(let k=0;k<5;k++)poly([[px-29+k*11,signY+19],[px-18+k*11,signY+19],[px-18+k*11,signY+28],[px-29+k*11,signY+28]],k%2?'#fff5d9':roof);
-  c.fillStyle='#365d72';c.fillRect(px-25,signY+30,49,Math.max(11,z-53));c.fillStyle='#bde9ed';c.fillRect(px-22,signY+32,16,Math.max(7,z-57));c.fillRect(px+6,signY+32,15,Math.max(7,z-57));
-  c.fillStyle='#ffffff88';c.fillRect(px-18,signY+34,3,Math.max(5,z-61));
- }else{
-  for(let row=0;row<2;row++)for(let col=0;col<2;col++){let wx=px-24+col*27,wy=base-z+18+row*23;c.fillStyle='#f8e7ae';c.fillRect(wx,wy,15,15);c.fillStyle='#4b6b8d';c.fillRect(wx+2,wy+2,11,11);c.fillStyle='#b9e4f0';c.fillRect(wx+3,wy+3,4,9)}
-  c.fillStyle='#5d6f80';c.fillRect(px-6,base-21,13,21);
- }
- // Side windows add depth
- c.fillStyle='#f5f1c5';c.fillRect(px+16,py+dy-z+25,10,14);c.fillStyle='#648ca2';c.fillRect(px+18,py+dy-z+27,6,10);
-}
-function tree(x,y){const [px,py]=iso(x+.5,y+.5);c.fillStyle='#28574535';c.beginPath();c.ellipse(px+6,py+3,20,8,0,0,Math.PI*2);c.fill();c.fillStyle='#89694c';c.fillRect(px-4,py-31,8,34);for(const [ox,oy,r,col] of [[-9,-44,17,'#318c68'],[10,-42,17,'#4bac78'],[0,-57,19,'#63c88d']]){c.fillStyle=col;c.beginPath();c.arc(px+ox,py+oy,r,0,Math.PI*2);c.fill()}c.fillStyle='#a3e4a9';c.beginPath();c.ellipse(px-7,py-62,8,5,-.4,0,Math.PI*2);c.fill()}
-const shops=[[2,2,'신문','#ffbf85','#e77f63',65],[10,2,'분식','#f8b5c6','#df7796',69],[2,10,'치킨','#ffb56d','#e88155',76],[10,10,'피자','#ffdb86','#e8a153',74],[6,2,'카페','#a7dfc8','#4eac91',65],[6,10,'마트','#a8c9ed','#7c9fd0',80],[2,6,'빌라','#c8b6e6','#927bbd',88],[10,6,'주택','#b8d7f5','#7ba7d3',72]];
-// Four independently anchored PNGs. Load once; never decode in the frame loop.
-const riderImages={};let loaded=0,failed=0;
-for(const direction of ['east','west','north','south']){
- const image=new Image();riderImages[direction]=image;image.decoding='async';
- image.onload=()=>{loaded++;if(loaded+failed===4){$('sprite-status').hidden=!failed;$('sprite-status').textContent=failed?'이미지를 불러오지 못했어요. 새로고침해 주세요.':''}};
- image.onerror=()=>{failed++;$('sprite-status').hidden=false;$('sprite-status').textContent='라이더 이미지 연결을 확인해 주세요.'};
- image.src='assets/rider-2d-v1/'+direction+'.png';
-}
-// Project world movement into the four isometric-facing views.
-function riderDirection(dx,dy){return dx>0?'south':dx<0?'north':dy>0?'west':'east'}
-function drawRider(x,y,direction){
- const [px,py]=iso(x,y),image=riderImages[direction];
- if(!image.complete||!image.naturalWidth)return;
- const size=76,hop=Math.sin(clock*9)*.65+bump*2;
- c.save();c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';
- // Each PNG's tire contact is (128,244); scale around that ground point.
- c.drawImage(image,px-size/2,py-size*244/256-hop,size,size);c.restore();
-}
-function draw(now){requestAnimationFrame(draw);if(document.hidden)return;clock=now/1000;bump=Math.max(0,bump-.035);c.setTransform(dpr,0,0,dpr,0,0);c.globalAlpha=1;const hour=new Date().getHours(),night=hour<6||hour>=20;nightNow=night;c.clearRect(0,0,w,h);c.fillStyle=night?'#789cbb':'#d9f2ed';c.fillRect(0,0,w,h);c.save();
-const progress=clock*.12;const route=[[6.5,6.5],[6.5,4.1],[6.5,6.5],[8.9,6.5],[6.5,6.5],[6.5,8.9],[6.5,6.5],[4.1,6.5],[6.5,6.5]];const ri=Math.floor(progress)%(route.length-1),mix=progress%1;const x=route[ri][0]*(1-mix)+route[ri+1][0]*mix,y=route[ri][1]*(1-mix)+route[ri+1][1]*mix;const [cx,cy]=iso(x,y);const direction=riderDirection(route[ri+1][0]-route[ri][0],route[ri+1][1]-route[ri][1]);const zoom=Math.max(.72,Math.min(1.08,w/520,h/480));c.translate(w/2,Math.max(125,Math.min(h-88,h*.56)));c.scale(zoom,zoom);c.translate(-cx,-cy);
-// Paint a continuous neighborhood instead of a finite diamond with empty edges.
-for(let z=-16;z<41;z++)for(let tx=-8;tx<21;tx++){let ty=z-tx;if(ty< -8||ty>=21)continue;
-const road=tx>=5&&tx<=7||ty>=5&&ty<=7;
-tile(tx,ty,road?'#788e99':(tx+ty)%2?'#a9d7ac':'#b7dfb5');
-if(road&&(tx===6||ty===6)&&((tx+ty)%3===0)){const [a,b]=iso(tx+.5,ty+.5);c.fillStyle='#ffe9ad';c.save();c.translate(a,b+9);c.rotate(tx===6?-.46:.46);c.fillRect(-7,-1.5,14,3);c.restore()}
-}
-// Ground details and all tall objects are sorted by depth for correct overlap.
-const objects=[];
-for(const [bx,by,n,color,roof,height] of shops)objects.push({depth:bx+by+.9,draw:()=>building(bx,by,n,color,roof,height+(S.r||0)%8*2)});
-for(const [tx,ty] of [[.7,3.4],[3.5,.7],[9.4,.7],[12.4,3.4],[.7,9.4],[3.4,12.4],[9.4,12.4],[12.4,9.4]])objects.push({depth:tx+ty+1,draw:()=>tree(tx,ty)});
-for(const [tx,ty] of [[4.5,6.5],[8.5,6.5],[6.5,4.5],[6.5,8.5]])objects.push({depth:tx+ty+.4,draw:()=>streetlamp(tx,ty)});
-for(const [tx,ty] of [[1.2,4.2],[10.8,8.8]])objects.push({depth:tx+ty+.4,draw:()=>bench(tx,ty)});
-for(const [tx,ty] of [[1.1,1.1],[3.4,9.4],[9.6,3.1],[11.7,11.2],[1.6,11.6]])objects.push({depth:tx+ty+.2,draw:()=>flower(tx,ty)});
-objects.push({depth:6.2+2.3,draw:()=>car(6.2,2.3,'#e9b358')});
-objects.push({depth:6.5+10.5,draw:()=>car(6.5,10.5,'#75b8cf')});
-objects.push({depth:x+y,draw:()=>{const [mx,my]=iso(x,y);oval(mx,my+2,23,7,'#173b4c30');drawRider(x,y,direction)}});
-objects.sort((a,b)=>a.depth-b.depth);for(const obj of objects)obj.draw();
-c.restore();
-c.save();c.setTransform(dpr,0,0,dpr,0,0);
-for(const p of particles){c.globalAlpha=Math.max(0,p.life);c.fillStyle='#ffd34e';c.beginPath();c.arc(p.x,p.y-(1-p.life)*45,6,0,Math.PI*2);c.fill();p.life-=.02}
-particles=particles.filter(p=>p.life>0);c.restore();c.globalAlpha=1;
-if(night){c.fillStyle='#13284d22';c.fillRect(0,0,w,h)}
-}
-requestAnimationFrame(draw);
-G={coin:()=>{particles.push({x:w/2+(Math.random()-.5)*50,y:h*.53,life:1})},bump:()=>{bump=1;G.coin()}};
-})();
+G=window.BWWorld2D.create({canvas:$('cv'),stage:$('stage'),getState:()=>S,getRegions:()=>R,getVehicles:()=>V});
 /* ---------- UI ---------- */
 function render(){
  const navTab=tab==='veh'?'jobs':tab==='biz'||tab==='evolution'?'reg':tab==='items'?'shop':tab;
