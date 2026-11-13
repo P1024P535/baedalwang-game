@@ -18,12 +18,25 @@ function regionVisual(index){
  return {index:r,era:t[0],ground:t[1],sky:t[2],tile:t[3],tree:t[4],buildings:4+Math.floor(r*.52),development:Math.min(19,Math.floor(r/2)),space:r>=27,landmark:r>=38?20:r>=32?16:r>=27?15:r>=20?12:r>=10?9:1,accent:r%5};
 }
 function facing(a,b){const dx=b[0]-a[0],dy=b[1]-a[1];return Math.abs(dx)>Math.abs(dy)?(dx>0?'right':'left'):(dy>0?'front':'back');}
+// A single continuous circuit: separate outbound and return lanes, no crossing paths.
+const deliveryRoute=[[7.3,7.3],[7.3,13],[5.7,13],[5.7,7.3],[-1,7.3],[-1,5.7],[5.7,5.7],[5.7,-1],[7.3,-1],[7.3,5.7],[13,5.7],[13,7.3]];
+const routeLengths=deliveryRoute.map((a,i)=>Math.hypot(deliveryRoute[(i+1)%deliveryRoute.length][0]-a[0],deliveryRoute[(i+1)%deliveryRoute.length][1]-a[1]));
+const routeLength=routeLengths.reduce((a,b)=>a+b,0);
+function routePosition(distance){
+ let d=((distance%routeLength)+routeLength)%routeLength;
+ for(let i=0;i<routeLengths.length;i++){const length=routeLengths[i];if(d<length||i===routeLengths.length-1){const a=deliveryRoute[i],b=deliveryRoute[(i+1)%deliveryRoute.length],f=d/length;return {x:a[0]+(b[0]-a[0])*f,y:a[1]+(b[1]-a[1])*f,dir:facing(a,b),destination:b};}d-=length;}
+}
+function trafficLayout(seconds,count){
+ // All riders share one speed. Fixed, tested arc gaps prevent catching up, including at turns.
+ const distance=seconds*.67;
+ return {player:routePosition(distance),couriers:[18,37].slice(0,Math.min(2,Math.max(0,count))).map(gap=>routePosition(distance+gap))};
+}
 function create(options){
  const {canvas:cv,stage,getState,getRegions,getVehicles}=options,c=cv.getContext('2d');
  if(!c)return null;
  let width=1,height=1,dpr=1,time=0,bump=0,lastRegion=-1,terrain=null,particles=[],manifest=null,ready=false,images={},scene=[],raf=0;
  let lastAnchor={x:0,y:0};
- const failures=[],route=[[6,6],[6,-1],[6,6],[13,6],[6,6],[6,13],[6,6],[-1,6],[6,6]],iso=(x,y)=>[(x-y)*45,(x+y)*22.5];
+ const failures=[],iso=(x,y)=>[(x-y)*45,(x+y)*22.5];
  function resize(){width=Math.max(1,stage.clientWidth);height=Math.max(1,stage.clientHeight);dpr=Math.min(root.devicePixelRatio||1,2);cv.width=Math.round(width*dpr);cv.height=Math.round(height*dpr);cv.style.width=width+'px';cv.style.height=height+'px';}
  root.addEventListener('resize',resize);const ro=typeof ResizeObserver==='function'?new ResizeObserver(resize):null;if(ro)ro.observe(stage);resize();
  function sprite(key,x,y,maxWidth,maxHeight,ctx=c){
@@ -69,18 +82,19 @@ function create(options){
   time=now/1000;bump=Math.max(0,bump-.04);const state=getState(),r=regionVisual(state.r);c.setTransform(dpr,0,0,dpr,0,0);c.globalAlpha=1;c.fillStyle=r.sky;c.fillRect(0,0,width,height);
   if(!ready){c.fillStyle='#263c51';c.font='14px system-ui';c.textAlign='center';c.fillText(failures.length?'이미지를 불러오지 못했어요. 새로고침해 주세요.':'배달 도시를 준비하고 있어요…',width/2,height/2);return;}
   if(lastRegion!==r.index)rebuild(r);
-  const progress=time*.095,ri=Math.floor(progress)%(route.length-1),mix=progress%1,a=route[ri],b=route[ri+1],x=a[0]+(b[0]-a[0])*mix,y=a[1]+(b[1]-a[1])*mix,[cx,cy]=iso(x,y),dir=facing(a,b),v=Math.max(0,Math.min(10,state.v||0));
+  const owned=(state.j||[]).reduce((a,n)=>a+n,0),courierCount=Math.min(2,Math.floor(owned/5)+(state.staff||0)),traffic=trafficLayout(time,courierCount);
+  const {x,y,dir,destination:b}=traffic.player,[cx,cy]=iso(x,y),v=Math.max(0,Math.min(10,state.v||0));
+  stage.dataset.couriers=String(traffic.couriers.length);
   const airborne=v>=9,lift=airborne?50+Math.sin(time*2.8)*4:0,bob=Math.sin(time*(v===0?8:6))*(v<4?1.7:.65);
   const panel=stage.dataset.panel==='open',landscape=height<440&&width>height;
   const playHeight=landscape?height:height*(panel?.53:.82),anchorX=landscape?(panel?(width-Math.min(350,root.innerWidth*.45))/2:width*.32):width/2;
   const zoom=Math.max(.66,Math.min(1.08,width/530,playHeight/460)),anchorY=landscape?height*.67:Math.max(210,playHeight*.61);
   lastAnchor={x:anchorX,y:anchorY};c.save();c.translate(anchorX,anchorY);c.scale(zoom,zoom);c.translate(-cx,-cy);c.drawImage(terrain,-1400,-900);
   const objects=scene.map(o=>({...o,draw(){const [px,py]=iso(o.x+.5,o.y+.5);if(Math.abs(px-cx)>width/(2*zoom)+170||Math.abs(py-cy)>height/(2*zoom)+200)return;sprite(o.key,px,py+20,o.w,o.h);}}));
-  // Extra couriers reflect owned routes and hired staff; they do not change earnings.
-  const owned=(state.j||[]).reduce((a,n)=>a+n,0),couriers=Math.min(6,Math.floor(owned/5)+(state.staff||0));stage.dataset.couriers=String(couriers);
-  for(let k=0;k<couriers;k++){
-   const phase=progress*(.8+k*.06)+(k+1)*1.31,idx=Math.floor(phase)%(route.length-1),t=phase%1,aa=route[idx],bb=route[idx+1],xx=aa[0]+(bb[0]-aa[0])*t+.45,yy=aa[1]+(bb[1]-aa[1])*t-.45;
-   objects.push({depth:xx+yy+.3,draw(){const [px,py]=iso(xx,yy);sprite('vehicle/'+Math.min(v,7)+'/'+facing(aa,bb),px,py+12,44,58);}});
+  // Limit visible companions to two; all owned routes and staff still contribute income.
+  for(const rider of traffic.couriers){
+   const {x:xx,y:yy,dir:heading}=rider;
+   objects.push({depth:xx+yy+.3,draw(){const [px,py]=iso(xx,yy);sprite('vehicle/'+Math.min(v,7)+'/'+heading,px,py+12,44,58);}});
   }
   c.save();c.setLineDash([3,12]);c.strokeStyle='#fff2ad9a';c.lineWidth=3;c.beginPath();const dest=iso(b[0],b[1]);c.moveTo(cx,cy+12);c.lineTo(dest[0],dest[1]+12);c.stroke();c.restore();
   const player={depth:airborne?Infinity:x+y+.4,draw(){const [px,py]=iso(x,y);c.fillStyle=airborne?'#14253b40':'#24374524';c.beginPath();c.ellipse(px,py+12,airborne?31:19,airborne?12:7,0,0,Math.PI*2);c.fill();sprite('vehicle/'+v+'/'+dir,px,py+12-lift-bob-bump*6,v>=8?112:v>=4?92:59,v>=9?105:v>=4?84:77);}};
@@ -99,5 +113,5 @@ function create(options){
  raf=requestAnimationFrame(draw);
  return {coin(){particles.push({x:lastAnchor.x+(Math.random()-.5)*55,y:lastAnchor.y,life:1});},bump(){bump=1;this.coin();},ready:readyPromise,inspect(){return {ready,failures:failures.slice(),region:regionVisual(getState().r),vehicle:getState().v,assets:manifest?Object.keys(manifest.assets).length:0};},destroy(){cancelAnimationFrame(raf);root.removeEventListener('resize',resize);if(ro)ro.disconnect();}};
 }
-root.BWWorld2D={create,regionVisual,facing};
+root.BWWorld2D={create,regionVisual,facing,trafficLayout,routePosition,routeLength};
 })(window);
