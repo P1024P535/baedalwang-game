@@ -125,6 +125,7 @@ nav a.on:before{content:"";position:absolute;top:0;left:29%;right:29%;height:3px
 #region-visual{position:absolute;top:112px;left:12px;max-width:calc(100% - 24px);padding:6px 10px;border-radius:10px;background:#142b3de6;color:#fff1d0;font-size:12px;pointer-events:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #stage{height:calc(100dvh - 66px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:0}
 @media(max-height:500px){#region-visual{top:72px}#hint{display:none}.hud{top:6px}.pill{padding:5px 9px}#goal{bottom:40px;padding:4px 8px}}
+ .region-group{margin:10px 0;padding:8px 12px}.region-group summary{cursor:pointer;list-style-position:inside;padding:10px 4px;touch-action:manipulation}.region-group summary strong{font-size:17px}.region-group summary small{margin-left:8px;color:var(--mut)}.region-group summary .sub{display:block;margin-top:5px}.region-group[open] summary{border-bottom:1px solid var(--line);margin-bottom:5px}
 </style>
 </head>
 <body>
@@ -240,7 +241,14 @@ function render(){
  if(tab==='veh'||tab==='reg'){
   const L=tab==='veh'?V:R,cur=tab==='veh'?S.v:S.r;
   h=`<div class="seg">${tab==='veh'?'<button class="ghost" data-section="jobs">📦 업종</button><button data-section="veh">🚲 차량</button>':'<button data-section="reg">🗺️ 지역 진화</button><button class="ghost" data-section="biz">🏢 지역 운영</button>'}</div><div class="card"><h3>${tab==='veh'?'🏍️ 차량 도감 · '+V.length+'종':'🗺️ 지역 해금 · 40단계'}</h3><div class="sub">잠긴 차량과 지역도 모두 확인할 수 있어요. 다음 단계를 구매하면 수익 배율이 오르고 2D 화면이 바뀌어요.</div>`+
-  L.map((x,i)=>`<div class="row"><div class="t">${x.e} ${x.n}<small>${tab==='reg'?'진화 '+(i+1)+'/40 · ':''}수익 x${x.m}${i>cur?' · 해금 비용 '+f(x.c)+'원':''}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'사용 중':'보유'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`).join('')+`</div>${tab==='reg'?`<details class="card"><summary>📜 전체 40단계 미리보기</summary>${R.map((x,i)=>`<div class="row"><div class="t">${i+1}. ${x.n}</div><small>${i<=S.r?'완료':'잠김'}</small></div>`).join('')}</details>`:''}`;
+  (tab==='reg' ? [
+    {title:'🇰🇷 대한민국',start:0,end:15,desc:'시골 마을부터 대한민국 전국망까지'},
+    {title:'🌏 아시아',start:15,end:20,desc:'일본부터 아시아 대륙망까지'},
+    {title:'🌍 세계',start:20,end:27,desc:'미국부터 세계 배달망까지'},
+    {title:'🚀 우주',start:27,end:40,desc:'국제우주정거장부터 우주 배달의 신까지'}
+   ].map((g,gi)=>`<details class="region-group card" data-region-group="${gi}" ${S.r>=g.start&&S.r<g.end?'open':''}><summary><strong>${g.title}</strong> <small>${g.start+1}~${g.end}단계 · ${Math.max(0,Math.min(g.end,S.r+1)-g.start)}/${g.end-g.start} 완료</small><span class="sub">${g.desc}</span></summary>${R.slice(g.start,g.end).map((x,j)=>{const i=g.start+j;return `<div class="row"><div class="t">${i+1}. ${x.e} ${x.n}<small>수익 x${x.m}${i>cur?' · 해금 비용 '+f(x.c)+'원':''}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'현재 지역':'완료'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`}).join('')}</details>`).join('')
+   : L.map((x,i)=>`<div class="row"><div class="t">${x.e} ${x.n}<small>수익 x${x.m}${i>cur?' · 해금 비용 '+f(x.c)+'원':''}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'사용 중':'보유'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`).join(''))+`</div>`;
+
  }
  if(tab==='items'){
   h=`<div class="seg"><button class="ghost" data-section="shop">💎 루비·혜택 상점</button><button data-section="items">🎒 장비·의상</button></div><div class="card"><h3>💎 루비 ${f(S.ruby)}개 · 🎒 보유템 ${S.items.length}/${ITEMS.length}</h3><div class="sub">지역 진화 +3루비 · 목표 달성 +2루비 · 업적 +5루비. 장비는 구매 후 장착해야 효과가 적용돼요.</div><div class="sub">장착 효과: 👆 터치 +${itemBonus('tap')}% · ⚡ 초당 +${itemBonus('idle')}% (각 슬롯 1개)</div></div>`+
@@ -286,7 +294,10 @@ function render(){
   <details class="card"><summary>⚙️ 설정 · 초기화</summary><h3>설정</h3><div class="row"><div class="t">효과음·진동</div><button id="snd" class="ghost">${S.snd?'켜짐':'꺼짐'}</button></div><div class="row"><div class="t">진행은 자동 저장돼요<small>3초 안에 한 번 더 누르면 초기화</small></div><button id="rst" class="ghost">초기화</button></div></details>`;
  }
 
- const keep=$('view').scrollTop;$('view').innerHTML=h;$('view').scrollTop=window.lt===tab?keep:0;window.lt=tab;
+ const keep=$('view').scrollTop;const openGroups=tab==='reg'&&window.lt===tab?[...document.querySelectorAll('[data-region-group]')].filter(d=>d.open).map(d=>d.dataset.regionGroup):null;
+ $('view').innerHTML=h;
+ if(openGroups!==null)document.querySelectorAll('[data-region-group]').forEach(d=>{d.open=openGroups.includes(d.dataset.regionGroup)});
+ $('view').scrollTop=window.lt===tab?keep:0;window.lt=tab;
  $('sheet').classList.toggle('open',tab!=='main');$('stt').textContent=(TABS.find(x=>x[0]===navTab)||[])[2]||'';upd();
 }
 function upd(){
