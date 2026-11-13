@@ -250,7 +250,7 @@ for(const [bx,by,n,color,roof,height] of shops)building(bx,by,n,color,roof,heigh
 for(const [tx,ty] of [[1,4],[4,1],[9,1],[12,4],[1,9],[4,12],[9,12],[12,9]])tree(tx,ty);
 drawRider(x,y);
 c.save();c.translate(cx-w/2,cy-h*.56);for(const p of particles){c.globalAlpha=Math.max(0,p.life);c.fillStyle='#ffd34e';c.beginPath();c.arc(p.x,p.y-p.life*45,6,0,Math.PI*2);c.fill();p.life-=.02}particles=particles.filter(p=>p.life>0);
-c.restore();if(night){c.fillStyle='#13284d22';c.fillRect(0,0,w,h)}
+c.restore();c.restore();if(night){c.fillStyle='#13284d22';c.fillRect(0,0,w,h)}
 }
 requestAnimationFrame(draw);
 G={coin:()=>{particles.push({x:w/2+(Math.random()-.5)*50,y:h*.53,life:1})},bump:()=>{bump=1;G.coin()}};
