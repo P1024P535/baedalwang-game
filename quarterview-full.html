@@ -215,7 +215,14 @@ function resize(){w=Math.max(1,$('stage').clientWidth);h=Math.max(1,$('stage').c
 addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new ResizeObserver(resize).observe($('stage'));resize();
 function iso(x,y){return [(x-y)*tileW*.5,(x+y)*tileH*.5]}
 function poly(pts,fill,stroke){c.beginPath();c.moveTo(...pts[0]);for(let i=1;i<pts.length;i++)c.lineTo(...pts[i]);c.closePath();c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=1;c.stroke()}}
-function tile(x,y,color){const [px,py]=iso(x,y);poly([[px,py],[px+tileW/2,py+tileH/2],[px,py+tileH],[px-tileW/2,py+tileH/2]],color,'#ffffff3b')}
+function tile(x,y,color){const [px,py]=iso(x,y);poly([[px,py],[px+tileW/2,py+tileH/2],[px,py+tileH],[px-tileW/2,py+tileH/2]],color,'#ffffff2a')}
+function oval(x,y,rx,ry,color){c.fillStyle=color;c.beginPath();c.ellipse(x,y,rx,ry,0,0,Math.PI*2);c.fill()}
+function line(x1,y1,x2,y2,color,width=2){c.strokeStyle=color;c.lineWidth=width;c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke()}
+function flower(x,y){const [px,py]=iso(x,y);oval(px,py+4,7,3,'#2c70462a');for(let i=0;i<5;i++){const a=i*Math.PI*2/5;oval(px+Math.cos(a)*4,py-4+Math.sin(a)*4,3,3,i%2?'#ffe8a3':'#fff3f0')}oval(px,py-4,2,2,'#e5b957')}
+function streetlamp(x,y){const [px,py]=iso(x,y);oval(px+4,py+4,11,4,'#214c4b38');line(px,py,px,py-62,'#5a727e',5);line(px,py-62,px+17,py-68,'#5a727e',4);oval(px+18,py-67,9,5,'#ffdc80');if(nightNow){const g=c.createRadialGradient(px+18,py-65,1,px+18,py-65,39);g.addColorStop(0,'#ffdb7888');g.addColorStop(1,'#ffdb7800');oval(px+18,py-65,39,39,g)}}
+function bench(x,y){const [px,py]=iso(x,y);oval(px,py+6,23,6,'#355d4930');poly([[px-22,py-10],[px+4,py-19],[px+24,py-9],[px-2,py]],'#bc855b');poly([[px-22,py-19],[px+4,py-28],[px+24,py-19],[px-2,py-10]],'#d6a274');line(px-13,py-5,px-13,py+8,'#6c747a',3);line(px+14,py-9,px+14,py+5,'#6c747a',3)}
+function car(x,y,col){const [px,py]=iso(x,y);c.save();c.translate(px,py-5);oval(2,11,32,10,'#243d4b38');poly([[-28,0],[0,-13],[29,0],[0,14]],col,'#ffffff88');poly([[-15,-4],[0,-13],[17,-5],[0,3]],'#bde9f2');poly([[-28,0],[0,14],[0,20],[-28,6]],'#42617a');poly([[0,14],[29,0],[29,6],[0,20]],col);oval(-14,10,5,4,'#273e4a');oval(15,11,5,4,'#273e4a');c.restore()}
+let nightNow=false;
 function building(x,y,label,color,roof,height){
  const [px,py]=iso(x+.45,y+.45),dx=35,dy=18,z=height,base=py+dy*2;
  // Ground shadow, wall faces and contrasting roof trim
@@ -242,12 +249,21 @@ function building(x,y,label,color,roof,height){
 }
 function tree(x,y){const [px,py]=iso(x+.5,y+.5);c.fillStyle='#28574535';c.beginPath();c.ellipse(px+6,py+3,20,8,0,0,Math.PI*2);c.fill();c.fillStyle='#89694c';c.fillRect(px-4,py-31,8,34);for(const [ox,oy,r,col] of [[-9,-44,17,'#318c68'],[10,-42,17,'#4bac78'],[0,-57,19,'#63c88d']]){c.fillStyle=col;c.beginPath();c.arc(px+ox,py+oy,r,0,Math.PI*2);c.fill()}c.fillStyle='#a3e4a9';c.beginPath();c.ellipse(px-7,py-62,8,5,-.4,0,Math.PI*2);c.fill()}
 const shops=[[2,2,'신문','#ffbf85','#e77f63',65],[10,2,'분식','#f8b5c6','#df7796',69],[2,10,'치킨','#ffb56d','#e88155',76],[10,10,'피자','#ffdb86','#e8a153',74],[6,2,'카페','#a7dfc8','#4eac91',65],[6,10,'마트','#a8c9ed','#7c9fd0',80],[2,6,'빌라','#c8b6e6','#927bbd',88],[10,6,'주택','#b8d7f5','#7ba7d3',72]];
-function drawRider(x,y){const [px,py]=iso(x,y);c.save();c.translate(px,py-8-Math.sin(clock*9)*1.4-bump*5);c.fillStyle='#35545c';c.beginPath();c.ellipse(0,9,24,10,0,0,Math.PI*2);c.fill();c.fillStyle='#243844';for(const xx of [-15,15]){c.beginPath();c.arc(xx,6,7,0,Math.PI*2);c.fill()}poly([[-16,-2],[12,-8],[20,0],[-5,5]],'#fa8546');c.fillStyle='#ffdc7d';c.fillRect(-8,-26,17,20);c.fillStyle='#e8aa82';c.beginPath();c.arc(0,-34,10,0,Math.PI*2);c.fill();c.fillStyle='#275a69';c.beginPath();c.arc(0,-38,12,Math.PI,Math.PI*2);c.lineTo(12,-36);c.lineTo(-12,-36);c.fill();c.fillStyle='#f6c65a';c.fillRect(-19,-25,12,16);c.strokeStyle='#385e69';c.lineWidth=3;c.beginPath();c.moveTo(12,-12);c.lineTo(20,-24);c.lineTo(26,-24);c.stroke();c.restore()}
-function draw(now){requestAnimationFrame(draw);if(document.hidden)return;clock=now/1000;bump=Math.max(0,bump-.035);c.setTransform(dpr,0,0,dpr,0,0);c.globalAlpha=1;const hour=new Date().getHours(),night=hour<6||hour>=20;c.clearRect(0,0,w,h);c.fillStyle=night?'#789cbb':'#d9f2ed';c.fillRect(0,0,w,h);c.save();
+function drawRider(x,y){const [px,py]=iso(x,y);c.save();c.translate(px,py-8-Math.sin(clock*9)*1.4-bump*5);c.fillStyle='#35545c';c.beginPath();c.ellipse(0,9,24,10,0,0,Math.PI*2);c.fill();c.fillStyle='#243844';for(const xx of [-15,15]){c.beginPath();c.arc(xx,6,7,0,Math.PI*2);c.fill()}poly([[-16,-2],[12,-8],[20,0],[-5,5]],'#fa8546');c.fillStyle='#ffdc7d';c.fillRect(-8,-26,17,20);c.fillStyle='#e8aa82';c.beginPath();c.arc(0,-34,10,0,Math.PI*2);c.fill();c.fillStyle='#275a69';c.beginPath();c.arc(0,-38,12,Math.PI,Math.PI*2);c.lineTo(12,-36);c.lineTo(-12,-36);c.fill();c.fillStyle='#f6c65a';c.fillRect(-21,-29,15,21);c.strokeStyle='#fff5d7';c.lineWidth=1;c.strokeRect(-21,-29,15,21);c.fillStyle='#bd6a3a';c.fillRect(-18,-23,9,2);c.strokeStyle='#385e69';c.lineWidth=3;c.beginPath();c.moveTo(12,-12);c.lineTo(20,-24);c.lineTo(26,-24);c.stroke();c.restore()}
+function draw(now){requestAnimationFrame(draw);if(document.hidden)return;clock=now/1000;bump=Math.max(0,bump-.035);c.setTransform(dpr,0,0,dpr,0,0);c.globalAlpha=1;const hour=new Date().getHours(),night=hour<6||hour>=20;nightNow=night;c.clearRect(0,0,w,h);c.fillStyle=night?'#789cbb':'#d9f2ed';c.fillRect(0,0,w,h);c.save();
 const progress=clock*.14;const route=[[7,7],[7,3],[3,3],[3,7],[3,11],[7,11],[11,11],[11,7],[11,3],[7,3]];const ri=Math.floor(progress)%(route.length-1),mix=progress%1;const x=route[ri][0]*(1-mix)+route[ri+1][0]*mix,y=route[ri][1]*(1-mix)+route[ri+1][1]*mix;const [cx,cy]=iso(x,y);c.translate(w/2-cx,h*.56-cy);
 for(let z=0;z<27;z++)for(let tx=0;tx<13;tx++){let ty=z-tx;if(ty<0||ty>=13)continue;const road=tx>=5&&tx<=7||ty>=5&&ty<=7;tile(tx,ty,road?'#738894':(tx+ty)%2?'#a8d7ad':'#b9e1b4');if(road&&(tx===6||ty===6)&&((tx+ty)%3===0)){const [a,b]=iso(tx+.5,ty+.5);c.fillStyle='#ffe4a1';c.save();c.translate(a,b+9);c.rotate(tx===6?-.46:.46);c.fillRect(-7,-1.5,14,3);c.restore()}}
+// Neighborhood landscaping, sidewalk edges, crossing marks, and roadside objects.
+for(let tx=0;tx<13;tx++)for(let ty=0;ty<13;ty++){const road=tx>=5&&tx<=7||ty>=5&&ty<=7;const [px,py]=iso(tx+.5,ty+.5);if(!road){if((tx*11+ty*7)%9===0)flower(tx+.3,ty+.6);if((tx*7+ty*13)%17===0){oval(px,py+7,13,5,'#6ea57588');oval(px,py+3,10,5,'#60ad7b')}}else if((tx===5||tx===7||ty===5||ty===7)&&((tx+ty)%2===0)){line(px-10,py+7,px+10,py+7,'#d7e4e8aa',2)}}
+for(let i=0;i<5;i++){const t=i*.15;const [px,py]=iso(5.3+t,5.5);line(px-10,py+4,px-5,py+10,'#f8f4dfaa',3)}
 for(const [bx,by,n,color,roof,height] of shops)building(bx,by,n,color,roof,height+(S.r||0)%8*2);
+for(const [tx,ty] of [[1.3,6],[11.8,6],[6,1.3],[6,11.8]])streetlamp(tx,ty);
+bench(1.2,3.4);bench(10.9,8.8);
+car(6.3,2.3+Math.sin(clock*.14)*.6,'#e9b358');
+car(6.4,9.7-Math.sin(clock*.12)*.6,'#75b8cf');
 for(const [tx,ty] of [[1,4],[4,1],[9,1],[12,4],[1,9],[4,12],[9,12],[12,9]])tree(tx,ty);
+// Animated route highlight and delivery marker
+const [mx,my]=iso(x,y);oval(mx,my+14,27,10,'#245c6c2b');c.strokeStyle='#fff3b8';c.lineWidth=2.5;c.beginPath();c.ellipse(mx,my+10,29+Math.sin(clock*4)*2,13+Math.sin(clock*4),0,0,Math.PI*2);c.stroke();
 drawRider(x,y);
 c.restore();
 c.save();c.setTransform(dpr,0,0,dpr,0,0);
