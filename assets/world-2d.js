@@ -22,6 +22,7 @@ function create(options){
  const {canvas:cv,stage,getState,getRegions,getVehicles}=options,c=cv.getContext('2d');
  if(!c)return null;
  let width=1,height=1,dpr=1,time=0,bump=0,lastRegion=-1,terrain=null,particles=[],manifest=null,ready=false,images={},scene=[],raf=0;
+ let lastAnchor={x:0,y:0};
  const failures=[],route=[[6,6],[6,-1],[6,6],[13,6],[6,6],[6,13],[6,6],[-1,6],[6,6]],iso=(x,y)=>[(x-y)*45,(x+y)*22.5];
  function resize(){width=Math.max(1,stage.clientWidth);height=Math.max(1,stage.clientHeight);dpr=Math.min(root.devicePixelRatio||1,2);cv.width=Math.round(width*dpr);cv.height=Math.round(height*dpr);cv.style.width=width+'px';cv.style.height=height+'px';}
  root.addEventListener('resize',resize);const ro=typeof ResizeObserver==='function'?new ResizeObserver(resize):null;if(ro)ro.observe(stage);resize();
@@ -70,11 +71,23 @@ function create(options){
   if(lastRegion!==r.index)rebuild(r);
   const progress=time*.095,ri=Math.floor(progress)%(route.length-1),mix=progress%1,a=route[ri],b=route[ri+1],x=a[0]+(b[0]-a[0])*mix,y=a[1]+(b[1]-a[1])*mix,[cx,cy]=iso(x,y),dir=facing(a,b),v=Math.max(0,Math.min(10,state.v||0));
   const airborne=v>=9,lift=airborne?50+Math.sin(time*2.8)*4:0,bob=Math.sin(time*(v===0?8:6))*(v<4?1.7:.65);
-  const zoom=Math.max(.72,Math.min(1.12,width/570,height/560)),anchorY=Math.max(height*.55,118+((v>=9?105:v>=4?84:77)+lift)*zoom);c.save();c.translate(width/2,anchorY);c.scale(zoom,zoom);c.translate(-cx,-cy);c.drawImage(terrain,-1400,-900);
+  const panel=stage.dataset.panel==='open',landscape=height<440&&width>height;
+  const playHeight=landscape?height:height*(panel?.53:.82),anchorX=landscape?(panel?(width-Math.min(350,root.innerWidth*.45))/2:width*.32):width/2;
+  const zoom=Math.max(.66,Math.min(1.08,width/530,playHeight/460)),anchorY=landscape?height*.67:Math.max(210,playHeight*.61);
+  lastAnchor={x:anchorX,y:anchorY};c.save();c.translate(anchorX,anchorY);c.scale(zoom,zoom);c.translate(-cx,-cy);c.drawImage(terrain,-1400,-900);
   const objects=scene.map(o=>({...o,draw(){const [px,py]=iso(o.x+.5,o.y+.5);if(Math.abs(px-cx)>width/(2*zoom)+170||Math.abs(py-cy)>height/(2*zoom)+200)return;sprite(o.key,px,py+20,o.w,o.h);}}));
+  // Extra couriers reflect owned routes and hired staff; they do not change earnings.
+  const owned=(state.j||[]).reduce((a,n)=>a+n,0),couriers=Math.min(6,Math.floor(owned/5)+(state.staff||0));stage.dataset.couriers=String(couriers);
+  for(let k=0;k<couriers;k++){
+   const phase=progress*(.8+k*.06)+(k+1)*1.31,idx=Math.floor(phase)%(route.length-1),t=phase%1,aa=route[idx],bb=route[idx+1],xx=aa[0]+(bb[0]-aa[0])*t+.45,yy=aa[1]+(bb[1]-aa[1])*t-.45;
+   objects.push({depth:xx+yy+.3,draw(){const [px,py]=iso(xx,yy);sprite('vehicle/'+Math.min(v,7)+'/'+facing(aa,bb),px,py+12,44,58);}});
+  }
+  c.save();c.setLineDash([3,12]);c.strokeStyle='#fff2ad9a';c.lineWidth=3;c.beginPath();const dest=iso(b[0],b[1]);c.moveTo(cx,cy+12);c.lineTo(dest[0],dest[1]+12);c.stroke();c.restore();
   const player={depth:airborne?Infinity:x+y+.4,draw(){const [px,py]=iso(x,y);c.fillStyle=airborne?'#14253b40':'#24374524';c.beginPath();c.ellipse(px,py+12,airborne?31:19,airborne?12:7,0,0,Math.PI*2);c.fill();sprite('vehicle/'+v+'/'+dir,px,py+12-lift-bob-bump*6,v>=8?112:v>=4?92:59,v>=9?105:v>=4?84:77);}};
   objects.push(player);objects.sort((a,b)=>a.depth-b.depth);for(const o of objects)o.draw();
   c.restore();
+  // A compact label anchors the player among the moving delivery team.
+  c.fillStyle='#163c43e8';c.beginPath();c.roundRect(anchorX-29,anchorY+17,58,20,7);c.fill();c.fillStyle='#fff1b6';c.font='600 10px system-ui';c.textAlign='center';c.fillText('배달 중',anchorX,anchorY+31);
   if(r.space){c.save();c.globalAlpha=.22;c.fillStyle='#fff5d1';for(let i=0;i<22;i++){const xx=(i*173.17)%width,yy=(i*91.31)%(height*.42);c.fillRect(xx,yy,1.4,1.4);}c.restore();}
   for(const p of particles){c.globalAlpha=Math.max(0,p.life);c.fillStyle='#ffd05a';c.beginPath();c.arc(p.x,p.y-(1-p.life)*50,5,0,Math.PI*2);c.fill();p.life-=.025;}particles=particles.filter(p=>p.life>0);c.globalAlpha=1;
   const regions=getRegions(),vehicles=getVehicles();stage.dataset.region=String(r.index+1);stage.dataset.vehicle=String(v);stage.dataset.facing=dir;stage.dataset.era=r.era;
@@ -84,7 +97,7 @@ function create(options){
   manifest=data;return Promise.all(Object.entries(data.groups).map(([key,g])=>new Promise((resolve,reject)=>{const im=new Image();images[key]=im;im.onload=()=>resolve();im.onerror=()=>reject(Error(g.src));im.src=g.src;})));
  }).then(()=>{ready=true;stage.dataset.graphicsReady='true';}).catch(e=>{failures.push(String(e));stage.dataset.graphicsReady='error';console.error('2D art loading failed',e);});
  raf=requestAnimationFrame(draw);
- return {coin(){particles.push({x:width/2+(Math.random()-.5)*36,y:height*.55,life:1});},bump(){bump=1;this.coin();},ready:readyPromise,inspect(){return {ready,failures:failures.slice(),region:regionVisual(getState().r),vehicle:getState().v,assets:manifest?Object.keys(manifest.assets).length:0};},destroy(){cancelAnimationFrame(raf);root.removeEventListener('resize',resize);if(ro)ro.disconnect();}};
+ return {coin(){particles.push({x:lastAnchor.x+(Math.random()-.5)*55,y:lastAnchor.y,life:1});},bump(){bump=1;this.coin();},ready:readyPromise,inspect(){return {ready,failures:failures.slice(),region:regionVisual(getState().r),vehicle:getState().v,assets:manifest?Object.keys(manifest.assets).length:0};},destroy(){cancelAnimationFrame(raf);root.removeEventListener('resize',resize);if(ro)ro.disconnect();}};
 }
 root.BWWorld2D={create,regionVisual,facing};
 })(window);

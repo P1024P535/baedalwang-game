@@ -5,19 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="신문배달에서 전국 물류회사까지, 2D 쿼터뷰 배달왕 방치형 게임">
 <title>배달왕 2D · 기존 방치형 시스템</title>
-<link rel="stylesheet" href="assets/game-ui.css?v=20261113a">
+<link rel="stylesheet" href="assets/game-ui.css?v=20261113b">
+<link rel="stylesheet" href="assets/game-play.css?v=20261113b">
 </head>
 <body>
 <div id="stage"><canvas id="cv"></canvas><div id="region-visual" aria-live="off"></div>
- <div class="hud"><div class="pill"><small>보유 금액</small><b id="money">0</b></div><div class="pill"><small>초당 수익</small><b id="ps">0</b></div></div>
- <div id="hint">터치하면 추가 수익 · 초당 최대 5회</div><div id="goal"></div><div id="ttl"></div><button id="gift" hidden>특별 주문</button></div>
+ <div class="hud"><div class="pill"><small>보유 금액</small><b id="money">0</b></div><div class="pill"><small>초당 수익</small><b id="ps">0</b></div><div class="pill ruby-pill"><small>루비</small><b id="ruby">0</b></div></div>
+ <div id="hint">터치하면 추가 수익 · 초당 최대 5회</div><button id="goal" data-tab="rec" aria-label="현재 목표와 미션 보기"></button><div id="ttl"></div><button id="gift" hidden>특별 주문</button><div id="quick-dock"></div><div id="celebrate" role="status" aria-live="polite" hidden></div></div>
 <div id="sheet"><div class="sh"><b id="stt"></b><button id="x">×</button></div><div id="view"></div></div>
 <div id="modal" hidden><div class="mb"><b id="mt"></b><p id="mp"></p><button id="mo">확인</button></div></div>
 <div id="toast"></div>
 <nav><div id="nav"></div></nav>
 
 
-<script src="assets/world-2d.js"></script>
+<script src="assets/world-2d.js?v=20261113b"></script>
+<script src="assets/game-experience.js?v=20261113b"></script>
 <script>
 // Live mode: use the real clock. Accelerated testing stays in 3d-test.html.
 const J=[{"e":"📰","n":"신문배달","c":50,"i":1},{"e":"📰","n":"전단지배달","c":5000,"i":2},{"e":"📰","n":"우유배달","c":10000,"i":5},{"e":"📰","n":"요구르트배달","c":15000,"i":8},{"e":"📰","n":"생수배달","c":20000,"i":11},{"e":"🥛","n":"빵배달","c":30000,"i":16},{"e":"🥛","n":"도시락배달","c":40000,"i":22},{"e":"🥛","n":"반찬배달","c":60000,"i":33},{"e":"🥛","n":"세탁물배달","c":80000,"i":44},{"e":"🥛","n":"약국 심부름배달","c":100000,"i":55},{"e":"🍞","n":"김밥배달","c":150000,"i":83},{"e":"🍞","n":"중국집배달","c":200000,"i":111},{"e":"🍞","n":"피자배달","c":280000,"i":155},{"e":"🍞","n":"치킨배달","c":400000,"i":222},{"e":"🍞","n":"족발·보쌈배달","c":600000,"i":333},{"e":"🍕","n":"케이크배달","c":800000,"i":444},{"e":"🍕","n":"꽃다발배달","c":1100000,"i":611},{"e":"🍕","n":"과일바구니배달","c":1500000,"i":833},{"e":"🍕","n":"선물세트배달","c":2200000,"i":1222},{"e":"🍕","n":"고급 디저트배달","c":3000000,"i":1666},{"e":"🛵","n":"배민 일반배달","c":4000000,"i":2222},{"e":"🛵","n":"쿠팡이츠 일반배달","c":5500000,"i":3055},{"e":"🛵","n":"배민 묶음배달","c":7000000,"i":3888},{"e":"🛵","n":"쿠팡이츠 묶음배달","c":10000000,"i":5555},{"e":"🛵","n":"피크시간 특급배달","c":15000000,"i":8333},{"e":"📦","n":"서류 퀵배달","c":20000000,"i":11111},{"e":"📦","n":"소형 택배배달","c":27000000,"i":15000},{"e":"📦","n":"긴급 부품배달","c":35000000,"i":19444},{"e":"📦","n":"전자제품 퀵배달","c":50000000,"i":27777},{"e":"📦","n":"장거리 퀵배달","c":70000000,"i":38888},{"e":"🚗","n":"자동차 음식배달","c":100000000,"i":55555},{"e":"🚗","n":"대형 케이크배달","c":140000000,"i":77777},{"e":"🚗","n":"행사 꽃장식배달","c":200000000,"i":111111},{"e":"🚗","n":"기업 선물배달","c":300000000,"i":166666},{"e":"🚗","n":"고급 물품 특송배달","c":500000000,"i":277777},{"e":"🚐","n":"마트 대량배달","c":700000000,"i":388888},{"e":"🚐","n":"행사 도시락배달","c":1000000000,"i":555555},{"e":"🚐","n":"사무실 정기배달","c":1500000000,"i":833333},{"e":"🚐","n":"쇼핑몰배달","c":2000000000,"i":1111111},{"e":"🚐","n":"소형 이사배달","c":3000000000,"i":1666666},{"e":"🚚","n":"가구배달","c":5000000000,"i":2777777},{"e":"🚚","n":"가전제품배달","c":7000000000,"i":3888888},{"e":"🚚","n":"건축자재배달","c":10000000000,"i":5555555},{"e":"🚚","n":"기업 화물배달","c":15000000000,"i":8333333},{"e":"🚚","n":"장거리 대형화물배달","c":20000000000,"i":11111111},{"e":"🏢","n":"지역 물류센터배달","c":30000000000,"i":16666666},{"e":"🏢","n":"냉장·냉동 물류배달","c":45000000000,"i":25000000},{"e":"🏢","n":"전국 택배망배달","c":65000000000,"i":36111111},{"e":"🏢","n":"대형 물류 계약배달","c":100000000000,"i":55555555},{"e":"🏢","n":"전국 배송망배달","c":200000000000,"i":111111111}];
@@ -93,6 +95,7 @@ const btn=(c,l,cls='')=>`<button class="${cls}" data-cost="${c}">${l}</button>`;
 /* ---------- 2D quarter-view renderer; original economy and UI preserved ---------- */
 let G=null;
 G=window.BWWorld2D.create({canvas:$('cv'),stage:$('stage'),getState:()=>S,getRegions:()=>R,getVehicles:()=>V});
+const gameUI=BWGameUI.create({getState:()=>S,jobs:J,vehicles:V,regions:R,cost,format:f,income:ps,level:lv,roi});
 /* ---------- UI ---------- */
 function render(){
  const navTab=tab==='veh'?'jobs':tab==='biz'||tab==='evolution'?'reg':tab==='items'?'shop':tab;
@@ -115,7 +118,7 @@ function render(){
  }
  if(tab==='jobs'){
   h=`<div class="seg"><button data-section="jobs">📦 업종</button><button class="ghost" data-section="veh">🚲 차량</button></div>`+`<div class="seg buy-mode" aria-label="구매 수량"><span class="buy-label">구매 수량</span><button class="${buyN===1?'':'ghost'}" data-n="1">x1</button><button class="${buyN===10?'':'ghost'}" data-n="10">x10</button></div><div class="card">`+
-  J.map((x,i)=>{const c=cost(i,buyN);if(!showAllJobs && i>2 && !S.j[i] && c>S.m*2)return '';return `<div class="row"><div class="t">${x.e} ${x.n}<small class="job-stats"><span>보유 ${S.j[i]}개 · 개당 +${f(x.i*jm(S.j[i])*mult())}/초</span><span>${nx(S.j[i])} · 회수 약 ${roi(i)<3600?Math.ceil(roi(i)/60)+'분':(roi(i)/3600).toFixed(1)+'시간'}</span></small></div>${btn(c,`${f(c)}원<br><small>구매 x${buyN}</small>`).replace('data-cost=',`data-job="${i}" data-cost=`)}</div>`}).join('')+`</div><button class="ghost" data-showjobs="1">${showAllJobs?'간단히 보기':'전체 업종 보기'}</button>`;
+  J.map((x,i)=>{const c=cost(i,buyN);if(!showAllJobs && i>2 && !S.j[i] && c>S.m*2)return '';return `<div class="row job-row">${gameUI.art(i)}<div class="t"><span class="job-title">${x.n}<b class="job-level">LV.${S.j[i]}</b></span><small class="job-stats"><span>보유 ${S.j[i]}개 · 개당 +${f(x.i*jm(S.j[i])*mult())}/초</span><span>${nx(S.j[i])}</span></small><div class="job-track"><i style="width:${gameUI.progress(S.j[i])}%"></i></div></div>${btn(c,`${f(c)}원<br><small>구매 x${buyN}</small>`).replace('data-cost=',`data-job="${i}" data-cost=`)}</div>`}).join('')+`</div><button class="ghost" data-showjobs="1">${showAllJobs?'간단히 보기':'전체 업종 보기'}</button>`;
  }
  if(tab==='veh'||tab==='reg'){
   const L=tab==='veh'?V:R,cur=tab==='veh'?S.v:S.r;
@@ -126,7 +129,7 @@ function render(){
     {title:'🌍 세계',start:20,end:27,desc:'미국부터 세계 배달망까지'},
     {title:'🚀 우주',start:27,end:40,desc:'국제우주정거장부터 우주 배달의 신까지'}
    ].map((g,gi)=>`<details class="region-group card" data-region-group="${gi}" ${S.r>=g.start&&S.r<g.end?'open':''}><summary><strong>${g.title}</strong> <small>${g.start+1}~${g.end}단계 · ${Math.max(0,Math.min(g.end,S.r+1)-g.start)}/${g.end-g.start} 완료</small><span class="sub">${g.desc}</span></summary>${R.slice(g.start,g.end).map((x,j)=>{const i=g.start+j;return `<div class="row"><div class="t">${i+1}. ${x.e} ${x.n}<small>수익 x${x.m}${i>cur?' · 해금 비용 '+f(x.c)+'원':''}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'현재 지역':'완료'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`}).join('')}</details>`).join('')
-   : L.map((x,i)=>`<div class="row"><div class="t">${x.e} ${x.n}<small>수익 x${x.m}${i>cur?' · 해금 비용 '+f(x.c)+'원':''}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'사용 중':'보유'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`).join(''))+`</div>`;
+   : L.map((x,i)=>`<div class="row vehicle-row ${i>cur+1?'locked':''}">${gameUI.vehicleArt(i)}<div class="t">${x.n}<small>수익 x${x.m}${i>cur?' · 해금 비용 '+f(x.c)+'원':''}</small></div>${i<=cur?`<button class="own" disabled>${i===cur?'사용 중':'보유'}</button>`:i===cur+1?btn(x.c,`${f(x.c)}원`):`<button class="dis" disabled>🔒 잠김</button>`}</div>`).join(''))+`</div>`;
 
  }
  if(tab==='items'){
@@ -177,21 +180,29 @@ function render(){
  $('view').innerHTML=h;
  if(openGroups!==null)document.querySelectorAll('[data-region-group]').forEach(d=>{d.open=openGroups.includes(d.dataset.regionGroup)});
  $('view').scrollTop=window.lt===tab?keep:0;window.lt=tab;
+ $('stage').dataset.panel=tab==='main'?'closed':'open';
  $('sheet').classList.toggle('open',tab!=='main');$('stt').textContent=(TABS.find(x=>x[0]===navTab)||[])[2]||'';upd();
 }
 function upd(){
+ gameUI.update(tab);
  $('money').textContent=f(S.m)+'원';$('ps').textContent='+'+f(ps())+'원';
  $('ttl').textContent=T[Math.min(6,Math.floor(lv()/10))]+' · LV.'+lv();
- $('goal').textContent=S.g<GL.length?'🎯 '+GL[S.g][0]:'🎯 모든 목표 달성!';
+ $('goal').innerHTML='<span class=quest-badge>목표 '+Math.min(S.g+1,GL.length)+'</span><span class=quest-name>'+(S.g<GL.length?GL[S.g][0]:'모든 목표 달성!')+'</span><span class=quest-arrow>›</span>';
+ $('ruby').textContent=f(S.ruby);
+ const q=$('quick-buy');if(q)q.dataset.cost=cost(+q.dataset.job,1);
  document.querySelectorAll('[data-cost]').forEach(b=>b.classList.toggle('dis',S.m<+b.dataset.cost));
  const bar=$('adbar');if(bar)bar.style.width=Math.max(0,(S.ad-Date.now())/600)+'%';
 }
 function buy(el){
+ const mode=el.dataset.job!==undefined?'jobs':tab;
  const c=+el.dataset.cost;if(S.m<c)return toast('게임머니가 부족해요');
- if(tab==='jobs'){const i=Number(el.dataset.job);const o=S.j[i];S.bn+=buyN;S.d.buy+=buyN;S.m-=c;S.j[i]+=buyN;log(`${J[i].e} ${J[i].n} ${buyN}개 구매`);if(jm(S.j[i])>jm(o))toast(`🔥 ${J[i].n} 수익 x1.6 보너스!`)}
- else if(tab==='veh'){S.m-=c;S.v++;log(`${V[S.v].e} ${V[S.v].n}(으)로 업그레이드`)}
- else if(tab==='reg'){S.m-=c;S.r++;S.evo=S.r;rubyAdd(3,'지역 진화');log(`${R[S.r].e} ${R[S.r].n} 지역 진화 완료`)}
+ const oldIncome=ps(),quantity=el.id==='quick-buy'?1:buyN;
+ if(mode==='jobs'){const i=Number(el.dataset.job);const o=S.j[i];S.bn+=quantity;S.d.buy+=quantity;S.m-=c;S.j[i]+=quantity;log(`${J[i].e} ${J[i].n} ${quantity}개 구매`);if(jm(S.j[i])>jm(o))toast(`🔥 ${J[i].n} 수익 x1.6 보너스!`)}
+ else if(mode==='veh'){S.m-=c;S.v++;log(`${V[S.v].e} ${V[S.v].n}(으)로 업그레이드`)}
+ else if(mode==='reg'){S.m-=c;S.r++;S.evo=S.r;rubyAdd(3,'지역 진화');log(`${R[S.r].e} ${R[S.r].n} 지역 진화 완료`)}
  snd(880,.12);G&&G.bump();save();render();
+ gameUI.feedback(mode==='jobs'?J[+el.dataset.job].n+' 성장!':mode==='veh'?V[S.v].n+' 출발!':R[S.r].n+' 진출!',ps()-oldIncome);
+ if(G)for(let k=0;k<9;k++)G.coin();
 }
 document.addEventListener('click',e=>{
  const t=e.target.closest('[data-tab],[data-section],[data-showjobs],[data-n],[data-item],[data-pack],[data-exchange],[data-week],[data-adreward],[data-cost],#stage,#ad,#reb,#rst,#gift,#snd,#x,#mo,#mgr,#exp,#imp,[data-claim],#auto,#reserve,#hire,#dispatch,#evolve');if(!t)return;
@@ -214,7 +225,7 @@ document.addEventListener('click',e=>{
  if(t.id==='exp'){const c=btoa(unescape(encodeURIComponent(JSON.stringify(S))));$('sv').value=c;$('sv').select();try{navigator.clipboard.writeText(c)}catch(e){}return toast('저장 코드를 만들었어요. 복사해 보관하세요')}
  if(t.id==='imp'){try{const o=JSON.parse(decodeURIComponent(escape(atob($('sv').value.trim()))));if(!Number.isFinite(o.m)||o.m<0||!Array.isArray(o.j))throw 0;S=Object.assign(fresh(),o);S.j=S.j.slice(0,J.length).map(x=>Number.isFinite(x)?Math.max(0,Math.floor(x)):0);while(S.j.length<J.length)S.j.push(0);S.v=Math.max(0,Math.min(V.length-1,Math.floor(Number(S.v)||0)));S.r=Math.max(0,Math.min(R.length-1,Math.floor(Number(S.r)||0)));S.d=Object.assign(fresh().d,S.d||{});S.ac=Array.isArray(S.ac)?S.ac:[];S.log=Array.isArray(S.log)?S.log:[];S.staff=Math.max(0,Math.min(1000,Math.floor(Number(S.staff)||0)));S.reserve=Math.max(0,Number(S.reserve)||0);save();toast('불러왔어요');render()}catch(e){toast('코드가 올바르지 않아요')}return}
  if(t.id==='x'){tab='main';return render()}
- if(t.dataset.tab){const cur=tab==='veh'?'jobs':tab==='reg'?'biz':tab;tab=cur===t.dataset.tab?'main':t.dataset.tab;return render()}
+ if(t.dataset.tab){const cur=tab==='veh'?'jobs':tab==='biz'||tab==='evolution'?'reg':tab==='items'?'shop':tab;tab=cur===t.dataset.tab?'main':t.dataset.tab;return render()}
  if(t.dataset.section){tab=t.dataset.section;return render()}
  if(t.dataset.showjobs){showAllJobs=!showAllJobs;return render()}
  if(t.dataset.n){buyN=+t.dataset.n;return render()}
@@ -224,7 +235,7 @@ document.addEventListener('click',e=>{
  if(t.id==='stage'){if(e.target.closest('button'))return;const now=Date.now();taps=taps.filter(x=>now-x<1000);if(taps.length>=5)return;taps.push(now);
   combo=now-comboT<1200?combo+1:1;comboT=now;
   const g=tapGain();S.m+=g;S.run+=g;S.best=Math.max(S.best,S.run);S.tn++;S.d.tap++;snd(500+Math.min(combo,20)*25);navigator.vibrate&&navigator.vibrate(8);G&&G.bump();
-  $('hint').textContent=`🔥 콤보 x${combo} (+${Math.min(combo,20)*5}%)`;$('hint').style.display=combo>=3||S.tn<20?'':'none';
+  $('hint').textContent=`연속 배달 ${combo} · 터치 수익 +${Math.min(combo,10)*4}%`;$('hint').style.display=combo>=3||S.tn<20?'':'none';
   const s=document.createElement('span');s.className='fl';s.textContent='+'+f(g);
   const r=t.getBoundingClientRect();s.style.left=(e.clientX-r.left-12)+'px';s.style.top=(e.clientY-r.top-12)+'px';t.appendChild(s);setTimeout(()=>s.remove(),800);return upd()}
  if(t.id==='ad'){tab='shop';return render()}
