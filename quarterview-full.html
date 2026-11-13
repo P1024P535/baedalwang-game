@@ -243,14 +243,17 @@ function building(x,y,label,color,roof,height){
 function tree(x,y){const [px,py]=iso(x+.5,y+.5);c.fillStyle='#28574535';c.beginPath();c.ellipse(px+6,py+3,20,8,0,0,Math.PI*2);c.fill();c.fillStyle='#89694c';c.fillRect(px-4,py-31,8,34);for(const [ox,oy,r,col] of [[-9,-44,17,'#318c68'],[10,-42,17,'#4bac78'],[0,-57,19,'#63c88d']]){c.fillStyle=col;c.beginPath();c.arc(px+ox,py+oy,r,0,Math.PI*2);c.fill()}c.fillStyle='#a3e4a9';c.beginPath();c.ellipse(px-7,py-62,8,5,-.4,0,Math.PI*2);c.fill()}
 const shops=[[2,2,'신문','#ffbf85','#e77f63',65],[10,2,'분식','#f8b5c6','#df7796',69],[2,10,'치킨','#ffb56d','#e88155',76],[10,10,'피자','#ffdb86','#e8a153',74],[6,2,'카페','#a7dfc8','#4eac91',65],[6,10,'마트','#a8c9ed','#7c9fd0',80],[2,6,'빌라','#c8b6e6','#927bbd',88],[10,6,'주택','#b8d7f5','#7ba7d3',72]];
 function drawRider(x,y){const [px,py]=iso(x,y);c.save();c.translate(px,py-8-Math.sin(clock*9)*1.4-bump*5);c.fillStyle='#35545c';c.beginPath();c.ellipse(0,9,24,10,0,0,Math.PI*2);c.fill();c.fillStyle='#243844';for(const xx of [-15,15]){c.beginPath();c.arc(xx,6,7,0,Math.PI*2);c.fill()}poly([[-16,-2],[12,-8],[20,0],[-5,5]],'#fa8546');c.fillStyle='#ffdc7d';c.fillRect(-8,-26,17,20);c.fillStyle='#e8aa82';c.beginPath();c.arc(0,-34,10,0,Math.PI*2);c.fill();c.fillStyle='#275a69';c.beginPath();c.arc(0,-38,12,Math.PI,Math.PI*2);c.lineTo(12,-36);c.lineTo(-12,-36);c.fill();c.fillStyle='#f6c65a';c.fillRect(-19,-25,12,16);c.strokeStyle='#385e69';c.lineWidth=3;c.beginPath();c.moveTo(12,-12);c.lineTo(20,-24);c.lineTo(26,-24);c.stroke();c.restore()}
-function draw(now){requestAnimationFrame(draw);if(document.hidden)return;clock=now/1000;bump=Math.max(0,bump-.035);const hour=new Date().getHours(),night=hour<6||hour>=20;c.clearRect(0,0,w,h);c.fillStyle=night?'#789cbb':'#d9f2ed';c.fillRect(0,0,w,h);c.save();
+function draw(now){requestAnimationFrame(draw);if(document.hidden)return;clock=now/1000;bump=Math.max(0,bump-.035);c.setTransform(dpr,0,0,dpr,0,0);c.globalAlpha=1;const hour=new Date().getHours(),night=hour<6||hour>=20;c.clearRect(0,0,w,h);c.fillStyle=night?'#789cbb':'#d9f2ed';c.fillRect(0,0,w,h);c.save();
 const progress=clock*.14;const route=[[7,7],[7,3],[3,3],[3,7],[3,11],[7,11],[11,11],[11,7],[11,3],[7,3]];const ri=Math.floor(progress)%(route.length-1),mix=progress%1;const x=route[ri][0]*(1-mix)+route[ri+1][0]*mix,y=route[ri][1]*(1-mix)+route[ri+1][1]*mix;const [cx,cy]=iso(x,y);c.translate(w/2-cx,h*.56-cy);
 for(let z=0;z<27;z++)for(let tx=0;tx<13;tx++){let ty=z-tx;if(ty<0||ty>=13)continue;const road=tx>=5&&tx<=7||ty>=5&&ty<=7;tile(tx,ty,road?'#738894':(tx+ty)%2?'#a8d7ad':'#b9e1b4');if(road&&(tx===6||ty===6)&&((tx+ty)%3===0)){const [a,b]=iso(tx+.5,ty+.5);c.fillStyle='#ffe4a1';c.save();c.translate(a,b+9);c.rotate(tx===6?-.46:.46);c.fillRect(-7,-1.5,14,3);c.restore()}}
 for(const [bx,by,n,color,roof,height] of shops)building(bx,by,n,color,roof,height+(S.r||0)%8*2);
 for(const [tx,ty] of [[1,4],[4,1],[9,1],[12,4],[1,9],[4,12],[9,12],[12,9]])tree(tx,ty);
 drawRider(x,y);
-c.save();c.translate(cx-w/2,cy-h*.56);for(const p of particles){c.globalAlpha=Math.max(0,p.life);c.fillStyle='#ffd34e';c.beginPath();c.arc(p.x,p.y-p.life*45,6,0,Math.PI*2);c.fill();p.life-=.02}particles=particles.filter(p=>p.life>0);
-c.restore();c.restore();if(night){c.fillStyle='#13284d22';c.fillRect(0,0,w,h)}
+c.restore();
+c.save();c.setTransform(dpr,0,0,dpr,0,0);
+for(const p of particles){c.globalAlpha=Math.max(0,p.life);c.fillStyle='#ffd34e';c.beginPath();c.arc(p.x,p.y-(1-p.life)*45,6,0,Math.PI*2);c.fill();p.life-=.02}
+particles=particles.filter(p=>p.life>0);c.restore();c.globalAlpha=1;
+if(night){c.fillStyle='#13284d22';c.fillRect(0,0,w,h)}
 }
 requestAnimationFrame(draw);
 G={coin:()=>{particles.push({x:w/2+(Math.random()-.5)*50,y:h*.53,life:1})},bump:()=>{bump=1;G.coin()}};
