@@ -216,17 +216,40 @@ addEventListener('resize',resize);if(typeof ResizeObserver!=='undefined')new Res
 function iso(x,y){return [(x-y)*tileW*.5,(x+y)*tileH*.5]}
 function poly(pts,fill,stroke){c.beginPath();c.moveTo(...pts[0]);for(let i=1;i<pts.length;i++)c.lineTo(...pts[i]);c.closePath();c.fillStyle=fill;c.fill();if(stroke){c.strokeStyle=stroke;c.lineWidth=1;c.stroke()}}
 function tile(x,y,color){const [px,py]=iso(x,y);poly([[px,py],[px+tileW/2,py+tileH/2],[px,py+tileH],[px-tileW/2,py+tileH/2]],color,'#ffffff3b')}
-function building(x,y,label,color,roof,height){const [px,py]=iso(x+.45,y+.45),dx=34,dy=17,z=height;poly([[px-dx,py+dy],[px,py+dy*2],[px,py+dy*2-z],[px-dx,py+dy-z]],color);poly([[px,py+dy*2],[px+dx,py+dy],[px+dx,py+dy-z],[px,py+dy*2-z]],color);poly([[px-dx,py+dy-z],[px,py+dy*2-z],[px+dx,py+dy-z],[px,py-z]],roof,'#ffffff88');c.fillStyle='#fff5d8';c.fillRect(px-10,py+dy*2-z+14,14,20);c.fillStyle='#4a6c80';c.fillRect(px+10,py+dy*2-z+15,11,13);c.textAlign='center';c.font='bold 13px system-ui';c.fillStyle='#24544a';c.fillText(label,px,py-z-8)}
-function tree(x,y){const [px,py]=iso(x+.5,y+.5);c.fillStyle='#99755b';c.fillRect(px-3,py-28,6,28);c.fillStyle='#3eac78';c.beginPath();c.ellipse(px,py-39,17,21,0,0,Math.PI*2);c.fill();c.fillStyle='#78d69e';c.beginPath();c.ellipse(px-5,py-44,9,12,0,0,Math.PI*2);c.fill()}
+function building(x,y,label,color,roof,height){
+ const [px,py]=iso(x+.45,y+.45),dx=35,dy=18,z=height,base=py+dy*2;
+ // Ground shadow, wall faces and contrasting roof trim
+ c.fillStyle='#204f4433';c.beginPath();c.ellipse(px+3,base+5,48,15,0,0,Math.PI*2);c.fill();
+ poly([[px-dx,py+dy],[px,base],[px,base-z],[px-dx,py+dy-z]],color);
+ poly([[px,base],[px+dx,py+dy],[px+dx,py+dy-z],[px,base-z]],color);
+ c.fillStyle='#213e4930';poly([[px,base],[px+dx,py+dy],[px+dx,py+dy-z],[px,base-z]],'#31536b30');
+ poly([[px-dx-3,py+dy-z-3],[px,base-z-3],[px+dx+3,py+dy-z-3],[px,py-z-3]],roof,'#ffffffaa');
+ // Roof ridge and front glass shopfront
+ c.strokeStyle='#ffffff77';c.lineWidth=2;c.beginPath();c.moveTo(px-dx,py+dy-z-3);c.lineTo(px,base-z-3);c.lineTo(px+dx,py+dy-z-3);c.stroke();
+ const shop=!['빌라','주택'].includes(label),signY=base-z+11;
+ if(shop){
+  c.fillStyle='#fff9e8';c.fillRect(px-28,signY,55,18);c.strokeStyle='#d9a785';c.lineWidth=1.5;c.strokeRect(px-28,signY,55,18);
+  c.fillStyle='#35566a';c.font='bold 11px system-ui';c.textAlign='center';c.fillText(label,px,signY+13);
+  for(let k=0;k<5;k++)poly([[px-29+k*11,signY+19],[px-18+k*11,signY+19],[px-18+k*11,signY+28],[px-29+k*11,signY+28]],k%2?'#fff5d9':roof);
+  c.fillStyle='#365d72';c.fillRect(px-25,signY+30,49,Math.max(11,z-53));c.fillStyle='#bde9ed';c.fillRect(px-22,signY+32,16,Math.max(7,z-57));c.fillRect(px+6,signY+32,15,Math.max(7,z-57));
+  c.fillStyle='#ffffff88';c.fillRect(px-18,signY+34,3,Math.max(5,z-61));
+ }else{
+  for(let row=0;row<2;row++)for(let col=0;col<2;col++){let wx=px-24+col*27,wy=base-z+18+row*23;c.fillStyle='#f8e7ae';c.fillRect(wx,wy,15,15);c.fillStyle='#4b6b8d';c.fillRect(wx+2,wy+2,11,11);c.fillStyle='#b9e4f0';c.fillRect(wx+3,wy+3,4,9)}
+  c.fillStyle='#5d6f80';c.fillRect(px-6,base-21,13,21);
+ }
+ // Side windows add depth
+ c.fillStyle='#f5f1c5';c.fillRect(px+16,py+dy-z+25,10,14);c.fillStyle='#648ca2';c.fillRect(px+18,py+dy-z+27,6,10);
+}
+function tree(x,y){const [px,py]=iso(x+.5,y+.5);c.fillStyle='#28574535';c.beginPath();c.ellipse(px+6,py+3,20,8,0,0,Math.PI*2);c.fill();c.fillStyle='#89694c';c.fillRect(px-4,py-31,8,34);for(const [ox,oy,r,col] of [[-9,-44,17,'#318c68'],[10,-42,17,'#4bac78'],[0,-57,19,'#63c88d']]){c.fillStyle=col;c.beginPath();c.arc(px+ox,py+oy,r,0,Math.PI*2);c.fill()}c.fillStyle='#a3e4a9';c.beginPath();c.ellipse(px-7,py-62,8,5,-.4,0,Math.PI*2);c.fill()}
 const shops=[[2,2,'신문','#ffbf85','#e77f63',65],[10,2,'분식','#f8b5c6','#df7796',69],[2,10,'치킨','#ffb56d','#e88155',76],[10,10,'피자','#ffdb86','#e8a153',74],[6,2,'카페','#a7dfc8','#4eac91',65],[6,10,'마트','#a8c9ed','#7c9fd0',80],[2,6,'빌라','#c8b6e6','#927bbd',88],[10,6,'주택','#b8d7f5','#7ba7d3',72]];
 function drawRider(x,y){const [px,py]=iso(x,y);c.save();c.translate(px,py-8-Math.sin(clock*9)*1.4-bump*5);c.fillStyle='#35545c';c.beginPath();c.ellipse(0,9,24,10,0,0,Math.PI*2);c.fill();c.fillStyle='#243844';for(const xx of [-15,15]){c.beginPath();c.arc(xx,6,7,0,Math.PI*2);c.fill()}poly([[-16,-2],[12,-8],[20,0],[-5,5]],'#fa8546');c.fillStyle='#ffdc7d';c.fillRect(-8,-26,17,20);c.fillStyle='#e8aa82';c.beginPath();c.arc(0,-34,10,0,Math.PI*2);c.fill();c.fillStyle='#275a69';c.beginPath();c.arc(0,-38,12,Math.PI,Math.PI*2);c.lineTo(12,-36);c.lineTo(-12,-36);c.fill();c.fillStyle='#f6c65a';c.fillRect(-19,-25,12,16);c.strokeStyle='#385e69';c.lineWidth=3;c.beginPath();c.moveTo(12,-12);c.lineTo(20,-24);c.lineTo(26,-24);c.stroke();c.restore()}
 function draw(now){requestAnimationFrame(draw);if(document.hidden)return;clock=now/1000;bump=Math.max(0,bump-.035);const hour=new Date().getHours(),night=hour<6||hour>=20;c.clearRect(0,0,w,h);c.fillStyle=night?'#789cbb':'#d9f2ed';c.fillRect(0,0,w,h);c.save();
 const progress=clock*.14;const route=[[7,7],[7,3],[3,3],[3,7],[3,11],[7,11],[11,11],[11,7],[11,3],[7,3]];const ri=Math.floor(progress)%(route.length-1),mix=progress%1;const x=route[ri][0]*(1-mix)+route[ri+1][0]*mix,y=route[ri][1]*(1-mix)+route[ri+1][1]*mix;const [cx,cy]=iso(x,y);c.translate(w/2-cx,h*.56-cy);
-for(let z=0;z<27;z++)for(let tx=0;tx<13;tx++){let ty=z-tx;if(ty<0||ty>=13)continue;const road=tx>=5&&tx<=7||ty>=5&&ty<=7;tile(tx,ty,road?'#83949d':(tx+ty)%2?'#b1e0b0':'#a6d8aa');if(road&&(tx===6||ty===6)&&((tx+ty)%3===0)){const [a,b]=iso(tx+.5,ty+.5);c.fillStyle='#f9e7a7';c.fillRect(a-5,b+8,10,2)}}
+for(let z=0;z<27;z++)for(let tx=0;tx<13;tx++){let ty=z-tx;if(ty<0||ty>=13)continue;const road=tx>=5&&tx<=7||ty>=5&&ty<=7;tile(tx,ty,road?'#738894':(tx+ty)%2?'#a8d7ad':'#b9e1b4');if(road&&(tx===6||ty===6)&&((tx+ty)%3===0)){const [a,b]=iso(tx+.5,ty+.5);c.fillStyle='#ffe4a1';c.save();c.translate(a,b+9);c.rotate(tx===6?-.46:.46);c.fillRect(-7,-1.5,14,3);c.restore()}}
 for(const [bx,by,n,color,roof,height] of shops)building(bx,by,n,color,roof,height+(S.r||0)%8*2);
 for(const [tx,ty] of [[1,4],[4,1],[9,1],[12,4],[1,9],[4,12],[9,12],[12,9]])tree(tx,ty);
 drawRider(x,y);
-for(const p of particles){c.globalAlpha=Math.max(0,p.life);c.fillStyle='#ffd34e';c.beginPath();c.arc(p.x,p.y-p.life*45,6,0,Math.PI*2);c.fill();p.life-=.02}particles=particles.filter(p=>p.life>0);
+c.save();c.translate(cx-w/2,cy-h*.56);for(const p of particles){c.globalAlpha=Math.max(0,p.life);c.fillStyle='#ffd34e';c.beginPath();c.arc(p.x,p.y-p.life*45,6,0,Math.PI*2);c.fill();p.life-=.02}particles=particles.filter(p=>p.life>0);
 c.restore();if(night){c.fillStyle='#13284d22';c.fillRect(0,0,w,h)}
 }
 requestAnimationFrame(draw);
