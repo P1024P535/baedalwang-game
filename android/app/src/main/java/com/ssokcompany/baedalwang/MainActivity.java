@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
   web.setWebViewClient(new WebViewClient() {
    @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
     Uri uri=request.getUrl();
-    if ("file".equals(uri.getScheme()) && uri.toString().startsWith("file:///android_asset/www/")) return false;
+    if ("file".equals(uri.getScheme()) && uri.toString().startsWith("file:///android_asset/")) return false;
     if (request.isForMainFrame() && ("https".equals(uri.getScheme()) || "mailto".equals(uri.getScheme()))) {
      try { startActivity(new Intent(Intent.ACTION_VIEW, uri)); } catch(Exception ex) { Log.w("Baedalwang", "No handler for link"); }
     }
@@ -58,9 +58,9 @@ public class MainActivity extends Activity {
     return true;
    }
   });
-  // Same file URL and WebView data directory as the existing main APK.
+  // Same file URL and WebView data directory as the prior Claude APK.
   // No cache/data clearing, data-directory suffix, game injection, or game rewrites.
-  web.loadUrl("file:///android_asset/www/index.html");
+  web.loadUrl("file:///android_asset/index.html");
  }
  @Override protected void onPause() {
   if(web!=null) web.evaluateJavascript("try { if(typeof save==='function') save(); } catch(e) {}",null);

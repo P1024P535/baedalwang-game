@@ -1,0 +1,125 @@
+name: Build verified Claude-original Baedalwang
+on:
+  workflow_dispatch:
+  push:
+    branches: [release/claude495-android-20261114]
+    paths: ['index.html', 'assets/**', 'original-manifest.json', 'android/**', 'scripts/**', '.github/workflows/build-claude-final.yml']
+permissions:
+  contents: read
+  actions: read
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - name: Verify all 495 original files and prepare native resources
+        run: python3 scripts/prepare-original.py
+      - name: Install required Android SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | sort | tail -1)"
+          test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0" "platform-tools"
+      - name: Download preserved prior Claude signed AAB
+        uses: actions/download-artifact@v4
+        with:
+          name: baedalwang-claude-original-signed-aab
+          run-id: 43556157898
+          github-token: ${{ github.token }}
+          path: out/previous-aab
+      - name: Preserve known working main APK
+        uses: actions/download-artifact@v4
+        with:
+          name: baedalwang-test-apk
+          run-id: 43550697466
+          github-token: ${{ github.token }}
+          path: out/preserved-main
+      - name: Build signed APK, signed AAB and instrumentation tests with existing key
+        shell: bash
+        env:
+          BAEDALWANG_KEYSTORE_BASE64: ${{ secrets.BAEDALWANG_KEYSTORE_BASE64 }}
+          BAEDALWANG_KEY_ALIAS: ${{ secrets.BAEDALWANG_KEY_ALIAS }}
+          BAEDALWANG_STORE_PASSWORD: ${{ secrets.BAEDALWANG_STORE_PASSWORD }}
+          BAEDALWANG_KEY_PASSWORD: ${{ secrets.BAEDALWANG_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for key in BAEDALWANG_KEYSTORE_BASE64 BAEDALWANG_KEY_ALIAS BAEDALWANG_STORE_PASSWORD BAEDALWANG_KEY_PASSWORD; do
+            test -n "${!key}" || { echo "::error::Required existing signing secret missing: $key"; exit 1; }
+          done
+          export BAEDALWANG_KEYSTORE_PATH="$RUNNER_TEMP/baedalwang-existing.jks"
+          trap 'rm -f "$BAEDALWANG_KEYSTORE_PATH"' EXIT
+          umask 077
+          printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
+          (cd android && gradle --no-daemon :app:assembleRelease :app:bundleRelease :app:assembleDebugAndroidTest)
+          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-claude-final-1.0.1.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-claude-final-1.0.1.aab
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-claude-final-1.0.1.apk | tee out/apk-signature.txt
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk > out/test-signature.txt
+          diff <(grep 'certificate SHA-256 digest' out/apk-signature.txt) <(grep 'certificate SHA-256 digest' out/test-signature.txt)
+          jarsigner -verify out/baedalwang-claude-final-1.0.1.aab | tee out/aab-signature.txt
+          grep -q 'jar verified' out/aab-signature.txt
+          curl -fsSL --retry 3 https://github.com/google/bundletool/releases/download/1.18.2/bundletool-all-1.18.2.jar -o "$RUNNER_TEMP/bundletool.jar"
+          java -jar "$RUNNER_TEMP/bundletool.jar" validate --bundle=out/baedalwang-claude-final-1.0.1.aab > out/bundle-validation.txt
+          PREVIOUS_AAB="$(find out/previous-aab -name '*.aab' -type f | head -1)"
+          java -jar "$RUNNER_TEMP/bundletool.jar" build-apks --bundle="$PREVIOUS_AAB" --output="$RUNNER_TEMP/previous.apks" --mode=universal --ks="$BAEDALWANG_KEYSTORE_PATH" --ks-key-alias="$BAEDALWANG_KEY_ALIAS" --ks-pass=env:BAEDALWANG_STORE_PASSWORD --key-pass=env:BAEDALWANG_KEY_PASSWORD
+          unzip -p "$RUNNER_TEMP/previous.apks" universal.apk > out/previous-claude.apk
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-claude-final-1.0.1.apk > out/apk-metadata.txt
+          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='2'" out/apk-metadata.txt
+          grep -q "targetSdkVersion:'36'" out/apk-metadata.txt
+          python3 scripts/verify-artifacts.py
+      - name: Upload installable signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: baedalwang-claude-final-release-apk
+          path: out/baedalwang-claude-final-1.0.1.apk
+          if-no-files-found: error
+      - name: Upload signed Play AAB
+        uses: actions/upload-artifact@v4
+        with:
+          name: baedalwang-claude-final-signed-aab
+          path: out/baedalwang-claude-final-1.0.1.aab
+          if-no-files-found: error
+      - name: Enable KVM for Android emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Android install, prior-version upgrade, offline gameplay and persistence tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          profile: pixel_2
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+          script: bash scripts/emulator-check.sh
+      - name: Upload verification evidence and preserved main APK
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: baedalwang-final-verification
+          path: |
+            out/*.json
+            out/*.txt
+            out/emulator/
+            out/preserved-main/
+          if-no-files-found: warn
+      - name: Add verification summary
+        if: always()
+        run: |
+          echo '## Claude final ZIP Android build' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Package: com.ssokcompany.baedalwang · versionCode 2 · target API 36' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Original ZIP: c09fecbcafd90d7fb85f0af8c08eab14181d2b5004339d0172eb797ed8badef7 · expected 495 files' >> "$GITHUB_STEP_SUMMARY"
+          test ! -f out/emulator/result.txt || cat out/emulator/result.txt >> "$GITHUB_STEP_SUMMARY"
+          echo 'Production ads/billing/Firebase remain unconfigured. Physical-device verification and final Play publishing approval are still required. No Play upload or publishing was performed.' >> "$GITHUB_STEP_SUMMARY"

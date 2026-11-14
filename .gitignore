@@ -4,5 +4,5 @@
 **/*.jks
 **/*.keystore
 android/app/src/main/assets/
-android/app/src/main/res/mipmap-*/
+android/app/src/main/res/drawable/ic_launcher.png
 out/
