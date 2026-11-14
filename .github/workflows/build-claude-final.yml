@@ -66,6 +66,14 @@ jobs:
           printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
           printf '%s' "$BAEDALWANG_STORE_PASSWORD" > "$STOREPASS_FILE"
           printf '%s' "$BAEDALWANG_KEY_PASSWORD" > "$KEYPASS_FILE"
+          # Seed prior app using its matching instrumentation dependencies.
+          LEGACY_PROJECT="$RUNNER_TEMP/baedalwang-legacy"
+          mkdir -p "$LEGACY_PROJECT"
+          git archive 225607657d9644fcb3d2eae5602418ed72950f97 android | tar -x -C "$LEGACY_PROJECT"
+          mkdir -p "$LEGACY_PROJECT/android/app/src/main/res/drawable"
+          cp android/app/src/main/res/drawable/ic_launcher.png "$LEGACY_PROJECT/android/app/src/main/res/drawable/ic_launcher.png"
+          (cd "$LEGACY_PROJECT/android" && gradle --no-daemon :app:assembleDebugAndroidTest)
+          cp "$LEGACY_PROJECT/android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk" out/legacy-androidTest.apk
           (cd android && gradle --no-daemon -PliveAds :app:bundleRelease)
           cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-claude-final-1.0.2.aab
           (cd android && gradle --no-daemon :app:assembleRelease :app:assembleDebugAndroidTest :app:testReleaseUnitTest)

@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 mkdir -p out/emulator
+trap 'adb logcat -d > out/emulator/full-runtime.log || true' EXIT
 adb install -r out/previous-claude.apk
-adb install -r android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+adb install -r out/legacy-androidTest.apk
 run_test() {
  local method="$1"
  adb shell am instrument -w -r -e class "com.ssokcompany.baedalwang.GameSmokeTest#$method" com.ssokcompany.baedalwang.test/androidx.test.runner.AndroidJUnitRunner | tee "out/emulator/$method.txt"
@@ -13,6 +14,7 @@ run_test testSeedCompatibleSave
 adb shell am force-stop com.ssokcompany.baedalwang
 adb logcat -c
 adb install -r out/baedalwang-claude-final-1.0.2.apk
+adb install -r android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 # Verify the upgrade and restart without network access.
 adb shell svc wifi disable
 adb shell svc data disable
