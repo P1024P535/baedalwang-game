@@ -69,6 +69,7 @@ jobs:
           # Seed prior app using its matching instrumentation dependencies.
           LEGACY_PROJECT="$RUNNER_TEMP/baedalwang-legacy"
           mkdir -p "$LEGACY_PROJECT"
+          git fetch --no-tags --depth=1 origin 225607657d9644fcb3d2eae5602418ed72950f97
           git archive 225607657d9644fcb3d2eae5602418ed72950f97 android | tar -x -C "$LEGACY_PROJECT"
           mkdir -p "$LEGACY_PROJECT/android/app/src/main/res/drawable"
           cp android/app/src/main/res/drawable/ic_launcher.png "$LEGACY_PROJECT/android/app/src/main/res/drawable/ic_launcher.png"
