@@ -1,8 +1,8 @@
-name: Build side-by-side Claude final review APK
+name: Build side-by-side AdMob test APK
 on:
   workflow_dispatch:
   push:
-    branches: [release/claude495-android-20261114]
+    branches: [integration/admob-20261115]
     paths: ['.github/workflows/build-review-apk.yml', 'android/app/src/main/**']
 permissions:
   contents: read
@@ -25,7 +25,7 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           p=Path('android/app/build.gradle');s=p.read_text();assert s.count("applicationId 'com.ssokcompany.baedalwang'")==1
-          p.write_text(s.replace("applicationId 'com.ssokcompany.baedalwang'", "applicationId 'com.ssokcompany.baedalwang.review'").replace("versionName '1.0.1'", "versionName '1.0.1-review'"))
+          p.write_text(s.replace("applicationId 'com.ssokcompany.baedalwang'", "applicationId 'com.ssokcompany.baedalwang.review'").replace("versionName '1.0.2'", "versionName '1.0.2-review'"))
           p=Path('android/app/src/main/AndroidManifest.xml');p.write_text(p.read_text().replace('android:label="배달왕"','android:label="배달왕 최종검수"'))
           PY
       - name: Install SDK
@@ -46,13 +46,13 @@ jobs:
           umask 077
           printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
           (cd android && gradle --no-daemon :app:assembleRelease)
-          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-claude-final-review-1.0.1.apk
-          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-claude-final-review-1.0.1.apk > out/review-signature.txt
-          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-claude-final-review-1.0.1.apk > out/review-metadata.txt
+          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-claude-final-review-1.0.2.apk
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-claude-final-review-1.0.2.apk > out/review-signature.txt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-claude-final-review-1.0.2.apk > out/review-metadata.txt
           grep -q "package: name='com.ssokcompany.baedalwang.review'" out/review-metadata.txt
           python3 - <<'PY'
           import json,hashlib,zipfile,pathlib
-          m=json.load(open('original-manifest.json'));p=pathlib.Path('out/baedalwang-claude-final-review-1.0.1.apk')
+          m=json.load(open('original-manifest.json'));p=pathlib.Path('out/baedalwang-claude-final-review-1.0.2.apk')
           with zipfile.ZipFile(p) as z:
             paths={n[7:] for n in z.namelist() if n.startswith('assets/') and not n.endswith('/')}
             assert paths=={f['path'] for f in m['files']}
@@ -61,8 +61,8 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: baedalwang-claude-final-review-apk
-          path: out/baedalwang-claude-final-review-1.0.1.apk
+          name: baedalwang-admob-review-test-apk
+          path: out/baedalwang-claude-final-review-1.0.2.apk
           if-no-files-found: error
       - uses: actions/upload-artifact@v4
         if: always()

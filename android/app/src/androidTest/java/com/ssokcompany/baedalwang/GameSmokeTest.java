@@ -59,4 +59,19 @@ public class GameSmokeTest {
   ins.runOnMainSync(()->activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT));SystemClock.sleep(2000);
   assertEquals("true",js("document.getElementById('cv').width>0 && document.documentElement.scrollWidth<=window.innerWidth+2"));
  }
+ @Test public void testNativeAdsOfflineNoReward()throws Exception {
+  launch(); closeModals();
+  assertEquals("true",js("window.__ssokRewardBridgeReady===true"));
+  assertEquals("true",js("window.__qaPaid=0;window.__qaAds=S.st.ads;window.__qaSettled=false;window.__qaLog=logEv;logEv=function(name,p){if(name==='ad_skip')window.__qaSettled=true;window.__qaLog(name,p)};adThen(()=>{window.__qaPaid++});true"));
+  // The native failure callback should settle without granting anything. An offline game must never use the original mock timer.
+  boolean settled=false;
+  for(int n=0;n<180;n++) {
+   if("true".equals(js("window.__qaPaid>0 || !window.__ssokRewardBridgeReady")))break;
+   if("true".equals(js("window.__qaSettled===true"))){settled=true;break;}
+   SystemClock.sleep(500);
+  }
+  assertEquals("No offline mock reward", "true",js("window.__qaPaid===0 && S.st.ads===window.__qaAds"));
+  assertTrue("Native failure did not settle",settled);
+ }
+
 }

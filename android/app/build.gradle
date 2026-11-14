@@ -1,4 +1,6 @@
 plugins { id 'com.android.application' }
+def testAds = !project.hasProperty('liveAds')
+
 android {
  namespace 'com.ssokcompany.baedalwang'
  compileSdk 36
@@ -7,8 +9,11 @@ android {
   applicationId 'com.ssokcompany.baedalwang'
   minSdk 24
   targetSdk 36
-  versionCode 2
-  versionName '1.0.1'
+  versionCode 3
+  versionName (testAds ? '1.0.2-ads-test' : '1.0.2')
+  buildConfigField 'boolean', 'ADS_TEST_MODE', testAds.toString()
+  buildConfigField 'String', 'REWARDED_AD_UNIT', '"' + (testAds ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-8529047857122990/2097149793') + '"'
+  manifestPlaceholders = [admobAppId: testAds ? 'ca-app-pub-3940256099942544~3347511713' : 'ca-app-pub-8529047857122990~7112517800']
   testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
  }
  signingConfigs {
@@ -25,7 +30,12 @@ android {
   release { signingConfig signingConfigs.release; minifyEnabled false }
   debug { signingConfig signingConfigs.release; applicationIdSuffix ''; versionNameSuffix '-qa' }
  }
+ buildFeatures { buildConfig true }
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
 }
 
-dependencies { androidTestImplementation 'androidx.test:runner:1.6.2'; androidTestImplementation 'androidx.test.ext:junit:1.2.1' }
+dependencies {
+ implementation 'com.google.android.gms:play-services-ads:25.5.0'
+ implementation 'com.google.android.ump:user-messaging-platform:4.0.0'
+ testImplementation 'junit:junit:4.13.2'
+ androidTestImplementation 'androidx.test:runner:1.6.2'; androidTestImplementation 'androidx.test.ext:junit:1.2.1' }

@@ -12,12 +12,13 @@ run_test() {
 run_test testSeedCompatibleSave
 adb shell am force-stop com.ssokcompany.baedalwang
 adb logcat -c
-adb install -r out/baedalwang-claude-final-1.0.1.apk
+adb install -r out/baedalwang-claude-final-1.0.2.apk
 # Verify the upgrade and restart without network access.
 adb shell svc wifi disable
 adb shell svc data disable
 run_test testCompatibleUpgrade
 run_test testGameplayAndSave
+run_test testNativeAdsOfflineNoReward
 adb shell am start -n com.ssokcompany.baedalwang/.MainActivity
 sleep 12
 adb exec-out screencap -p > out/emulator/portrait.png
