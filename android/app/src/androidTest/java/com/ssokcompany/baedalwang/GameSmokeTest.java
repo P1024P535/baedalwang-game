@@ -43,6 +43,7 @@ public class GameSmokeTest {
  }
  @Test public void testGameplayAndSave()throws Exception{
   launch();closeModals();
+  assertEquals("Bundled fonts must load, not fallback", "true", js("Array.from(document.fonts).length===2 && Array.from(document.fonts).every(f=>f.status==='loaded')"));
   assertEquals("true",js("Array.isArray(V)&&V.length>1&&R.length>1&&J.length>1&&C.length>0&&Number.isFinite(ips())"));
   assertEquals("true",js("(()=>{const m=S.money,t=S.taps;doTap(100,300);return S.money>m&&S.taps===t+1})()"));
   assertEquals("true",js("(()=>{S.money=1e9;buyN=1;const n=S.jobs[0];onAct({dataset:{act:'job',i:'0'}});return S.jobs[0]===n+1&&Number.isFinite(ips())})()"));

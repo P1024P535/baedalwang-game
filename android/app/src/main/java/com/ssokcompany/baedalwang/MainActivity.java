@@ -33,6 +33,9 @@ public class MainActivity extends Activity {
   s.setJavaScriptEnabled(true);
   s.setDomStorageEnabled(true);
   s.setAllowFileAccess(true);
+  // Only packaged, trusted local content is loaded. Keep remote universal access disabled.
+  s.setAllowFileAccessFromFileURLs(true);
+  s.setAllowUniversalAccessFromFileURLs(false);
   s.setAllowContentAccess(false);
   s.setTextZoom(100);
   s.setMediaPlaybackRequiresUserGesture(false);

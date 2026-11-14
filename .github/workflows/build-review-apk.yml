@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [release/claude495-android-20261114]
-    paths: ['.github/workflows/build-review-apk.yml']
+    paths: ['.github/workflows/build-review-apk.yml', 'android/app/src/main/**']
 permissions:
   contents: read
 jobs:
