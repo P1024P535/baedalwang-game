@@ -109,6 +109,31 @@ jobs:
           name: baedalwang-test-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
 
+      - name: Sign release AAB when signing secrets are configured
+        shell: bash
+        env:
+          SIGNING_KEYSTORE_BASE64: ${{ secrets.BAEDALWANG_KEYSTORE_BASE64 }}
+          SIGNING_KEY_ALIAS: ${{ secrets.BAEDALWANG_KEY_ALIAS }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.BAEDALWANG_STORE_PASSWORD }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.BAEDALWANG_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$SIGNING_KEYSTORE_BASE64" || -z "$SIGNING_KEY_ALIAS" || -z "$SIGNING_STORE_PASSWORD" || -z "$SIGNING_KEY_PASSWORD" ]]; then
+            echo "Signing secrets not configured; skipping signed release artifact."
+            exit 0
+          fi
+          printf '%s' "$SIGNING_KEYSTORE_BASE64" | base64 --decode > /tmp/baedalwang-upload.jks
+          jarsigner -keystore /tmp/baedalwang-upload.jks \
+            -storepass:env SIGNING_STORE_PASSWORD -keypass:env SIGNING_KEY_PASSWORD \
+            -signedjar android/app/build/outputs/bundle/release/baedalwang-signed.aab \
+            android/app/build/outputs/bundle/release/app-release.aab "$SIGNING_KEY_ALIAS"
+          jarsigner -verify -strict android/app/build/outputs/bundle/release/baedalwang-signed.aab
+          rm -f /tmp/baedalwang-upload.jks
+      - uses: actions/upload-artifact@v4
+        if: ${{ hashFiles('android/app/build/outputs/bundle/release/baedalwang-signed.aab') != '' }}
+        with:
+          name: baedalwang-signed-release-aab
+          path: android/app/build/outputs/bundle/release/baedalwang-signed.aab
       - uses: actions/upload-artifact@v4
         with:
           name: baedalwang-unsigned-release-aab
