@@ -1,0 +1,3481 @@
+{
+  "name": "배달왕(3).zip",
+  "sha256": "c09fecbcafd90d7fb85f0af8c08eab14181d2b5004339d0172eb797ed8badef7",
+  "size": 31869576,
+  "files": [
+    {
+      "path": "index.html",
+      "size": 349353,
+      "sha256": "f6708de65e880964bdbafadce6646d76f9fc808ddeb97173303f9fd307dcd024",
+      "gitSha": "81a89af161dc4d52285a3699ea464172ffd65f84",
+      "category": "코드"
+    },
+    {
+      "path": "assets/BlackHanSans-Regular.woff2",
+      "size": 190532,
+      "sha256": "2136013b52a65d068dcf02efaa740a2f76f2247a3d38a640a3c77b728071fc95",
+      "gitSha": "26ae48069278feab5c037889e7771b17e4acf46d",
+      "category": "폰트"
+    },
+    {
+      "path": "assets/DoHyeon-Regular.woff2",
+      "size": 204564,
+      "sha256": "c48b55e42920f3eb22e894e5542a57f443f8f80caa1df71771b96fa6437ccbbf",
+      "gitSha": "9609d154fe176a53e91ef7fd73ddbc099c85204b",
+      "category": "폰트"
+    },
+    {
+      "path": "assets/al_h0.png",
+      "size": 24123,
+      "sha256": "df6cbe546f7150434361ba1cc6ca729f492cfb937757b4f8b2c96423c94638b3",
+      "gitSha": "aec196ad9cf9a2eac4f4847240d4e659ca9ccea0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/al_h1.png",
+      "size": 22572,
+      "sha256": "699eecb78f4b9cbb68f030bbdbaf485688f316cb5fde04177076d3cb4bd41ba9",
+      "gitSha": "95f9959b53c21ef39c825667f8ca20c5a9ab2950",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/al_h2.png",
+      "size": 25561,
+      "sha256": "dce01f78fad75ddab5a6ca7ac50b068c3a73bb73657aeb45e206cca05c95dbf7",
+      "gitSha": "f0228b38991898a9740e21e33d146d97c66fc664",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/al_w0.png",
+      "size": 22966,
+      "sha256": "2d2cf81cfe878b364da66422fa169fbc375cf93a6ba46a3a1ac8bb5bce2732a9",
+      "gitSha": "15f8b38ca3d8b8e049e78ed3e048525c492516ce",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/al_w1.png",
+      "size": 21162,
+      "sha256": "78c77611a702f7039fa419e55d0103e68803ab3f33de00cd11dabe516cc46930",
+      "gitSha": "8445cb70d1fcc47b6ff1b02cfd25bfc0c7c21784",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/al_w2.png",
+      "size": 25054,
+      "sha256": "fbf0c2e525b0c52137ffd0b1b7458766ad44f75fe37d18bfbe336ee935ca5c86",
+      "gitSha": "e17d11f6a5994267e5d36020d375e9b5716899b7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/animal_cat.png",
+      "size": 33285,
+      "sha256": "adc0649612b2b645a8debbbb9d3bc6d9e1be4dcd492b28b668aa9793e5733805",
+      "gitSha": "97be89a4b66adf8a817f1068e17f89bd628b6588",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/animal_dog.png",
+      "size": 28316,
+      "sha256": "e9bb5df6e1e6bc7df7bbad8f74776aec54e94d991d078cd26ad14806ba277fe0",
+      "gitSha": "ed87173103a2d77c47bf898594638d5cda1b78c0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/animal_pigeon.png",
+      "size": 29213,
+      "sha256": "4d1e229a4715b548d64b8aa6b9a6fa8f0b7938c1eaa2051d5139df8da50c8464",
+      "gitSha": "85f7fb9ba444bd886bae2aa25027b1f0c18974d3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/app_icon.png",
+      "size": 476377,
+      "sha256": "a06474963eacf6a06b4c22cdc70d9e77bfba5d71ee2955ac894b5ac3c73d3248",
+      "gitSha": "76449c9d2188a88f02c8179ff519695abe2b25b7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_asia.jpg",
+      "size": 491461,
+      "sha256": "64998acc9ca0a1646a6b504e5630057300a5901a8d0affce5dca3f701352405b",
+      "gitSha": "3f0afdd8e1985230274012f2d93d997d106faeb9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_city.jpg",
+      "size": 254994,
+      "sha256": "967895079a73691b0f14e28106073e62443368a9117a949b59cd4d155409a0c2",
+      "gitSha": "e5570039950b96de266ca967c65572af51ed457a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_coast.jpg",
+      "size": 290573,
+      "sha256": "aa695735d095d52fb3ce0917d4e830517fd6250c73700f049d31d1f96d2b91c8",
+      "gitSha": "10155d7479e8f89188e68fcb7e6ad4a91770d50e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_country.jpg",
+      "size": 253132,
+      "sha256": "e88c855f97e66615f2c581b30e5861eeef4988389cd96f918434d3b7d5c74d84",
+      "gitSha": "dff60d226fa4e03570aee46389f88ea50c176b14",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_downtown.jpg",
+      "size": 283966,
+      "sha256": "3abd95fa7882f5c61ac386143869d198c9ebc7455a8ea572c4f9bd21704c26b3",
+      "gitSha": "4ed230307ba6a26da4fd9d7b7ceddcd4835b741d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_highway.jpg",
+      "size": 297953,
+      "sha256": "eb792e2fdb1ccdb3891d940b1f8a91321603f985390dd005a5d4e19963848427",
+      "gitSha": "c64c84db00f2e99bd76aa3dbb9c9c6caaaca6728",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_industry.jpg",
+      "size": 289953,
+      "sha256": "b07e137573fb2d7ed4fb324cc2f47043d2e8fb827a16d9746bd6c3ad3ff4bded",
+      "gitSha": "1b215983191bacfe14643d717c577e02240ccc28",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_mountain.jpg",
+      "size": 58909,
+      "sha256": "41713510f88d17b946ca443e8e5d1943277ee4bd7f8ce60e7839c83764e0fc8c",
+      "gitSha": "b11f7aba60ecc3ff011a6d03293da1c407be278a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_night.jpg",
+      "size": 293430,
+      "sha256": "0a19fbadc98bde314507cef2ca6ab90109335904b65ab622ae85eb386ce5fc43",
+      "gitSha": "62f2d0965fd5377367d2309736c5a011cbdb0b08",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_rain.jpg",
+      "size": 331563,
+      "sha256": "a49552292f782d55db0146bb69d98745192b377b7c509634d1830f21569b50b6",
+      "gitSha": "4670daec9d1524dba537ecfe87600b43735a878b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_snow.jpg",
+      "size": 356292,
+      "sha256": "e289d17dfb95b1dc20c3e83c89384f8e94b0ad3df99f60b1c8cde5368885384e",
+      "gitSha": "41ce6e96f4a262b9ec089316cb1fa54d4f281019",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_space.jpg",
+      "size": 212688,
+      "sha256": "bdb8f4c2bf47407b61e4e5408b5e501c0ef29a94c2c70043d9f391220a5809c2",
+      "gitSha": "ed9cb93ab42fe9d43672dd19c47aecbbd48c7e75",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_world.jpg",
+      "size": 469842,
+      "sha256": "9b700800b1c628d59867d5082390b3ad7d5291896558acd75fea72a99112903a",
+      "gitSha": "68f72c6dbe2472c2f2cd1acfb5f78f1f220f048f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bg_xmas.jpg",
+      "size": 271163,
+      "sha256": "c62bf8730991c80ae5669bc6b72360932abfc246cf29cf399c78d70ef0d50ecb",
+      "gitSha": "ad57dca90458a25e6f77f3a5e5c0a32fa9e3d9e8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/bubble.png",
+      "size": 15011,
+      "sha256": "0c4830e37f17c3e89b90613e2c85d79895b3e5db6f26def2e9e563a6ce11710e",
+      "gitSha": "9054a611bc452804e1296781f21148e5625b6563",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/card_N.png",
+      "size": 119807,
+      "sha256": "157284bb7de0926400c4527c438b80068624a224dea1a6c6b48159b400c7e564",
+      "gitSha": "2879a3d0e730de9d6d2be0d9428ad36ccbbe7b0b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/card_R.png",
+      "size": 121754,
+      "sha256": "02f2809db8b99cd7b574a19b93404f776f92f06d6f897dc5528eb11488792f32",
+      "gitSha": "f511226172cee7b1c60291648090000cf30b381f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/card_SR.png",
+      "size": 126300,
+      "sha256": "d8cb780a2f666d00864b64d8c5ca71859347a10fa348c48c6db504d8e8da976e",
+      "gitSha": "301ad55fea37e22ef3ac39e7405da4f30c674ada",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/card_SSR.png",
+      "size": 134819,
+      "sha256": "a635ddbb77d3881898f516f1836f7392ab16239049c154616a9a39d8b6cb8f05",
+      "gitSha": "f61c460e42a7ac17f52fd1faec780782513e8f34",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/card_back.png",
+      "size": 234828,
+      "sha256": "a1a3ca20774766fc195d7b14fc1f4efd3bc51954a26d13f59d614378a73bfd14",
+      "gitSha": "6a4eed0cb250cc3cd42d08e07fab5d52994bbd6d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/chest.png",
+      "size": 41431,
+      "sha256": "50ae795d5fec45a465bf7d663db1f06b0063dfce67d002eafd0b59942aaf289b",
+      "gitSha": "5a8a97794c082b80c6df9a0303f3acc6f295719b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_0.png",
+      "size": 13510,
+      "sha256": "bc033349472044a1bf123eafe9f5e77aa5dcf2377d9b79e9310fb2b90ff7cf48",
+      "gitSha": "9970010efe01e12e6301325aafe995814d47bea2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_1.png",
+      "size": 11001,
+      "sha256": "df369550a818281b0c48950f609a385253c0280f92ee8276474b95764af24aaf",
+      "gitSha": "01bc4065a45e5fbec1e2dd0e99fb5ed15c72c1b9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_2.png",
+      "size": 8779,
+      "sha256": "69221813415fb6e385adf86405cc802e48a9b59d464839193cdc1d3b42f8118a",
+      "gitSha": "dd5a76ce50c9022d7e918fd023167e41f94a063d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_3.png",
+      "size": 6515,
+      "sha256": "8efcf8fd04c6af730aabcbf476faf02fec67c8b83908491751bf21b4ff27ca58",
+      "gitSha": "7c72b1bf740ff5148ca780cfe4c7b3de921260a1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_4.png",
+      "size": 3936,
+      "sha256": "13f8391ef29c225d29a6e0ca337058fd7ea4a4d842354b8afb6e28c226d99ada",
+      "gitSha": "5d55ffc4d531dc6f2f0dcce2f54466310a536fff",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_5.png",
+      "size": 3265,
+      "sha256": "cd04f03ac023e365a91924d30d7be6b3039fa210557fb8f857b770e81f85d1bc",
+      "gitSha": "e2a790919f08d8da72f20778e93f12ec4d59e5fa",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_6.png",
+      "size": 6211,
+      "sha256": "1212e1a9542959f824eb46508a01d5575a19059bcc8bee754884010994ce5384",
+      "gitSha": "70b2e0be6574e9761784a55a8e2a82a1fca2332c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_7.png",
+      "size": 9368,
+      "sha256": "c2d06df15ad0b5f8b037d3e34689ed5e99fd02e7ac93c2125ea58ba142f9aa81",
+      "gitSha": "0207ce7a969d367b3676850e10fd5d8a656c4c96",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_8.png",
+      "size": 10996,
+      "sha256": "729e1d867302e146fa9fbe993a0a072dc079344a5475055dd07bff30f215e151",
+      "gitSha": "3460c4d1699b5db837cdedcdeca16772c84614d2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cn_9.png",
+      "size": 12653,
+      "sha256": "ffd1272da7e4bfa0144a02316317933a80958f442e923ff946eba187d98fb414",
+      "gitSha": "90cd2903f28800972446a06da75692628d54cf24",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/co_1.png",
+      "size": 19587,
+      "sha256": "6f96a19201295d2328ff4e5758d6e68e59c12029a19d9263050936d216686d25",
+      "gitSha": "285db6dbd06e37d815f1c393c1452f8f436e5794",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/co_2.png",
+      "size": 25767,
+      "sha256": "6a1877c2a95bac4c5269d3d63e055d385f7da87fd121fb71a4b24642f4aec6ba",
+      "gitSha": "ef280b9e1e6fa3bc007ef8ef6aba8c9ea0b388fe",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/co_3.png",
+      "size": 30823,
+      "sha256": "71219cb0d24ae115267544cfc3afe9107f06b8c5444bfee5f414acbfdf0fa95e",
+      "gitSha": "dabefcdaa5b9ebaee946e327253072a41b602535",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_h0.png",
+      "size": 51644,
+      "sha256": "1ad936cd5e99a94e2c2d50ebb9f191fbe847a0654a108854c702e57ca3dd2416",
+      "gitSha": "9c832e76594f059feca906da51d0767bde9fa692",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_h1.png",
+      "size": 43985,
+      "sha256": "0cdc48404342ed5c7c6de98f901327b3fd47aae638825a2fe5196beec5bafbf9",
+      "gitSha": "31ac13b8aed1ba4b768556e509f6d10be70a32bc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_h2.png",
+      "size": 53182,
+      "sha256": "993d11996800d57dc84adfd9a2edd2243b4cb3a2ef7e3498b2080cf53070f72b",
+      "gitSha": "2d22b5babe2b123bfef8cf31171c068415eb730e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_h3.png",
+      "size": 44912,
+      "sha256": "b70ad6894cce06ac9f210d5765fcb9e1f8180942a0c9b7c0a7e381d8c4f55944",
+      "gitSha": "a6e3a248afb82c2e7100a3daa5014272b280d3f4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_h4.png",
+      "size": 40981,
+      "sha256": "ba053dff1c536e7f6da7aae44124ce28842ba08151dd041cce1c07c2e58368f1",
+      "gitSha": "bc0a5457f6e0d84ef307f05af1abc62e3a078866",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_h5.png",
+      "size": 55619,
+      "sha256": "51d29587a802e36db3fa6067d36c3f3f22838842d3c754c5ab9c06089f101e07",
+      "gitSha": "0044546784c4410088d5877b30c62b63d075e7c0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_w0.png",
+      "size": 40833,
+      "sha256": "5df37fad52a75495cd010ae0c109274f91d5b022316e5187923161f3f3c0bf15",
+      "gitSha": "f684c26ab7482d48997432fa351fd330752056ab",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_w1.png",
+      "size": 38652,
+      "sha256": "c1ae8d2dc4da50523619efd4cb131fa71512a908b479be1e419a9fe7f2dccdff",
+      "gitSha": "7861bdfdc5a02644f933176ab2006c39012bf95c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_w2.png",
+      "size": 43108,
+      "sha256": "1c3128ea448bbacee69e366dfc036978a7b4323aca0b49b1d886ee9d63449ad5",
+      "gitSha": "36f82f501f2ef2f318dd1fb51bd259998e53f316",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_w3.png",
+      "size": 37537,
+      "sha256": "411d46df898383d421bb5e05daee6a24d6c6db02f253801df7945c2ab09d1635",
+      "gitSha": "7503bcdf07a2bba78bea7cd54f424a06693ec15b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_w4.png",
+      "size": 36593,
+      "sha256": "a8c4375f611b081574202837b0ddc21d69df173370067738cd35e5d53cfa49a6",
+      "gitSha": "db77c94f1e00e03bdf21a41970897df82df6b825",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cu_w5.png",
+      "size": 47462,
+      "sha256": "9e0d3464e7e0ac6318bd5bd6f17c6e8577276ae73c39cb7305ddc33910ba6444",
+      "gitSha": "675b6bef9080eb21e9a975f6e6e918932535d01d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_h0.png",
+      "size": 47145,
+      "sha256": "5beb3e9e45550d2c4f44ff1692cb2d137053702711220372336844bde7e95ac0",
+      "gitSha": "e8fae9b43e1a18b8f88562084c217b95887ab8aa",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_h1.png",
+      "size": 50610,
+      "sha256": "1ae6b928dcb22b7d19018f33e103bb504d22a552bcf8b9070072e40b380067d0",
+      "gitSha": "7723174f7aea147a2ca69383595c7fc1266918e5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_h2.png",
+      "size": 49870,
+      "sha256": "cc3f416193f0d65cf535c9e3f448ce84254ebf441371c86064463d22d6772979",
+      "gitSha": "1dde85d7647da9818b3d440e98ef8fb15e2bee06",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_h3.png",
+      "size": 50085,
+      "sha256": "c4c1d23b90725e97ebf45398f3f90bd04e0dee846f40eb49b213c9da53cc6789",
+      "gitSha": "90eef5c0677fb0cbb456a7620bcf187d4e278242",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_h4.png",
+      "size": 41423,
+      "sha256": "08b6aab999c91b8cc19714000daa3e1409cd735ea5cf6ec85533e4f1ccd31205",
+      "gitSha": "6e4fd489e54da18997d15371ec32ccca1e20fbb0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_h5.png",
+      "size": 52139,
+      "sha256": "04c440ad37d71add6d0c364c9c936ae2c252397d7a0645117653f27f4adb82db",
+      "gitSha": "b275b431746f2caad1f6237e2a63bbfec606adac",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_w0.png",
+      "size": 46168,
+      "sha256": "c668316e6ef6c9cc8221c14bf84992506a99098d1fbba69ad0b9aec2d2d97dcc",
+      "gitSha": "0d47047f395682c3a22ed68e755fc5ec2f5fc462",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_w1.png",
+      "size": 45972,
+      "sha256": "b3112e84bb697a51b137e63fd333fa679d42f4858f10b8dd5d25b87fc664e52f",
+      "gitSha": "1ce13f3a76f1d25995ed7c55f6d0b3fcd1a7c43d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_w2.png",
+      "size": 49046,
+      "sha256": "0203417753962fef95c9afc350293d37cf9eea32bc53d4720cdf1bb30f75830b",
+      "gitSha": "6a01025f4b59592d04275f1b36b13a78893e97df",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_w3.png",
+      "size": 46541,
+      "sha256": "cd7aeaff93cc89d78ad90d7d67c33a498478e7639f32964a8ba488ddd5024724",
+      "gitSha": "28fa4d68c0568090044f22773c1620ddd2741b04",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_w4.png",
+      "size": 38615,
+      "sha256": "fe936cc445691c493d01cf1c4e768e3ca5eb8d879572a205b5729ebe704a1830",
+      "gitSha": "dc66bf83a54ba15811f362129dc74905de36852a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/cux_w5.png",
+      "size": 52321,
+      "sha256": "2a3de241bfedbe059a23124f37d7c94e2e6255a0142578a7c33f7a7fdb02b4ed",
+      "gitSha": "e35c89b61875dd9d2b16b81443befa5529b295f9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_bag.png",
+      "size": 7254,
+      "sha256": "bd3a7a804808881f0d6638acd2744a9100aef2db0c2105b497ac930812bc3a8e",
+      "gitSha": "c60b9670239ff12c8e7d62b198dc8212dd996237",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_box.png",
+      "size": 6953,
+      "sha256": "263ebd5348c8d8c77d8e606a29610147beda20c23aa4bf4c3a7ab0c781c7819a",
+      "gitSha": "a0a64996b2234b22585c7c5c173e5168657d8f5a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_burger.png",
+      "size": 7410,
+      "sha256": "ffc3a256712352a06d5d50b48c117eef384d1ed00cf3bdad84ee794b9a69b20a",
+      "gitSha": "7c291852995abbd154ce615d5e6fe2ae24ef483c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_cart.png",
+      "size": 6636,
+      "sha256": "00af6f90cec02f8f2dad37e0d8060cf215f018a9668a575cc696928ce9055dbc",
+      "gitSha": "7f098fda31e10ce2172a6206d8c4d43d2e2976d5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_cloche.png",
+      "size": 7422,
+      "sha256": "07c1dde37b6d8ce06b8574fed38880fc76f08232ac6380fa80f6c197d61d355c",
+      "gitSha": "0c0593d55e0be92dc1e7f866c10d8e65072ee4e9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_coffee.png",
+      "size": 7406,
+      "sha256": "9ed6f52b892f001f690d2ceef82f89545b67bc10f8c6146bffb471484c98ef3f",
+      "gitSha": "32c7ce0ed3d4f0c153312962b478ee6ed62159c7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_gift.png",
+      "size": 6776,
+      "sha256": "af6d26dff84d97be5da8f47cbe7a87062941f8010b2aea719237b8437ee630a4",
+      "gitSha": "98d66ba6fa1f2b77e57fe720d2b8a25c2f939b58",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_med.png",
+      "size": 6122,
+      "sha256": "4086070d23393fbda869a92fd989ec628810357470fea36b95b6551766099ed7",
+      "gitSha": "cf73552a7a321c9326c355bdf0c453a2477fa76b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_pizza.png",
+      "size": 8236,
+      "sha256": "e17cc78f3ad3788bef586230c2b8ff76094671a051a2e529a14f873ff8edf603",
+      "gitSha": "fa0e0df40ad9a04e44789248a75b595fd6c24dd5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/d_ramen.png",
+      "size": 8803,
+      "sha256": "ed40d082996519bce691f7975a87a5ebd8d976660f579e2b2832fa7cd9fe6907",
+      "gitSha": "95197bce8df9cbb00de27ad1592c386701af1bdb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_cake.png",
+      "size": 76652,
+      "sha256": "c7127824c82a134e4f14e7e056b7b959e68fb350c18955cf022b96d266a5b2b7",
+      "gitSha": "c0ffb6548d1aa8d3cd5becd4869b100f0d7d26f3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_chicken.png",
+      "size": 80536,
+      "sha256": "6635cc6cdfab1bfeabb10b23bec73be27da731756e64507ca24f769fe916db91",
+      "gitSha": "f2978813064be6ba7f260ee9b637f53b5f039f8e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_docs.png",
+      "size": 85526,
+      "sha256": "b5a23c0fbe0f7cfe080c1b721e3cf0cfaa9c68b53d682269526de2a4ee8cdb22",
+      "gitSha": "d08abfdcd6b50ac128f8e85cf86ee40fd421e059",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_flower.png",
+      "size": 78560,
+      "sha256": "c42c042414d353c3400bcc59fbf8de072e0ea6be34bad1a4d28c6bcea74eba4d",
+      "gitSha": "63c79b9f6258fe46df17e7c54b33052de5fa1082",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_food.png",
+      "size": 76357,
+      "sha256": "7645d95125c01afec5568358da0ecaee56adb10ba3d2f39d0bc1c72a62a579c9",
+      "gitSha": "73ea405a5c65222347fa40a1605c03e405bdccf9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_fruit.png",
+      "size": 89106,
+      "sha256": "20a389ee33505e7da2bed49ac6f11d0c18a60279eca747f38959d8cdbcbd333c",
+      "gitSha": "ef9b4b7a27b7c64c4c42691effe3ba3edfdf1909",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_laundry.png",
+      "size": 94736,
+      "sha256": "66c7fff8016bdd9e564f219c69a04066bf1adb9650650f705f189a1731a25b4f",
+      "gitSha": "fccc14bd6a6880bdc637c80d0f0300208f19b7c9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_mart.png",
+      "size": 79420,
+      "sha256": "ba25203f730bd4a620b797bdcc65621a16b080972a5fdc3e6cb6d9a5f7f2690a",
+      "gitSha": "c8fa4209c96719a143a012b5c405f68b3521d152",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_med.png",
+      "size": 72093,
+      "sha256": "b33992a13b18db142e02899711d696f18b64f10d8a4c31aec44a245fea6cf50c",
+      "gitSha": "386611a8d04c8153ef4cfa68667d81cba022742a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_milk.png",
+      "size": 78062,
+      "sha256": "acaa8b83ee700852c270923b84c1b5e71d8207dff458a2d90067cd92ddd7a02e",
+      "gitSha": "293d4b5be95eea0081697da54a0d734561393ecd",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_news.png",
+      "size": 80527,
+      "sha256": "bc52d6f045e85db0c798c6c1801eccbabee0abad4c34a013c159422b7d964a3f",
+      "gitSha": "5efffbc8813d4ded53dbd6ba2d764646cd6b8a01",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_parcel.png",
+      "size": 65416,
+      "sha256": "2092108672cd39ee774ac134f65f2fd66c1c3686b99ad85ea3baf37061358a70",
+      "gitSha": "245a90d0be282990d5b4934e45cb5d5d06f9c0aa",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_pet.png",
+      "size": 86863,
+      "sha256": "bd6ae407afeaa7a5d04f01ff073d2a4fa9ef8397651b8454e7daa19aee8cfcfe",
+      "gitSha": "1d9927c00954fe41d48e6353d17dec7f203687ea",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_pizza.png",
+      "size": 81190,
+      "sha256": "843cb8176ea41557d4864adf31f676f8e7fd86992d4ce85eb6359dd72456ebf7",
+      "gitSha": "13bc192316e24173976bdb0d3b61a33e48d262d7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/dl_store.png",
+      "size": 80939,
+      "sha256": "4e1206cc887a94488d1406fc8e75ff204de5f15fa8c4e5533760569280d5631c",
+      "gitSha": "7d75c045915aea16fa8cc3dbdf9393a2fe37d1d3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/fx_bolt.png",
+      "size": 5928,
+      "sha256": "a1476bb7b3d6b67f5ad72f43fff60e4fd033b107c80b7d31867c6604fba2903d",
+      "gitSha": "8310b78222f52dc39f6cd50166dce09d27221261",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/fx_boom.png",
+      "size": 9912,
+      "sha256": "0b568edffb7e6f040f9b6a711d00571fdf42bd65b3719dd09bd7fe55784ef718",
+      "gitSha": "0024f99c9a2c9a9c2714eadc2b85b9cd60d22a36",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/fx_heart.png",
+      "size": 5832,
+      "sha256": "a42d15bd4340947dbf905ab6be9b60303716f32085b134cf416639a35d4d43f8",
+      "gitSha": "dc950ac1a1444798cee47524320c9588fd39802b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/fx_levelup.png",
+      "size": 10121,
+      "sha256": "fbee802c51b882a85aee307f4690c0a76c6f7cd163eed4daa54fbc7d3a27abdf",
+      "gitSha": "59078604bfb58baf8a22b2400d7f21379833bab0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/fx_speed.png",
+      "size": 6450,
+      "sha256": "e72294c4a5f6a679af50750c5ec1b80215c727881f865733829d31e7ac518747",
+      "gitSha": "c28ed202b2c71e3f94f760629062e3fc93c1084b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/gift_balloon2.png",
+      "size": 73139,
+      "sha256": "1c47a091013b348e74b02fba0b7ff96073bd950d4487e898a1fbf029976eba3a",
+      "gitSha": "8599cf5517b17a86c0bb4e9418709ad2da2b9f63",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/house_1.png",
+      "size": 71583,
+      "sha256": "fe29d0ba044ff6b74725492ed534945ee6b077c272a011c421ab79d8b37b2410",
+      "gitSha": "3bc649aa358a2b8cd26d23894aff05aedf7c9c5f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/house_2.png",
+      "size": 72136,
+      "sha256": "c726cc7cfed5e73e3598db045b68513d20dc9d63ec77c51d60560dfcf6395cc8",
+      "gitSha": "13620909761e0f782ea58452bc60bbc86f148ad9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/house_3.png",
+      "size": 67021,
+      "sha256": "215c4a8f69c9909061a1754ff6910f596828c211a0d1c9dd3d76d164bfd774a8",
+      "gitSha": "feacf3421d7b658bcb117ba1d2988700102a5430",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/house_4.png",
+      "size": 71921,
+      "sha256": "7540f7453867e759b5dba36faab9b085962a3643ce71c75f07ddff44257cb536",
+      "gitSha": "06e75e83ac0bde725c0fa03d59ba6a1e3bd6eb47",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/house_5.png",
+      "size": 66512,
+      "sha256": "a81452c3e59aeb001c8273535593eb761dfe8eaac99d95299d000a21181113b6",
+      "gitSha": "08b3e5f7377b107ccb0e28bbd88994322cd44de2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/house_6.png",
+      "size": 69230,
+      "sha256": "0a3e15da2db32e75a3e8ac2968c14cba796c26352da7a9b557cdf1224309b6bf",
+      "gitSha": "9e450042917eacc3cd7f5bccac9aeb903bc2dd9c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/i_coin.png",
+      "size": 12165,
+      "sha256": "36fbd9c119baed4201420cf7c23dbd8526a95aa8e576ccd9c5eba678b99ad6cc",
+      "gitSha": "efda88abd2ebadfa44f26895af8fb3d74be75fdc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/i_gem.png",
+      "size": 9797,
+      "sha256": "c3fbe1539887810bc6b000474b4c9d2a975bfc20a7524ae78021b548c1305cad",
+      "gitSha": "bb0d4da295ad3b037b0c584b8acfee5a2ff9f9bb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/i_mission.png",
+      "size": 9883,
+      "sha256": "60dab25b82bb197ed78d019238e06268f9810c7d072f6358f307662ed9ecc8b3",
+      "gitSha": "9187a66d338b7bd5a055fd0913157f2ee826500e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/i_sound.png",
+      "size": 16605,
+      "sha256": "ef9afe3106d0f8fd9930287a982244a37e2a4a56274748c49f10d1c53cdb6b2e",
+      "gitSha": "7eee400ed1f112c06c80b8a5233c270ed2479cc8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/i_up.png",
+      "size": 9982,
+      "sha256": "c55bf3fa1542d7e28d790a0e56eb89dfc799fbcfc0dc393cee34a6ae806ff47b",
+      "gitSha": "02c297419bf6d1879ee0cda99041e1abe4b4e7d6",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_angry.png",
+      "size": 30436,
+      "sha256": "8daf08c1b03977447cc034dc299779fddfe38b597046ddbe272d01ce947d897a",
+      "gitSha": "1f8847a36d115cf6515cf1f353f5bfe26faa2bee",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_cone.png",
+      "size": 21746,
+      "sha256": "a05f2d262f2eae94d2f1b3351810e440b0a256aa650d6359b90682264b672344",
+      "gitSha": "3bfa76d16603d968fb66734448d062446695d36d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_crown.png",
+      "size": 24940,
+      "sha256": "17f7b01842d9147231421784413441fa78aec3b0ba6e4445840ac9776b00b791",
+      "gitSha": "9f53e747998e8b24563055915fb37025488a051d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_fire.png",
+      "size": 24682,
+      "sha256": "e1b5a4b2503f66d2b6ad3e851e62a1a522bcbcb274f84b55d219c28d9691e079",
+      "gitSha": "5f2ed58fd96c19750be44d47c101871b1538304c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_flag.png",
+      "size": 23878,
+      "sha256": "44be20059d69edb5a954b5f3a0cb365791d70b78cbab123be7b4c64a300a3767",
+      "gitSha": "d9cd905f78b3682d4ee9f7082cba7ee0b25b3313",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_hourglass.png",
+      "size": 28549,
+      "sha256": "c99c3fb2810266f3898c3f70bb3ff50b3971a32092521de79cb63ffcd81f1b2f",
+      "gitSha": "3744e7b4073b2486162d8aebaff543f9d93d99d1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_lucky.png",
+      "size": 31722,
+      "sha256": "37dcca442e9892320bd02d25654274e0e3abed9e332412ec0b445195a98195e1",
+      "gitSha": "5842d587abc122dfc9f8fde87fe229feb846219d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_money.png",
+      "size": 30064,
+      "sha256": "2193928bd92917df18eccbbdcb069a6bd7e6f5a16402055a703305bc8dc7bf51",
+      "gitSha": "6703900eed2a88df281e8ef89300fd12c1a50336",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_moon.png",
+      "size": 22058,
+      "sha256": "5d085cf8bf8036d15bbe6210ca27287657525ad3ade0f0493a3b5eed6cfd64cd",
+      "gitSha": "d333d48790b09291042c273ea8a1a05877f6014d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_mystery.png",
+      "size": 29830,
+      "sha256": "ee383ca02c20594581a0e1ba29d80345352b49734a3a6af4cdf621becee5bd22",
+      "gitSha": "eba6737710eb5827ed661d246a57880f9c9800dc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_pillow.png",
+      "size": 21800,
+      "sha256": "739e0c70dc7ec8a55f3b4392cc0a3d0d4cecd2e6860d3ee22be9c2b2c7c0f65a",
+      "gitSha": "09bc6510321f67f76abd1c91dfad7df8ccfed640",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_rain.png",
+      "size": 22181,
+      "sha256": "2f1cdf376d8c5c5a1e6fd6e3381f92db6ecae22ef54591c50d22be7ee09151db",
+      "gitSha": "70a8b37c1fe88fabed8df17be60d0a3f22ba2dc1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_santa.png",
+      "size": 28593,
+      "sha256": "addfb395512dec6436e6d3df7a1389406b450cdcb32c525bb62db743d91bd535",
+      "gitSha": "cc999aedf355f9d61314a385ac581a07b00ddf57",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_shirt.png",
+      "size": 21617,
+      "sha256": "187c7a09510d619d2e5ccc8ad7a5bc30fb581b241f4977fe25a3e46e137b5302",
+      "gitSha": "960f44a349c6c669cc12a3aa82b7a2ecd0a0dc88",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_snow.png",
+      "size": 31136,
+      "sha256": "76b610903bc60e0f98dd10e29ea6a2361e91ef3d9b9703e44250e5b7c4bccb1e",
+      "gitSha": "6dcdad815c6545702b0eca8c2b8f1940bd823094",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_staff.png",
+      "size": 34052,
+      "sha256": "08b669b4e9c84f2b2cd9d19e7f199530537a73ed75cc9c6693c8c1c6feab2f75",
+      "gitSha": "6718e7a184e4d4795aba1f73e1a47c6b0942473a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_tap.png",
+      "size": 23815,
+      "sha256": "b12414f7d31ea0ebd0225aa7901be51c17fc5a054d8cddeaad3672be79391909",
+      "gitSha": "3629a2ab9521d30cea7cff3a028ed43013b7bb63",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_tire.png",
+      "size": 29726,
+      "sha256": "59af880f4a8907ac3aa357998fede3d2d425876a43415b521b58feceb0a3bda6",
+      "gitSha": "13719cc6ebcf1879f57ef869627102d902cd7d24",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_tree.png",
+      "size": 28631,
+      "sha256": "88293cfd83ce17fd75b0de4d4493627678ca37d888d48bdc23f1aa76f9752fd0",
+      "gitSha": "0afc37b00f55659c6b60344055bd9b35bb1fda08",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ic_truck.png",
+      "size": 27103,
+      "sha256": "3b2251a0cbcdbaf5cc498feee659265391b95a49ea012bfc62ae6c6b15b87012",
+      "gitSha": "3432f436facbf3f6e29463da6efaa86967eb6921",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/icon_drone.png",
+      "size": 88658,
+      "sha256": "1c15dbb63dd1279c03c252c1bbc79a77a8d4d86d86fc9e9acbd9933083d94fc5",
+      "gitSha": "cec596e04122070ab6146e3875c1799e3f240c0f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/icon_news.png",
+      "size": 81582,
+      "sha256": "b0b3e3aa237b21b9c40ba50b1071502d2f858a1194d27957c3767ddb14539e84",
+      "gitSha": "f75689e296c08675cb643a59270555292f3f0d66",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/icon_sock.png",
+      "size": 81717,
+      "sha256": "12e73629409d84a1233f03e05560ba33d79db0d74b051425f40f1c295a48af98",
+      "gitSha": "6cea9abbe1bf2c14c5b158d8a33ed2c121a3ac61",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/logo2.png",
+      "size": 430065,
+      "sha256": "d7586ad5f9655cce7770266a15a5f8316eb731ebfe34be6ae94693dbd71c9a15",
+      "gitSha": "c48acf589ccf5c55ce9e3ab38b88607c2d18f99e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/logo_en.png",
+      "size": 616929,
+      "sha256": "8a5d79e44fd1c293b7431d2da19b69eeb8297c2d1e82c41a1cd369e7105b24ee",
+      "gitSha": "6cc23ff8650c6f0d206e5ffc3557c97573b54482",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_boost.png",
+      "size": 74452,
+      "sha256": "98593421a8a19291d56c68eee8259402732ce0cdacccdcca690f53b32ddb46b6",
+      "gitSha": "79ddc2f07ea9985331812a851bb63f54e6f0ae9b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_cal.png",
+      "size": 75374,
+      "sha256": "974cc78a227e642dea56415edc15fb461212503bef41c58037c494f7c49066f7",
+      "gitSha": "bd7486ba7f91b18e14fbd82dcf936b2e75d2dded",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_card.png",
+      "size": 95227,
+      "sha256": "83c26a225ee5b0d2380d5b6ce28adee8e09a3d0d4dda39ffcceb030221053f62",
+      "gitSha": "4b8d96176cff1b926a832cf986bb72ff335bc657",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_coin.png",
+      "size": 96130,
+      "sha256": "f59e97adfacb53dae52ecdb39d00ab44ca34c1eee480daf6c6f54067587a4e11",
+      "gitSha": "2730b66aeb0307d0f9e0389956af7cb1f9aaf49e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_deliver.png",
+      "size": 68167,
+      "sha256": "16e03724b6698c56355ef0f1533a292238cb1e1ca5c0b612ceb7674d0df0887d",
+      "gitSha": "26276144a26ceea1edc58bfe4451533bedf5520e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_event.png",
+      "size": 70950,
+      "sha256": "addf4a4677e0c7a03dd7d010ff242cb543d231822721d25710e67e54c9f8561c",
+      "gitSha": "dd926586bb1a306b657cdb2dc77b773de25ce88b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_exit.png",
+      "size": 53832,
+      "sha256": "e52c71f01185d50dc6840276a139659e49ca270cc022e1786233175e94100199",
+      "gitSha": "8ada02f5afa5d5c8152a30c55acb14df9fca8102",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_friend.png",
+      "size": 80576,
+      "sha256": "2ed6c15f56dac56b2b194175d3cfa71edea602d0c18c125f56a83a9a5b806928",
+      "gitSha": "46b997c259ce0d99c0bb90dac5c14748237271e5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_help.png",
+      "size": 71919,
+      "sha256": "4612a2e7404bb294b2757572ddaa771e4028167219ba7e1f7d7c25d9dac46b07",
+      "gitSha": "5136fd8d7095d614d603169ac1dde1cdda3852bc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_home.png",
+      "size": 75702,
+      "sha256": "77e9d18e543ea1fdf2a69cc671f909a40bc37777f929453fbab3f58ebe1de767",
+      "gitSha": "102336009b92d36ca587f951bb798d728b04e5c8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_map.png",
+      "size": 84860,
+      "sha256": "b51c6cd0c3df3e3ada7be9b30df7644a5d75303eaf596c7ef0f07aa69bf6ea11",
+      "gitSha": "87912b591ff184ab7223432b21461b0438f19527",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_mega.png",
+      "size": 77000,
+      "sha256": "ff943141089cbb6fadd25d315ba9e6f8365180cb0402b9a174a0d779f21f3843",
+      "gitSha": "25401a4fe24f807276efd0c1e106352b72881093",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_notice.png",
+      "size": 63072,
+      "sha256": "f98f9e6a3cb61b282a4b53a4b561c33e0a3d42891ba06559e2e293a71f8fd986",
+      "gitSha": "3495a257545a4fd33917096e0cbd6009aedae368",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_quest.png",
+      "size": 73748,
+      "sha256": "015a866207d593210cff5ca2b6e11c4ffc798c4aef85793944c1c036fbe05d44",
+      "gitSha": "489dffe2a7a7f062657c09a3957822d66845e2e1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_rank.png",
+      "size": 94930,
+      "sha256": "28fc533e950f89ab800a8264098dc1ce98aba9b839cddca6d59bb96f35b5d1ea",
+      "gitSha": "f8754c6fa7088a9e4c51faf6507de09aa1b20b9d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_reward.png",
+      "size": 80799,
+      "sha256": "8c0ec29fe7b1ceaf36dd40a0abdd8db0ee7321a0df80e2bdfc26a75793b921a4",
+      "gitSha": "f61f97c02c13180bf24896b69c30a5a57fa78272",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_ride.png",
+      "size": 82587,
+      "sha256": "9e4943d3b8c2884175dc645ae713a3c171f8335bdf55fc41bd1d0ba588557ea3",
+      "gitSha": "40caf6d6c402d4eaaf97860dd4930a16969000e0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_ruby.png",
+      "size": 85051,
+      "sha256": "46022951d69668bcea53ff643eb82c8140f8502bfa20e0fbe2ab9e74666ba0f8",
+      "gitSha": "6767e728d90ccbf766bb7a187e2fcb0b8c2e568c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_set.png",
+      "size": 74105,
+      "sha256": "bf4a6fa49e4cefe7c1dd7c2e96fa44b91d7a424303c582f375c4213ce70ff7dc",
+      "gitSha": "3cc1f4a59498cb93c702d000550a3c37c11dbeea",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/mn_shop.png",
+      "size": 71827,
+      "sha256": "1eb01c42bad2ecfdc7413393be1aeb1aa8d1abc455decc3a9985997a7c048675",
+      "gitSha": "84c3ebbb9b389315b0286d5becb317f582707f51",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_black_ch.png",
+      "size": 114395,
+      "sha256": "b77c55b511d183978859ac777db5ddafd48533790453d566c8d07034b034aa28",
+      "gitSha": "40495c23825e6d68171dd1c4631771364efec100",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_black_r0.png",
+      "size": 76518,
+      "sha256": "49696eaf72ee27ffdc0a264e649c51d88e19eda04d56a9a5efb02d2aa8a00d4e",
+      "gitSha": "e826329191e9818fc928f5f66afa66208d1077c4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_black_r1.png",
+      "size": 79250,
+      "sha256": "c04f2d327ca903a33cb794688f16d9c3581e9a86e3dc323a816177ed98e353ed",
+      "gitSha": "06694f402c5b555dc1922b05ebd23827c8c91257",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_black_r2.png",
+      "size": 75236,
+      "sha256": "71f9c30662097ebc9b4cb980b8d170babf4a012b7671a17bcd0249fa908a21e4",
+      "gitSha": "9864b15127398d24527cc51eeba32a574be0ea30",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_black_r3.png",
+      "size": 72104,
+      "sha256": "96d8acd74d2299341facd3c1b509d6b44dc2bdd98e2dd1b60dc3036966e21e87",
+      "gitSha": "920a79b4fd3f4f7aed7139d1f4d7713b96ba29eb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_black_r4.png",
+      "size": 75914,
+      "sha256": "6fd500e0c12972679a2129a8d7ceb5734711b130934b419985f6a7ec9a235b08",
+      "gitSha": "806bef1a69ead912d8197f28b9203f037cbb91e5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_black_r5.png",
+      "size": 76672,
+      "sha256": "8f950bd8d7cef092f37791679ad5f8b9ffccab6a0009c12fc7939a1e9da46170",
+      "gitSha": "bda4e6271ba21574d8de1e5f75439204296ba1a9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_black_r6.png",
+      "size": 78060,
+      "sha256": "133236fca263580026f48dbe47670ab201b7af49eb5b9ab7ac8a60c097fcd75c",
+      "gitSha": "f6b28422f49eddfc790778e877fb755dc25cc6f5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_black_st.png",
+      "size": 90980,
+      "sha256": "36373d76586eb45979419f8f90c59bf444a0420c152bcd7ef98c0c62ff3a5230",
+      "gitSha": "704e545ca1b347565fec6c03967985d6426e4a63",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_blue_ch.png",
+      "size": 106595,
+      "sha256": "83e4046d874c6f1d737e9149ba6546a43732d71af6f92855e6ec99e65230acce",
+      "gitSha": "0c8135b2da94dfb7c550d64973aa689308f07fcc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_blue_r0.png",
+      "size": 87077,
+      "sha256": "3e0e6f7e128140cb1784cdd0629cadcb146a4a44480cb3ca16a7aba70d797638",
+      "gitSha": "f6e645c817f2a3e5220130cb12016aca76ab944e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_blue_r1.png",
+      "size": 89067,
+      "sha256": "7b1c15efbf854b8372596ab906e6dce8e083b9541abd1a96d4d94d263f189ced",
+      "gitSha": "c91f519c826fd36d31c2baca1ab7e9963745ec6a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_blue_r2.png",
+      "size": 82964,
+      "sha256": "05fe1714c5de2d50e515107dbdfb530a6f4d231de7ca3cd2f3c4bce73c665052",
+      "gitSha": "10091d7351b28cf000005fbcf91cef6722ae7374",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_blue_r3.png",
+      "size": 81536,
+      "sha256": "7932eee218b2f5d6a3ca0fd5c4419f396c41d3f43f905b6127a3be9f8e10ae13",
+      "gitSha": "9b393f690e0a57764e656b97e7cf473dde028407",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_blue_r4.png",
+      "size": 85873,
+      "sha256": "e34eb299e7986a27779cdab7e6800ef0697ed2949f4dabb626fd8e3fd899a260",
+      "gitSha": "b95b6758b3980081a246e0eee321f1fc7e5d396f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_blue_r5.png",
+      "size": 86370,
+      "sha256": "c8873bef2e38a57b862698087ce8d7459de6c3b70aad824092bf61430b1d03cb",
+      "gitSha": "916d5f371dfb031e931ba1a1f4ee00ac8bcbd5de",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_blue_r6.png",
+      "size": 86593,
+      "sha256": "5886fba8031999566bf12e6c3d2c0cd66752f0f512369bb3ab169f934d7b4fa8",
+      "gitSha": "91d043abe2ccbf8e1b1fc5dcc2785873dbcb9907",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_blue_st.png",
+      "size": 98012,
+      "sha256": "b72f57ad7f23fd07ac719ce399f75f12c5a054e3dc0e3eb2c7b599d5b8e9269f",
+      "gitSha": "02f0eb8378b06120313944e70f0e188db184d4fe",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_diamond_ch.png",
+      "size": 134552,
+      "sha256": "949dd4ed49837a765d1b9b8a4e578a080df84eac71dfaa543c1ff239c0565840",
+      "gitSha": "300f6ab51347f6a0a7ac8113381f4d84d1b04deb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_diamond_r0.png",
+      "size": 109308,
+      "sha256": "e27c26bef598d661c1734fb4dd46dbf9edc51d1d82806b81f530948d57333ddf",
+      "gitSha": "29651abc73f0f556471bc6929018dcf691efd8ff",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_diamond_r1.png",
+      "size": 109176,
+      "sha256": "cbd2a1c896dfc50661aa064f5c68acad320110987772fbcc3e0595cbad063566",
+      "gitSha": "0821ee60da1d6ff39d08da21416a3ebabb353fd2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_diamond_r2.png",
+      "size": 101117,
+      "sha256": "c57bb0fc29d7bff325ea6be414993c715c915b685b77ac0dc54154de4ce01023",
+      "gitSha": "0354604e172cf86d32421a1ec587f54994d60aa6",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_diamond_r3.png",
+      "size": 97840,
+      "sha256": "caa6c0eb89fa3b5ea1a11c07b7ff99fb1a2ebb052900fae85b1b364f848ed28f",
+      "gitSha": "2fe8122ab7f2aa2791302335365f5f956a4f9861",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_diamond_r4.png",
+      "size": 101149,
+      "sha256": "111a909527592355e044f531a6cc5d485a10aa7c16cfefcc9b94852c87da4b40",
+      "gitSha": "bb1f843630f0afea453cc293c039c8590a7fec27",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_diamond_r5.png",
+      "size": 100611,
+      "sha256": "8f72d1a995b11b0da01609c57472c62978eb9ff27cf183698b6a2abdd9cd21a8",
+      "gitSha": "5c7086da73e9a8e752cf6fa3407b7917a904e6bf",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_diamond_r6.png",
+      "size": 105087,
+      "sha256": "75da7f0dff9bdbcd537e7778bfb1a385e960e436c11a76e07f648474da4d7579",
+      "gitSha": "2693d49d3ab79f398c674835e1c4fc6bb55d692d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_diamond_st.png",
+      "size": 128547,
+      "sha256": "94189eeee7912163a3dc651526a8e9071fb020931cd9927acacb5ac4a5506746",
+      "gitSha": "fd0cd1564a43c0c05ef735625208527e9972fbae",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_gold_ch.png",
+      "size": 127950,
+      "sha256": "72c9930b96979d2952f2a80f18b38e86cbe33c2c595405f652316f1579ebdaa8",
+      "gitSha": "07e211c74eee1e7efaa54927ab84947eef06b552",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_gold_r0.png",
+      "size": 91915,
+      "sha256": "d3336b11e6361f99dd611ac1734178a29304392077bdbc316369da5247cb43ea",
+      "gitSha": "2b8e2cd4e5d4af1a5f3aee8ace2237edfc14dddd",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_gold_r1.png",
+      "size": 88481,
+      "sha256": "46c3eb47116841fdcba821c918e55a2be0d39adbb7d77214aa909a496b051bac",
+      "gitSha": "5d32f6bf1606620ad4bd5dd9109c99b02dcc9343",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_gold_r2.png",
+      "size": 89783,
+      "sha256": "042d8f95fa081496838301849d609b2698be3ac400f300c36b8d908a6510e145",
+      "gitSha": "12e48d8ea28618c6f8a6405c0004059534dc0098",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_gold_r3.png",
+      "size": 82885,
+      "sha256": "d937efa3bfb618fe379107376ff00095d3ef6c73ea2fb4da389152e0f257db10",
+      "gitSha": "6fc5578edcdd5a49897b3b56e8460aef0d24acc4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_gold_r4.png",
+      "size": 88102,
+      "sha256": "54026a6d22c5cd5498df97c179ae7b290f7c27711c4f6de57a999b619e77746c",
+      "gitSha": "9d61d448a51ea0349781d0f068c8df95060cf398",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_gold_r5.png",
+      "size": 87236,
+      "sha256": "e544c9e27479089f34986ef674184e726d79d8a6e18f692bfdb9e05c35fcb5fa",
+      "gitSha": "7cfb4aff83f6935717e9d253a1eb5987a88a565d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_gold_r6.png",
+      "size": 89905,
+      "sha256": "258c526af93c817c6b811433e131529b79269bbc029623284e34b1b718182d62",
+      "gitSha": "e7ec10b9d600757438f1047489789317fc241ea1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_gold_st.png",
+      "size": 106106,
+      "sha256": "fb0487bca92849b826b9dd97635a0624902ddf9ef16918ef6d142274ce8a63ac",
+      "gitSha": "9434364fa9d3b66f6ad9809f3c6306c626918f74",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_green_ch.png",
+      "size": 118539,
+      "sha256": "1dde819b7828db8a63d424360c89a711a1fd5ca21dd0234c8e8aba4db621f2c8",
+      "gitSha": "19296dc8bb8029b468520ecd330dc037b661229f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_green_r0.png",
+      "size": 81632,
+      "sha256": "e6ecb335edc99aa57404b05e972d92f8cb9743ced91d6228985fd09b794c9c79",
+      "gitSha": "7627023c21de7c65def515a5923ecb0ff11ea4e4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_green_r1.png",
+      "size": 84096,
+      "sha256": "2f3fea8a4beb86396e7c8747468d9da67ed8cf4dd13c9484c7b7d0535f21a057",
+      "gitSha": "060a884def785f4c78983962bb0dd318d1ef0041",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_green_r2.png",
+      "size": 79791,
+      "sha256": "3a6d6aab039f4fc2b270f14e23ef9bf7196f38ac838f0ba902b3d1b35a592ce9",
+      "gitSha": "422cc47575d077ac0fb8b75764a2985f4c67d83a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_green_r3.png",
+      "size": 78141,
+      "sha256": "770fb7018154e760eb27f3f13456885abda354673ba336612e5942ab3123999a",
+      "gitSha": "161b93ae33a52c0ba6d37eb2b28f8549dd600fe0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_green_r4.png",
+      "size": 81280,
+      "sha256": "406f94322f0ef09b2d15413bed79979e3fce730019a84ade1f78bd32416e174f",
+      "gitSha": "0565e6d118ea72882c6f96fcff7abc341756961f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_green_r5.png",
+      "size": 82861,
+      "sha256": "1aa5448021d810640a5680b2acaf82e48c402bd85a26009c85c8163a5eab32d5",
+      "gitSha": "7d5b78616139f7a3b8ced5fb853608267ac5a1be",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_green_r6.png",
+      "size": 81653,
+      "sha256": "f8c33ffdf67a193ba1b02a4c07eb5c318641317b24fa3cadb51fa4957aeb5a2b",
+      "gitSha": "b0221e69447dbdae05c5817d1f008fceb003c833",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_green_st.png",
+      "size": 94624,
+      "sha256": "dda3e05dfaadc837e8ad220d085fe07652b0e359a3e12c1cb03ab79618c2171c",
+      "gitSha": "eb3df205f56fa8fea486fd244b91eca7169e68d3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_neon_ch.png",
+      "size": 129840,
+      "sha256": "5d4b4212fc6922fc6e55445658f08e4f71e5e5433321f6fc2d127bceabe0db17",
+      "gitSha": "a737f837a70e42debdaf01f5ab8d3655e580d427",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_neon_r0.png",
+      "size": 106037,
+      "sha256": "9a71896e7c37b758f4bf0c01c583ed8305e36e6882376ee07063b6e63e2f2938",
+      "gitSha": "9d1cf401ce18b714fe67026edf5718cdbd6ff321",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_neon_r1.png",
+      "size": 105497,
+      "sha256": "75158b63f8db5b155432ebf571d6457b3261c556be20b3549d4d4411323144b7",
+      "gitSha": "d2b9d0b66b815dc3fcee3bbce2b9166b4ea5de2b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_neon_r2.png",
+      "size": 99232,
+      "sha256": "7e10677a1cd92fa320680142fcaa1cabb7f76fbff36bcec98400d5db04e7cee3",
+      "gitSha": "ebff01185e154f3b3ea970fffd735e753bb03ecb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_neon_r3.png",
+      "size": 93525,
+      "sha256": "872af2b99a8576ad6e8bca782c877e346687be8f302fb7c07e007be5c18bddae",
+      "gitSha": "f61aee9b7e754d97c09d84447ae703730f28bb65",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_neon_r4.png",
+      "size": 94140,
+      "sha256": "b15083bdb21e11e51394f2ec7a015989d222d076ec9a742abf4eb9007c2c710b",
+      "gitSha": "5fa8c37e084555a2bba92813519ecb2ace395d97",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_neon_r5.png",
+      "size": 96332,
+      "sha256": "4036e79a63cd64f303e62beaf06b8fccb28b4e260a9de6d22e2a011f7cf797c8",
+      "gitSha": "771d5f4c6f9fd4554bf1f3b514de395a53c5c61d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_neon_r6.png",
+      "size": 100054,
+      "sha256": "c5ef712cb6f70c2394dece1207778fdadef8942a643b2f708b50a8eb912be7c0",
+      "gitSha": "82f4f64a5e5a8b02fee11bb14b928807c0440306",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_neon_st.png",
+      "size": 116249,
+      "sha256": "10844e46fad38a573ada71c3e0229c66d0580ef205575a3b677d82b737c6847f",
+      "gitSha": "dff3ad655bbea8fa2cedffecdf6e18440b6ccbb4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_orange_ch.png",
+      "size": 88863,
+      "sha256": "f6949d36448fd003e5bce6150ea08acfee2820cd8e384cebb2daf270c2e894bf",
+      "gitSha": "e3dac1172d31fa781ad6a8aea5a273c32465422e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_orange_r0.png",
+      "size": 76230,
+      "sha256": "d75205df54fc65d6d0aad5536138d05725ffe0abd30405d838b93eaf5a26e1bd",
+      "gitSha": "a5a770573ac43057e5fd9cc9d65759a09f680e03",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_orange_r1.png",
+      "size": 74163,
+      "sha256": "53ab0cb155aaa0c53bc6bbe654f18b83d939364e805b3b5e6989f5d6fd18b9a9",
+      "gitSha": "6316815e2ab9265f7c9809a401093a251ca9a5c1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_orange_r2.png",
+      "size": 75837,
+      "sha256": "313384d61662d23739e9f88c01cb075da51b470ff11e555dd4ab06bbc978bc62",
+      "gitSha": "09c46ffd1380b64e1ea61c44fdd5127d92ecccc1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_orange_r3.png",
+      "size": 74852,
+      "sha256": "286768e3c6ecafa7214b4c172bc10cff42ca274eb3afc5bd6645b94a4e016614",
+      "gitSha": "306a43ad751d3f53d901406f6c83bc27fa52ff0c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_orange_r4.png",
+      "size": 70086,
+      "sha256": "eb30a08bce29281fc1f4e9500d2bdcfea9974a23108510aa1d2e46fce7c96766",
+      "gitSha": "9ee0a79851aeb34a7409258d67a434ab6c62781e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_orange_r5.png",
+      "size": 70011,
+      "sha256": "cfb283657a850d789cdf5d5528889ee4c3b21012ad5fcdb38e504afb20c79da2",
+      "gitSha": "628fc05c12ce1bd600c1b767368b0610376c7ed9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_orange_r6.png",
+      "size": 70044,
+      "sha256": "e64845510594e1e10de2ea48b78eb151c0fc4911acddc01414c5ac719eb69b28",
+      "gitSha": "5f60892673f763195f0b26bb759fa5be04166673",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_orange_st.png",
+      "size": 99346,
+      "sha256": "1229f5b311995f04e30b256fcff6dcadbfec259f06ddb0f5b3e18c789bcdb7f4",
+      "gitSha": "b2f48b03b9e268698885146aea3e37cedc1c576a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_pink_ch.png",
+      "size": 119536,
+      "sha256": "dde14d14d8553737b0e646903aa1d4054b159ac0f6ffd77b4594c292176c4351",
+      "gitSha": "460ae81a4b629960cbb972be95c52b627ba009e6",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_pink_r0.png",
+      "size": 85703,
+      "sha256": "3edee5757cdbc105241b3fc7fc308144c45af64cfc9987bde1072d691a59b457",
+      "gitSha": "243dd88f53f47d1791ffdce757d44b1cb8f11c53",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_pink_r1.png",
+      "size": 87099,
+      "sha256": "a2ab7a7ea954f57abaad455066a78c8870b82a87987b97708c23f3259f5752ec",
+      "gitSha": "abf74a83739e4875276b9be6f3baa503d876c8a5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_pink_r2.png",
+      "size": 81510,
+      "sha256": "3cf0b312e651b969e5db6ace2aec866c3410176ae2ccf944f988b541b9d94426",
+      "gitSha": "7c8d45b880abc9b889388e675b416e6624d382e8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_pink_r3.png",
+      "size": 81215,
+      "sha256": "e4f4dd2698dc74ebeebf4693c2610374388445ef1e2d968e99179b86efd676f9",
+      "gitSha": "c935b29d1a8a177036e38155876850a12be49bb4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_pink_r4.png",
+      "size": 83336,
+      "sha256": "7746e780ac71c96d47f3dbd924c0475b33a63ad4cb5ac722c30fce3d5c197e11",
+      "gitSha": "3304d10454e6bcbc5af0f001e12efac43c4651cd",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_pink_r5.png",
+      "size": 85055,
+      "sha256": "8be5c62c877f9276c9306c1e9c683235a02c17e432e58dc30f8ea7d0f0ffdba5",
+      "gitSha": "2c4267c45ffb9792904757d0df9a7e43f6d8893e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_pink_r6.png",
+      "size": 86521,
+      "sha256": "2a14316fc819f80b8d12bebfbae38b85f05c64b599b475d323b049ccba694c1a",
+      "gitSha": "c952489d00318452c70fa650ee09226818418ee3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_pink_st.png",
+      "size": 103084,
+      "sha256": "d215dadb2f3562fc4d6ac5d47d6a945be0b56acb2cb3f92f37a008a57a0864ae",
+      "gitSha": "b6146feabcef9174302fde24c99a354a284de51c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_purple_ch.png",
+      "size": 111847,
+      "sha256": "767bc22f74472d61bec0572a91cb29028e706dd6d7b7d6f089ee3342df74ef0e",
+      "gitSha": "948f56e304d2c3c02036f342c873fab51a876655",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_purple_r0.png",
+      "size": 83178,
+      "sha256": "2c9979586a196d306329d79d8a2e9f7fd26ab6b568519ca9ad9024bbc1097a65",
+      "gitSha": "f11c8544b5aa8a0bd60c4297058c83730569c99a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_purple_r1.png",
+      "size": 83567,
+      "sha256": "7ed0619720e8a416b3b95c4dd39b9cc0104d7ddac5766fa55cc102864b17f3f5",
+      "gitSha": "491ff79dc7cb4099bd038d4db66a697742f9f8bb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_purple_r2.png",
+      "size": 81166,
+      "sha256": "700615aee5ad8aa3852e6bb3082c8a9da46353c23fb5cf7477d6ff945b867cb8",
+      "gitSha": "8eb54fa826ff26fcb46b6de620c673932b26f91f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_purple_r3.png",
+      "size": 79536,
+      "sha256": "0fc8efc5474ccc3957e687c962de48e91020fbae2bac262e6afedd473e4d2031",
+      "gitSha": "48e840bf2986f46178fab9885df2b3ae26a54392",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_purple_r4.png",
+      "size": 82941,
+      "sha256": "a747f99ab00a93338267809f7a55b8cbc0a8ebc214dfe62ad562fb2dab7f490f",
+      "gitSha": "d71ee79f700bf40fbe8a0cb3009462bdc425e97e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_purple_r5.png",
+      "size": 82755,
+      "sha256": "3c03e4465c135d0b09bde8e01fa05e615dbe682593d1d5ad3f71900470c87422",
+      "gitSha": "e80a970667ad30997d895826c164d80a79b9519d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_purple_r6.png",
+      "size": 83838,
+      "sha256": "1808d3160b9888262d13fc38c2f475a28ff9fe8ba6bebabe4c545a729a6f17df",
+      "gitSha": "01eccf399a162e63ea29415e1f5717356b95725f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_purple_st.png",
+      "size": 99478,
+      "sha256": "02f6a0601a819757d24a6c21d6a0717a262a6190949edd4a89c9c6a49586ee21",
+      "gitSha": "7a9aa10ca72bdf606aa6e77d72186899919cb4fe",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_rainbow_ch.png",
+      "size": 132074,
+      "sha256": "695e16149e2f85a60d9dbaa08668025999fe3d7293e0197d0cc4c07c5a6104a0",
+      "gitSha": "85da36ae10dd9e8998d244f9a2169f67dbdc0b9e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_rainbow_r0.png",
+      "size": 101049,
+      "sha256": "40757b7cf2166c8bac389b06133e6cbeded91afe5ae6e378555291e692380a82",
+      "gitSha": "7fb9f9ec7d7c40cfff79ac86663ef738789e36dc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_rainbow_r1.png",
+      "size": 98913,
+      "sha256": "6bc6cf1c7d19a55f7766d21a122f3ed6bd8b62fadfbfaf2e3a137110c4c1e8e7",
+      "gitSha": "8f418acb3888dcd88e13cfb17e95cd9184a4843c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_rainbow_r2.png",
+      "size": 88087,
+      "sha256": "f14a08cf721d1d89112045633647b77a42768cdd1d0e32f7f775b899e8efd4e4",
+      "gitSha": "d1ccd8d69018c4b4815ca6bedd9b0f5da8cd3a46",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_rainbow_r3.png",
+      "size": 102693,
+      "sha256": "184266ab0d5ae40689a39d0ce4480856d91a818707184afb762d5a4fbb7d45be",
+      "gitSha": "e07f6bbd8c4794ed2cae493c4d624a67908788dc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_rainbow_r4.png",
+      "size": 91200,
+      "sha256": "1541b82dd4acb0f1c262a8da1e6011fbfd36c63d1882dfca6c1190f5c589d9f6",
+      "gitSha": "bc3757a524cf00aee9d1fc88d8cc562a26d6af41",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_rainbow_r5.png",
+      "size": 95323,
+      "sha256": "65d14d1d52116e6cfeec03abe36840913311b07afb8d4948c7a782f8c4331bbc",
+      "gitSha": "747c5a88019197aa5e61264f96ce48832e789a18",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_rainbow_r6.png",
+      "size": 94396,
+      "sha256": "3752c579da1ecbe4f3bb1952d74906975b7a56a5f824a5c5e14538ded4ca67db",
+      "gitSha": "df712b2421be58c9567e5af1354a2b2420e8c25b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_rainbow_st.png",
+      "size": 119647,
+      "sha256": "e6110e52ec7dd39f5123832c52d16a020e9e82c0115d7962454e819c0ccb9496",
+      "gitSha": "edb8c89c03f856ae1f5481b50c5acf6a3e3a6cbd",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_red_ch.png",
+      "size": 100844,
+      "sha256": "7bf9cec3c565fdd8f7018c53d63654a41279860f54ab43edca8bd976b29d8e8a",
+      "gitSha": "49dfaf6efa46d12043f1867feec745e5e7d2f3b3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_red_r0.png",
+      "size": 79685,
+      "sha256": "ed6eb4beffc10ca21930bd884660b439ce7535bc44bc51c567f633ca3c5e4992",
+      "gitSha": "fca14c3275f81936a7a51124fe3019f607799bcc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_red_r1.png",
+      "size": 80880,
+      "sha256": "8ae7def66545f2b61454fd6b23d1ef6f3489df4426fcab4141f8aeb78ef4c14b",
+      "gitSha": "988640e1e865639697f78ca266781ee5b29fa7c4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_red_r2.png",
+      "size": 73537,
+      "sha256": "6bb9217ded368347e8fb94ae16652108384a207e19dfd858b7268baa58818079",
+      "gitSha": "c097c72b2ed07613dd86447a6042199761173e75",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_red_r3.png",
+      "size": 73412,
+      "sha256": "4414747250f5a3e77bb7d5f9db4b7f8bce62971dc40b479d4c09e343153861a6",
+      "gitSha": "98f8fb47b56e4f605b505d70c19c9d8c93bda867",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_red_r4.png",
+      "size": 78906,
+      "sha256": "0ca129e5d828e779af0e557352d865d4f4d2fcb2b8adcf8bb107eb82e77737e2",
+      "gitSha": "d73f5d3472182955e6c8c1a8388adb19a3ed9cc2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_red_r5.png",
+      "size": 78250,
+      "sha256": "aa4e89039e13cb4ed9127162148c70649e1f539a72f393d21bcd4554a789e746",
+      "gitSha": "d4e390899ae0d6709f1e5030e4cdb3a2237f5c6a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_red_r6.png",
+      "size": 79398,
+      "sha256": "39271af1c3592d7a26bf1aae83c4a187b940a4f416b4d460b2d7b3736a791bd4",
+      "gitSha": "b63982caa16116bb5c4e2eb41e8daed1eb86c386",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/of_red_st.png",
+      "size": 94942,
+      "sha256": "8d978fd9a6a4dce7a28b3296fc3a99eab96b0d71094c05572241ceae9a5fbea4",
+      "gitSha": "1ac03724b23c15b9ec2d47e703a25361a2fb517a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_1.png",
+      "size": 52123,
+      "sha256": "7d2142a4e4577a7c2c21e08244e55f1c72c5cb0b7d2008f9bcb6d6099bb9cdf8",
+      "gitSha": "174dd3afd4b0b74cee504c7ba1be8b812ff49364",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_10.png",
+      "size": 38848,
+      "sha256": "1433dd7d2503d9e9808df05b95db217fe448e7e6339eba4c5807e1bd25d25c6a",
+      "gitSha": "53f35c8c59c369e797aa4d38ec8db85af27f8caf",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_11.png",
+      "size": 35170,
+      "sha256": "e38cb7a492dfb51d9bb3e53b3ef95c516ff64318c92e5a1697ae81e365d342ee",
+      "gitSha": "71e712a24a2640a6b6dd29ef347f5cff8cec61fa",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_12.png",
+      "size": 35302,
+      "sha256": "8c57d13b0240406f7aee0583caca733088fb785ffd4d034336b192c6e1ae5cac",
+      "gitSha": "fd47ed5c145ccdec30ac44f7241cb07af36d2acf",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_2.png",
+      "size": 45258,
+      "sha256": "027464294c50edb93dc9279a0b9247f77eff2ed601deca7888266f3bae3bc81f",
+      "gitSha": "7cf1a0bf462457993f9a5c11fbbcbd002a291f9e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_3.png",
+      "size": 52912,
+      "sha256": "22ec193c5432a1bc5d99c1d397e9110f4cd05163c73c9bf2548b1431c13fd587",
+      "gitSha": "e5b67a8dfd8198bd8000bd2c142a0bc3f52121cb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_4.png",
+      "size": 51055,
+      "sha256": "03583dcf56ef4d0e7003522712fadfd250c69a0834553fdbcc12bbe54b3df98a",
+      "gitSha": "a726300b07f8edb7d59cfb2d5786aece60c1fd71",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_5.png",
+      "size": 49834,
+      "sha256": "5689e88897e6e548c6b2c69e751de57cb837866938c2795bdf234115d06c0d80",
+      "gitSha": "f48e536a4fe56abb75184337993436ee6776a2c5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_6.png",
+      "size": 49808,
+      "sha256": "2b48c217a02fc885aed00bd55326c3125d5cee1267e038994a4fd35b2dde79af",
+      "gitSha": "685ae9eddc581005e3602168af28fbaf35841493",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_7.png",
+      "size": 53768,
+      "sha256": "e3bc81f6c76fca3e2202177b9f71e9e5841a5e01574f7a294a828997acf4be7a",
+      "gitSha": "9efae13d2279a7c012891835280b456200c69427",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_8.png",
+      "size": 54627,
+      "sha256": "0a0f0ca3f81f24b0bbadad407458c86b16813213d338e5c777d64902d0b462ed",
+      "gitSha": "5d08abf017fcbcc1723e5215f44a6a7c918f35f8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_black_9.png",
+      "size": 44146,
+      "sha256": "fbada63ccb667cbca8d22d4bd16ccbc1b4a80570a68cb5f730b620e8670da521",
+      "gitSha": "ecec0689bf2c1952784680b67264da760b8598bc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_1.png",
+      "size": 41683,
+      "sha256": "8ca392ab4b5a28dd78a1f1e0cb87030adfc45e1f29f03ed73609a979d03e6041",
+      "gitSha": "f61e7aea94b23f7aa3d9f8706ff276ad593faee0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_10.png",
+      "size": 38693,
+      "sha256": "19176ac24b3c97d31c8b7f507565bb45a0a691e1757604e417d5f268582ac65f",
+      "gitSha": "1942492f3f867e68520b40b84d3a3bbce7d73dfa",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_11.png",
+      "size": 34379,
+      "sha256": "3db53bdfb14c351bbd5d1bb6eedce25d9d86187aef9415ad0bc0a128465a4a12",
+      "gitSha": "0f8b0c5fd9c71f1f535ce45875dd90bb604b03d1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_12.png",
+      "size": 34332,
+      "sha256": "342d58f3705b8664f2d22551c3ddcdfec4e7d55cc91069b38064c18995a59c1b",
+      "gitSha": "cadea7bf13668f8dde575ed96c21722e3c4c8a2e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_2.png",
+      "size": 32918,
+      "sha256": "5c79bff32fc2db6d1875992c22a076632c31e14e9b6d119d8f5a816bf64b09b3",
+      "gitSha": "65466ac1a8bd120674ba198bcb5e1923089a5823",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_3.png",
+      "size": 42325,
+      "sha256": "807ef809f3af11ede1d90b2030b5a627056ae09c8a4ca638d2d06ad40c3cf4e7",
+      "gitSha": "be688d27e0fa9339c6a80916f9de50f9d22b0035",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_4.png",
+      "size": 39561,
+      "sha256": "662ca9c63e3db93a64ed251323cae4c20767d40c236431fba438976f8412e175",
+      "gitSha": "4afd1b86ee0dc91c1358701770b50c99ddc7f1c2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_5.png",
+      "size": 39068,
+      "sha256": "d7454069b24aaa74439cd1e7ba9b5965f8c3845074048a5f9d2b68220ff2f286",
+      "gitSha": "5bf6f50df0314542ba7cf2cfd54475e640eb7cd4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_6.png",
+      "size": 39577,
+      "sha256": "8e724d5131cfdb7948df3dfc9ed92cd9ae8f3fc85d586b91f02c97729bd9ddea",
+      "gitSha": "9375a35caf3db02e257c65fc6a67fb8942751ca2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_7.png",
+      "size": 43351,
+      "sha256": "86d66d418eb7082a000a57d7776d663212de814d0f5b0666f4629f23d7c3b975",
+      "gitSha": "f3d81728fb8afe3caf99af15d43cfa2919bdebf4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_8.png",
+      "size": 43629,
+      "sha256": "3394360028030dc8eeef907dafd882d6352b93440a1b55669b9330a684564018",
+      "gitSha": "c793359b6b5257a51821439dee1cccf9e2989a24",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_blue_9.png",
+      "size": 36141,
+      "sha256": "400dc91c6d9851ad1fc78b7a031a27ffd21a5e024ddf9bfa6327bea832207047",
+      "gitSha": "56428c72882166d78e940e8ee5f9fd3f124b9688",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_1.png",
+      "size": 42855,
+      "sha256": "b16448110a230c8e0b61ead53e84c90d857d02edc052729e54389706d35905c7",
+      "gitSha": "4abc87ed943a08972d45a3b3076a61335242f5e7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_10.png",
+      "size": 40444,
+      "sha256": "36764f3d3fe043fce3477d289345f26d29d31ff9b27d588cb2d8b1ee8d6803a3",
+      "gitSha": "4eed8398e79b8ecae078b73ad8a7fcacf56ef0d1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_11.png",
+      "size": 39331,
+      "sha256": "4048c2f583a09c346eea6751ade740730369fd571d00fcc62b71f7d57fe5b030",
+      "gitSha": "07285904d062228fe9fe3a0fc00a6a0614720984",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_12.png",
+      "size": 39177,
+      "sha256": "e5f5acf1cbf843df3471ad3a16bfb809b435af15e7aaff92a86daba528b3cc42",
+      "gitSha": "ac2e0a420eb38da4025c568183ae2c92821b76be",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_2.png",
+      "size": 33586,
+      "sha256": "3009cb2d5add3f2eb924795c818a011cef3d0d80e7dc6599b889575c5f2f09c7",
+      "gitSha": "5dcf80c1f8b669438c94ea655bd49a96304ca4e7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_3.png",
+      "size": 41007,
+      "sha256": "6d64fb960ded68ce34f132e52b7c184e9e6ffadef1118b3e5682cecf14a48447",
+      "gitSha": "b4df82dcb74d03e564706ae5f907b134a9a4009b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_4.png",
+      "size": 38558,
+      "sha256": "ad760e76c345820a43a3342298bbdb4acd420f4d3d087d6d1abc2eb1a9e5d8fd",
+      "gitSha": "bf55b79424e1afe3e54258d45eaeac94b6358a20",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_5.png",
+      "size": 40428,
+      "sha256": "e5c8967e54e1bff910d0b80df69d99034f6de573d04c435a26aaa8a99d980804",
+      "gitSha": "e58dd9d9b09753da1cabf981230dd36ef4626ce0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_6.png",
+      "size": 40999,
+      "sha256": "020446cd602ee3287c8f8497abd415f50ae50d48989825da37992aef9e9a6ece",
+      "gitSha": "f1a1ae49940c60561554959a28cf91945b849834",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_7.png",
+      "size": 43041,
+      "sha256": "4526a06be30e31316f39daebad3d0fe0f79b6dc678bed486d6d5b32f2f3c6fab",
+      "gitSha": "672b75cf60b3bddcfe31cfda04b3239b96ad236c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_8.png",
+      "size": 42915,
+      "sha256": "0d1ce2925057345a36d2a6e649ab285cb717e9c5f39f8f0ca9ceceb1d6a4bd16",
+      "gitSha": "131b5ae4a8f65ba73ad4221dede3e914925d75f7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_diamond_9.png",
+      "size": 35337,
+      "sha256": "7dd86dfdb5cca545c4ecdd08e8ad84d1434d4b7eeb52d832cf4fe7dd07f8ef9d",
+      "gitSha": "923d8e33bae39dc3e6995430d30af0efa1772ce2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_1.png",
+      "size": 44118,
+      "sha256": "fbc8b73a1a6080569749853a72027e1d789661a0d3505752502653a8f1fff89e",
+      "gitSha": "4bcd2a43d981cc33d914e9479274f8ec1dc69263",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_10.png",
+      "size": 39739,
+      "sha256": "e44f28fc7018df59de4ab5a07eab701654e226d4258c3e611dc65f35d4856b05",
+      "gitSha": "16373e245355899bd62f97729c27aac23599ed79",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_11.png",
+      "size": 35090,
+      "sha256": "64067dba3f354621e4a56db2ea2fe7b4aa12ca861e2756227882d5d2e054cac4",
+      "gitSha": "08b7662b3c891c7b715692b1e0db2d90e50d02a0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_12.png",
+      "size": 37172,
+      "sha256": "01429cde4ba2d0715229d1334b66ca47f6d43ce62a7e86698d3a5b58b8c67d2a",
+      "gitSha": "f0446a3db3ab7c3f1d248113331b802bc7a48a47",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_2.png",
+      "size": 36976,
+      "sha256": "1b93d3f3afd04616200c2cd7444f2cf5e5a9572b57563a92bb987bccb4ca93ca",
+      "gitSha": "10c97edd2ce27a555eafa09446c638c14290c642",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_3.png",
+      "size": 44906,
+      "sha256": "5b872486a48313bbea52726ec70baee6e62ca05a5d7b2e83c0b88d6939037c0f",
+      "gitSha": "1e7c1393294c6dfe925cb1a7bf5f396631d162df",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_4.png",
+      "size": 41310,
+      "sha256": "0a04abea4b0e4e8cf32e26079c61f50757b1f885dbf27191fabfd6aee3990811",
+      "gitSha": "d243e21c64a84848f32c22def4c80975ccd4278a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_5.png",
+      "size": 41395,
+      "sha256": "acb5c225e647e9623ac0dc9e7aa2b6bcfb35b8dfdac09850fe2a276d4a95a9ba",
+      "gitSha": "bd6dfbee3e4c53c416104a29f7f6ced0edf2bc4f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_6.png",
+      "size": 40592,
+      "sha256": "192b46c7625058d832d500fcc6e7f7250df513dbd3447dfbca4a784a625da2dd",
+      "gitSha": "e4958d8dfa00484e1a785086d405837d902262fa",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_7.png",
+      "size": 45877,
+      "sha256": "35e69666236a5a77945b98091bef400b0039af1e786a21ebd043594ed2afb14c",
+      "gitSha": "8a2e4c8debcff37981d0f91fa4956d3415cfa0ab",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_8.png",
+      "size": 44416,
+      "sha256": "70088484211461a75ba9d2b6afb0b27e2c3baec82851e78463c07c3fed69dc8b",
+      "gitSha": "3b9ec541c88d3fe80eeeb722d77404d61bb32438",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_gold_9.png",
+      "size": 38613,
+      "sha256": "08b43c3f628b4f614eb735d9ff5dd4bc40b9e07ab33e152e674fcf67ff088179",
+      "gitSha": "4a97d24eff894cb4fc68ad3c13e3276de589cc0d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_1.png",
+      "size": 42059,
+      "sha256": "1f4f6b774445abf7ffe04ffaff1949a4f8299a5967cfb22e714b449b0a11389d",
+      "gitSha": "401123418b624b98f71b26c0eeec9863b6a936e7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_10.png",
+      "size": 38959,
+      "sha256": "b1dba9b4460c48e1a242ec3d72dc429f2b4366c93b610840e18f679762045c34",
+      "gitSha": "8bb35e3bbb9ce6437a919981a71f509efc2c8b64",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_11.png",
+      "size": 34139,
+      "sha256": "a0b795dd09b9df2a05c131467746843c9b051de8b26f6f95f96ba2b051bf8d3a",
+      "gitSha": "7288e1f6b937f4c88590c81833e525881fd1030b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_12.png",
+      "size": 34390,
+      "sha256": "00a5396e84a6594773bb39e01f6d69df69daf065b081bfc3a99d2a7cabe7a0fa",
+      "gitSha": "a9ec203acb3a176e45b00b72bdf7b938f069f4d8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_2.png",
+      "size": 35259,
+      "sha256": "696d821e3de6ef0f5c9fea9bb759c9bff0ab5e429dde0089c0f1a0a4fc8c4d2a",
+      "gitSha": "a8747130ab1cdd83d4568dbcd5e481751c1f7e9b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_3.png",
+      "size": 42777,
+      "sha256": "10081f4422448405db925a036b41f3d3be26024de72743f3301b27393cdec868",
+      "gitSha": "9f4fc76853c4016ea6ed8850e75f9dd27859e5bf",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_4.png",
+      "size": 41044,
+      "sha256": "5f3dd3141715a238c9e25b8160982d768ccbde84d5825e5ea65c8d53b4b0941c",
+      "gitSha": "cafd6fba181818ec1f952dd0b0e5d67658fbbc68",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_5.png",
+      "size": 38069,
+      "sha256": "306fcc44e0e50ee38551a1782dbcc63bd3e4f028ff18b622e13ba316762ab0f1",
+      "gitSha": "22baed34fd8c533cf84a5024a8df1d7b4d9c7292",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_6.png",
+      "size": 41355,
+      "sha256": "70fe166dba867ad8f1d839422ac0dfb070a7acf58086ea7cf8a244d5db16a669",
+      "gitSha": "00be62d40b512b1d9b35cf7739d6fc9a1c06b9d3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_7.png",
+      "size": 42416,
+      "sha256": "b2ba412b9909cddb8abfd9f58efdae1c467bd83e5966b46abd031712eb954caf",
+      "gitSha": "3d9a3f69d7e2e785bc268ec37d220a9142a23575",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_8.png",
+      "size": 44042,
+      "sha256": "738a1b70b622d70aced6dbd9b87bd8967dbb01396f27fdc54b2f582e429e9681",
+      "gitSha": "895e9d17e4c2a7c251fd72ee6690493971891833",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_green_9.png",
+      "size": 36716,
+      "sha256": "fa194bdceae3b7f3ee9e3b1fabf186b4da3e8340f6556186c1dbeaa2b20f9eca",
+      "gitSha": "622fbe91bfa5a771ae2be6f91cefd7315520805d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_1.png",
+      "size": 44348,
+      "sha256": "01d06f31cd337711c716aecef8e7838c94007a4ce26fc19aeedf0a9f1d613636",
+      "gitSha": "f427efbf5f4763c3e2ddaf59fa0924de43162d0a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_10.png",
+      "size": 40189,
+      "sha256": "3e32cc18c1c36a0f41f4974bd9018416d5fcc619e407661bdc514d938b4fc412",
+      "gitSha": "1597a28e12936cc270920566f50d22d509bb321d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_11.png",
+      "size": 38513,
+      "sha256": "ee62d0db8210dec8c5f1222bc9081c0e48cd3302e67bf599e9f60c3a56ce7dc7",
+      "gitSha": "35629a9151b97c5a3fc607a0f61b18c3c033a9ea",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_12.png",
+      "size": 38478,
+      "sha256": "460f14813347f55956c7822cbfd0e1e027d2af19d20ae741ad30bfd088c2834d",
+      "gitSha": "bb44c5fe3f1d5cdc175beff6b69266993fcb308d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_2.png",
+      "size": 38416,
+      "sha256": "128403cdb2c2d406746e78cb2b13057ad88fb6bc91615cace5c8e118c1c0bb35",
+      "gitSha": "d9557566176d2d8872509867e22d3f004b96621b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_3.png",
+      "size": 45302,
+      "sha256": "e7c87d9dea9febdb079d40c76e0152f2bdc36ebd4788ff0199c3d87d049f70f3",
+      "gitSha": "5f7f1cc738be97494d3434568387196466188c6a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_4.png",
+      "size": 43280,
+      "sha256": "e34fe90efa2bbe0ce4cee58cd0b02183120ff028d922cdf8733f2e4e0cd01590",
+      "gitSha": "180f822a5914374804fa50ac00a310a530a5ff1d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_5.png",
+      "size": 41673,
+      "sha256": "66200afbcea14ce67a77558ff1e20f6d05a0d975afd4057086ebbe88d0ecf798",
+      "gitSha": "d3caf13656e83d425dd2a09e246329c5aaf5e1e8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_6.png",
+      "size": 43038,
+      "sha256": "3cbfaac6b1c886da08278b721435d39af38907ffcc13612bdde056897ef01a62",
+      "gitSha": "ffcfe7a0de0cb2d596ec8e34d459046fcd473024",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_7.png",
+      "size": 46055,
+      "sha256": "4ba19b5d2f0e00f8c8150cd93d593be3ccecd2dc3ecc80ea64fa98fccdab29c1",
+      "gitSha": "cc917fce6dda4e01f28b5f9c126d28e3d938411a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_8.png",
+      "size": 45947,
+      "sha256": "371e97efb9b501ec8111ac4358a9a4665ee5351d3a2efe58c6eafa00efacd6c0",
+      "gitSha": "8fc6f249ba0e694db886321e1d94393bb2c80eaa",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_neon_9.png",
+      "size": 38584,
+      "sha256": "3ad450b5d24424fa06a265e1ce5b648ab5c09bc349c27793483640c22473633b",
+      "gitSha": "dc87e079f1046e4a9756863bd5f31588c92ea3f0",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_orange_1.png",
+      "size": 40586,
+      "sha256": "ba4f58bca12314e27ef793c7d99572a9f5621b0d3a35062c4f8c1a0c6a37337e",
+      "gitSha": "92fcaf7a17a1f747844550205e1a2061b37e8f20",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_orange_2.png",
+      "size": 32582,
+      "sha256": "1405e67e32bcd3090d4977f923833d35fb67ce3785a2dff607ff3596c33d485d",
+      "gitSha": "de51f79c6537bdf896dbef0789d9ef568c73346d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_orange_3.png",
+      "size": 41522,
+      "sha256": "ae751cc1dcb3be28cfe658bd1088acd3526b3206ff4f6c8d1e14253d0b68a6df",
+      "gitSha": "73a4f0f5393a126a5497760fbc27301ce6cb8433",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_orange_4.png",
+      "size": 38096,
+      "sha256": "1b360d4ab7a941874e9d962093b7b6b2529b0fc4c1ba29a3b3d742a40f9c4653",
+      "gitSha": "26de2fa296358fc4b39edb9d7f6161e4a69b5bcd",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_orange_5.png",
+      "size": 37437,
+      "sha256": "a5df5b9aaf0b4740b1004aee7d29626bb0edee7478b80c3106e4e6e84cb1af1d",
+      "gitSha": "94290d17172c78b832db9a3f0b99bdf58d4c6870",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_orange_6.png",
+      "size": 38712,
+      "sha256": "2e4db5309eb029db360f273aa5e6f8f1fb78116623f61c30a2b5d94341955280",
+      "gitSha": "b670b2f3a937a2cad6c2a65ba5400c14a4f38ff1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_orange_7.png",
+      "size": 42053,
+      "sha256": "bd8b2ea090068117447e69122012a1a207a90eeaa72c0fd54537d7a5b5c9537c",
+      "gitSha": "21fb78d9fcf81cbd7dfb0c3e7ed7ad082fe30c72",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_orange_8.png",
+      "size": 42844,
+      "sha256": "2dbf58f450b10502273d8cd6468b16fa7ed5a6a439ec17a7ef2019aa781a4b2b",
+      "gitSha": "307d19c4d26b8cb0ee281e5875001f823c9c812e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_orange_9.png",
+      "size": 35646,
+      "sha256": "ce158b7aa628d3f932c8de6f364725979e3299ccda74b87fe3753ff5bac1ad7a",
+      "gitSha": "273601f538ae5b0996ffa17dfbde331f0302181c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_1.png",
+      "size": 44200,
+      "sha256": "b2f11497b5e04a13bdc7304a4def303bbba88b14d355cd44ba9b92411a69c3a8",
+      "gitSha": "04c74495e887150b0844085ef1c475befdd08b12",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_10.png",
+      "size": 38861,
+      "sha256": "c64e68711b7a5b1031f8c53591014b9187532bfa5801eb42d81da2eec86cf80d",
+      "gitSha": "62ac23c520db8c90a660d9abaf610ecd41bd0d3b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_11.png",
+      "size": 35255,
+      "sha256": "b5fe263b7738a5d1daaa6e602cc8fac00dffa35af5aa6783bfee669795f1730a",
+      "gitSha": "e4e10c1aa9d14db50d693d3c61e4cb904ee578cb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_12.png",
+      "size": 36394,
+      "sha256": "16341759522304285ae3cda1a26f3c9d3b16fbce4229549caae75bc2830666c3",
+      "gitSha": "88feb2fc286f46c17b3360190eb6f51ce59fc251",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_2.png",
+      "size": 38626,
+      "sha256": "43d871cda712a0213cbf015d2ffd1af277e3a51f8906b4f2ba2d6fcb892e3d8d",
+      "gitSha": "be5fe2c5fa90377370fa9f0fa7f06b5321d5c2ec",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_3.png",
+      "size": 45896,
+      "sha256": "226f949a8b8fa77349138206d094422b132d7ac373c155b1520906f5486855f3",
+      "gitSha": "0db0b53dea96d40c299ca06bd6b328429bc3a1b2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_4.png",
+      "size": 43640,
+      "sha256": "faa826d63dccec1fca1530c1864a1c5fb2698b823c882d72d02741fa75d069aa",
+      "gitSha": "c9bfcd189d6b5b50026d4eb8607b631cb9caa82b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_5.png",
+      "size": 42396,
+      "sha256": "b251bfd7679c690839ed6576f44fd0bc2aaa9fbc93666fc680f842789e2e90c1",
+      "gitSha": "f2df664601ad96e24a8a07f001bb19fe3d18d8c1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_6.png",
+      "size": 43887,
+      "sha256": "f310ee6029a5dcd7dffa3d289872501a8a0e91cd9abde208e20a3c45aa55ee06",
+      "gitSha": "537196e33f8e19e7163ee8fd8d10cbd75754260b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_7.png",
+      "size": 47862,
+      "sha256": "544a0ca1983c2912afeb4b0d2b75dfcd21f3014a0c33be527fa7f512835d725b",
+      "gitSha": "f3922d21f57e937ce322eab646dfa89ec5517619",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_8.png",
+      "size": 47447,
+      "sha256": "789ed1ce1f9a47837d52153c542c4b4f9201e28ca398d5900e847f2c7a956324",
+      "gitSha": "684aaa1fe73a1cd8cfd629a67990428d1e622b9b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_pink_9.png",
+      "size": 37777,
+      "sha256": "7c217dc1e588c80b89a7fbba54f3f24c43bf439ae17f0b25f7705e89105b35ed",
+      "gitSha": "a950a6f51adc7fd677a491720bf924dc71689a61",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_1.png",
+      "size": 43817,
+      "sha256": "1446c17d2ae55d39dc1588bc9ffd14068fce4cfb9eec2f02ccad0ba50f3ea61b",
+      "gitSha": "ff8e1ea3df5c6c115236ce79635db6d30b047ef8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_10.png",
+      "size": 38758,
+      "sha256": "7fa1d9ab7cca07b8a08c8701410a8bc6350d82c782e4de87d62f25c36fd07695",
+      "gitSha": "b58c0e2a2b083df6b794f0bf380f0d3c258e4b73",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_11.png",
+      "size": 35406,
+      "sha256": "113904619072a87d944b2c4f07f490e3e44222bb4a39114bfa13713717cd5ef5",
+      "gitSha": "186ba084a56737a6b7520edf943a9a7fa07a3144",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_12.png",
+      "size": 36256,
+      "sha256": "cc8b5738d7cd446656277fa08108e9ea40af19231ce831c96794453459ccbec8",
+      "gitSha": "192143a107fe6602602841bd601a38150a359636",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_2.png",
+      "size": 37455,
+      "sha256": "77f56e3a9fb4af7e2302f87be6d742ecca5ba502653c2cb6ef24977116306d3e",
+      "gitSha": "a3c4a819bf8781109d58907bc1126a747ac74cb2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_3.png",
+      "size": 45392,
+      "sha256": "6393f814a225b698dfc31f9872dbf4f526ee77818884ae2362594bb6843263a2",
+      "gitSha": "95ac3a1d5f11ef27feff629fd1e9ff120d73d8b7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_4.png",
+      "size": 42980,
+      "sha256": "e6748271cd90c5dcb88338e4b7f20269b988b706a79e53c7ecb31f7907c05325",
+      "gitSha": "6eec566f0321769c22b339f293cbc356d3812af5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_5.png",
+      "size": 42010,
+      "sha256": "40d7a1e05aae148172e4673d530806782b80d90f4612e9f2f424460f15e02119",
+      "gitSha": "72986c54bfd9e6e9cb84b969f17d1d515d76a3f1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_6.png",
+      "size": 43366,
+      "sha256": "3f7741c7b7456fdb1c34c6dd757f7e12277673a788e087b3083ae9e4bbbe35cc",
+      "gitSha": "da26bec53639be35c4d66be0c4d45d19fe63c182",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_7.png",
+      "size": 45305,
+      "sha256": "7072a54e80989ef03f130c1f2fb7789583f568dd8b1b9f185ed3c3353d48984b",
+      "gitSha": "6061d5c19197056d9918113c11b6267c535787c5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_8.png",
+      "size": 45695,
+      "sha256": "fc61829c500744592ef7b7b65c914bab950331c86db1f35621e3b15b21cd65b1",
+      "gitSha": "dc28c193ca37aa7bda78cc793dc72376f99ab03e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_purple_9.png",
+      "size": 39014,
+      "sha256": "17df0764b7e1684ef07b743eecc5c9f6e047be6544f3e09a8b16366c20fccd69",
+      "gitSha": "eaa0ec05c0576c39d514abf6b7873dc935a87541",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_1.png",
+      "size": 57665,
+      "sha256": "9365355c3973fd803062751b7033980bddf9b61eb1a186715ef978b61620c214",
+      "gitSha": "7d63df72c096bfa23b7e92895fe642c6b1f8f77b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_10.png",
+      "size": 39998,
+      "sha256": "79b56b65d89f5b54bba968b7b81d9a4e26112fbcfed08788387f872e56dd5565",
+      "gitSha": "aa8e3bac96858d94564fad236ff4cd4ee20e5397",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_11.png",
+      "size": 38791,
+      "sha256": "a7fc0bcf6d5caa72422235d53c0b3f4d85a2344d5f6e7f637daa7c53ea51b49f",
+      "gitSha": "7a4abc174287cf993e1c3325e6c3f5412fda6767",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_12.png",
+      "size": 38194,
+      "sha256": "2643bd8128accd6a760132db893e0b36a6354739ec2b626c6d069c14c83c1e2f",
+      "gitSha": "b20ddd28729f3c58ee92eb83b6647e1a27fbf79d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_2.png",
+      "size": 51513,
+      "sha256": "0832f813ef3f0a704695f0b5e029a144e2ed89fb0e5d057df9068175816770f5",
+      "gitSha": "4f453d0f818547de696aac348e8266a95115e05f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_3.png",
+      "size": 58069,
+      "sha256": "596f31497a7ea8314e352b23919c5ac203af9e414047b7064a83dd02b6c8f73b",
+      "gitSha": "3ed96d0608f87c7661541d58f854309e8927c188",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_4.png",
+      "size": 56693,
+      "sha256": "17436a36aebb8c5b689ba7488eb02be0cc3e01749120a66ba79cd3fb57c58ddf",
+      "gitSha": "9bf1abcfeb55e0e59d325a5efe54265df25c3ee1",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_5.png",
+      "size": 55957,
+      "sha256": "4a755bbb0370af8827f4660deb655389b62f506fbc94d6d4c0fcee1a3bdc209e",
+      "gitSha": "e5b205e3d277be10d0bc8f5cb4b2cdb6c6c0d171",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_6.png",
+      "size": 55420,
+      "sha256": "cfc150065270182530d03301439c298046988c7767de2ad9917c41f5d97901c8",
+      "gitSha": "e73b95633ce97a9d9fd1728943653d1ea5f219f3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_7.png",
+      "size": 59405,
+      "sha256": "c7e83b966e47f614d72b7777a3892c5e2eea8a7a7a341aadd22d9dcaf2a37480",
+      "gitSha": "a220cc85d0296792915d3f504010c64a706e6908",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_8.png",
+      "size": 60105,
+      "sha256": "447088a7b77c8dde5b7b7898c24ed355aed23acea837c4ca3a4749a850219a04",
+      "gitSha": "fbabca8d31f9f9dc16254c7fe5024e4322c26598",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_rainbow_9.png",
+      "size": 49826,
+      "sha256": "88a2c8d54b5bdd6fc66e22237beb124dea9940abca2bd5fb169e9d80ddc9a79a",
+      "gitSha": "635cc37522d1b01bcabf1a34ee5d1b76e7dce007",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_1.png",
+      "size": 42292,
+      "sha256": "0ce29609bcc7a71826b3ac7704b344268c27ba09323784843540d095c44c1ba6",
+      "gitSha": "a602af226b6a0e01e45bcb834422d0a0b99da3ee",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_10.png",
+      "size": 38639,
+      "sha256": "92b5b0cb2b191babcf553053406f0aaba0c8a3ef5506bbf52b059d3dec503582",
+      "gitSha": "60f6443c383f498380ffbc453a7fd06b6716297a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_11.png",
+      "size": 34060,
+      "sha256": "8d84fe74d0b847f7f0da520d0e6c2cec6c93febacaab496a65112616e7e91c3c",
+      "gitSha": "628ea0d785ace4fb1686d59a55f9620424fa00ec",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_12.png",
+      "size": 34234,
+      "sha256": "def91a21437180649424be6d2b8a8e363c9d2da5672cd19855c739c9e1f69c39",
+      "gitSha": "37393589cb9fb2c6cf0876785075ba4bb2326ef7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_2.png",
+      "size": 34530,
+      "sha256": "586657bc4fc3e148fe4a23b97ff42da92fa8d5f148ac61ba6ed757c7ea5d7a40",
+      "gitSha": "d2c267d40a931bfc6ab90f170314e14694aa9821",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_3.png",
+      "size": 43771,
+      "sha256": "186752eb88112f95f39f921e44e66f7d55e879a71cb8872ed92ec9946591f07d",
+      "gitSha": "bd2de70d65b8236b6b0db28f5418b8e21cf9be7d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_4.png",
+      "size": 40040,
+      "sha256": "9b8de986ff6a6b831f6b405b8d066ddce0db31ab4964aebd229899adb475fe64",
+      "gitSha": "5f3a856dce30dcf6369ff6e64c508f12ebc18dc9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_5.png",
+      "size": 40127,
+      "sha256": "7251056493048c935bfe75030d5c3c9d122caa4fa7857a351d3a8a9d0cea7b81",
+      "gitSha": "71be1064eee3fe5917881d30d7ec875c33eb290e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_6.png",
+      "size": 40074,
+      "sha256": "a465e5c5293822d0e87414e7bd1f1d132850c7bcab937fdddd3b5c311b1512ae",
+      "gitSha": "35c884a53acf8425f1ee3ccd2d034323fa35a56d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_7.png",
+      "size": 44043,
+      "sha256": "f7ba380a3dc0152d8e63210ec92fe1d61d3066f41e381cba4f3eb5fea226a77f",
+      "gitSha": "83d7b38178c4dad23533d60c8d07dcc0a518059d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_8.png",
+      "size": 43956,
+      "sha256": "eef63e81166b5688e4e1089fef4e05fcdfa28a0bf292c3fc5b5bd8b54e38b59f",
+      "gitSha": "926a4a76147a94913d1ac6cef838c1da5f1842c3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_red_9.png",
+      "size": 36955,
+      "sha256": "fee9279a54431f7e2fe4fa5e6f87bf3a118d8cc403ca3b2ceab9ef6d2ad79f5f",
+      "gitSha": "b6ad3dee2a5e5b510030898a2cfc3b242845c8c2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_1.png",
+      "size": 58036,
+      "sha256": "3dd9a30a5e9bb60c60b12bf04d4f61d15ae36b0d0b9d5a684f14f5f1d497da8d",
+      "gitSha": "36d21bbdca84e3e32f040de170ee7aea77368068",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_10.png",
+      "size": 41181,
+      "sha256": "8f497203daa922652913691e48f740a6f7c018089017d96ff1202e9794792585",
+      "gitSha": "edc462d634e00691d886f9bd03cb96481a2b2e43",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_11.png",
+      "size": 38982,
+      "sha256": "3e0ce54e9e06b6e50ae927f2cc572de29fac307a276143777ceeaaefcac43f5c",
+      "gitSha": "77c4990dd4e3c8471f50d7604de7e5c3fc26650d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_12.png",
+      "size": 41682,
+      "sha256": "a7580c23b2affedf12ea4f1599788722f74420d4f828540ca653af0bf618ffb7",
+      "gitSha": "a9ca820ed14da1d647c6c3aa160f4d2f84868097",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_2.png",
+      "size": 51299,
+      "sha256": "830ef017bbe3cd297c4902e130049b0a5ee09f876f1f135cb61a303e045789be",
+      "gitSha": "df7cb383f64b7458d713da6e000549d90570e919",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_3.png",
+      "size": 58261,
+      "sha256": "97ca4235d6a8f274265e40e5eb1012907df312d33a606aade5c14ba40929db67",
+      "gitSha": "dd1d548b69561968a7ea35d83299e492a0c0bdc7",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_4.png",
+      "size": 57017,
+      "sha256": "f6335c6d8dd0e1d17b5267db794a37191facd555966ea6a46b8d8e89b4604ae2",
+      "gitSha": "519ba6b89852ad1c20c9377e748c0bef8ca4715c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_5.png",
+      "size": 56263,
+      "sha256": "a0db1649807816e1b8d212e99048fe89c9b3ac450fe16b8818b0bfefb94cbb7e",
+      "gitSha": "178676c46bcbfc85f4593a3714d39ae7e0609f97",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_6.png",
+      "size": 55364,
+      "sha256": "5f9150d5bcdf23d6b6447ea44e5449c197d61459d1ae25d37f7a1d5e39a719fe",
+      "gitSha": "1629516b877017c3e4d59dfda4e8e06ad198d052",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_7.png",
+      "size": 59748,
+      "sha256": "0566f2e534a6b9343e443ac0da28659fc25980335448cf2266a0f3c5fe592b99",
+      "gitSha": "5001c449ee44790f7c51cd9b840ec4c4b2f948c3",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_8.png",
+      "size": 60792,
+      "sha256": "c80471aca342f76ccc39de5ededcfe60b54017d47fde955d64e45cd81b81e65e",
+      "gitSha": "010032c0346fef4d5757daa1ecb1a287e948c83e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_santa_9.png",
+      "size": 50382,
+      "sha256": "fdcfee472a10660d30e110336e112bc9ce40d6cac44c00dc21c53c991efa1274",
+      "gitSha": "5b776a713018a534a25fe8b54d6756279dff61ce",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_1.png",
+      "size": 57641,
+      "sha256": "27bf9451f9069adf6e8cde25cb38e1c3c708071b76f2efbba0fcc9d443eca550",
+      "gitSha": "44e3129410ca9d8e73eb844656c87ce99d520626",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_10.png",
+      "size": 36572,
+      "sha256": "667c8b77389e966d3be605d18b4420e78701a1fa8195b230e667c588eb17d901",
+      "gitSha": "aeef18dab5419c0ea9bdb1a05d18d86ffc5573d2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_11.png",
+      "size": 34045,
+      "sha256": "32d723ef584c49d376559731225f675da7e047668c5809e68ebdee55d8e57e0f",
+      "gitSha": "3038887e2ca1ed632a6efcc3308731908e6e039b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_12.png",
+      "size": 33953,
+      "sha256": "e606eab760087e34580c91eb79044305351eb8f13f45b4fd3e7c11da5f269f6a",
+      "gitSha": "e1517f7e8535b7a7097b00f0e5cb6976d2507efc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_2.png",
+      "size": 48440,
+      "sha256": "62d0ae7b67782bbdd81b9af7cbe2accea0444ccbbbd911c97babbc5328c116ab",
+      "gitSha": "e78596a81b90dd6415656f7d12fce3926c039524",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_3.png",
+      "size": 56311,
+      "sha256": "77509b0eb5b624903f1e28de2877091aae00b56567831e18c1c3ceadd71e266f",
+      "gitSha": "f49551b6fdeca9d0cdb1f71c29efbd35182b9842",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_4.png",
+      "size": 54742,
+      "sha256": "3e6cb0cad305b1974e77b38403f4b3a3a5afca367d78bd0a9ca06901a6ae0464",
+      "gitSha": "5f379b06606bcf7305200f8320a5a62b90448aef",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_5.png",
+      "size": 52736,
+      "sha256": "338d0597894f41eec7422560824f5a0eda0b730e8837b8eded2e7c48b1b88b0d",
+      "gitSha": "d6fe3830f1c1854709865af7207647d83a2af342",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_6.png",
+      "size": 50014,
+      "sha256": "a11cf0258eb7956e5553b319fd3852bacf9c216420b44407668f12302bb59e0a",
+      "gitSha": "2f4eb0f6b7d8354b23ce9f787ebb2fe2b87fff41",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_7.png",
+      "size": 58541,
+      "sha256": "4d0325a974476896f5dcfd4625440285e79318d2f6bdaec53ec917b4372d7f3f",
+      "gitSha": "dfdf0ce8c4ad04def69f4874fd60ad13808c266c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_8.png",
+      "size": 58436,
+      "sha256": "9a58b9a3c4a2b9e24ef5f896b870a90d91493095f2b040773094edf542a55d77",
+      "gitSha": "ec87ff24c35ec64b2f81ee8ef01ef3c7089f8bef",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ov_white_9.png",
+      "size": 46568,
+      "sha256": "8a480f2bcba6068024a557f20dd03a45607398e26bcd69ebb5de3706f370a8c7",
+      "gitSha": "b981ea025ba2f67dd7514a051d6a48d8f311e597",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/p_burger.png",
+      "size": 19370,
+      "sha256": "739e751400624c16a307bbf4d38fc75852b83965e995f2df6750a7d1372b78bc",
+      "gitSha": "9c23475dba75e909d2ba75322071e86066bf8d51",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/p_foodbag.png",
+      "size": 19253,
+      "sha256": "fab9e6d7c784d63534dd22b0f48816da5110eb4e7d1100759d9d6d567ac0a6d1",
+      "gitSha": "4cbaa3c57e404601a3e21a07dc7860ce6cfeed75",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/p_parcel.png",
+      "size": 16674,
+      "sha256": "dd4700172fe3889ea3fc939e80ecd4a4dd6d581576ad90e085499be7d1e1fc71",
+      "gitSha": "3f0568168b2eb0d3cc93d6d8fdaf6dd7191a21b8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/p_pizza.png",
+      "size": 18823,
+      "sha256": "50375c157ded2707dd92eade5641b05ce98d5f4f213012f16f7c9bee6179abc9",
+      "gitSha": "33135df4f5c299a02801b7da9a44260767abe2cd",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/poor_0.png",
+      "size": 26147,
+      "sha256": "3b175671a5673f50b0bbb0c45bb43e350f0deb66561bdcef9c3ae12e3af995ba",
+      "gitSha": "8da764e05cb546078c4b2f213fa128ff5ebd0448",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/poor_1.png",
+      "size": 25772,
+      "sha256": "ce56faa1be83129410c9f63fc1fb2c9cfa0717251ee3c28e145b7d80b4fcd22a",
+      "gitSha": "97c5dd6b98422242225b1aecd7eeb25cf19395ff",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/poor_2.png",
+      "size": 25065,
+      "sha256": "f656b8c2a45a5c723a0c520afc55b7f6d251ed47c1224c7e35cb00a9aa8ab328",
+      "gitSha": "fdd9d5830ba93106f4bb68802177585f4f7bad36",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/poor_3.png",
+      "size": 25610,
+      "sha256": "83143507104f5e7f058b33a8e13df5c38eec6fdbde594cbfaa576b37a21814e8",
+      "gitSha": "6e2e16f4201ac8b8203499bcc7218a07e45ea228",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/poor_4.png",
+      "size": 24002,
+      "sha256": "c16d318fd53d1263b2977728c25a1634bc089b963a812ad1d92f28b19252e93f",
+      "gitSha": "1118820f173a7ca46314cca03804d6cbb991c037",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/poor_5.png",
+      "size": 23126,
+      "sha256": "7457393d3583b2fefbb6c9e171f583327dc02625640a024ee70082fac800c60d",
+      "gitSha": "1d85a2fb85a270227e819d1735f79cb6062b8dc4",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/poor_6.png",
+      "size": 22852,
+      "sha256": "19df2b45d8061d47298afcb4290558fa2668b05928b1d30d29a36b9eb6079151",
+      "gitSha": "80227b538fd657664633a870d299dd66fbb2939f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/poor_7.png",
+      "size": 24395,
+      "sha256": "953aabfd6d87c5a6e74f6c46a5db148bc7df919ab0047e1302cf1d21b2ccc411",
+      "gitSha": "4c7daf2326b82d74935e589e8843825f2deb09cf",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_barricade.png",
+      "size": 29847,
+      "sha256": "4dfbc18728c1ad193bc327be7688314c91a54e6de7caf5a48dbfa924b4706364",
+      "gitSha": "fc6fcb88bc3d7a97ded13e72d831b35cad8c7ec9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_bench.png",
+      "size": 18652,
+      "sha256": "1c8639cf2e99756e01530cc4c95c1e9864c5fa3d140d1379e87d44cee261bffe",
+      "gitSha": "5739fd3cb25b90f8a58b63160147fc621b389d41",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_busstop.png",
+      "size": 49885,
+      "sha256": "f0de1f943080637f82763e5ecae1befa86495c3c6e0d0f318947860d76fc856b",
+      "gitSha": "41b9633e2f2bf1ab771881d3ce659cdc7b192c7d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_cone.png",
+      "size": 16940,
+      "sha256": "57eaf1da03dd80bcb2cd2c93ea8bf957507015aff90e34042ed80053408a4b2c",
+      "gitSha": "8ccddbe014eeb147bf30bf4d63d301c79649a972",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_flower.png",
+      "size": 23199,
+      "sha256": "4eb60f907c4faaa3576975b9c954f397398b0916eedbad1165ad37fb79a57381",
+      "gitSha": "79fb0797ff278ab7c032d476b2dc9e168955c09e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_lamp.png",
+      "size": 13994,
+      "sha256": "b382838e2bf4a6acbc7a9716da19d44f310482c34092283e8a5ef48199bce384",
+      "gitSha": "6f2aa7d1cade6fcc70544d9018a2f3d8226c44cb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_mailbox.png",
+      "size": 21624,
+      "sha256": "35c5d82a4c6f01598c2104a23b5ea305ff95d9c34b5365ba51237d4f466ef262",
+      "gitSha": "db085d11274917fd96218360e2510deff37b737e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_trash.png",
+      "size": 23931,
+      "sha256": "c54f913803d6488335a9a46ad2c81c9497f8a75d28026d40ac0d7338bb0ce3bb",
+      "gitSha": "e1c974d833551df336177f2ad162c1ba12521f78",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_tree.png",
+      "size": 41487,
+      "sha256": "1b08bde606e235f2eb727eeb2de503728ef3b35d64b2b8d0dbfaa0e449eb5a04",
+      "gitSha": "1fa7e021b6003b74cb479d657898d99fc9d47c06",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_vending.png",
+      "size": 29784,
+      "sha256": "1154943cd2a4a64173aeccf6e916f260f295ebd9dabb9c7fc9b3b3581518adae",
+      "gitSha": "8d923e5abf40b7cde311852f550dfafdc1feccb5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/prop_xtree.png",
+      "size": 150388,
+      "sha256": "42efa2c0957fed006743dfa2888ce7d637107910cc8d266981488c0d0d77d5ef",
+      "gitSha": "9d6d1f4be020b38583920257e342dcfd15f2b385",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_bike.png",
+      "size": 43437,
+      "sha256": "0f80d1e7d39c580cfe5a7c00e870831f47ac54891df778ae2e46a7d82d8c7988",
+      "gitSha": "df3d04fc99a9cb10edfb8ef4b6dcaea267fc61de",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_ebike.png",
+      "size": 44948,
+      "sha256": "c340b7f0391da2ce0c5de30f4c4b5939be4f2514f9d65f5a7064436153b8e6ed",
+      "gitSha": "0bf53d11842188d95d3bde7dee6996bffa54f26f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_heli.png",
+      "size": 28062,
+      "sha256": "6c0f0bd42c63dd72036e319b2061ffb66f81552bb1cec379290211f8adf5eb14",
+      "gitSha": "baecf066916a224f2e7a5f11c32819e54680074d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_kick.png",
+      "size": 34854,
+      "sha256": "a16f486c0c1a9a387e41b5092fb771cc9d0071289c43215eae8ad2735f1d65d7",
+      "gitSha": "43f34dd9c84e9315868cb41d6f8f5da4429b08fd",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_moto_big.png",
+      "size": 44699,
+      "sha256": "7df8225204e484a4c421f51f3377c5bf43387142bf6ff7be0c729e70994bc0f6",
+      "gitSha": "d0f59da044463b1c395a60c17f87c795c0916649",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_moto_mid.png",
+      "size": 44265,
+      "sha256": "dc4224623aee275d382246c583ca82ee1d210723c571fdbe84240c7be3d9008b",
+      "gitSha": "7882a7495b7ba08a88ec3484939a3b2cbd93e026",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_rocket.png",
+      "size": 25681,
+      "sha256": "7310294e6345084cba17a50db72e4ed6dcb4440e430397ab70d366c37f7a8e61",
+      "gitSha": "f2493dc4cd6eb18136b796a70fd2334f3156d863",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_santa.png",
+      "size": 207930,
+      "sha256": "6a3fbc83f9351dca6b8c7c51caa6123c792ddd533530c54a5af301ce3a28e522",
+      "gitSha": "096be16408ab0261d3db27f2b9626b14d77b75fb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_scooter_m.png",
+      "size": 40961,
+      "sha256": "ec45ccf476ca731c465a5bded4afedb4ad52ee4cf7a4d807557bde1cf64535f3",
+      "gitSha": "a740c5f2a1febc88d9cc1aa5e35d4df3c339e289",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_scooter_w.png",
+      "size": 40014,
+      "sha256": "f6cee2425fda6d2e17088eb429d44f2f9ae141d7fa5cd7c31c7466bdf78a65ff",
+      "gitSha": "44f971b8bacdee739665a4ed66a043bf7b08a540",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_sleigh.png",
+      "size": 221160,
+      "sha256": "a54024a1ef089a621163056970eb414f12dbdde9d4819dd469bfdbbcfbacbb49",
+      "gitSha": "b040d952bbbef356dfa9044f68ef8f334531f833",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_super.png",
+      "size": 28112,
+      "sha256": "2a69b830fcaa04e31484a55a67c24506cdb7f3d767721d872aa0ba27a60e003e",
+      "gitSha": "502507f170cdaf8426eae253f018b557f6c2175b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/r_van.png",
+      "size": 36612,
+      "sha256": "de6a6406d20d89dd0cf8cb1ab48f15f3d6c122c25900320775528abee1159444",
+      "gitSha": "de4127520c4e62b9d00c4c8cabd1f7f08634cf75",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ride_0.png",
+      "size": 33730,
+      "sha256": "a8fb8f2df4c3a09342ab1b902b720234ecd9f26547924f0cfe620622b8dcdc30",
+      "gitSha": "07377792c90f07db6c1322dac616fb05fcdcb223",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ride_1.png",
+      "size": 32235,
+      "sha256": "719e1f7cf2439647acc7bdf2513c389316d7636f78f2a9a0a9c6096db606d2ab",
+      "gitSha": "aed060932b45459a6d37542f8e2fc62407f5115e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ride_2.png",
+      "size": 31714,
+      "sha256": "c2bb0953444890ce41e3ed692c9adab41e32d8741a4a98e09504f78b8e0b0b4e",
+      "gitSha": "d045b23a3eb075cc85885cbb243fd9190819c256",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ride_3.png",
+      "size": 32445,
+      "sha256": "a5fb1179b6138781fe1604f6d6da825d903a400a33b68687e4db656b17f36db4",
+      "gitSha": "06b8f56b231e4e3082b5196c8fe8773b9d2cd751",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ride_4.png",
+      "size": 32170,
+      "sha256": "34ae1d085f51974e6325c2eb201b2bac37964d18117ae1ca6fbe1c04168f1494",
+      "gitSha": "c25c8ce93e369de80d5ffc55bdcfcac86ee814ee",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ride_5.png",
+      "size": 32031,
+      "sha256": "0cb619a8b3058ff22366737bf4ff8e264113ffcd39b2cebac9e3957d3368cb93",
+      "gitSha": "2de6a0f56224f693deae7649d97944f8650ed796",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ride_6.png",
+      "size": 32512,
+      "sha256": "022ab8597da5c22dcc9ceace7f1a9bb2e0b49229edf8fee62ef62c9fefb5cbea",
+      "gitSha": "5190e96ddec41690937ac50d2bb783c38b8a0649",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/ride_7.png",
+      "size": 31284,
+      "sha256": "b4b744a3cd2df4783916e8b2c0bb57b6c99e4d8f5dc3300216239881daf01036",
+      "gitSha": "c71cf9b4471b14f5a19ef688aaae2a43c41791e6",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/rider_top.png",
+      "size": 17330,
+      "sha256": "5328af9e7f68db6ccc00664f1b01f668cfbdb0f52d75f2571279c629fe2ed49c",
+      "gitSha": "a50b45c0d2f30229b9491f85b71d71080724a9ff",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/shop_burger.png",
+      "size": 75473,
+      "sha256": "13945c363c209ad939870ea361003163a1c000683621943c939d3daab7373643",
+      "gitSha": "2023d744fc9019c6d26345c88a04d06b360fa6e9",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/shop_cafe.png",
+      "size": 82665,
+      "sha256": "1ef1385f1e3d256e2f1232e35adcd5a4decc0d90aac6733fe493a746af4ac13e",
+      "gitSha": "b274f35f94576d32b3d5d9be570a308285e49dfb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/shop_food.png",
+      "size": 77761,
+      "sha256": "a6f2f5e61f17843e7508916cd3a06d11c43acbb3c53f4fe4f20b011baac38a4f",
+      "gitSha": "e31624b347f5873dd383cb053ffb3762444beffa",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/shop_mart.png",
+      "size": 77925,
+      "sha256": "ba349d935adeddb12a15731b7240cba07ca4f33e7eec87fb54fe962e74ee4399",
+      "gitSha": "31ec03b9777fedad470c18199a40d2b16917e3f8",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/shop_pizza.png",
+      "size": 78635,
+      "sha256": "93116804563ea995438460b067135b5891027e107e78bedd8a41008f1d18ed66",
+      "gitSha": "011229c652ecc74bcd243935f8eab83620f75066",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/shop_store.png",
+      "size": 61877,
+      "sha256": "7f89110d4b4c064fa0a9488131d9349bf5dd9e795336ff8bb1051b3388a4b282",
+      "gitSha": "7e7fa2d03a6fb4d921443cd912b75feed41ebf99",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/st_0.png",
+      "size": 21988,
+      "sha256": "d6b2bab82a99d34e90f6478ac2f420f5ceed131cf2cbebb448a89c0c773fca48",
+      "gitSha": "54f509699cf52bb1334e4d7ccb3bbcddc0d6fb5c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/st_1.png",
+      "size": 20928,
+      "sha256": "84939f4a22cc220177f0e997c5fc9282da4682858f81cd870c32e3c2d16c974a",
+      "gitSha": "35ede578affea15ab38b8a6cfa203918a3b3a64e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/st_2.png",
+      "size": 19903,
+      "sha256": "48e23d0c806b1c657ad550e40e64d64449d0840e650684cdd898546cfa54e69e",
+      "gitSha": "ad8d1b0245e3ca63eedcc734145bbe7b722d1ca2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/st_3.png",
+      "size": 21380,
+      "sha256": "93037c0bf448b69b929b80cf653351bd62411f90074204a5f059d1a4128af691",
+      "gitSha": "27ef30bc61391df6b91abdb97f5d7846bef60912",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/st_4.png",
+      "size": 22739,
+      "sha256": "a8819145e2ae3e8e4593a9dad4b4a9123636bc6ed1c4a5d7253cb80f4ff15bb6",
+      "gitSha": "17a15352e16337df8b6d1f6b1d0b479093ccd46f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/st_5.png",
+      "size": 21867,
+      "sha256": "01bf460d64af10bc82f57020694a716a9e266d64f85602dfd60ae1d5a25e0b46",
+      "gitSha": "fe545b4420c96876d3bc69bb748beb3e3c47cf0f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/st_6.png",
+      "size": 19670,
+      "sha256": "5be322256a30c09a17d3bc4318d5d6590c37117f9a49d37bc886a22c66c35b19",
+      "gitSha": "e9bf0e0c4ec0bca9c641f69c69d32b004a4ecc2e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/st_7.png",
+      "size": 19580,
+      "sha256": "63abee781dc47e8828d1ad24c48e232e66b01b951d83481741fa638e4c52d79f",
+      "gitSha": "8866b2d37fe027fc06c98ec6e1d2fb14520e88f2",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/title2.jpg",
+      "size": 273308,
+      "sha256": "73ac13e57e38abfe3f1f23ac468b5aa056d853dfaadccb17f499b8cd43c9412f",
+      "gitSha": "5dc253255eba6f4e32208862dfceb949d3e41264",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/tr_amb.png",
+      "size": 12457,
+      "sha256": "247202a288e27788e7878240e25d24d93f5033510ac28c59643972316e94e1ec",
+      "gitSha": "915171a47a0ffb26d1f529b4fa9b3f99fe5d392a",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/tr_bus.png",
+      "size": 12038,
+      "sha256": "4560e7cde602959a7d505501c25ad62ce4ac39c34a5afa4816fb9f83ded58b16",
+      "gitSha": "97c32e0e04de2207e709e75213ce9057d9a4d00b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/tr_car.png",
+      "size": 10431,
+      "sha256": "7ec9f582871dcadb0529b96a4581058372ae20c8b4349b5ca7210a3554936533",
+      "gitSha": "0cf3d713de9d6655177863787c66397e87608675",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/tr_cargo.png",
+      "size": 11500,
+      "sha256": "68d5f75a9ff10992cc505eaf4f82b81e7af04133aa652338ad70664e4eccf5ba",
+      "gitSha": "46c5d19be660a9c1a2e50408161b623df9fd725d",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/tr_police.png",
+      "size": 11551,
+      "sha256": "89777f24794f427424c39295dab769acc900063ec89608a690ecb8222b5afcf4",
+      "gitSha": "986414d227172646b8e8891b4912926f07b003ca",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/tr_taxi.png",
+      "size": 11240,
+      "sha256": "9f226e22e694e4690712de38fa7a7b62579a8ec96d7ea42d07b330de9b1caa20",
+      "gitSha": "a52198a25e6206363398d5e6d730cf1e557051df",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_bike.png",
+      "size": 24312,
+      "sha256": "573367b5ba012d2c91d27b1c9a881bec5b65b85edcaccdacb75aac4d69c31e4b",
+      "gitSha": "6863f403ab59587a3a8894971e1ec7bc58c5818b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_ebike.png",
+      "size": 22649,
+      "sha256": "3008be4cce1a0856be02fa1193912fa22de1b712a0368ee029587441edad5587",
+      "gitSha": "fc1248069f569f7df6d3fd8530a40580d0929e3c",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_escooter.png",
+      "size": 18762,
+      "sha256": "082d0ea6a0d292f42e9983ddda36dbe157c717db6fb4802c01a946a1317ed4ae",
+      "gitSha": "447d17d158c16eae54ff4d46c7630f32d1d97fa5",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_kick.png",
+      "size": 13432,
+      "sha256": "778574ca6dffa175a7029fad5884238228d04f5f8631a2cbdd1a1dda2bc8b10e",
+      "gitSha": "c108f7403f66e48fd7f02a2547980c6ebff0e5a6",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_moto_big.png",
+      "size": 23788,
+      "sha256": "03f1b0d5a8f5de49111241a4fe6566f60e58bcfd3b5e91c2cc2b591e14abe3b4",
+      "gitSha": "a1beeaa1ba68d271728a357f95d9928162e76a72",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_moto_mid.png",
+      "size": 24319,
+      "sha256": "985c5005ee688e119f7e7cfaeef2395d441417907b6d1212d4097261f8c98f18",
+      "gitSha": "c55d4cb93fbd44e279f0e380aaea18fc990dee41",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_pickup.png",
+      "size": 19852,
+      "sha256": "07bb34e91ab62c4d50719627138d5a37128f7d3ba6f45d30455a0b095d077290",
+      "gitSha": "cd45d41eaa34ca2b80a244592642042cea8dee19",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_scooter.png",
+      "size": 20025,
+      "sha256": "cf8194115335596540f0b0f612802053b8ee1b7996f743209bad333c264c7e0a",
+      "gitSha": "2b78fcfd16013067e96805dd8f5846791b54828e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_truck.png",
+      "size": 22356,
+      "sha256": "78706cdb5468fac669e929379fe43a2aab110f56fe8fe170bf27f461f5e93db9",
+      "gitSha": "73a8c2ddb6acc504cf6a657cbc314443c39b790f",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_truck_small.png",
+      "size": 19087,
+      "sha256": "1dc42f5293486ad558a4f28211d090510841816f57ad2233a937351dbcf42732",
+      "gitSha": "532ff942d2ca65d63b85f35adba1c2056ab8f95e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/v_van.png",
+      "size": 21864,
+      "sha256": "c2fa7e67cc956d0e9de2bb59a4f10725802a911f39905dcb1a12b3c4a016a877",
+      "gitSha": "df688156f778012ea4ace3b4392207ff1058f630",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/walk_0.png",
+      "size": 24486,
+      "sha256": "caccb6d27d41abd00fa33967b6f9d320363fa53c61a074a070f49270e3cf3b7a",
+      "gitSha": "8b1dfb8db0571cc68837e10f5d19f2427751001b",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/walk_1.png",
+      "size": 24013,
+      "sha256": "094bd28ec42b91015cfb33d7caa6db8c48636303ca5209970c4bb018e44e36c5",
+      "gitSha": "5fbfdf46abc5055dd8228ae384f1c5e7fee07fae",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/walk_2.png",
+      "size": 23376,
+      "sha256": "1d4b062ec75a897a968efa5ea8fc53977a9ff0988f2924d02036ccaf2d66f06e",
+      "gitSha": "1dae383b9f8a1853916d6c2747b90460a4987afc",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/walk_3.png",
+      "size": 23054,
+      "sha256": "5d6e6c1bdafeb4c1d94c698027b0b41d102d63e6510782cb3166550eb6bee5d7",
+      "gitSha": "3bd759ff551777e4ba767c3bb818dfe55c5cd2dd",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/walk_4.png",
+      "size": 23046,
+      "sha256": "ed68a81115250b5b375ca9a2748922a6ef76e3d5e1c83ff343131f4e3f19f561",
+      "gitSha": "6258929ea8aa0837c3f0f805a4dbaddfa2954478",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/walk_5.png",
+      "size": 22915,
+      "sha256": "619e5be38a69901fe32469e0cc1d4a3bfec38a8c118274405c3adca8e4a4c715",
+      "gitSha": "a9d33ff8e33926ece36466b9cac0e0280d4e9e1e",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/walk_6.png",
+      "size": 22350,
+      "sha256": "d9d0ee347bf2045e89c836631c312265036f5862f51eddec930549e9df61e621",
+      "gitSha": "c4223475995b15a81b44d85aad8ef9b0c3815beb",
+      "category": "이미지"
+    },
+    {
+      "path": "assets/walk_7.png",
+      "size": 23305,
+      "sha256": "ff1b29386c24c35f2b8b26c49c6c9c45915cd54b5634ac7609aa62a1cf1e5a48",
+      "gitSha": "c81ef913a1121a8bbba0cfa1122a9ef52a0f1c92",
+      "category": "이미지"
+    }
+  ],
+  "saveKey": "baedal_king_v1",
+  "version": 2,
+  "saveSchema": "function fresh(){return{money:0,run:0,total:0,fame:0,fu:{inc:0,tap:0,off:0,start:0},region:0,veh:0,jobs:[1,0,0,0,0,0,0,0],\n comps:C.map(()=>({own:false,n:0,pow:0,best:''})),boostUntil:0,last:Date.now(),att:{last:'',streak:0},\n mis:{date:'',p:{},done:[],all:false},noAds:false,clears:0,taps:0,q:0,qd:null,snd:true,fevers:0,lv:1,xp:0,sk:{},bgm:true,ver:2,st:{del:0,hire:0,ssr:0,moves:0,boss:0,gift:0,ads:0,time:0,maxIps:0,maxCombo:0,start:Date.now()},dex:{v:[0],c:[],s:[],r:[0]},ach:{},dexr:{}}}\n",
+  "sound": "index.html의 AudioContext·오실레이터로 효과음/BGM 생성. 별도 오디오 파일 0개.",
+  "folders": [
+    "index.html",
+    "assets/ (494개 파일)"
+  ],
+  "libraryUrl": "https://chatgpt.com/library?file_id=libfile_1263364d9660819186d87a41f7ebee73&account_id=personal"
+}
