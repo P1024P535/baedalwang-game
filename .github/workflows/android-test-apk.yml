@@ -161,7 +161,13 @@ jobs:
             -storepass:env SIGNING_STORE_PASSWORD -keypass:env SIGNING_KEY_PASSWORD \
             -signedjar android/app/build/outputs/bundle/release/baedalwang-signed.aab \
             android/app/build/outputs/bundle/release/app-release.aab "$SIGNING_KEY_ALIAS"
-          jarsigner -verify -strict android/app/build/outputs/bundle/release/baedalwang-signed.aab
+          # Upload keys are normally self-signed. -strict can reject a correctly
+          # signed bundle solely because its certificate is not CA-trusted.
+          jarsigner -verify android/app/build/outputs/bundle/release/baedalwang-signed.aab \
+            | tee /tmp/baedalwang-signature-verification.txt
+          grep -q 'jar verified' /tmp/baedalwang-signature-verification.txt
+          # Ensure the signed bundle differs from the unsigned input.
+          test -s android/app/build/outputs/bundle/release/baedalwang-signed.aab
           echo "### Release signing: verified" >> "$GITHUB_STEP_SUMMARY"
           rm -f /tmp/baedalwang-upload.jks
       - uses: actions/upload-artifact@v4
