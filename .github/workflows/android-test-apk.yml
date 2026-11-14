@@ -116,6 +116,15 @@ jobs:
           unzip -tq "$AAB" >/dev/null
           test -f android/app/src/main/assets/www/index.html
           test -s android/app/src/main/assets/www/vendor/three.min.js
+          # Confirm the packaged game references the local Three.js bundle.
+          grep -q 'vendor/three.min.js' android/app/src/main/assets/www/index.html
+          if grep -q 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js' android/app/src/main/assets/www/index.html; then
+            echo "::error::Game entrypoint still references the remote Three.js CDN."
+            exit 1
+          fi
+          # Confirm Android package ID and release version metadata exist.
+          grep -q "applicationId 'com.ssokcompany.baedalwang'" android/app/build.gradle
+          grep -q 'versionCode ' android/app/build.gradle
           echo "APK and AAB verified as nonempty ZIP archives; web game entrypoint packaged."
       - uses: actions/upload-artifact@v4
         with:
@@ -145,7 +154,9 @@ jobs:
             echo "::error::Only $configured of 4 signing secrets configured."
             exit 1
           fi
+          trap 'rm -f /tmp/baedalwang-upload.jks' EXIT
           printf '%s' "$SIGNING_KEYSTORE_BASE64" | base64 --decode > /tmp/baedalwang-upload.jks
+          test -s /tmp/baedalwang-upload.jks
           jarsigner -keystore /tmp/baedalwang-upload.jks \
             -storepass:env SIGNING_STORE_PASSWORD -keypass:env SIGNING_KEY_PASSWORD \
             -signedjar android/app/build/outputs/bundle/release/baedalwang-signed.aab \
