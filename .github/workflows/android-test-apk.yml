@@ -35,6 +35,18 @@ jobs:
           mkdir -p android/app/src/main/assets/www android/app/src/main/java/com/ssokcompany/baedalwang
           cp index.html android/app/src/main/assets/www/index.html
           if [ -d assets ]; then cp -R assets android/app/src/main/assets/www/; fi
+          # Bundle Three.js locally so the game can launch without a CDN connection.
+          mkdir -p android/app/src/main/assets/www/vendor
+          curl -fsSL --retry 3 https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js \
+            -o android/app/src/main/assets/www/vendor/three.min.js
+          python3 - <<'PY'
+          from pathlib import Path
+          page = Path('android/app/src/main/assets/www/index.html')
+          content = page.read_text(encoding='utf-8')
+          remote = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js'
+          assert remote in content, 'Expected Three.js script URL missing'
+          page.write_text(content.replace(remote, 'vendor/three.min.js'), encoding='utf-8')
+          PY
           cat > android/settings.gradle <<'EOF'
           pluginManagement { repositories { google(); mavenCentral(); gradlePluginPortal() } }
           dependencyResolutionManagement { repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS); repositories { google(); mavenCentral() } }
@@ -103,6 +115,7 @@ jobs:
           unzip -tq "$APK" >/dev/null
           unzip -tq "$AAB" >/dev/null
           test -f android/app/src/main/assets/www/index.html
+          test -s android/app/src/main/assets/www/vendor/three.min.js
           echo "APK and AAB verified as nonempty ZIP archives; web game entrypoint packaged."
       - uses: actions/upload-artifact@v4
         with:
