@@ -1,0 +1,54 @@
+name: Build verified Claude-original Baedalwang
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude-original-android]
+    paths:
+      - 'claude-original/**'
+      - '.github/workflows/build-claude-original.yml'
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: claude-original
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: Verify original assets and build
+        run: |
+          python3 verify_original.py
+          gradle --no-daemon :app:assembleDebug :app:bundleRelease
+      - uses: actions/upload-artifact@v4
+        with:
+          name: baedalwang-claude-original-debug-apk
+          path: claude-original/app/build/outputs/apk/debug/*.apk
+      - name: Sign AAB with existing upload key
+        working-directory: claude-original
+        shell: bash
+        env:
+          KEYSTORE: ${{ secrets.BAEDALWANG_KEYSTORE_BASE64 }}
+          ALIAS: ${{ secrets.BAEDALWANG_KEY_ALIAS }}
+          STOREPASS: ${{ secrets.BAEDALWANG_STORE_PASSWORD }}
+          KEYPASS: ${{ secrets.BAEDALWANG_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for v in "$KEYSTORE" "$ALIAS" "$STOREPASS" "$KEYPASS"; do test -n "$v" || { echo "::error::Missing existing signing secret"; exit 1; }; done
+          keyfile="$(mktemp)"
+          trap 'rm -f "$keyfile"' EXIT
+          printf '%s' "$KEYSTORE" | base64 -d > "$keyfile"
+          jarsigner -keystore "$keyfile" -storepass:env STOREPASS -keypass:env KEYPASS -signedjar app/build/outputs/bundle/release/baedalwang-claude-signed.aab app/build/outputs/bundle/release/app-release.aab "$ALIAS"
+          jarsigner -verify app/build/outputs/bundle/release/baedalwang-claude-signed.aab | grep -q 'jar verified'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: baedalwang-claude-original-signed-aab
+          path: claude-original/app/build/outputs/bundle/release/baedalwang-claude-signed.aab
