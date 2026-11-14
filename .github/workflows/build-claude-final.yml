@@ -57,9 +57,13 @@ jobs:
             test -n "${!key}" || { echo "::error::Required existing signing secret missing: $key"; exit 1; }
           done
           export BAEDALWANG_KEYSTORE_PATH="$RUNNER_TEMP/baedalwang-existing.jks"
-          trap 'rm -f "$BAEDALWANG_KEYSTORE_PATH"' EXIT
+          STOREPASS_FILE="$RUNNER_TEMP/baedalwang-storepass"
+          KEYPASS_FILE="$RUNNER_TEMP/baedalwang-keypass"
+          trap 'rm -f "$BAEDALWANG_KEYSTORE_PATH" "$STOREPASS_FILE" "$KEYPASS_FILE"' EXIT
           umask 077
           printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
+          printf '%s' "$BAEDALWANG_STORE_PASSWORD" > "$STOREPASS_FILE"
+          printf '%s' "$BAEDALWANG_KEY_PASSWORD" > "$KEYPASS_FILE"
           (cd android && gradle --no-daemon :app:assembleRelease :app:bundleRelease :app:assembleDebugAndroidTest)
           cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-claude-final-1.0.1.apk
           cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-claude-final-1.0.1.aab
@@ -71,7 +75,7 @@ jobs:
           curl -fsSL --retry 3 https://github.com/google/bundletool/releases/download/1.18.2/bundletool-all-1.18.2.jar -o "$RUNNER_TEMP/bundletool.jar"
           java -jar "$RUNNER_TEMP/bundletool.jar" validate --bundle=out/baedalwang-claude-final-1.0.1.aab > out/bundle-validation.txt
           PREVIOUS_AAB="$(find out/previous-aab -name '*.aab' -type f | head -1)"
-          java -jar "$RUNNER_TEMP/bundletool.jar" build-apks --bundle="$PREVIOUS_AAB" --output="$RUNNER_TEMP/previous.apks" --mode=universal --ks="$BAEDALWANG_KEYSTORE_PATH" --ks-key-alias="$BAEDALWANG_KEY_ALIAS" --ks-pass=env:BAEDALWANG_STORE_PASSWORD --key-pass=env:BAEDALWANG_KEY_PASSWORD
+          java -jar "$RUNNER_TEMP/bundletool.jar" build-apks --bundle="$PREVIOUS_AAB" --output="$RUNNER_TEMP/previous.apks" --mode=universal --ks="$BAEDALWANG_KEYSTORE_PATH" --ks-key-alias="$BAEDALWANG_KEY_ALIAS" --ks-pass="file:$STOREPASS_FILE" --key-pass="file:$KEYPASS_FILE"
           unzip -p "$RUNNER_TEMP/previous.apks" universal.apk > out/previous-claude.apk
           "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-claude-final-1.0.1.apk > out/apk-metadata.txt
           grep -q "package: name='com.ssokcompany.baedalwang' versionCode='2'" out/apk-metadata.txt
