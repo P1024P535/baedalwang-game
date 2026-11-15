@@ -65,9 +65,10 @@ function simulate(config){
  }
  function move(){
   if(S.run<R[S.region][2])return false;const from=S.region,g=fameGain()*(cfg.ads?2:1);if(cfg.ads){S.st.ads++;if(!cfg.premium)ads++;}
-  rows.push({region:from,name:R[from][0],elapsedSeconds:time,activeSeconds:active,lv:S.lv,vehicle:S.veh,jobs:[...S.jobs],ips:baseIps(),goal:R[from][2],fame:g});
-  if(S.region===8)return 'clear';
-  S.fame+=g;S.region++;S.st.moves++;collect('r',S.region);S.money=0;S.run=0;S.veh=0;S.jobs=[1,0,0,0,0,0,0,0];S.comps=C.map(()=>({own:false,n:0,pow:0,best:''}));S.traits=[];applyScale();fameUp();S.money=startMoney();return true;
+  rows.push({cycle:S.clears+1,region:from,name:R[from][0],elapsedSeconds:time,activeSeconds:active,lv:S.lv,vehicle:S.veh,jobs:[...S.jobs],ips:baseIps(),goal:R[from][2],fame:g,fu:{...S.fu}});
+  if(S.region===8&&S.clears+1>=(cfg.cycles||1))return 'clear';
+  S.fame+=g;if(S.region===8){S.clears++;S.region=0;}else S.region++;
+  S.st.moves++;collect('r',S.region);S.money=0;S.run=0;S.veh=0;S.jobs=[1,0,0,0,0,0,0,0];S.comps=C.map(()=>({own:false,n:0,pow:0,best:''}));S.traits=[];applyScale();fameUp();S.money=startMoney();return true;
  }
  function incomeRate(){return ips()+cfg.tps*tapVal();}
  function shop(){
@@ -126,7 +127,7 @@ function simulate(config){
     if(k%9===4&&hash(k*31+7)<.45){const r=hash(k*13+5);if(r<.4)gain(Math.max(500,ips()*240),'mystery');else if(r<.62)S.fame++;else if(r<.82)fever=Math.min(1,fever+.5);else{const a=SKL.filter(s=>S.lv>=s.lv);if(a.length){for(const sk of a){const st=S.sk[sk.k];if(st&&Date.now()>=st.u)st.r=0;}}else gain(Math.max(500,ips()*240),'mystery');}}
    }
    if(active>=nextGift){nextGift=active+45+Math.random()*45;if(Math.random()<(cfg.giftCatch??.7)){gain(Math.max(300,ips()*180),'gifts');xp(10);S.st.gift++;if(Math.random()<.25)S.fame++;}}
-   if(active>=nextBoss){nextBoss=active+120+Math.random()*90;const need=50+Math.min(S.region,8)*5,duration=15+trV('boss');if((cfg.burstTps||6)*duration>=need&&Math.random()<.85){gain(Math.max(2000,ips()*300),'events');S.fame++;S.st.boss++;}else S.money-=Math.floor(Math.min(S.money*.1,Math.max(300,ips()*120)));}
+   if(active>=nextBoss){nextBoss=active+120+Math.random()*90;const need=50+Math.min(S.region,8)*5+Math.min(S.clears,5)*4,duration=15+trV('boss');if((cfg.burstTps||6)*duration>=need&&Math.random()<.85){gain(Math.max(2000,ips()*300),'events');S.fame++;S.st.boss++;}else S.money-=Math.floor(Math.min(S.money*.1,Math.max(300,ips()*120)));}
    if(active>=nextTrouble){nextTrouble=active+70+Math.random()*50;const flat=Math.random()<.55,need=Math.ceil((28+Math.min(S.region,8)*3)*(1-trV('fix')/100));if(!flat||((cfg.burstTps||6)*8>=need&&Math.random()<.9)){gain(Math.max(800,ips()*120),'events');xp(8);S.st.fix=(S.st.fix||0)+1;}else S.money-=Math.floor(Math.min(S.money*.05,Math.max(200,ips()*60)));}
    if(active>=nextRace){nextRace=active+180+Math.random()*120;if(Math.random()<.65){gain(Math.max(1500,ips()*480),'events');S.fame+=2;S.st.races=(S.st.races||0)+1;}}
    if(active>=nextEvent){nextEvent=active+40+Math.random()*35;const r=Math.random()*100;if(r>=51&&r<69){gain(Math.max(200,ips()*120+tapVal()*20)*(1+trV('lucky')/100),'events');}else{const d=r<27||r>=88?[2,30]:r<46?[3,20]:r<51?[5,15]:r<81?[2.5,25]:[4,25];ev={mult:d[0],until:Date.now()+d[1]*1000};}}
@@ -140,7 +141,7 @@ function simulate(config){
  }
  return finish(false);
  function PaceCheck(){if(!Number.isFinite(S.money)||!Number.isFinite(S.run))throw Error('overflow');}
- function finish(clear){return {config:cfg,clear,elapsedDays:time/DAY,activeHours:active/3600,timeSeconds:time,firstVehicleSeconds:firstVehicle,rows,lv:S.lv,region:S.region,ips:baseIps(),money:S.money,run:S.run,goal:R[S.region][2],quests:S.q,ads,stats,unlocks,fu:S.fu};}
+ function finish(clear){return {config:cfg,clear,completedCycles:S.clears+(clear?1:0),elapsedDays:time/DAY,activeHours:active/3600,timeSeconds:time,firstVehicleSeconds:firstVehicle,rows,lv:S.lv,region:S.region,ips:baseIps(),money:S.money,run:S.run,goal:R[S.region][2],quests:S.q,ads,stats,unlocks,fu:S.fu};}
  }
  globalThis.execute=run;
  // Sanity-check source formula loading against a clean game and the supplied screenshot.

@@ -1,0 +1,156 @@
+{
+  "source_commit": "4235ffb3cdbc5b2677ce562e040ccb8fdf4edd05",
+  "game_version": "1.0.7",
+  "generated_index_sha256": "64bda2fec5882134327a77c755886a077525092db656da56047faf5bbe7ebbee",
+  "seed": 1,
+  "days": 90,
+  "profiles": [
+    {
+      "configuration": {
+        "name": "free-30m",
+        "tps": 1,
+        "ads": false,
+        "sessions": [
+          [
+            0,
+            1800
+          ]
+        ],
+        "cycles": 10,
+        "days": 90,
+        "seed": 1,
+        "step": 1,
+        "world": true
+      },
+      "completed_by_30_days": 2,
+      "completed_by_90_days": 5,
+      "region_at_90_days": 7,
+      "region_progress_at_90_days": 0.20996635711712588,
+      "clears": [
+        {
+          "cycle": 1,
+          "elapsed_days": 11.0,
+          "active_hours": 5.5,
+          "level": 44
+        },
+        {
+          "cycle": 2,
+          "elapsed_days": 20.013506944444444,
+          "active_hours": 10.324166666666667,
+          "level": 56
+        },
+        {
+          "cycle": 3,
+          "elapsed_days": 32.004699074074075,
+          "active_hours": 16.11277777777778,
+          "level": 66
+        },
+        {
+          "cycle": 4,
+          "elapsed_days": 48.01135416666666,
+          "active_hours": 24.2725,
+          "level": 78
+        },
+        {
+          "cycle": 5,
+          "elapsed_days": 78.00975694444445,
+          "active_hours": 39.23416666666667,
+          "level": 94
+        }
+      ],
+      "fame_upgrades": {
+        "inc": 15,
+        "tap": 15,
+        "off": 2,
+        "start": 4
+      }
+    },
+    {
+      "configuration": {
+        "name": "free-60m",
+        "tps": 2,
+        "ads": false,
+        "sessions": [
+          [
+            0,
+            900
+          ],
+          [
+            14400,
+            900
+          ],
+          [
+            28800,
+            900
+          ],
+          [
+            43200,
+            900
+          ]
+        ],
+        "cycles": 10,
+        "days": 90,
+        "seed": 1,
+        "step": 1,
+        "world": true
+      },
+      "completed_by_30_days": 4,
+      "completed_by_90_days": 6,
+      "region_at_90_days": 8,
+      "region_progress_at_90_days": 0.8576021167201001,
+      "clears": [
+        {
+          "cycle": 1,
+          "elapsed_days": 4.337106481481482,
+          "active_hours": 4.5905555555555555,
+          "level": 46
+        },
+        {
+          "cycle": 2,
+          "elapsed_days": 9.504016203703705,
+          "active_hours": 9.846388888888889,
+          "level": 61
+        },
+        {
+          "cycle": 3,
+          "elapsed_days": 16.000011574074072,
+          "active_hours": 16.00027777777778,
+          "level": 74
+        },
+        {
+          "cycle": 4,
+          "elapsed_days": 24.0,
+          "active_hours": 24.0,
+          "level": 87
+        },
+        {
+          "cycle": 5,
+          "elapsed_days": 34.17011574074074,
+          "active_hours": 34.33277777777778,
+          "level": 101
+        },
+        {
+          "cycle": 6,
+          "elapsed_days": 53.17542824074074,
+          "active_hours": 53.460277777777776,
+          "level": 120
+        }
+      ],
+      "fame_upgrades": {
+        "inc": 17,
+        "tap": 17,
+        "off": 2,
+        "start": 4
+      }
+    }
+  ],
+  "limitations": [
+    "One deterministic sample per profile, not a confidence interval",
+    "Efficient upgrades and immediate claims/moves",
+    "No ad rewards or purchases",
+    "One or two taps per second plus modeled encounter bursts",
+    "Menus/scene timing and success rates approximated",
+    "Optional new chapter milestone payouts excluded",
+    "No measured player retention data"
+  ]
+}
