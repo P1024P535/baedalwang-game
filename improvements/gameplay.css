@@ -1,4 +1,8 @@
 /* Improved icons contain their own transparent safety margins. */
+#rewardStatus {position:absolute;z-index:150;left:50%;transform:translateX(-50%);bottom:calc(112px + env(safe-area-inset-bottom));width:max-content;max-width:calc(100% - 24px);box-sizing:border-box;padding:10px 14px;border:2px solid #49301b;border-radius:12px;background:#fff5db;color:#49301b;font-size:13px;line-height:1.5;overflow-wrap:anywhere;pointer-events:none;box-shadow:0 3px 8px #0004;}
+#rewardStatus[hidden]{display:none;}
+#rewardStatus[data-phase="error"]{background:#fff0e9;border-color:#b74c23;}
+#rewardStatus[data-phase="success"]{background:#e6f8d9;border-color:#3b7730;}
 .sp-sm img,.pill .ic img,.sbtn .tile img,.thumb img { object-fit:contain!important; }
 .sp-sm img { width:100%!important;height:100%!important;transform:scale(1.15); }
 .thumb:has(>img[src$="/dl_news.png"]),.thumb:has(>img[src$="/dl_milk.png"]) {padding:0!important;}

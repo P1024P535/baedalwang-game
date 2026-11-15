@@ -18,10 +18,13 @@ def build(dest):
         ("MI.forEach(m=>{const p=", "dailyMissions().forEach(m=>{const p="),
         ("if(a==='mis'){const k=b.dataset.k;S.mis.done.push(k);", "if(a==='mis'){const k=b.dataset.k,m=dailyMissions().find(x=>x[0]===k);checkDay();if(!m||S.mis.done.includes(k)||(S.mis.p[k]||0)<m[2])return;S.mis.done.push(k);"),
         ("if(a==='misall'){S.mis.all=true;", "if(a==='misall'){checkDay();if(S.mis.all||!dailyMissions().every(m=>S.mis.done.includes(m[0])))return;S.mis.all=true;"),
-        ("const keep={fame:S.fame,", "const keep={chapter:S.chapter,fame:S.fame,"),
-        ("v1.0</div>", "v1.0.6</div>"),
-        ("Version: ${APP_VER}", "Version: 1.0.6 (save protocol ${APP_VER})"),
-        ("${L('버전','Version')} ${APP_VER}", "${L('버전','Version')} 1.0.6"),
+        ("const keep={fame:S.fame,", "const keep={chapter:S.chapter,rlPending:S.rlPending,fame:S.fame,"),
+        ("v1.0</div>", "v1.0.7</div>"),
+        ("Version: ${APP_VER}", "Version: 1.0.7 (save protocol ${APP_VER})"),
+        ("${L('버전','Version')} ${APP_VER}", "${L('버전','Version')} 1.0.7"),
+        ("const rot=360*6+", "S.rlPending={idx,base:Math.max(300,baseIps())};save();const rot=360*6+"),
+        ("function rlGive(i){const b=Math.max(300,baseIps()),n=RL[i][0];", "function rlGive(i){const pending=S.rlPending;if(!pending||pending.idx!==i)return;delete S.rlPending;const b=pending.base,n=RL[i][0];"),
+        ("else welcome();\nattendance();", "else welcome();\nresumeRoulette();\nattendance();"),
         ("R0[i]*Math.pow(3,i)*Math.pow(3,S.clears||0)", "R0[i]*([1,1,1,1,1,.5,.8,.9,1][i])*Math.pow(3,i)*Math.pow(3,S.clears||0)"),
         ("물가와 수익이 모두 x${fmt(Math.pow(3,S.region))}<br>지역 보너스 +${S.region*15}% · 명성으로 강화하세요!", "물가와 수익이 모두 x${fmt(Math.pow(3,S.region))}<br>지역 보너스 +${S.region*15}% · 명성으로 강화하세요!<br><br>${CHAPTERS[S.region][1]}<br>${CHAPTERS[S.region][2]}<br><small>이사 화면에서 이번 지역 이야기와 중간 배달 보상을 확인하세요.</small>"),
         ("영구 수익 x${1+S.clears} · 명성 +${gg}<br><br>", "영구 수익 x${1+S.clears} · 명성 +${gg}<br><br>단골 할머니: ‘네가 전한 소식이 여기까지 닿았구나.’<br>번개맨: ‘이번 배달은 네가 왕이다!’<br>첫 직원: ‘다음 길도 함께해요, 사장님.’<br><br>누적 수익 ${won(S.total)} · 배달 ${fmt(S.st.del)}건<br><br>"),
@@ -57,7 +60,7 @@ def build(dest):
     (dest/'index.html').write_text(source)
     for p in (ROOT/'improvements/icons').glob('*.png'):
         shutil.copyfile(p,dest/'assets'/p.name)
-    audit={'version':'1.0.6','saveKey':'baedal_king_v1','saveVersion':2,'baselineUnchanged':True,'generatedIndexSha256':hashlib.sha256(source.encode()).hexdigest(),'replacementIcons':[p.name for p in (ROOT/'improvements/icons').glob('*.png')]}
+    audit={'version':'1.0.7','saveKey':'baedal_king_v1','saveVersion':2,'baselineUnchanged':True,'generatedIndexSha256':hashlib.sha256(source.encode()).hexdigest(),'replacementIcons':[p.name for p in (ROOT/'improvements/icons').glob('*.png')]}
     (ROOT/'out/improvement-audit.json').write_text(json.dumps(audit,indent=2))
     return audit
 

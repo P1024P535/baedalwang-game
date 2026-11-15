@@ -8,8 +8,8 @@
   if (token !== page || !pending || pending.id !== id) return;
   const done = pending.done;
   pending = null;
-  done(earned === true);
-  if (message && typeof toast === 'function') setTimeout(function () { toast(message); }, 0);
+  done(earned === true, message || '');
+  if (message && typeof setRewardStatus !== 'function' && typeof toast === 'function') setTimeout(function () { toast(message); }, 0);
  }, writable: false, configurable: false});
  PLATFORM.showRewardedAd = function (done) {
   if (pending) { done(false); return; }

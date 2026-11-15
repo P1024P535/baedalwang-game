@@ -1,5 +1,12 @@
-// Authorized gameplay revision 1.0.6. Save key/schema and cloud protocol remain v2.
+// Authorized gameplay revision 1.0.7. Save key/schema and cloud protocol remain v2.
 let rewardPending=false, challengeClock=Date.now(), challengeWasPaused=false;
+let rewardStatusTimer;
+function setRewardStatus(phase,message){
+ if(typeof document.createElement!=='function')return;
+ let box=$('rewardStatus');if(!box){box=document.createElement('div');box.id='rewardStatus';box.setAttribute('role','status');box.setAttribute('aria-live','polite');$('app').appendChild(box);}
+ clearTimeout(rewardStatusTimer);box.dataset.phase=phase;box.textContent=message;box.hidden=false;
+ if(phase!=='loading')rewardStatusTimer=setTimeout(()=>{box.hidden=true;},6000);
+}
 function challengePaused(){return !!(document.hidden||mOpen||tab||rewardPending||$('splash')||$('gate')?.classList.contains('on')||$('ad')?.classList.contains('show'));}
 function syncChallenges(){
  const now=Date.now(),elapsed=Math.max(0,now-challengeClock),paused=challengePaused();
@@ -14,16 +21,32 @@ function requestReward(key,cap,cb){
  if(rewardPending){toast(L('보상 처리 중이에요','Reward in progress'));return;}
  if(key&&!adLeft(key,cap)){toast(L('오늘 보상을 모두 받았어요','Daily limit reached'));return;}
  syncChallenges();rewardPending=true;let settled=false;
- const finish=ok=>{
+ setRewardStatus('loading',L('광고 준비 중… 잠시 기다려 주세요.','Preparing ad… Please wait.'));
+ const finish=(ok,message)=>{
   if(settled)return;settled=true;syncChallenges();rewardPending=false;
-  if(!ok){logEv('ad_skip');toast(L('광고를 끝까지 봐야 보상을 받아요','Watch the whole ad to get the reward'));return;}
+  if(!ok){logEv('ad_skip');const reason=message||L('광고가 완료되지 않았어요. 보상 기회는 차감하지 않았어요.','Ad not completed. Your reward attempt was not used.');setRewardStatus('error',reason);toast(reason);return;}
   if(key&&!adLeft(key,cap))return;
-  if(key)adUse(key);logEv('ad_reward',{region:S.region,lv:S.lv});mis('ad');S.st.ads++;cb();save();render();hud();
+  if(key)adUse(key);logEv('ad_reward',{region:S.region,lv:S.lv});mis('ad');S.st.ads++;cb();save();render();hud();setRewardStatus('success',L('광고 보상을 받았어요!','Ad reward received!'));
  };
  if(S.noAds)finish(true);else try{PLATFORM.showRewardedAd(finish);}catch(_){finish(false);}
 }
 function limitedAd(key,cap,cb){requestReward(key,cap,cb);}
 adThen=cb=>requestReward(null,0,cb);
+// Roulette keeps its established daily ledger (2 regular / 3 premium attempts).
+// Both the charged attempt and selected prize are saved together before animation.
+rlAct=function(a,b){
+ if(a!=='rl')return false;
+ if(rlBusy||rewardPending){toast(L('보상 처리 중이에요','Reward in progress'));return true;}
+ if(S.rlPending){resumeRoulette();return true;}
+ if(b.dataset.v==='f'){if(!rlFree())return true;rlDay().f=1;rlSpin();}
+ else {if(!rlAdLeft())return true;adThen(()=>{if(!rlAdLeft())return;rlDay().a++;rlSpin();});}
+ return true;
+};
+function resumeRoulette(){
+ const p=S.rlPending;if(!p||!Number.isInteger(p.idx)||p.idx<0||p.idx>=RL.length||!Number.isFinite(p.base)||p.base<0||rlBusy)return;
+ rlBusy=true;
+ showModal(IC.star,L('미수령 룰렛 보상','Unclaimed roulette reward'),`${L('지난번 룰렛 보상이 남아 있어요.','Your previous roulette prize is waiting.')}<span class="hl">${RL[p.idx][0]}</span>`,[[L('받기','Claim'),'y',()=>{rlGive(p.idx);rlBusy=false;closeModal();}]]);
+}
 function offlineEarnings(now=Date.now()){
  const last=Number(S.last)||now,seconds=Math.min(Math.max(0,(now-last)/1000),offMaxH()*3600);
  // The warehouse fills from departure; boost applies only before its expiry.

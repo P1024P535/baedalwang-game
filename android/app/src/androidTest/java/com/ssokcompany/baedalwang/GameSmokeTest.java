@@ -90,6 +90,9 @@ public class GameSmokeTest {
   assertEquals("Expired boost pays only active interval", "true",js("(()=>{const now=Date.now();S.last=now-7200000;S.boostUntil=now-3600000;return Math.abs(offlineEarnings(now)-baseIps()*offRate()*10800)<1})()"));
   assertEquals("Menu preserves challenge deadline", "true",js("(()=>{boss={until:Date.now()+15000};tab='region';syncChallenges();const before=boss.until;challengeClock-=60000;syncChallenges();const ok=boss.until>=before+60000;boss=null;return ok})()"));
   assertEquals("Chapter survives save/reload format", "true",js("save();JSON.parse(localStorage.getItem('baedal_king_v1')).chapter.claimed[0]===25"));
+  assertEquals("Cancelled roulette ad does not use an attempt", "true",js("(()=>{S.noAds=false;S.rl={d:today(),f:1,a:0};delete S.rlPending;rlBusy=false;window.__originalReward=PLATFORM.showRewardedAd;PLATFORM.showRewardedAd=cb=>window.__rouletteResult=cb;onAct({dataset:{act:'rl',v:'a'}});const before=rlDay().a;window.__rouletteResult(false,'광고 연결 실패');return before===0&&rlDay().a===0&&!S.rlPending&&document.getElementById('rewardStatus').dataset.phase==='error'})()"));
+  assertEquals("Completed roulette ad charges and persists the selected prize once", "true",js("(()=>{onAct({dataset:{act:'rl',v:'a'}});window.__rouletteResult(true);window.__rouletteResult(true);return rlDay().a===1&&Number.isInteger(S.rlPending.idx)&&!!JSON.parse(localStorage.getItem('baedal_king_v1')).rlPending})()"));
+  assertEquals("Recovered roulette prize cannot pay twice", "true",js("(()=>{const pending=S.rlPending,spins=S.st.spins||0;rlBusy=false;resumeRoulette();rlGive(pending.idx);rlGive(pending.idx);PLATFORM.showRewardedAd=window.__originalReward;rlBusy=false;return !S.rlPending&&S.st.spins===spins+1})()"));
  }
  @Test public void testResponsiveLayout()throws Exception {
   launch();closeModals();

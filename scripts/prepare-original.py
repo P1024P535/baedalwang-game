@@ -23,5 +23,5 @@ import importlib.util
 spec=importlib.util.spec_from_file_location('improvements',root/'scripts/build-improvements.py')
 improved=importlib.util.module_from_spec(spec);spec.loader.exec_module(improved)
 audit=improved.build(dest)
-report.update(versionCode=8,versionName='1.0.6-ads-test',gameFilesModified=True,changedFiles=7,improvementAudit=audit)
+report.update(versionCode=9,versionName='1.0.7-ads-test',gameFilesModified=True,changedFiles=7,improvementAudit=audit)
 (out/'source-audit.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))

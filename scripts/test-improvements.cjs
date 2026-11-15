@@ -8,7 +8,10 @@ let S={last:clock-7200000,boostUntil:clock-3600000,veh:12,mis:{date:'today',p:{}
 let mOpen=false,tab=null,boss=null,trouble=null,race=null,nextEv=0,nextBoss=0,nextTrb=0,nextRace=0,jackUntil=0;
 const nodes={};const $=id=>nodes[id]||null;const document={hidden:false,addEventListener(){}};
 const MI=[['tap','tap',300],['job','job',20],['veh','ride',1],['staff','staff',3],['ad','ad',2]],V=Array(13),R=Array.from({length:9},()=>['region',0,1000000]);
-let stored=null,callbacks=[],award=0;const PLATFORM={showRewardedAd(cb){callbacks.push(cb)}};
+let stored=null,callbacks=[],award=0,modalButtons=[],timers=[];const PLATFORM={showRewardedAd(cb){callbacks.push(cb)}};
+const W=320,H=640,IC={star:'star'};function showModal(ic,t,p,buttons){modalButtons=buttons;}function closeModal(){}function closeSheet(){}function spawnCoins(){}function startFever(){}function burst(){}
+function requestAnimationFrame(cb){cb();}function setTimeout(cb){timers.push(cb);return timers.length;}function setInterval(){return 0;}function clearInterval(){}
+nodes.mbox={querySelector(){return {style:{}}}};nodes.wheel={style:{}};nodes.rlRes={textContent:''};
 function today(){return 'today';}function checkDay(){if(S.mis.date!==today())S.mis={date:today(),p:{},done:[],all:false};}
 function mis(k,n=1){checkDay();if(!S.mis.done.includes(k))S.mis.p[k]=(S.mis.p[k]||0)+n;}
 function adDay(){if(!S.adc||S.adc.d!==today())S.adc={d:today()};return S.adc;}
@@ -17,7 +20,9 @@ function baseIps(){return 100;}function offMaxH(){return 4;}function offRate(){r
 function hud(){}function render(){}function scene(){}function onAct(){}function toast(){}function logEv(){}function save(){stored=JSON.stringify(S);}function sfx(){}function earn(n){award+=n;S.run+=n;}function won(n){return String(n);}function L(a){return a;}
 `;
 const capFunctions=['adDay','adLeft','adUse'].map(n=>html.split('\n').find(l=>l.startsWith('function '+n+'('))).join('\n');
-const ctx=vm.createContext({console});vm.runInContext(fixture+capFunctions+'\n'+fs.readFileSync(path.join(root,'improvements/gameplay.js'),'utf8')+'\nhud=function(){};render=function(){};',ctx);
+function sourceFunction(name){const start=html.indexOf('function '+name+'('),end=html.indexOf('\nfunction ',start+1);assert.ok(start>=0&&end>start);return html.slice(start,end);}
+const roulette=['rlDay','rlFree','rlAdLeft','rlGrad','rlSpin','rlGive'].map(sourceFunction).join('\n')+'\n'+html.split('\n').find(l=>l.startsWith('const RL='));
+const ctx=vm.createContext({console});vm.runInContext(fixture+capFunctions+'\n'+roulette+'\n'+fs.readFileSync(path.join(root,'improvements/gameplay.js'),'utf8')+'\nhud=function(){};render=function(){};',ctx);
 const run=s=>vm.runInContext(s,ctx),eq=(s,want)=>assert.equal(run(s),want,s);
 // Partially expired boost: one hour doubled + one normal at 50% efficiency.
 eq('offlineEarnings()',540000);
@@ -42,4 +47,14 @@ run('document.hidden=true;syncChallenges();clock+=300000;document.hidden=false;s
 run("S.run=249999;S.region=0;S.chapter=null;award=0;onAct({dataset:{act:'chapter',p:'25'}})");eq('award',0);
 run("S.run=250000;onAct({dataset:{act:'chapter',p:'25'}});onAct({dataset:{act:'chapter',p:'25'}});onAct({dataset:{act:'chapter',p:'99'}})");eq('award',2000);
 eq('JSON.parse(stored).chapter.claimed.length',1);run('S=JSON.parse(stored)');eq('chapterState().claimed.length',1);run('S.region=1');eq('chapterState().claimed.length',0);
-console.log('PASS: full generated JS syntax; 30 reward/expiry/mission/clock/milestone regressions');
+// Exercise generated roulette functions, not a duplicate implementation.
+run("S.noAds=false;S.rl={d:today(),f:1,a:0};delete S.rlPending;callbacks=[];award=0;S.fame=0;rlBusy=false;Math.random=()=>0;");
+run("rlAct('rl',{dataset:{v:'a'}});rlAct('rl',{dataset:{v:'a'}})");eq('callbacks.length',1);eq('rlDay().a',0);
+run('callbacks[0](false)');eq('rlDay().a',0);eq('!!S.rlPending',false);
+run("rlAct('rl',{dataset:{v:'a'}});callbacks[1](true);callbacks[1](true)");eq('rlDay().a',1);eq('S.rlPending.idx',0);eq('JSON.parse(stored).rlPending.base',300);
+// Reopen after app exit: original selected cash amount, claimable exactly once.
+run('S=JSON.parse(stored);rlBusy=false;baseIps=()=>99999;resumeRoulette();modalButtons[0][2]();modalButtons[0][2]()');eq('award',180000);eq('S.st.spins',1);eq('!!S.rlPending',false);eq('!!JSON.parse(stored).rlPending',false);
+// Busy free/paid clicks leave both daily counters unchanged.
+run("S.rl={d:today(),f:0,a:0};rlBusy=true;rlAct('rl',{dataset:{v:'f'}});rlAct('rl',{dataset:{v:'a'}})");eq('rlDay().f',0);eq('rlDay().a',0);
+run("rlBusy=false;S.noAds=true;S.rl.f=1;S.rl.a=3;rlAct('rl',{dataset:{v:'a'}})");eq('rlDay().a',3);eq('!!S.rlPending',false);
+console.log('PASS: generated JS syntax; rewards, expiry, missions, clocks, milestones, roulette cancellation, concurrency, recovery and exact-once claims');
