@@ -10,18 +10,20 @@ function syncChallenges(){
  challengeClock=now;challengeWasPaused=paused;
 }
 document.addEventListener('visibilitychange',syncChallenges);
-function limitedAd(key,cap,cb){
+function requestReward(key,cap,cb){
  if(rewardPending){toast(L('보상 처리 중이에요','Reward in progress'));return;}
- if(!adLeft(key,cap)){toast(L('오늘 보상을 모두 받았어요','Daily limit reached'));return;}
+ if(key&&!adLeft(key,cap)){toast(L('오늘 보상을 모두 받았어요','Daily limit reached'));return;}
  syncChallenges();rewardPending=true;let settled=false;
  const finish=ok=>{
   if(settled)return;settled=true;syncChallenges();rewardPending=false;
-  if(!ok){toast(L('광고를 끝까지 봐야 보상을 받아요','Watch the whole ad to get the reward'));return;}
-  if(!adLeft(key,cap))return;
-  adUse(key);mis('ad');S.st.ads++;cb();save();render();hud();
+  if(!ok){logEv('ad_skip');toast(L('광고를 끝까지 봐야 보상을 받아요','Watch the whole ad to get the reward'));return;}
+  if(key&&!adLeft(key,cap))return;
+  if(key)adUse(key);logEv('ad_reward',{region:S.region,lv:S.lv});mis('ad');S.st.ads++;cb();save();render();hud();
  };
  if(S.noAds)finish(true);else try{PLATFORM.showRewardedAd(finish);}catch(_){finish(false);}
 }
+function limitedAd(key,cap,cb){requestReward(key,cap,cb);}
+adThen=cb=>requestReward(null,0,cb);
 function offlineEarnings(now=Date.now()){
  const last=Number(S.last)||now,seconds=Math.min(Math.max(0,(now-last)/1000),offMaxH()*3600);
  // The warehouse fills from departure; boost applies only before its expiry.
@@ -34,7 +36,7 @@ function dailyMissions(){
  return MI.map(m=>m[0]==='veh'&&S.mis.vehFallback?['veh',L('배달 추가 강화 20번','Upgrade deliveries 20 more times'),20]:m);
 }
 const originalMis=mis;
-mis=function(k,n=1){dailyMissions();originalMis(k,n);if(k==='job'&&S.mis.vehFallback)originalMis('veh',n);};
+mis=function(k,n=1){checkDay();if(k==='veh'&&!S.mis.vehFallback){originalMis(k,n);return;}dailyMissions();originalMis(k,n);if(k==='job'&&S.mis.vehFallback)originalMis('veh',n);};
 
 const CHAPTERS=[
  ['첫 새벽의 약속','단골 할머니: “오늘도 신문 기다릴게. 천천히, 안전하게 와.”','번개맨: “면소재지까지 갈 수 있겠어?”','신문 한 부에서 시작한 약속을 다음 동네로 이어가자.'],
@@ -66,7 +68,7 @@ onAct=function(b){
  return previousOnAct(b);
 };
 const previousRender=render;
-render=function(){previousRender();if(tab==='region')$('shBody').insertAdjacentHTML('afterbegin',chapterHTML());};
+render=function(){previousRender();if(tab==='region')$('shBody').querySelector('[data-act="prestige"]').insertAdjacentHTML('afterend',chapterHTML());};
 const previousHud=hud;
 hud=function(){
  previousHud();let journey=$('journey');
@@ -74,6 +76,8 @@ hud=function(){
  const r=R[S.region],ready=S.run>=r[2],next=S.region===8?'화성 배달':R[S.region+1][0];
  journey.textContent=ready?L('이사 가능 · 바로 확인 →','Ready to move · View →'):`${S.region+1}/9 · ${next} ${Math.min(100,S.run/r[2]*100).toFixed(0)}% →`;
  journey.classList.toggle('ready',ready);journey.setAttribute('aria-label',`${r[0]} 누적 수익 ${won(S.run)} / ${won(r[2])}. 이사 화면 열기`);
+ const appRect=$('app').getBoundingClientRect(),questRect=$('quest').getBoundingClientRect();
+ $('effects').style.top=(questRect.bottom-appRect.top+5)+'px';
  if(S.qd?.ty==='region'&&S.region<S.qd.n&&!ready)$('qNum').textContent=won(S.run)+' / '+won(r[2]);
  const chip=$('dReg')?.parentElement;if(chip)chip.classList.toggle('move-ready',ready);
 };

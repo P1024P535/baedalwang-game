@@ -75,6 +75,19 @@ public class GameSmokeTest {
   assertTrue("Native failure did not settle",settled);
  }
 
+ @Test public void testImprovementRulesAndStory()throws Exception {
+  launch();closeModals();
+  assertEquals("true",js("document.getElementById('splash')?.remove();document.getElementById('gate')?.remove();S=fresh();S.lang='ko';LANG='ko';S.snd=false;S.bgm=false;S.qd=qGen(0);applyScale();true"));
+  assertEquals("Premium must respect daily cap", "true",js("(()=>{S.noAds=true;S.adc={d:today(),w:0};let got=0;for(let n=0;n<10;n++)limitedAd('w',3,()=>got++);return got===3&&adLeft('w',3)===0})()"));
+  assertEquals("Completed last ride counts before fallback", "true",js("S.mis={date:today(),p:{},done:[],all:false};S.veh=V.length-1;mis('veh');dailyMissions().find(m=>m[0]==='veh')[2]===1"));
+  assertEquals("Impossible ride task has upgrade replacement", "true",js("S.mis={date:today(),p:{},done:[],all:false};dailyMissions();mis('job',20);S.mis.p.veh===20"));
+  assertEquals("Mission claim only once", "true",js("(()=>{onAct({dataset:{act:'mis',k:'veh'}});const before=S.money;onAct({dataset:{act:'mis',k:'veh'}});return S.money===before&&S.mis.done.filter(k=>k==='veh').length===1})()"));
+  assertEquals("Regional goals and story available", "true",js("S.region=5;applyScale();openSheet('region');R[5][2]===1.8225e19&&!!document.querySelector('.chapter')&&document.querySelectorAll('[data-act=chapter]').length===3"));
+  assertEquals("Milestone cannot be claimed twice", "true",js("(()=>{S.run=R[S.region][2]*.25;onAct({dataset:{act:'chapter',p:'25'}});const before=S.money;onAct({dataset:{act:'chapter',p:'25'}});return S.money===before&&chapterState().claimed.length===1})()"));
+  assertEquals("Expired boost pays only active interval", "true",js("(()=>{const now=Date.now();S.last=now-7200000;S.boostUntil=now-3600000;return Math.abs(offlineEarnings(now)-baseIps()*offRate()*10800)<1})()"));
+  assertEquals("Menu preserves challenge deadline", "true",js("(()=>{boss={until:Date.now()+15000};tab='region';syncChallenges();const before=boss.until;challengeClock-=60000;syncChallenges();const ok=boss.until>=before+60000;boss=null;return ok})()"));
+  assertEquals("Chapter survives save/reload format", "true",js("save();JSON.parse(localStorage.getItem('baedal_king_v1')).chapter.claimed[0]===25"));
+ }
  @Test public void testResponsiveLayout()throws Exception {
   launch();closeModals();
   assertEquals("Presentation adapter is attached", "true",js("window.__ssokLayoutReady===true && !!document.getElementById('ssok-layout-style')"));

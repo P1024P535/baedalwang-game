@@ -2,7 +2,7 @@
 // No Firebase, user saves, DOM, network, or changes to game files.
 process.env.TZ='Asia/Seoul';
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
-const src=fs.readFileSync(path.join(__dirname,'../index.html'),'utf8');
+const src=fs.readFileSync(process.env.BAEDALWANG_SOURCE||path.join(__dirname,'../index.html'),'utf8');
 const slice=(a,b)=>src.slice(src.indexOf(a),src.indexOf(b,src.indexOf(a)));
 function fn(name){
  const start=src.indexOf('function '+name+'(');if(start<0)throw Error(name);
@@ -100,7 +100,7 @@ function simulate(config){
   if(cfg.sessions){const nowDay=Math.floor(time/DAY),tod=time%DAY;inSession=false;for(let i=0;i<cfg.sessions.length;i++){const [start,duration]=cfg.sessions[i];if(tod>=start&&tod<start+duration){inSession=true;which=nowDay*cfg.sessions.length+i;end=nowDay*DAY+start+duration;break;}}
    if(!inSession){let next=Infinity;for(const [start] of cfg.sessions){const t=nowDay*DAY+start;if(t>time)next=Math.min(next,t);}if(!isFinite(next))next=(nowDay+1)*DAY+cfg.sessions[0][0];
     time=next;clockSet(START+time*1000);const gap=time-lastEnd;
-    if(gap>=60){const off=baseIps()*Math.min(gap,offMaxH()*3600)*offRate()*(Date.now()<S.boostUntil?2:1);gain(off*(cfg.ads?2:1),'offline');if(cfg.ads){S.st.ads++;if(!cfg.premium)ads++;}}
+    if(gap>=60){const off=baseIps()*offRate()*(Math.min(gap,offMaxH()*3600)+Math.min(Math.min(gap,offMaxH()*3600),Math.max(0,(S.boostUntil-(Date.now()-gap*1000))/1000)));gain(off*(cfg.ads?2:1),'offline');if(cfg.ads){S.st.ads++;if(!cfg.premium)ads++;}}
     continue;
    }
   }

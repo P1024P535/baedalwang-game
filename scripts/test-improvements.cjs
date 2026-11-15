@@ -14,9 +14,10 @@ function mis(k,n=1){checkDay();if(!S.mis.done.includes(k))S.mis.p[k]=(S.mis.p[k]
 function adDay(){if(!S.adc||S.adc.d!==today())S.adc={d:today()};return S.adc;}
 function adLeft(k,cap){return Math.max(0,cap-(adDay()[k]||0));}function adUse(k){adDay()[k]=(adDay()[k]||0)+1;}
 function baseIps(){return 100;}function offMaxH(){return 4;}function offRate(){return .5;}
-function hud(){}function render(){}function scene(){}function onAct(){}function toast(){}function save(){stored=JSON.stringify(S);}function sfx(){}function earn(n){award+=n;S.run+=n;}function won(n){return String(n);}function L(a){return a;}
+function hud(){}function render(){}function scene(){}function onAct(){}function toast(){}function logEv(){}function save(){stored=JSON.stringify(S);}function sfx(){}function earn(n){award+=n;S.run+=n;}function won(n){return String(n);}function L(a){return a;}
 `;
-const ctx=vm.createContext({console});vm.runInContext(fixture+fs.readFileSync(path.join(root,'improvements/gameplay.js'),'utf8')+'\nhud=function(){};render=function(){};',ctx);
+const capFunctions=['adDay','adLeft','adUse'].map(n=>html.split('\n').find(l=>l.startsWith('function '+n+'('))).join('\n');
+const ctx=vm.createContext({console});vm.runInContext(fixture+capFunctions+'\n'+fs.readFileSync(path.join(root,'improvements/gameplay.js'),'utf8')+'\nhud=function(){};render=function(){};',ctx);
 const run=s=>vm.runInContext(s,ctx),eq=(s,want)=>assert.equal(run(s),want,s);
 // Partially expired boost: one hour doubled + one normal at 50% efficiency.
 eq('offlineEarnings()',540000);

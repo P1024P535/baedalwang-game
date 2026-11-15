@@ -2,6 +2,7 @@ name: Build Baedalwang 1.0.6 improvements
 on:
   push:
     branches: [improve/gameplay-20261115]
+    paths: ['android/**', 'improvements/**', 'scripts/**', '.github/workflows/build-improvements.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -42,7 +43,7 @@ jobs:
           trap 'rm -f "$BAEDALWANG_KEYSTORE_PATH"' EXIT
           umask 077
           printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
-          (cd android && gradle --no-daemon :app:assembleRelease :app:bundleRelease :app:testReleaseUnitTest)
+          (cd android && gradle --no-daemon :app:assembleRelease :app:bundleRelease :app:testReleaseUnitTest :app:assembleDebug :app:assembleDebugAndroidTest)
           cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-1.0.6-test.apk
           cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-1.0.6-internal.aab
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-1.0.6-test.apk > out/improved-signature.txt
@@ -62,7 +63,28 @@ jobs:
               checks[p]=hashlib.sha256(Path(p).read_bytes()).hexdigest()
           Path('out/improved-package-check.json').write_text(json.dumps(checks,indent=2))
           PY
+      - name: Enable emulator acceleration
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Verify improvements, gameplay and saves in Android WebView
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          target: google_apis
+          profile: pixel_2
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+          script: |
+            adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+            adb install -r android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
+            adb shell am instrument -w -e class 'com.ssokcompany.baedalwang.GameSmokeTest#testImprovementRulesAndStory,com.ssokcompany.baedalwang.GameSmokeTest#testGameplayAndSave,com.ssokcompany.baedalwang.GameSmokeTest#testResponsiveLayout' com.ssokcompany.baedalwang.test/androidx.test.runner.AndroidJUnitRunner > out/improved-webview-tests.txt
+            cat out/improved-webview-tests.txt
+            grep -q 'OK (3 tests)' out/improved-webview-tests.txt
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: baedalwang-1.0.6-test
           path: |
