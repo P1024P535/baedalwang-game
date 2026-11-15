@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, '..');
 const out = path.join(root, 'out/layout');
 fs.mkdirSync(out, {recursive:true});
 const sizes = [[320,568],[360,640],[375,667],[393,786],[412,824],[520,900],[768,1024],[640,360]];
-const screens = ['main','jobs','veh','comp','region','fame','mis','shop','set','rank','dex','ach','st','rk','modal','gate'];
+const screens = ['main','jobs','veh','comp','region','fame','mis','shop','set','rank','dex','ach','st','rk','modal','card-SR','card-SSR','gate'];
 const adapter = path.join(root, 'android/app/src/main/res/raw/layout_bridge.js');
 const styles = path.join(root, 'android/app/src/main/res/raw/layout.css');
 const results = [];
@@ -35,12 +35,13 @@ const results = [];
    for(const screen of screens){
     await page.evaluate(screen=>{
      closeModal();closeSheet();document.getElementById('gate')?.remove();
-     if(screen==='modal')showModal('<img src="assets/logo2.png" alt="">','자는 동안 배달했어요','긴 안내 문구와 보상 확인<span class="hl">1.23e+100원</span>'+('<br>오프라인 배달 보상 안내').repeat(12),[['확인','y',closeModal],['광고 보고 2배','b',closeModal]]);
+     if(screen.startsWith('card-'))showModal(cardFlip(screen.slice(5),'cn_1'),screen.slice(5)+' 직원 등장!','<span class="hl">윤총알</span>배달 대행사 직원 파워 x5<div class="trnew"><b>보스 담당</b> 보스 손님 시간 +1초</div>',[['환영해요!','y',closeModal]]);
+     else if(screen==='modal')showModal('<img src="assets/logo2.png" alt="">','자는 동안 배달했어요','긴 안내 문구와 보상 확인<span class="hl">1.23e+100원</span>'+('<br>오프라인 배달 보상 안내').repeat(12),[['확인','y',closeModal],['광고 보고 2배','b',closeModal]]);
      else if(screen==='gate')gate('<h2>언어 선택 · Language</h2><div class="gt-langs">'+LANGS.map(([k,n])=>'<button class="gb">'+n+'</button>').join('')+'</div><p class="gt-p">'+('작은 화면에서도 안내를 읽고 계속할 수 있어야 합니다. ').repeat(12)+'</p><button class="gb wide">계속하기</button>');
      else if(['dex','ach','st','rk'].includes(screen)){colTab=screen;if(screen==='rk'){RK.list=[];RK.ready=false;}openSheet('col');}
      else if(screen!=='main')openSheet(screen);
     },screen);
-    await page.waitForTimeout(350);
+    await page.waitForTimeout(screen.startsWith('card-')?1500:350);
     const data=await page.evaluate(()=>{
      const sheet=document.getElementById('sheet');const active=sheet.classList.contains('on');
      const scope=active?sheet:document.querySelector('#modal.show')||document.querySelector('#gate.on')||document.getElementById('top');
@@ -56,17 +57,23 @@ const results = [];
       else if(s.objectFit==='fill'&&Math.abs(Math.log((r.width/r.height)/(img.naturalWidth/img.naturalHeight)))>.05)issues.push({type:'image-stretch',src:img.getAttribute('src')?.slice(0,60)});
       if(img.parentElement.classList.contains('thumb')){const p=img.parentElement.getBoundingClientRect();if(r.width>p.width+2||r.height>p.height+2)issues.push({type:'image-crop',src:img.getAttribute('src')?.slice(0,60)});}
      }
+     const flip=scope.querySelector('.cflip');
+     if(flip){
+      const box=flip.getBoundingClientRect(),frame=flip.querySelector('.cf-fr').getBoundingClientRect(),portrait=flip.querySelector('.cf-st').getBoundingClientRect();
+      if(Math.abs(frame.height-box.height)>2||Math.abs(frame.width-box.width)>2)issues.push({type:'staff-card-frame-size',frameHeight:frame.height,cardHeight:box.height});
+      if(portrait.bottom>frame.bottom+1||portrait.top<frame.top-1)issues.push({type:'staff-card-portrait-outside'});
+     }
      const popup=document.querySelector('#modal.show #mbox,#gate.on .gt-box');
      if(popup){const r=popup.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight+1)issues.push({type:'unreachable-popup',top:r.top,bottom:r.bottom});}
      if(active){const body=document.getElementById('shBody');if(body.clientHeight<40)issues.push({type:'sheet-too-short',height:body.clientHeight});}
      return {issues};
     });
     results.push({fixed,width,height,screen,...data,errors:[...errors]});
-    if((width===320&&['main','jobs','veh','set','modal'].includes(screen))||(width===640&&screen==='gate')||(width===393&&screen==='shop')){
+    if((width===320&&['main','jobs','veh','set','modal','card-SR','card-SSR'].includes(screen))||(width===640&&screen==='gate')||(width===393&&screen==='shop')){
      if(screen==='set')await page.evaluate(()=>document.querySelector('#shBody [data-act="signout"]')?.closest('.card').scrollIntoView({block:'center'}));
      await page.screenshot({path:path.join(out,`${fixed?'after':'before'}-${width}-${screen}.png`)});
     }
-    if(fixed&&screen==='modal'){
+    if(fixed&&(screen==='modal'||screen.startsWith('card-'))){
      await page.evaluate(()=>document.querySelector('#mbox .mbs button:last-child')?.scrollIntoView({block:'end'}));
      const reachable=await page.evaluate(()=>{const r=document.querySelector('#mbox .mbs button:last-child').getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight;});
      if(!reachable)results.at(-1).issues.push({type:'unreachable-popup-action'});

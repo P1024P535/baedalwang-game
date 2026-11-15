@@ -9,8 +9,8 @@ android {
   applicationId 'com.ssokcompany.baedalwang'
   minSdk 24
   targetSdk 36
-  versionCode 10
-  versionName (testAds ? '1.0.8-ads-test' : '1.0.8')
+  versionCode 11
+  versionName (testAds ? '1.0.9-ads-test' : '1.0.9')
   buildConfigField 'boolean', 'ADS_TEST_MODE', testAds.toString()
   buildConfigField 'String', 'REWARDED_AD_UNIT', '"' + (testAds ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-8529047857122990/2097149793') + '"'
   manifestPlaceholders = [admobAppId: testAds ? 'ca-app-pub-3940256099942544~3347511713' : 'ca-app-pub-8529047857122990~7112517800']

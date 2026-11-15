@@ -80,3 +80,10 @@ html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
  #splash .sp-start { font-size:22px; padding:8px 32px; }
  #splash .sp-sm { width:44px; height:44px; }
 }
+
+/* Staff reveal layers share one card box; generic modal icon caps must not shrink the frame. */
+#mbox .mic:has(.cflip) { width:clamp(110px,32vw,150px); height:auto; min-height:0; }
+#mbox .mic .cflip { width:100%; height:auto; aspect-ratio:242 / 337; }
+#mbox .mic .cflip img { max-height:none; }
+#mbox .mic .cflip .cf-fr { object-fit:contain; }
+@media (max-height:520px) { #mbox .mic:has(.cflip) { width:100px; } }
