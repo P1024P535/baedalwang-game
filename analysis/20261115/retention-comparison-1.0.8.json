@@ -1,0 +1,54 @@
+{
+  "source_version": "1.0.8",
+  "seed": 1,
+  "days": 90,
+  "limitations": [
+    "Economic scenarios, not measured player retention",
+    "No ad rewards or purchases",
+    "Efficient upgrades and prompt claims/moves",
+    "Encounter responses approximated",
+    "Optional journey/title/chapter bonuses and new weekly alternative not included"
+  ],
+  "profiles": [
+    {
+      "name": "free-30m",
+      "completed_before": 5,
+      "completed_after": 7,
+      "first_clear_day": 10.0,
+      "clear_days": [
+        10.0,
+        18.019108796296297,
+        27.012962962962963,
+        36.01164351851852,
+        46.0,
+        61.008229166666666,
+        75.0
+      ]
+    },
+    {
+      "name": "free-60m",
+      "completed_before": 6,
+      "completed_after": 17,
+      "first_clear_day": 4.004305555555556,
+      "clear_days": [
+        4.004305555555556,
+        7.507476851851852,
+        11.507719907407408,
+        16.335196759259258,
+        21.176956018518517,
+        27.504050925925927,
+        34.0,
+        38.50642361111111,
+        44.50226851851852,
+        50.33334490740741,
+        56.00170138888889,
+        61.3359837962963,
+        66.17145833333333,
+        72.00016203703704,
+        76.33797453703704,
+        81.5068287037037,
+        86.50243055555555
+      ]
+    }
+  ]
+}
