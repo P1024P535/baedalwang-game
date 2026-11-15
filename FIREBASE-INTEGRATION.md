@@ -6,4 +6,6 @@ Google provider enabled in project `baedalwang-game`. Android app ID: `1:6793716
 
 Cloud uploads require a successful server read for the same Google UID. Guest and other-account local saves cannot upload. Failed reads block uploads; writes use a revision transaction and stop on conflict. Original restore comparison remains intact. No save migration, deletion, or graphics/economy changes.
 
-Pending: Firestore creation/rules activation, Play app-signing SHA certificate registration, real-device Google login/cancel/logout/restart and two-device cloud/conflict verification. Ranking and real billing remain pending; this build retains the original test shop, which charges no money. Do not describe it as a completed production release.
+Firestore Standard was created in Seoul (asia-northeast3) on Spark. Own-Google-user read/write/delete rules passed emulator isolation and revision tests. Play signing SHA-1/SHA-256 were registered in addition to the upload signer.
+
+Pending: real-device Google login/cancel/logout/restart and two-device cloud/conflict verification. Ranking and real billing remain pending; this build retains the original test shop, which charges no money. Do not describe it as a completed production release.

@@ -1,0 +1,30 @@
+import {readFileSync} from 'node:fs';
+import {initializeTestEnvironment,assertFails,assertSucceeds} from '@firebase/rules-unit-testing';
+import {doc,collection,getDoc,getDocs,setDoc,deleteDoc,serverTimestamp} from 'firebase/firestore';
+const env=await initializeTestEnvironment({projectId:'demo-baedalwang-cloud',firestore:{rules:readFileSync('firebase/firestore.rules','utf8')}});
+try {
+ const google=uid=>env.authenticatedContext(uid,{firebase:{sign_in_provider:'google.com'}}).firestore();
+ const a=google('a'),b=google('b'),guest=env.unauthenticatedContext().firestore(),anon=env.authenticatedContext('a',{firebase:{sign_in_provider:'anonymous'}}).firestore();
+ const value=(rev,more={})=>({save:'{"ver":2,"total":100}',total:100,ver:'1.0.3',rev,updated:serverTimestamp(),...more});
+ await assertSucceeds(getDoc(doc(a,'users/a')));
+ await assertFails(setDoc(doc(guest,'users/a'),value(1)));
+ await assertFails(setDoc(doc(anon,'users/a'),value(1)));
+ await assertFails(setDoc(doc(b,'users/a'),value(1)));
+ await assertSucceeds(setDoc(doc(a,'users/a'),value(1)));
+ await assertSucceeds(getDoc(doc(a,'users/a')));
+ await assertFails(getDoc(doc(b,'users/a')));
+ await assertFails(getDoc(doc(guest,'users/a')));
+ await assertFails(getDocs(collection(a,'users')));
+ await assertFails(setDoc(doc(a,'users/a'),value(1)));
+ await assertFails(setDoc(doc(a,'users/a'),value(3)));
+ await assertFails(setDoc(doc(a,'users/a'),value(2,{total:-1})));
+ await assertFails(setDoc(doc(a,'users/a'),value(2,{admin:true})));
+ await assertFails(setDoc(doc(a,'users/a'),value(2,{save:'x'.repeat(500001)})));
+ await assertFails(setDoc(doc(a,'users/a'),value(2,{updated:new Date(0)})));
+ await assertSucceeds(setDoc(doc(a,'users/a'),value(2)));
+ await assertFails(getDoc(doc(a,'ranks/a')));
+ await assertFails(setDoc(doc(a,'ranks/a'),{score:999}));
+ await assertFails(deleteDoc(doc(b,'users/a')));
+ await assertSucceeds(deleteDoc(doc(a,'users/a')));
+ console.log('PASS: own Google save create/read/update/delete; unauthenticated, anonymous, cross-account, listing, stale revisions, negative totals, oversized/extra fields, forged timestamps and rank writes denied');
+} finally {await env.cleanup();}

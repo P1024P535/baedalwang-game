@@ -3,11 +3,25 @@ on:
   workflow_dispatch:
   push:
     branches: [integration/firebase-20261115]
-    paths: ['index.html', 'assets/**', 'original-manifest.json', 'android/**', 'scripts/**', '.github/workflows/build-claude-final.yml']
+    paths: ['index.html', 'assets/**', 'original-manifest.json', 'android/**', 'scripts/**', 'firebase/**', 'firebase.json', '.github/workflows/build-claude-final.yml']
 permissions:
   contents: read
   actions: read
 jobs:
+  firestore-rules:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci --prefix firebase --ignore-scripts --no-audit --no-fund
+      - run: firebase/node_modules/.bin/firebase emulators:exec --only firestore --project demo-baedalwang-cloud 'node firebase/test-rules.mjs'
   android:
     runs-on: ubuntu-latest
     timeout-minutes: 45

@@ -9,6 +9,7 @@ final class CloudSaveGuard {
  boolean permits(String signedIn,String saveOwner,int version,int bytes,double total){
   return !uid.isEmpty() && uid.equals(signedIn) && uid.equals(saveOwner) && version==2 && bytes>0 && bytes<=500000 && Double.isFinite(total) && total>=0;
  }
+ boolean loadedFor(String user){return !uid.isEmpty() && uid.equals(user);}
  long revision(){return revision;}
  void saved(long expected,long next){if(expected!=revision || next!=expected+1)throw new IllegalStateException();revision=next;}
 }

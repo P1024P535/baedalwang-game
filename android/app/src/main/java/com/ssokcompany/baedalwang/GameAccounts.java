@@ -152,7 +152,7 @@ final class GameAccounts {
  }
  private void save(String t,String id,JSONObject data) throws Exception {
   FirebaseUser u=auth.getCurrentUser(); JSONObject s=data.getJSONObject("save"), acct=s.optJSONObject("acct");
-  if(u==null || acct==null || !u.getUid().equals(acct.optString("id")) || !"google".equals(acct.optString("type"))) {error(t,id,"");return;}
+  if(u==null || !guard.loadedFor(u.getUid()) || acct==null || !u.getUid().equals(acct.optString("id")) || !"google".equals(acct.optString("type"))) {error(t,id,"");return;}
   String raw=s.toString();
   if(!guard.permits(u.getUid(),acct.optString("id"),s.optInt("ver"),raw.getBytes(StandardCharsets.UTF_8).length,s.optDouble("total"))) {error(t,id,"저장할 기록을 확인하지 못했어요.");return;}
   if(saving || (!data.optBoolean("force") && System.currentTimeMillis()-lastSaved<60000)){result(t,id,true,null,"");return;}

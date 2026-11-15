@@ -6,3 +6,9 @@
 android/app/src/main/assets/
 android/app/src/main/res/drawable/ic_launcher.png
 out/
+
+# Local Firebase test dependencies and emulator output
+firebase/node_modules/
+firebase-debug.log
+firestore-debug.log
+.firebase/

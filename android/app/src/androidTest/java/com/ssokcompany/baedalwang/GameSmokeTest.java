@@ -43,6 +43,7 @@ public class GameSmokeTest {
  }
  @Test public void testGameplayAndSave()throws Exception{
   launch();closeModals();
+  assertEquals("Native account bridge attaches without modifying game", "true",js("window.__ssokAccountBridgeReady===true"));
   assertEquals("Bundled fonts must load, not fallback", "true", js("Array.from(document.fonts).length===2 && Array.from(document.fonts).every(f=>f.status==='loaded')"));
   assertEquals("true",js("Array.isArray(V)&&V.length>1&&R.length>1&&J.length>1&&C.length>0&&Number.isFinite(ips())"));
   assertEquals("true",js("(()=>{const m=S.money,t=S.taps;doTap(100,300);return S.money>m&&S.taps===t+1})()"));

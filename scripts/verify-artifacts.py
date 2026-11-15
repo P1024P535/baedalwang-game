@@ -8,9 +8,11 @@ for p,prefix in [(apk,'assets/'),(aab,'base/assets/')]:
  with zipfile.ZipFile(p) as z:
   assert z.testzip() is None,p
   actual={n[len(prefix):] for n in z.namelist() if n.startswith(prefix) and not n.endswith('/')}
-  assert actual==expected,(p,actual^expected)
+  generated=actual-expected
+  assert generated <= {'dexopt/baseline.prof','dexopt/baseline.profm'},(p,generated)
+  assert expected<=actual,(p,expected-actual)
   for f in m['files']:assert hashlib.sha256(z.read(prefix+f['path'])).hexdigest()==f['sha256'],f['path']
- result[p.suffix]={'filesVerified':len(expected),'changedFiles':0,'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
+ result[p.suffix]={'filesVerified':len(expected),'androidGeneratedAssets':sorted(generated),'changedFiles':0,'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()}
 def cert(p):
  text=subprocess.check_output(['keytool','-J-Duser.language=en','-printcert','-jarfile',str(p)],text=True)
  match=re.search(r'SHA256:\s*([A-Fa-f0-9:]+)',text);assert match, text
