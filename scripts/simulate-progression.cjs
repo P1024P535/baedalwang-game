@@ -13,6 +13,7 @@ const names=['fresh','fmt','won','founded','permMult','tempMult','vm','jobInc','
 const constants=slice('const V=[','// ====== STATE ======')+slice('const QF=[','function staffTot')+slice('const TRAITS=[','function trV')+slice('const SKL=[','function skOn')+slice('const DEXC=[','function dexTot')+slice('const ACH=[','function achTier')+src.split('\n').find(x=>x.startsWith('const STP='));
 const epoch=Date.parse('2026-11-15T09:00:00+09:00');
 function simulate(config){
+ config={...config,retention:src.includes("RETENTION_108")};
  let clock=epoch,seed=config.seed||1;const realDate=Date;
  const math=Object.create(Math);math.random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296};
  class ClockDate extends realDate{constructor(...args){super(...(args.length?args:[clock]));}static now(){return clock;}}
@@ -38,7 +39,7 @@ function simulate(config){
  function achievements(){
   // Original tutorial and procedural quests, claimed promptly once eligible.
   for(let i=0;i<1;i++){const [n,total]=qProg(S.qd);if(n<total)break;gain(qReward(),'quest');if(S.q%3===2)S.fame++;S.q++;S.qd=qGen(S.q);}
-  for(const [k,,target] of MI){if(!claims['got_'+k]&&(claims[k]||0)>=target){claims['got_'+k]=true;gain(Math.max(1000,baseIps()*1800),'missions');}}
+  for(const [k,,target] of MI){if(!claims['got_'+k]&&(k==='ad'&&cfg.retention?(claims.ad||0)+Math.floor((claims.tap||0)/50):(claims[k]||0))>=target){claims['got_'+k]=true;gain(Math.max(1000,baseIps()*1800),'missions');}}
   if(MI.every(m=>claims['got_'+m[0]])&&!claims.all){claims.all=true;S.fame+=3;}
   if(cfg.achievements!==false){
    for(const a of ACH){let t=S.ach[a[0]]||0;while(t<a[4].length&&a[3]()>=a[4][t]){S.fame+=achRew(t);S.ach[a[0]]=++t;}}
@@ -127,8 +128,8 @@ function simulate(config){
     if(k%9===4&&hash(k*31+7)<.45){const r=hash(k*13+5);if(r<.4)gain(Math.max(500,ips()*240),'mystery');else if(r<.62)S.fame++;else if(r<.82)fever=Math.min(1,fever+.5);else{const a=SKL.filter(s=>S.lv>=s.lv);if(a.length){for(const sk of a){const st=S.sk[sk.k];if(st&&Date.now()>=st.u)st.r=0;}}else gain(Math.max(500,ips()*240),'mystery');}}
    }
    if(active>=nextGift){nextGift=active+45+Math.random()*45;if(Math.random()<(cfg.giftCatch??.7)){gain(Math.max(300,ips()*180),'gifts');xp(10);S.st.gift++;if(Math.random()<.25)S.fame++;}}
-   if(active>=nextBoss){nextBoss=active+120+Math.random()*90;const need=50+Math.min(S.region,8)*5+Math.min(S.clears,5)*4,duration=15+trV('boss');if((cfg.burstTps||6)*duration>=need&&Math.random()<.85){gain(Math.max(2000,ips()*300),'events');S.fame++;S.st.boss++;}else S.money-=Math.floor(Math.min(S.money*.1,Math.max(300,ips()*120)));}
-   if(active>=nextTrouble){nextTrouble=active+70+Math.random()*50;const flat=Math.random()<.55,need=Math.ceil((28+Math.min(S.region,8)*3)*(1-trV('fix')/100));if(!flat||((cfg.burstTps||6)*8>=need&&Math.random()<.9)){gain(Math.max(800,ips()*120),'events');xp(8);S.st.fix=(S.st.fix||0)+1;}else S.money-=Math.floor(Math.min(S.money*.05,Math.max(200,ips()*60)));}
+   if(active>=nextBoss){nextBoss=active+120+Math.random()*90;const need=50+Math.min(S.region,8)*5+Math.min(S.clears,5)*4,duration=15+trV('boss');if((cfg.burstTps||6)*duration>=need&&Math.random()<.85){gain(Math.max(2000,ips()*300),'events');S.fame++;S.st.boss++;}else if(!cfg.retention)S.money-=Math.floor(Math.min(S.money*.1,Math.max(300,ips()*120)));}
+   if(active>=nextTrouble){nextTrouble=active+70+Math.random()*50;const flat=Math.random()<.55,need=Math.ceil((28+Math.min(S.region,8)*3)*(1-trV('fix')/100));if(!flat||((cfg.burstTps||6)*8>=need&&Math.random()<.9)){gain(Math.max(800,ips()*120),'events');xp(8);S.st.fix=(S.st.fix||0)+1;}else if(!cfg.retention)S.money-=Math.floor(Math.min(S.money*.05,Math.max(200,ips()*60)));}
    if(active>=nextRace){nextRace=active+180+Math.random()*120;if(Math.random()<.65){gain(Math.max(1500,ips()*480),'events');S.fame+=2;S.st.races=(S.st.races||0)+1;}}
    if(active>=nextEvent){nextEvent=active+40+Math.random()*35;const r=Math.random()*100;if(r>=51&&r<69){gain(Math.max(200,ips()*120+tapVal()*20)*(1+trV('lucky')/100),'events');}else{const d=r<27||r>=88?[2,30]:r<46?[3,20]:r<51?[5,15]:r<81?[2.5,25]:[4,25];ev={mult:d[0],until:Date.now()+d[1]*1000};}}
   }

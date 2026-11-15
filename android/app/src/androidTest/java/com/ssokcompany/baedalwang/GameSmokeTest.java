@@ -93,6 +93,13 @@ public class GameSmokeTest {
   assertEquals("Cancelled roulette ad does not use an attempt", "true",js("(()=>{S.noAds=false;S.rl={d:today(),f:1,a:0};delete S.rlPending;rlBusy=false;window.__originalReward=PLATFORM.showRewardedAd;PLATFORM.showRewardedAd=cb=>window.__rouletteResult=cb;onAct({dataset:{act:'rl',v:'a'}});const before=rlDay().a;window.__rouletteResult(false,'광고 연결 실패');return before===0&&rlDay().a===0&&!S.rlPending&&document.getElementById('rewardStatus').dataset.phase==='error'})()"));
   assertEquals("Completed roulette ad charges and persists the selected prize once", "true",js("(()=>{onAct({dataset:{act:'rl',v:'a'}});window.__rouletteResult(true);window.__rouletteResult(true);return rlDay().a===1&&Number.isInteger(S.rlPending.idx)&&!!JSON.parse(localStorage.getItem('baedal_king_v1')).rlPending})()"));
   assertEquals("Recovered roulette prize cannot pay twice", "true",js("(()=>{const pending=S.rlPending,spins=S.st.spins||0;rlBusy=false;resumeRoulette();rlGive(pending.idx);rlGive(pending.idx);PLATFORM.showRewardedAd=window.__originalReward;rlBusy=false;return !S.rlPending&&S.st.spins===spins+1})()"));
+  closeModals();
+  assertEquals("Missed encounters never take saved money", "true",js("(()=>{S.money=1000;boss={};bossEnd(false);trouble={t:'flat'};troubleEnd(false);return S.money===1000})()"));
+  assertEquals("Ads have a play-only daily alternative", "true",js("S.mis={date:today(),p:{},done:[],all:false};mis('tap',100);missionProgress('ad')>=2"));
+  assertEquals("Later cycle target growth is bounded", "true",js("cycleScale(0)===1&&cycleScale(1)===2&&cycleScale(10)===64"));
+  assertEquals("Collected career titles cannot pay twice", "true",js("(()=>{S.clears=2;applyScale();careerState();const before=S.fame;careerAction('career-award',{dataset:{id:'trusted'}});careerAction('career-award',{dataset:{id:'trusted'}});return S.fame===before+5&&S.career.badge==='trusted'})()"));
+  assertEquals("Career contracts preserve progress across regional moves", "true",js("(()=>{const t=careerTasks().find(t=>t.key==='hire');S.st.hire+=t.target;careerAction('career-contract',{dataset:{id:'hire'}});const before=S.fame;S.region=3;applyScale();careerState();careerAction('career-contract',{dataset:{id:'hire'}});save();return S.fame===before&&JSON.parse(localStorage.getItem('baedal_king_v1')).career.run.done.includes('hire')})()"));
+  assertEquals("Career board renders in the move screen", "true",js("closeSheet();openSheet('region');!!document.querySelector('.career-board')"));
  }
  @Test public void testResponsiveLayout()throws Exception {
   launch();closeModals();

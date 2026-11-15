@@ -1,7 +1,7 @@
-name: Build Baedalwang 1.0.7 improvements
+name: Build Baedalwang 1.0.8 improvements
 on:
   push:
-    branches: [improve/gameplay-20261115]
+    branches: [improve/gameplay-20261115, improve/retention-20261115]
     paths: ['android/**', 'improvements/**', 'scripts/**', '.github/workflows/build-improvements.yml']
   workflow_dispatch:
 permissions:
@@ -23,6 +23,7 @@ jobs:
         run: |
           python3 scripts/prepare-original.py
           node scripts/test-improvements.cjs
+          node scripts/test-retention.cjs
           node scripts/test-account-bridge.mjs
           node scripts/test-rank-bridge.mjs
           node scripts/test-reward-bridge.mjs
@@ -44,19 +45,19 @@ jobs:
           umask 077
           printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
           (cd android && gradle --no-daemon :app:assembleRelease :app:bundleRelease :app:testReleaseUnitTest :app:assembleDebug :app:assembleDebugAndroidTest)
-          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-1.0.7-test.apk
-          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-1.0.7-internal.aab
-          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-1.0.7-test.apk > out/improved-signature.txt
-          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-1.0.7-test.apk > out/improved-metadata.txt
-          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='9'" out/improved-metadata.txt
-          jarsigner -verify out/baedalwang-1.0.7-internal.aab > out/improved-aab-signature.txt
+          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-1.0.8-test.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-1.0.8-internal.aab
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-1.0.8-test.apk > out/improved-signature.txt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-1.0.8-test.apk > out/improved-metadata.txt
+          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='10'" out/improved-metadata.txt
+          jarsigner -verify out/baedalwang-1.0.8-internal.aab > out/improved-aab-signature.txt
           grep -q 'jar verified' out/improved-aab-signature.txt
           python3 - <<'PY'
           import zipfile,hashlib,json
           from pathlib import Path
           root=Path('android/app/src/main/assets')
           checks={}
-          for p,prefix in [('out/baedalwang-1.0.7-test.apk','assets/'),('out/baedalwang-1.0.7-internal.aab','base/assets/')]:
+          for p,prefix in [('out/baedalwang-1.0.8-test.apk','assets/'),('out/baedalwang-1.0.8-internal.aab','base/assets/')]:
               with zipfile.ZipFile(p) as z:
                   for f in root.rglob('*'):
                       if f.is_file(): assert z.read(prefix+f.relative_to(root).as_posix())==f.read_bytes(),str(f)
@@ -86,10 +87,10 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: baedalwang-1.0.7-test
+          name: baedalwang-1.0.8-test
           path: |
-            out/baedalwang-1.0.7-test.apk
-            out/baedalwang-1.0.7-internal.aab
+            out/baedalwang-1.0.8-test.apk
+            out/baedalwang-1.0.8-internal.aab
             out/improved-*.txt
             out/improved-*.json
             out/improvement-audit.json
@@ -110,5 +111,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: baedalwang-1.0.7-layout
+          name: baedalwang-1.0.8-layout
           path: out/layout/

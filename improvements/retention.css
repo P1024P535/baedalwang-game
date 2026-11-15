@@ -1,0 +1,12 @@
+.career-board {margin:12px 0;padding:10px;border:2px solid #886541;border-radius:12px;background:#fff7e4;color:#49301b;overflow-wrap:anywhere;}
+.career-board summary{cursor:pointer;font-size:16px;line-height:1.5;font-weight:bold;}
+.career-board p{font-size:13px;line-height:1.6;margin:9px 0;}
+.career-board .sec{font-size:16px;line-height:1.5;}
+.career-task{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid #d9c4a5;}
+.career-task>div{flex:1;min-width:0;font-size:14px;}
+.career-task small{display:block;font-size:12px;line-height:1.5;}
+.career-task .gb{min-width:62px;padding:7px;font-size:13px;}
+.career-collection{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:12px;}
+.career-collection .gb{min-width:0;font-size:13px;padding:9px 5px;}
+.career-collection small{font-size:11px;}
+.career-tag{color:#775319!important;background:#fff1bb!important;}
