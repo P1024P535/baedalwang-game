@@ -1,0 +1,11 @@
+{
+  "build_commit": "8bb0ca59c625a79fb6cb063fd36f6ce51d287205",
+  "workflow_run": 43696633292,
+  "build": "success",
+  "layout": "success",
+  "android_tests": "OK (3 tests)",
+  "version_code": 8,
+  "version_name": "1.0.6-ads-test",
+  "play_state": "uploaded_review_ready_approval_required",
+  "play_release": 5
+}
