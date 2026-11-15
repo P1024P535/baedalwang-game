@@ -107,7 +107,7 @@ jobs:
           java -jar "$RUNNER_TEMP/bundletool.jar" build-apks --bundle="$PREVIOUS_AAB" --output="$RUNNER_TEMP/previous.apks" --mode=universal --ks="$BAEDALWANG_KEYSTORE_PATH" --ks-key-alias="$BAEDALWANG_KEY_ALIAS" --ks-pass="file:$STOREPASS_FILE" --key-pass="file:$KEYPASS_FILE"
           unzip -p "$RUNNER_TEMP/previous.apks" universal.apk > out/previous-claude.apk
           "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-claude-final-1.0.5.apk > out/apk-metadata.txt
-          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='6'" out/apk-metadata.txt
+          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='7'" out/apk-metadata.txt
           grep -q "targetSdkVersion:'36'" out/apk-metadata.txt
           python3 scripts/verify-artifacts.py
       - name: Upload installable signed APK
@@ -152,7 +152,7 @@ jobs:
         if: always()
         run: |
           echo '## Claude final ZIP Android build' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Package: com.ssokcompany.baedalwang · versionCode 6 · target API 36' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Package: com.ssokcompany.baedalwang · versionCode 7 · target API 36' >> "$GITHUB_STEP_SUMMARY"
           echo 'Original ZIP: c09fecbcafd90d7fb85f0af8c08eab14181d2b5004339d0172eb797ed8badef7 · expected 495 files' >> "$GITHUB_STEP_SUMMARY"
           test ! -f out/emulator/result.txt || cat out/emulator/result.txt >> "$GITHUB_STEP_SUMMARY"
           echo 'AdMob app and rewarded IDs configured in live AAB. APK uses official Google test ads. Native Google sign-in and protected cloud saving configured; Firebase live account/device validation and billing remain pending. Physical-device verification and final Play publishing approval are still required. No Play upload or publishing was performed.' >> "$GITHUB_STEP_SUMMARY"

@@ -52,7 +52,7 @@ html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
  .rbtn { width:34px; height:34px; padding:3px; }
  .pill.money { padding-left:32px; padding-right:6px; }
  .pill.money .ic { width:34px; height:34px; }
- .pill.fame { padding-left:27px; max-width:76px; }
+ .pill.fame { padding-left:27px; max-width:88px; }
  .pill.fame .ic { width:32px; height:32px; left:-5px; }
  .card { gap:7px; padding:7px; }
  .card > .thumb { width:46px; height:46px; padding:4px; }
