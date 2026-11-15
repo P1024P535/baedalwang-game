@@ -5,7 +5,7 @@ function nativeAds(){return window.__ssokNativeAds||null;}
 function testAdsForced(){const a=nativeAds(),p=adsTestOptions();return !!(a&&a.testMode&&p.enabled&&p.force);}
 function syncNativeAds(){const a=nativeAds();if(!a)return;const p=adsTestOptions();a.configure(p.enabled,gameAdsStarted,!!S.noAds,p.force);}
 function showNativePlacement(kind,manual,done){
- const a=nativeAds();if(!a||displayAdPending||rewardPending||document.hidden){done(false);return;}
+ const a=nativeAds(),p=adsTestOptions();if(!a||!p.enabled||(!manual&&kind==='interstitial'&&!gameAdsStarted)||(S.noAds&&!testAdsForced())||displayAdPending||rewardPending||document.hidden){done(false);return;}
  syncChallenges();displayAdPending=true;
  a.show(kind,manual,(shown,message)=>{syncChallenges();displayAdPending=false;if(message&&manual)toast(message);done(shown);});
 }

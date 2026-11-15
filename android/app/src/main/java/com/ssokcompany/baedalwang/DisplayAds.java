@@ -55,7 +55,7 @@ final class DisplayAds {
  @JavascriptInterface public void configure(String key,boolean enabled,boolean playing,boolean premium,boolean force){main.post(()->{
   if(!trusted()||!token.equals(key))return;
   this.enabled=enabled;this.playing=playing;this.premium=premium;this.force=BuildConfig.ADS_TEST_MODE&&force;
-  if(!allowed()){clearBanner();return;}
+  if(!allowed()){clearBanner();status(!enabled?"배너·자동 광고 꺼짐":"프리미엄 광고 제거 적용 중");return;}
   if(!playing)clearBanner();
   ensureSdk();if(sdkReady){loadFullScreens();if(playing)loadBanner();}
  });}
