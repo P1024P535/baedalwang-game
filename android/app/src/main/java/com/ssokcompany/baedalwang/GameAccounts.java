@@ -46,7 +46,7 @@ final class GameAccounts {
  private String token = "";
  private final CloudSaveGuard guard = new CloudSaveGuard();
  private long lastSaved;
- private boolean destroyed, signingIn, saving;
+ private boolean destroyed, signingIn, saving, loading;
  private CancellationSignal signal;
  GameAccounts(Activity activity, WebView web) {
   this.activity=activity; this.web=web;
@@ -105,7 +105,7 @@ final class GameAccounts {
   });
  }
  private void signIn(String t,String id) {
-  if(signingIn){error(t,id,"로그인이 이미 진행 중이에요.");return;}
+  if(signingIn || saving || loading){error(t,id,"계정 작업이 이미 진행 중이에요. 잠시 후 다시 시도해 주세요.");return;}
   signingIn=true; guard.reset(); signal=new CancellationSignal();
   GetSignInWithGoogleOption option=new GetSignInWithGoogleOption.Builder("679371652571-cjugeif926p2gi265jedc32kjb8ovrkv.apps.googleusercontent.com").build();
   GetCredentialRequest req=new GetCredentialRequest.Builder().addCredentialOption(option).build();
@@ -128,7 +128,7 @@ final class GameAccounts {
   });
  }
  private void signOut(String t,String id) {
-  if(signingIn || saving){error(t,id,"계정 작업이 끝난 뒤 다시 시도해 주세요.");return;}
+  if(signingIn || saving || loading){error(t,id,"계정 작업이 끝난 뒤 다시 시도해 주세요.");return;}
   guard.reset(); auth.signOut();
   credentials.clearCredentialStateAsync(new ClearCredentialStateRequest(),null,executor,new CredentialManagerCallback<Void,ClearCredentialException>() {
    @Override public void onResult(Void v){result(t,id,true,null,"");}
@@ -138,9 +138,12 @@ final class GameAccounts {
  private DocumentReference doc(FirebaseUser u){return db.collection("users").document(u.getUid());}
  private boolean sameUser(FirebaseUser u){return auth.getCurrentUser()!=null && auth.getCurrentUser().getUid().equals(u.getUid());}
  private void load(String t,String id) {
+  if(loading || saving || signingIn){error(t,id,"계정 작업이 끝난 뒤 다시 시도해 주세요.");return;}
   FirebaseUser u=auth.getCurrentUser(); guard.reset();
   if(u==null || u.isAnonymous()){error(t,id,"");return;}
+  loading=true;
   doc(u).get(Source.SERVER).addOnSuccessListener(snap -> {
+   loading=false;
    if(!valid(t) || !sameUser(u))return;
    try {
     JSONObject remote=null;
@@ -148,7 +151,7 @@ final class GameAccounts {
     guard.loaded(u.getUid(),snap.contains("rev")?snap.getLong("rev"):0);
     result(t,id,true,remote,"");
    } catch(Exception e){error(t,id,"저장된 기록을 확인하지 못해 클라우드 덮어쓰기를 중지했어요.");}
-  }).addOnFailureListener(e -> error(t,id,"클라우드 기록을 읽지 못했어요. 기기 기록은 유지돼요. 인터넷 연결 후 다시 로그인해 주세요."));
+  }).addOnFailureListener(e -> {loading=false;error(t,id,"클라우드 기록을 읽지 못했어요. 기기 기록은 유지돼요. 인터넷 연결 후 다시 로그인해 주세요.");});
  }
  private void save(String t,String id,JSONObject data) throws Exception {
   FirebaseUser u=auth.getCurrentUser(); JSONObject s=data.getJSONObject("save"), acct=s.optJSONObject("acct");
@@ -167,7 +170,7 @@ final class GameAccounts {
  }
  private void delete(String t,String id) {
   FirebaseUser u=auth.getCurrentUser();
-  if(u==null || signingIn || saving){error(t,id,"계정을 확인한 뒤 다시 시도해 주세요.");return;}
+  if(u==null || signingIn || saving || loading){error(t,id,"계정을 확인한 뒤 다시 시도해 주세요.");return;}
   // The existing game requires two explicit confirmations before this method is invoked.
   // Require a recent sign-in before touching cloud data.
   long signedAt=u.getMetadata()==null?0:u.getMetadata().getLastSignInTimestamp();
