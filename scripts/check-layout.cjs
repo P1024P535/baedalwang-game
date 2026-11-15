@@ -6,7 +6,7 @@ const {pathToFileURL} = require('node:url');
 const root = path.resolve(__dirname, '..');
 const out = path.join(root, 'out/layout');
 fs.mkdirSync(out, {recursive:true});
-const sizes = [[320,568],[360,640],[375,667],[393,786],[412,824],[520,900],[768,1024],[640,360]];
+const sizes = [[320,568],[360,640],[375,667],[393,786],[412,824],[520,900],[768,1024],[640,360],[320,510],[393,720]];
 const screens = ['main','jobs','veh','comp','region','fame','mis','shop','set','rank','dex','ach','st','rk','modal','card-SR','card-SSR','gate'];
 const adapter = path.join(root, 'android/app/src/main/res/raw/layout_bridge.js');
 const styles = path.join(root, 'android/app/src/main/res/raw/layout.css');

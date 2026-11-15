@@ -28,7 +28,7 @@ function requestReward(key,cap,cb){
   if(key&&!adLeft(key,cap))return;
   if(key)adUse(key);logEv('ad_reward',{region:S.region,lv:S.lv});mis('ad');S.st.ads++;cb();save();render();hud();setRewardStatus('success',L('광고 보상을 받았어요!','Ad reward received!'));
  };
- if(S.noAds)finish(true);else try{PLATFORM.showRewardedAd(finish);}catch(_){finish(false);}
+ if(S.noAds&&!(typeof testAdsForced==='function'&&testAdsForced()))finish(true);else try{PLATFORM.showRewardedAd(finish);}catch(_){finish(false);}
 }
 function limitedAd(key,cap,cb){requestReward(key,cap,cb);}
 adThen=cb=>requestReward(null,0,cb);

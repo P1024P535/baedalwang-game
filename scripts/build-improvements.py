@@ -19,9 +19,9 @@ def build(dest):
         ("if(a==='mis'){const k=b.dataset.k;S.mis.done.push(k);", "if(a==='mis'){const k=b.dataset.k,m=dailyMissions().find(x=>x[0]===k);checkDay();if(!m||S.mis.done.includes(k)||missionProgress(k)<m[2])return;S.mis.done.push(k);"),
         ("if(a==='misall'){S.mis.all=true;", "if(a==='misall'){checkDay();if(S.mis.all||!dailyMissions().every(m=>S.mis.done.includes(m[0])))return;S.mis.all=true;"),
         ("const keep={fame:S.fame,", "const keep={career:S.career,chapter:S.chapter,rlPending:S.rlPending,fame:S.fame,"),
-        ("v1.0</div>", "v1.0.10</div>"),
-        ("Version: ${APP_VER}", "Version: 1.0.10 (save protocol ${APP_VER})"),
-        ("${L('버전','Version')} ${APP_VER}", "${L('버전','Version')} 1.0.10"),
+        ("v1.0</div>", "v1.0.11</div>"),
+        ("Version: ${APP_VER}", "Version: 1.0.11 (save protocol ${APP_VER})"),
+        ("${L('버전','Version')} ${APP_VER}", "${L('버전','Version')} 1.0.11"),
         ("const p=Math.min(m[2],S.mis.p[m[0]]||0)", "const p=Math.min(m[2],missionProgress(m[0]))"),
         ("${p} / ${m[2]} · 보상: 30분치 수익", "${p} / ${m[2]}${m[0]==='ad'?' · 광고 1회 또는 배달 50회로 1단계':''} · 보상: 30분치 수익"),
         ("const rot=360*6+", "S.rlPending={idx,base:Math.max(300,baseIps())};save();const rot=360*6+"),
@@ -37,6 +37,8 @@ def build(dest):
         ("h+=rlHTML()+dowHTML();", "h+=missionNotice()+dowHTML();"),
         ("S.mis.done.length===MI.length&&!S.mis.all?'':'disabled'", "dailyMissions().every(m=>S.mis.done.includes(m[0]))&&!S.mis.all?'':'disabled'"),
         ("명성 +3</small></button>`}", "명성 +3</small></button>`;h+=wkHTML()+rlHTML()}") ,
+        ("if(last)showModal(IC.crown,'화성 배달 성공!'", "if(last)presentRegionResult(IC.crown,'화성 배달 성공!'"),
+        ("else showModal(IC.truck,R[S.region][0]+' 도착!'", "else presentRegionResult(IC.truck,R[S.region][0]+' 도착!'"),
     ]
     for old,new in replacements:
         if old==new: continue
@@ -65,9 +67,9 @@ def build(dest):
     ]:
         assert source.count(old)==1, old
         source=source.replace(old,new,1)
-    extra=(ROOT/'improvements/gameplay.js').read_text()+'\n'+(ROOT/'improvements/retention.js').read_text()
+    extra=(ROOT/'improvements/gameplay.js').read_text()+'\n'+(ROOT/'improvements/retention.js').read_text()+'\n'+(ROOT/'improvements/advertising.js').read_text()
     source=source.replace('// ====== START ======',extra+'\n// ====== START ======',1)
-    css=(ROOT/'android/app/src/main/res/raw/layout.css').read_text()+'\n'+(ROOT/'improvements/gameplay.css').read_text()+'\n'+(ROOT/'improvements/retention.css').read_text()
+    css=(ROOT/'android/app/src/main/res/raw/layout.css').read_text()+'\n'+(ROOT/'improvements/gameplay.css').read_text()+'\n'+(ROOT/'improvements/retention.css').read_text()+'\n'+(ROOT/'improvements/advertising.css').read_text()
     source=source.replace('</head>','<style>'+css+'</style></head>',1)
     # Apply the established layout adapter to portable preview as well as Android.
     bridge=(ROOT/'android/app/src/main/res/raw/layout_bridge.js').read_text()
@@ -76,7 +78,7 @@ def build(dest):
     (dest/'index.html').write_text(source)
     for p in (ROOT/'improvements/icons').glob('*.png'):
         shutil.copyfile(p,dest/'assets'/p.name)
-    audit={'version':'1.0.10','saveKey':'baedal_king_v1','saveVersion':2,'baselineUnchanged':True,'generatedIndexSha256':hashlib.sha256(source.encode()).hexdigest(),'replacementIcons':[p.name for p in (ROOT/'improvements/icons').glob('*.png')]}
+    audit={'version':'1.0.11','saveKey':'baedal_king_v1','saveVersion':2,'baselineUnchanged':True,'generatedIndexSha256':hashlib.sha256(source.encode()).hexdigest(),'replacementIcons':[p.name for p in (ROOT/'improvements/icons').glob('*.png')]}
     (ROOT/'out/improvement-audit.json').write_text(json.dumps(audit,indent=2))
     return audit
 

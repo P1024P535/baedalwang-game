@@ -31,7 +31,8 @@ public class GameSmokeTest {
   Intent i=new Intent(Intent.ACTION_MAIN);i.setClassName("com.ssokcompany.baedalwang","com.ssokcompany.baedalwang.MainActivity");i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
   activity=ins.startActivitySync(i);ins.runOnMainSync(()->web=find(activity.getWindow().getDecorView()));assertNotNull(web);
   boolean ready=false;for(int n=0;n<60;n++){if("true".equals(js("typeof S==='object' && typeof doTap==='function' && document.getElementById('cv').width>0"))){ready=true;break;}SystemClock.sleep(500);}
-  assertTrue("Game bootstrap failed",ready);SystemClock.sleep(10000);
+  assertTrue("Game bootstrap failed",ready);
+  js("localStorage.setItem('baedal_ads_test_v1',JSON.stringify({enabled:false,force:false}));if(typeof syncNativeAds==='function')syncNativeAds();true");SystemClock.sleep(10000);
  }
  private void closeModals()throws Exception{js("mq.length=0;mOpen=false;document.getElementById('modal').classList.remove('show');true");}
  @After public void done(){if(activity!=null)ins.runOnMainSync(()->activity.finish());}
@@ -118,6 +119,22 @@ public class GameSmokeTest {
   SystemClock.sleep(600);
   assertEquals("Long popup stays in the viewport and scrolls", "true",js("(()=>{const e=document.getElementById('mbox'),r=e.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight+1&&e.scrollHeight>e.clientHeight&&getComputedStyle(e).overflowY==='auto'})()"));
   closeModals();
+ }
+
+ @Test public void testNativeAdControls()throws Exception {
+  launch();closeModals();
+  assertEquals("Native display bridge uses official test mode", "true",js("!!window.__ssokNativeAds&&window.__ssokNativeAds.testMode"));
+  assertEquals("Settings contain all four ad controls", "true",js("document.querySelectorAll('#boot,#gate,#splash').forEach(e=>e.remove());openSheet('set');['banner','open','interstitial','reward'].every(k=>!!document.querySelector('[data-act=ad-test-'+k+']'))"));
+  assertEquals("Test preference never changes premium benefits", "true",js("(()=>{const before=S.noAds;onAct({dataset:{act:'ad-test-force'}});return S.noAds===before&&adsTestOptions().force===true})()"));
+  assertEquals("Disabled placements continue without granting rewards", "true",js("window.adsProbe=false;showNativePlacement('open',false,()=>window.adsProbe=true);true"));
+  SystemClock.sleep(500);
+  assertEquals("true",js("window.adsProbe===true&&!displayAdPending"));
+  assertEquals("Ad controls wrap within the sheet", "true",js("[...document.querySelectorAll('.native-ads-panel,.native-ads-panel .gb')].every(e=>e.scrollWidth<=e.clientWidth+2)"));
+  // A deterministic native banner-sized fixture verifies layout independently of network fill.
+  ins.runOnMainSync(()->{android.widget.TextView fixture=new android.widget.TextView(activity);fixture.setText("광고 영역 배치 검사");((MainActivity)activity).bannerSlot.addView(fixture,new android.widget.FrameLayout.LayoutParams(-1,(int)(50*activity.getResources().getDisplayMetrics().density)));((MainActivity)activity).bannerSlot.setVisibility(View.VISIBLE);});
+  SystemClock.sleep(500);
+  ins.runOnMainSync(()->{int[] game=new int[2],ad=new int[2];web.getLocationOnScreen(game);((MainActivity)activity).bannerSlot.getLocationOnScreen(ad);assertTrue("Banner must reserve space below game, not cover the dock",game[1]+web.getHeight()<=ad[1]);});
+
  }
 
 }

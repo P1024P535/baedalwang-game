@@ -25,6 +25,7 @@ import java.util.UUID;
 
 final class RewardAds {
  private final Activity activity;
+ private final AdGate gate;
  private final WebView web;
  private final Button privacy;
  private final Handler main=new Handler(Looper.getMainLooper());
@@ -33,7 +34,8 @@ final class RewardAds {
  private String token="";
  private RewardSession active;
  private boolean destroyed, sdkReady, initializing, showing, consentBusy;
- RewardAds(Activity activity, WebView web, Button privacy) {
+ RewardAds(Activity activity, WebView web, Button privacy, AdGate gate) {
+  this.gate=gate;
   this.activity=activity; this.web=web; this.privacy=privacy;
   consent=UserMessagingPlatform.getConsentInformation(activity);
   web.addJavascriptInterface(this,"SsokRewardAds");
@@ -44,6 +46,7 @@ final class RewardAds {
   });
  }
  void pageStarted() {
+  if(active!=null)gate.release(active,android.os.SystemClock.elapsedRealtime());
   page++; token=UUID.randomUUID().toString(); active=null;
   web.setVisibility(View.INVISIBLE);
  }
@@ -72,7 +75,7 @@ final class RewardAds {
   main.post(() -> {
    if(destroyed || !trustedPage() || !token.equals(pageToken))return;
    RewardSession request=new RewardSession(id,page);
-   if(active!=null || showing) { finish(request,false,"광고를 이미 진행 중이에요."); return; }
+   if(active!=null || showing || !gate.acquire(request)) { finish(request,false,"광고를 이미 진행 중이에요."); return; }
    active=request;
    if(BuildConfig.ADS_TEST_MODE) initialize(request);
    else requestConsent(request);
@@ -132,12 +135,12 @@ final class RewardAds {
     showing=true;
     ad.setFullScreenContentCallback(new FullScreenContentCallback() {
      @Override public void onAdDismissedFullScreenContent() {
-      showing=false;
+      showing=false;gate.release(request,android.os.SystemClock.elapsedRealtime());
       if(active!=request)return;
       finish(request,false,""); active=null;
      }
      @Override public void onAdFailedToShowFullScreenContent(AdError error) {
-      showing=false;
+      showing=false;gate.release(request,android.os.SystemClock.elapsedRealtime());
       if(active!=request)return;
       finish(request,false,"광고를 표시하지 못했어요. 다시 시도해 주세요."); active=null;
      }
@@ -148,10 +151,11 @@ final class RewardAds {
   });
  }
  private void finish(RewardSession request,boolean earned,String message) {
+  if(!earned)gate.release(request,android.os.SystemClock.elapsedRealtime());
   if(destroyed || request.page!=page || !trustedPage() || !request.resolve())return;
   web.evaluateJavascript("window.__ssokRewardResult && window.__ssokRewardResult("+JSONObject.quote(token)+","+JSONObject.quote(request.id)+","+earned+","+JSONObject.quote(message)+")",null);
  }
  void destroy() {
-  destroyed=true; active=null; main.removeCallbacksAndMessages(null); web.removeJavascriptInterface("SsokRewardAds");
+  destroyed=true;if(active!=null)gate.release(active,android.os.SystemClock.elapsedRealtime()); active=null; main.removeCallbacksAndMessages(null); web.removeJavascriptInterface("SsokRewardAds");
  }
 }

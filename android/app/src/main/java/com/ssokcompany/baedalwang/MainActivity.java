@@ -14,18 +14,27 @@ import android.util.Log;
 public class MainActivity extends Activity {
  public WebView web;
  private RewardAds rewardAds;
+ private DisplayAds displayAds;
+ FrameLayout bannerSlot;
  private GameAccounts accounts;
  @Override public void onCreate(Bundle state) {
   super.onCreate(state);
   FrameLayout root = new FrameLayout(this);
   root.setBackgroundColor(Color.rgb(21,37,29));
   web = new WebView(this);
-  root.addView(web, new FrameLayout.LayoutParams(-1,-1));
+  android.widget.LinearLayout column=new android.widget.LinearLayout(this);
+  column.setOrientation(android.widget.LinearLayout.VERTICAL);
+  root.addView(column,new FrameLayout.LayoutParams(-1,-1));
+  column.addView(web,new android.widget.LinearLayout.LayoutParams(-1,0,1));
+  bannerSlot=new FrameLayout(this);bannerSlot.setPadding(0,(int)(8*getResources().getDisplayMetrics().density),0,0);bannerSlot.setId(View.generateViewId());bannerSlot.setContentDescription("광고 영역");
+  column.addView(bannerSlot,new android.widget.LinearLayout.LayoutParams(-1,-2));
   android.widget.Button privacy = new android.widget.Button(this);
   privacy.setText("광고 개인정보"); privacy.setTextSize(11);
   FrameLayout.LayoutParams privacyParams=new FrameLayout.LayoutParams(-2,-2,android.view.Gravity.BOTTOM|android.view.Gravity.END);
   root.addView(privacy,privacyParams);
-  rewardAds=new RewardAds(this,web,privacy);
+  AdGate adGate=new AdGate();
+  rewardAds=new RewardAds(this,web,privacy,adGate);
+  displayAds=new DisplayAds(this,web,bannerSlot,adGate);
   accounts=new GameAccounts(this,web);
   setContentView(root);
   if (android.os.Build.VERSION.SDK_INT >= 30) {
@@ -51,8 +60,8 @@ public class MainActivity extends Activity {
   web.setBackgroundColor(Color.rgb(21,37,29));
   web.setOverScrollMode(View.OVER_SCROLL_NEVER);
   web.setWebViewClient(new WebViewClient() {
-   @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap icon) { rewardAds.pageStarted(); accounts.pageStarted(); }
-   @Override public void onPageFinished(WebView view,String url) { LayoutUi.attach(view); accounts.attach(); rewardAds.attach(); }
+   @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap icon) { rewardAds.pageStarted(); displayAds.pageStarted(); accounts.pageStarted(); }
+   @Override public void onPageFinished(WebView view,String url) { LayoutUi.attach(view); accounts.attach(); rewardAds.attach(); displayAds.attach(); }
    @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
     Uri uri=request.getUrl();
     if ("file".equals(uri.getScheme()) && uri.toString().startsWith("file:///android_asset/")) return false;
@@ -77,12 +86,16 @@ public class MainActivity extends Activity {
  }
  @Override protected void onPause() {
   if(web!=null) web.evaluateJavascript("try { if(typeof save==='function') save(); } catch(e) {}",null);
+  if(displayAds!=null)displayAds.pause();
   super.onPause();
  }
+ @Override public void onConfigurationChanged(android.content.res.Configuration c){super.onConfigurationChanged(c);if(displayAds!=null)displayAds.resize();}
+ @Override protected void onResume(){super.onResume();if(displayAds!=null)displayAds.resume();}
  @Override public void onBackPressed() {
   if(web!=null && web.canGoBack()) web.goBack(); else super.onBackPressed();
  }
  @Override protected void onDestroy() {
+  if(displayAds!=null)displayAds.destroy();
   if(accounts!=null)accounts.destroy();
   if(rewardAds!=null)rewardAds.destroy();
   if(web!=null) { web.removeAllViews(); web.destroy(); web=null; }
