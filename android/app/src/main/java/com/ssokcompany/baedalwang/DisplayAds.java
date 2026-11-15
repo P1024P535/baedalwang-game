@@ -65,7 +65,7 @@ final class DisplayAds {
  }
  private void status(String message){
   if(!trusted())return;
-  try{JSONObject state=new JSONObject().put("banner",banner!=null&&slot.getVisibility()==View.VISIBLE).put("open",openAd!=null).put("interstitial",interstitial!=null);
+  try{JSONObject state=new JSONObject().put("banner",banner!=null&&slot.getVisibility()==View.VISIBLE).put("bannerHeight",slot.getVisibility()==View.VISIBLE?Math.round(slot.getHeight()/activity.getResources().getDisplayMetrics().density):0).put("open",openAd!=null).put("interstitial",interstitial!=null);
    web.evaluateJavascript("window.__ssokDisplayStatus&&window.__ssokDisplayStatus("+JSONObject.quote(token)+","+JSONObject.quote(message)+","+state.toString()+")",null);
   }catch(Exception ignored){}
  }
@@ -75,10 +75,10 @@ final class DisplayAds {
   if(width<320)return;
   final AdView view=new AdView(activity);banner=view;
   view.setAdUnitId(BuildConfig.BANNER_AD_UNIT);
-  view.setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(activity,width));
+  view.setAdSize(AdSize.BANNER);
   slot.addView(view,new FrameLayout.LayoutParams(-2,-2,Gravity.CENTER));
   view.setAdListener(new AdListener(){
-   @Override public void onAdLoaded(){if(banner==view&&allowed()&&playing){slot.setVisibility(View.VISIBLE);status("배너 테스트 광고 표시 중");}}
+   @Override public void onAdLoaded(){if(banner==view&&allowed()&&playing){slot.setVisibility(View.VISIBLE);slot.post(()->{if(banner==view)status("배너 테스트 광고 표시 중");});}}
    @Override public void onAdFailedToLoad(LoadAdError error){if(banner==view){clearBanner();status("배너 준비 실패 ("+error.getCode()+") · 설정에서 다시 시도할 수 있어요");}}
   });
   status("배너 테스트 광고 준비 중");view.loadAd(new AdRequest.Builder().build());

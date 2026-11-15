@@ -1,3 +1,6 @@
+/* Native root already excludes system bars/cutouts; browser preview keeps CSS safe areas. */
+:root{--game-safe-top:env(safe-area-inset-top,0px);--game-safe-bottom:env(safe-area-inset-bottom,0px)}
+html.native-safe-layout{--game-safe-top:0px;--game-safe-bottom:0px}
 /* Presentation-only corrections. Original game, artwork and save schema stay intact. */
 html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 #shBody, .ci, .cn, .cd, .seg, .row2 > *, .rk .rv { min-width:0; }
@@ -66,17 +69,17 @@ html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
  .dw div b { font-size:11px; }
 }
 @media (max-height:520px) {
- #sheet { height:calc(100% - 126px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+ #sheet { height:calc(100% - 126px - var(--game-safe-top) - var(--game-safe-bottom)); }
  #shSub { padding-top:5px; }
- #side { display:grid; grid-template-columns:repeat(2,50px); gap:4px; top:calc(86px + env(safe-area-inset-top)); }
+ #side { display:grid; grid-template-columns:repeat(2,50px); gap:4px; top:calc(86px + var(--game-safe-top)); }
  .sbtn { width:50px; }
  .sbtn .tile { width:34px; height:34px; padding:3px; border-radius:10px; }
  .sbtn .lb { font-size:11px; }
  #quest { max-width:calc(100% - 132px); }
- #quick { height:48px; bottom:calc(110px + env(safe-area-inset-bottom)); }
+ #quick { height:48px; bottom:calc(110px + var(--game-safe-bottom)); }
  #quick .qi2 { width:30px; height:30px; }
  #splash .sp-logo { width:min(48%,240px); top:2%; }
- #splash .sp-bot { bottom:calc(32px + env(safe-area-inset-bottom)); gap:8px; }
+ #splash .sp-bot { bottom:calc(32px + var(--game-safe-bottom)); gap:8px; }
  #splash .sp-start { font-size:22px; padding:8px 32px; }
  #splash .sp-sm { width:44px; height:44px; }
 }
@@ -87,3 +90,10 @@ html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 #mbox .mic .cflip img { max-height:none; }
 #mbox .mic .cflip .cf-fr { object-fit:contain; }
 @media (max-height:520px) { #mbox .mic:has(.cflip) { width:100px; } }
+
+/* Use the previously empty sky above the HUD. */
+#top{padding-top:calc(4px + var(--game-safe-top))}
+#ribbon{top:calc(50px + var(--game-safe-top))}
+#quest{top:calc(82px + var(--game-safe-top))}
+#side{top:calc(82px + var(--game-safe-top))}
+@media(max-height:520px){#side{top:calc(82px + var(--game-safe-top))}}

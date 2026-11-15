@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
   column.setOrientation(android.widget.LinearLayout.VERTICAL);
   root.addView(column,new FrameLayout.LayoutParams(-1,-1));
   column.addView(web,new android.widget.LinearLayout.LayoutParams(-1,0,1));
-  bannerSlot=new FrameLayout(this);bannerSlot.setPadding(0,(int)(8*getResources().getDisplayMetrics().density),0,0);bannerSlot.setId(View.generateViewId());bannerSlot.setContentDescription("광고 영역");
+  bannerSlot=new FrameLayout(this);bannerSlot.setPadding(0,(int)(4*getResources().getDisplayMetrics().density),0,0);bannerSlot.setId(View.generateViewId());bannerSlot.setContentDescription("광고 영역");
   column.addView(bannerSlot,new android.widget.LinearLayout.LayoutParams(-1,-2));
   android.widget.Button privacy = new android.widget.Button(this);
   privacy.setText("광고 개인정보"); privacy.setTextSize(11);

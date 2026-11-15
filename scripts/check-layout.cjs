@@ -31,7 +31,8 @@ const results = [];
     S.comps.forEach(c=>{c.own=true;c.n=12345;c.pow=123456;});S.jobs[0]=1000;S.veh=5;
     closeModal();closeSheet();hud();
    });
-   if(fixed){await page.addStyleTag({content:fs.readFileSync(styles,'utf8')});await page.addScriptTag({content:fs.readFileSync(adapter,'utf8')});}
+   if(fixed){await page.evaluate(()=>document.documentElement.classList.add('native-safe-layout'));await page.addStyleTag({content:fs.readFileSync(styles,'utf8')});await page.addScriptTag({content:fs.readFileSync(adapter,'utf8')});}
+   if(fixed&&((width===320&&height===510)||(width===393&&height===720)))await page.evaluate(()=>{window.__ssokNativeAds={testMode:false,state:{bannerHeight:54},configure(){}};resize();});
    for(const screen of screens){
     if(!fixed&&screen.startsWith('memory'))continue;
     await page.evaluate(screen=>{
@@ -47,7 +48,7 @@ const results = [];
     const data=await page.evaluate(()=>{
      const sheet=document.getElementById('sheet');const active=sheet.classList.contains('on');
      const scope=active?sheet:document.querySelector('#modal.show')||document.querySelector('#gate.on')||document.getElementById('top');
-     const issues=[];const label=e=>e.id?'#'+e.id:e.tagName.toLowerCase()+'.'+String(e.className).trim().replaceAll(' ','.');
+     const issues=[];if(document.documentElement.classList.contains('native-safe-layout')&&parseFloat(getComputedStyle(document.getElementById('top')).paddingTop)>5)issues.push({type:'duplicate-safe-area'});const label=e=>e.id?'#'+e.id:e.tagName.toLowerCase()+'.'+String(e.className).trim().replaceAll(' ','.');
      if(!active && scope.id==='top')for(const id of ['money','ips','fame','lvNum']){const e=document.getElementById(id),s=getComputedStyle(e);if(e.getBoundingClientRect().height>parseFloat(s.fontSize)*1.65)issues.push({type:'hud-line-wrap',el:'#'+id});}
      for(const e of scope.querySelectorAll('.ci,.cn,.cd,.gb,.stat div,.stat b,#shTitle,#money,#ips,#fame,.hn2,.rm .n,#shBody,#shSub,.rks,.gt-box,#mbox,.mp,.mt')){
       const s=getComputedStyle(e);if(!e.getClientRects().length||s.display==='none')continue;

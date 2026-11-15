@@ -12,7 +12,7 @@ final class LayoutUi {
   if (!"file:///android_asset/index.html".equals(web.getUrl())) return;
   try {
    String css=read(web,R.raw.layout), script=read(web,R.raw.layout_bridge);
-   web.evaluateJavascript("(function(){if(!document.getElementById('ssok-layout-style')){var s=document.createElement('style');s.id='ssok-layout-style';s.textContent="+JSONObject.quote(css)+";document.head.appendChild(s);}return true;})()",null);
+   web.evaluateJavascript("(function(){document.documentElement.classList.add('native-safe-layout');if(!document.getElementById('ssok-layout-style')){var s=document.createElement('style');s.id='ssok-layout-style';s.textContent="+JSONObject.quote(css)+";document.head.appendChild(s);}return true;})()",null);
    web.evaluateJavascript(script,result->{if(!"true".equals(result))android.util.Log.e("Baedalwang","LAYOUT_BIND_FAILED");});
   } catch(Exception e) { android.util.Log.e("Baedalwang","LAYOUT_BIND_FAILED"); }
  }

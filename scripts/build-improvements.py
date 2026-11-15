@@ -5,7 +5,7 @@ import hashlib, json, shutil
 ROOT = Path(__file__).resolve().parents[1]
 
 def build(dest):
-    source = (ROOT / 'index.html').read_text()
+    source = (ROOT / 'index.html').read_text().replace('env(safe-area-inset-top)','var(--game-safe-top)').replace('env(safe-area-inset-bottom)','var(--game-safe-bottom)')
     replacements = [
         ("return S.noAds?cap:Math.max(0,cap-(adDay()[k]||0))", "return Math.max(0,cap-(adDay()[k]||0))"),
         ("if(!S.noAds)adDay()[k]=(adDay()[k]||0)+1", "adDay()[k]=(adDay()[k]||0)+1"),
@@ -19,9 +19,9 @@ def build(dest):
         ("if(a==='mis'){const k=b.dataset.k;S.mis.done.push(k);", "if(a==='mis'){const k=b.dataset.k,m=dailyMissions().find(x=>x[0]===k);checkDay();if(!m||S.mis.done.includes(k)||missionProgress(k)<m[2])return;S.mis.done.push(k);"),
         ("if(a==='misall'){S.mis.all=true;", "if(a==='misall'){checkDay();if(S.mis.all||!dailyMissions().every(m=>S.mis.done.includes(m[0])))return;S.mis.all=true;"),
         ("const keep={fame:S.fame,", "const keep={memories:S.memories,career:S.career,chapter:S.chapter,rlPending:S.rlPending,fame:S.fame,"),
-        ("v1.0</div>", "v1.0.12</div>"),
-        ("Version: ${APP_VER}", "Version: 1.0.12 (save protocol ${APP_VER})"),
-        ("${L('버전','Version')} ${APP_VER}", "${L('버전','Version')} 1.0.12"),
+        ("v1.0</div>", "v1.0.13</div>"),
+        ("Version: ${APP_VER}", "Version: 1.0.13 (save protocol ${APP_VER})"),
+        ("${L('버전','Version')} ${APP_VER}", "${L('버전','Version')} 1.0.13"),
         ("const p=Math.min(m[2],S.mis.p[m[0]]||0)", "const p=Math.min(m[2],missionProgress(m[0]))"),
         ("${p} / ${m[2]} · 보상: 30분치 수익", "${p} / ${m[2]}${m[0]==='ad'?' · 광고 1회 또는 배달 50회로 1단계':''} · 보상: 30분치 수익"),
         ("const rot=360*6+", "S.rlPending={idx,base:Math.max(300,baseIps())};save();const rot=360*6+"),
@@ -41,6 +41,7 @@ def build(dest):
         ("else showModal(IC.truck,R[S.region][0]+' 도착!'", "else presentRegionResult(IC.truck,R[S.region][0]+' 도착!'"),
         ("[['dex','도감'],['ach','업적'],['st','기록'],['rk','랭킹']]", "[['dex','도감'],['memory','인연'],['ach','업적'],['st','기록'],['rk','랭킹']]"),
         ("colBadge()+(S.dexNew||0)", "colBadge()+(S.dexNew||0)+memoryUnread()"),
+        ("Math.min(H/500,W/245)", "Math.min((H+gameBannerHeight())/500,W/245)"),
     ]
     for old,new in replacements:
         if old==new: continue
@@ -80,7 +81,7 @@ def build(dest):
     (dest/'index.html').write_text(source)
     for p in (ROOT/'improvements/icons').glob('*.png'):
         shutil.copyfile(p,dest/'assets'/p.name)
-    audit={'version':'1.0.12','saveKey':'baedal_king_v1','saveVersion':2,'baselineUnchanged':True,'generatedIndexSha256':hashlib.sha256(source.encode()).hexdigest(),'replacementIcons':[p.name for p in (ROOT/'improvements/icons').glob('*.png')]}
+    audit={'version':'1.0.13','saveKey':'baedal_king_v1','saveVersion':2,'baselineUnchanged':True,'generatedIndexSha256':hashlib.sha256(source.encode()).hexdigest(),'replacementIcons':[p.name for p in (ROOT/'improvements/icons').glob('*.png')]}
     (ROOT/'out/improvement-audit.json').write_text(json.dumps(audit,indent=2))
     return audit
 

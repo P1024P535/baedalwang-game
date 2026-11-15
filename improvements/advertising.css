@@ -1,4 +1,1 @@
 #adsLoading{position:absolute;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;background:#fff5dc;color:#3b2412;font-size:24px}
-.native-ads-panel{border:2px solid var(--ink);border-radius:12px;background:#fff8e5;padding:10px;margin:12px 0;font-size:14px}
-.native-ads-panel summary{font-size:18px;cursor:pointer}.native-ads-panel p{line-height:1.5;overflow-wrap:anywhere}.native-ads-panel>.gb{margin:5px 0}
-.native-ads-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.native-ads-buttons .gb{min-width:0;font-size:15px;padding-inline:4px}
