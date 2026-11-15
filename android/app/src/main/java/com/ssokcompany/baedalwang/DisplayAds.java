@@ -63,7 +63,12 @@ final class DisplayAds {
   if(sdkReady||initializing||!allowed())return;initializing=true;
   MobileAds.initialize(activity,state->main.post(()->{initializing=false;if(destroyed)return;sdkReady=true;if(allowed()){loadFullScreens();if(playing)loadBanner();}}));
  }
- private void status(String message){if(trusted())web.evaluateJavascript("window.__ssokDisplayStatus&&window.__ssokDisplayStatus("+JSONObject.quote(token)+","+JSONObject.quote(message)+")",null);}
+ private void status(String message){
+  if(!trusted())return;
+  try{JSONObject state=new JSONObject().put("banner",banner!=null&&slot.getVisibility()==View.VISIBLE).put("open",openAd!=null).put("interstitial",interstitial!=null);
+   web.evaluateJavascript("window.__ssokDisplayStatus&&window.__ssokDisplayStatus("+JSONObject.quote(token)+","+JSONObject.quote(message)+","+state.toString()+")",null);
+  }catch(Exception ignored){}
+ }
  private void loadBanner(){
   if(banner!=null||!playing||!allowed()||!sdkReady)return;
   int width=(int)(web.getWidth()/activity.getResources().getDisplayMetrics().density);

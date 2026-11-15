@@ -85,6 +85,7 @@ jobs:
             adb shell am instrument -w -e class 'com.ssokcompany.baedalwang.GameSmokeTest#testImprovementRulesAndStory,com.ssokcompany.baedalwang.GameSmokeTest#testGameplayAndSave,com.ssokcompany.baedalwang.GameSmokeTest#testResponsiveLayout,com.ssokcompany.baedalwang.GameSmokeTest#testNativeAdControls' com.ssokcompany.baedalwang.test/androidx.test.runner.AndroidJUnitRunner > out/improved-webview-tests.txt
             cat out/improved-webview-tests.txt
             grep -q 'OK (4 tests)' out/improved-webview-tests.txt
+            adb pull /sdcard/Android/data/com.ssokcompany.baedalwang/files/ads-network.png out/improved-ads-network.png || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -94,6 +95,7 @@ jobs:
             out/baedalwang-1.0.11-internal.aab
             out/improved-*.txt
             out/improved-*.json
+            out/improved-*.png
             out/improvement-audit.json
           if-no-files-found: error
   layout:

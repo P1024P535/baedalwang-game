@@ -134,6 +134,17 @@ public class GameSmokeTest {
   ins.runOnMainSync(()->{android.widget.TextView fixture=new android.widget.TextView(activity);fixture.setText("광고 영역 배치 검사");((MainActivity)activity).bannerSlot.addView(fixture,new android.widget.FrameLayout.LayoutParams(-1,(int)(50*activity.getResources().getDisplayMetrics().density)));((MainActivity)activity).bannerSlot.setVisibility(View.VISIBLE);});
   SystemClock.sleep(500);
   ins.runOnMainSync(()->{int[] game=new int[2],ad=new int[2];web.getLocationOnScreen(game);((MainActivity)activity).bannerSlot.getLocationOnScreen(ad);assertTrue("Banner must reserve space below game, not cover the dock",game[1]+web.getHeight()<=ad[1]);});
+  // Best-effort real SDK load probe. Network fill is logged separately from deterministic tests.
+  ins.runOnMainSync(()->{((MainActivity)activity).bannerSlot.removeAllViews();((MainActivity)activity).bannerSlot.setVisibility(View.GONE);});
+  js("localStorage.setItem('baedal_ads_test_v1',JSON.stringify({enabled:true,force:true}));gameAdsStarted=true;closeSheet();syncNativeAds();window.__ssokNativeAds.retry();true");
+  boolean loaded=false;
+  for(int n=0;n<25;n++){if("true".equals(js("!!window.__ssokNativeAds.state.banner&&!!window.__ssokNativeAds.state.open&&!!window.__ssokNativeAds.state.interstitial"))){loaded=true;break;}SystemClock.sleep(1000);}
+  System.out.println("SDK_TEST_ADS_LOAD="+js("JSON.stringify(window.__ssokNativeAds.state)"));
+  System.out.println("SDK_TEST_ADS_ALL_THREE_LOADED="+loaded);
+  android.graphics.Bitmap shot=ins.getUiAutomation().takeScreenshot();
+  if(shot!=null){try(java.io.FileOutputStream file=new java.io.FileOutputStream(new java.io.File(ins.getTargetContext().getExternalFilesDir(null),"ads-network.png"))){shot.compress(android.graphics.Bitmap.CompressFormat.PNG,100,file);}shot.recycle();}
+  js("localStorage.setItem('baedal_ads_test_v1',JSON.stringify({enabled:false,force:false}));syncNativeAds();true");
+
 
  }
 
