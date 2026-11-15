@@ -75,4 +75,21 @@ public class GameSmokeTest {
   assertTrue("Native failure did not settle",settled);
  }
 
+ @Test public void testResponsiveLayout()throws Exception {
+  launch();closeModals();
+  assertEquals("Presentation adapter is attached", "true",js("window.__ssokLayoutReady===true && !!document.getElementById('ssok-layout-style')"));
+  assertEquals("Undecoded company image has a non-recursive fallback", "true",js("(()=>{const im=AS.co_1;try{AS.co_1=new Image();return coImg(0).includes('<svg')}finally{AS.co_1=im}})()"));
+  // Real WebView geometry, not just a desktop CSS parser.
+  assertEquals("Long amounts must fit the HUD", "true",js("S.money=1.23e60;S.fame=1234567890;S.lv=12345;hud();true"));
+  SystemClock.sleep(600);
+  assertEquals("true",js("['money','ips','fame','lvNum'].every(id=>{const e=document.getElementById(id);return e.scrollWidth<=e.clientWidth+2})"));
+  assertEquals("true",js("S.acct={type:'google',id:'layout-test-id',email:'long-layout-test-address@example.invalid'};openSheet('set');true"));
+  SystemClock.sleep(600);
+  assertEquals("Account details wrap inside the card", "true",js("Array.from(document.querySelectorAll('#shBody .ci,#shBody .cd')).every(e=>e.scrollWidth<=e.clientWidth+2)"));
+  assertEquals("true",js("closeSheet();showModal('<img src=\"assets/logo2.png\">','자는 동안 배달했어요','긴 안내'.repeat(300),[['확인','y',closeModal]]);true"));
+  SystemClock.sleep(600);
+  assertEquals("Long popup stays in the viewport and scrolls", "true",js("(()=>{const e=document.getElementById('mbox'),r=e.getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight+1&&e.scrollHeight>e.clientHeight&&getComputedStyle(e).overflowY==='auto'})()"));
+  closeModals();
+ }
+
 }

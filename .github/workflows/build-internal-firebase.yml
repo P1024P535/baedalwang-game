@@ -1,8 +1,8 @@
-name: Build Baedalwang Ranking Internal Test
+name: Build Baedalwang Layout Internal Test
 on:
   workflow_dispatch:
   push:
-    branches: [integration/ranking-20261115]
+    branches: [fix/mobile-layout-20261115]
     paths: ['.github/workflows/build-internal-firebase.yml']
 permissions:
   contents: read
@@ -46,15 +46,15 @@ jobs:
           umask 077
           printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
           (cd android && gradle --no-daemon :app:bundleRelease :app:testReleaseUnitTest)
-          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-ranking-internal-test-1.0.4.aab
-          jarsigner -verify out/baedalwang-ranking-internal-test-1.0.4.aab > out/internal-signature.txt
+          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-layout-internal-test-1.0.5.aab
+          jarsigner -verify out/baedalwang-layout-internal-test-1.0.5.aab > out/internal-signature.txt
           grep -q 'jar verified' out/internal-signature.txt
-          keytool -J-Duser.language=en -printcert -jarfile out/baedalwang-ranking-internal-test-1.0.4.aab > out/internal-certificate.txt
+          keytool -J-Duser.language=en -printcert -jarfile out/baedalwang-layout-internal-test-1.0.5.aab > out/internal-certificate.txt
           grep -q 'C5:28:AF:3B:2D:DE:83:CD:DF:0F:39:BB:D2:E5:B7:30:47:51:44:F7:2B:77:BD:76:96:81:1A:BB:94:B5:63:38' out/internal-certificate.txt
           python3 - <<'PY'
           import json,zipfile,hashlib
           from pathlib import Path
-          p=Path('out/baedalwang-ranking-internal-test-1.0.4.aab')
+          p=Path('out/baedalwang-layout-internal-test-1.0.5.aab')
           m=json.loads(Path('original-manifest.json').read_text())
           with zipfile.ZipFile(p) as z:
               for f in m['files']:
@@ -63,9 +63,9 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: baedalwang-ranking-internal-test-aab
+          name: baedalwang-layout-internal-test-aab
           path: |
-            out/baedalwang-ranking-internal-test-1.0.4.aab
+            out/baedalwang-layout-internal-test-1.0.5.aab
             out/internal-*.txt
             out/source-audit.json
           if-no-files-found: error

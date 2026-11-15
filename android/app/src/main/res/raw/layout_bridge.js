@@ -2,6 +2,13 @@
  'use strict';
  if (window.__ssokLayoutReady) return true;
  window.__ssokLayoutReady = true;
+ // The original coImg fallback calls itself while an image is undecoded/failed.
+ // Return the existing vector building icon instead of recursing indefinitely.
+ if (typeof coImg === 'function') window.coImg = function (i) {
+  const name = 'co_' + (i + 1);
+  if (typeof ok === 'function' && ok(name)) return '<img src="assets/' + name + '.png" style="width:100%;height:100%;object-fit:contain" alt="">';
+  return typeof IC === 'object' && typeof IC.bld === 'function' ? IC.bld('#ff9a3c') : '';
+ };
  // Resize only compact, single-line HUD labels. Body copy wraps at its normal size.
  const labels = [['#money',14],['#ips',10],['#fame',13],['#lvNum',11],['#shTitle',17]];
  const cache = new WeakMap();

@@ -63,6 +63,10 @@ const results = [];
     results.push({fixed,width,height,screen,...data,errors:[...errors]});
     if((width===320&&['main','jobs','veh','set','modal'].includes(screen))||(width===640&&screen==='gate')||(width===393&&screen==='shop'))await page.screenshot({path:path.join(out,`${fixed?'after':'before'}-${width}-${screen}.png`)});
    }
+   if(width===320){
+    const fallback=await page.evaluate(()=>{const image=AS.co_1;try{AS.co_1=new Image();return coImg(0).includes('<svg')?[]:[{type:'missing-image-fallback'}];}catch(e){return [{type:'recursive-image-fallback',message:e.message}];}finally{AS.co_1=image;}});
+    results.push({fixed,width,height,screen:'company-image-loading',issues:fallback,errors:[]});
+   }
    // Language changes re-render the same original views; adapters must fit translated copy too.
    for(const language of ['en','ja','zh','es','pt']){
     await page.evaluate(language=>{document.getElementById('gate')?.remove();LANG=language;S.lang=language;applyLang();closeModal();closeSheet();openSheet('set');},language);
