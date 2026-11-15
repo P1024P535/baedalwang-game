@@ -14,3 +14,6 @@ firebase/node_modules/
 firebase-debug.log
 firestore-debug.log
 .firebase/
+
+billing/functions/node_modules/
+billing/functions/.env*

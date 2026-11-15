@@ -158,4 +158,9 @@ public class GameSmokeTest {
   assertEquals("Keepsakes survive an actual move and save", "true",js("(()=>{closeSheet();S.region=0;applyScale();S.run=R[0][2];const count=S.memories.unlocked.length;doPrestige();document.querySelector('#mbox [data-mb=\"1\"]').click();save();return S.region===1&&S.memories.unlocked.length===count&&JSON.parse(localStorage.getItem('baedal_king_v1')).memories.read.includes('grandma-0')})()"));
  }
 
+ @Test public void testBillingPreparation()throws Exception {
+  launch();closeModals();
+  assertEquals("Billing adapter is bound and paid grants fail closed", "true",js("(()=>{document.querySelectorAll('#boot,#gate,#splash').forEach(e=>e.remove());S=fresh();S.acct={type:'guest'};openSheet('shop');const n=S.fame;buyAct('buy',{dataset:{k:'fame50'}});return !!window.__ssokBilling&&!!document.querySelector('[data-act=billing-restore]')&&document.querySelectorAll('[data-act=buy]:not([disabled])').length===0&&S.fame===n})()"));
+ }
+
 }

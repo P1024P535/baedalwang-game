@@ -170,7 +170,8 @@ final class GameAccounts {
   if(u==null || !guard.loadedFor(u.getUid()) || acct==null || !u.getUid().equals(acct.optString("id")) || !"google".equals(acct.optString("type"))) {error(t,id,"");return;}
   String raw=s.toString();
   if(!guard.permits(u.getUid(),acct.optString("id"),s.optInt("ver"),raw.getBytes(StandardCharsets.UTF_8).length,s.optDouble("total"))) {error(t,id,"저장할 기록을 확인하지 못했어요.");return;}
-  if(saving || (!data.optBoolean("force") && System.currentTimeMillis()-lastSaved<60000)){result(t,id,true,null,"");return;}
+  if(saving){error(t,id,"클라우드 저장이 진행 중이에요. 잠시 후 다시 시도해 주세요.");return;}
+  if(!data.optBoolean("force") && System.currentTimeMillis()-lastSaved<60000){result(t,id,true,null,"");return;}
   saving=true; final long expected=guard.revision(); final DocumentReference ref=doc(u);
   db.runTransaction(tx -> {
    DocumentSnapshot remote=tx.get(ref); long actual=remote.exists()&&remote.contains("rev")?remote.getLong("rev"):0;

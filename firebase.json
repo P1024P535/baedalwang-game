@@ -1,1 +1,20 @@
-{"firestore":{"rules":"firebase/firestore.rules"},"emulators":{"firestore":{"port":8080},"ui":{"enabled":false}}}
+{
+  "firestore": {
+    "rules": "firebase/firestore.rules"
+  },
+  "emulators": {
+    "firestore": {
+      "port": 8080
+    },
+    "ui": {
+      "enabled": false
+    }
+  },
+  "functions": [
+    {
+      "source": "billing/functions",
+      "codebase": "billing",
+      "runtime": "nodejs22"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 plugins { id 'com.android.application' }
+def playBilling = project.hasProperty('playBilling')
 def testAds = !project.hasProperty('liveAds')
 
 android {
@@ -9,8 +10,9 @@ android {
   applicationId 'com.ssokcompany.baedalwang'
   minSdk 24
   targetSdk 36
-  versionCode 15
-  versionName (testAds ? '1.0.13-ads-test' : '1.0.13')
+  versionCode 16
+  versionName (testAds ? '1.0.14-ads-test' : '1.0.14')
+  buildConfigField 'boolean', 'PLAY_BILLING_ENABLED', playBilling.toString()
   buildConfigField 'boolean', 'ADS_TEST_MODE', testAds.toString()
   buildConfigField 'String', 'REWARDED_AD_UNIT', '"' + (testAds ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-8529047857122990/2097149793') + '"'
   buildConfigField 'String', 'BANNER_AD_UNIT', '"' + (testAds ? 'ca-app-pub-3940256099942544/6300978111' : '') + '"'
@@ -38,6 +40,8 @@ android {
 }
 
 dependencies {
+ implementation 'com.android.billingclient:billing:9.1.0'
+ implementation 'com.google.firebase:firebase-functions'
  implementation platform('com.google.firebase:firebase-bom:35.2.0')
  implementation 'com.google.firebase:firebase-auth'
  implementation 'com.google.firebase:firebase-firestore'

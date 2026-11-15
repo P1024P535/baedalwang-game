@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
  private DisplayAds displayAds;
  FrameLayout bannerSlot;
  private GameAccounts accounts;
+ private GameBilling billing;
  @Override public void onCreate(Bundle state) {
   super.onCreate(state);
   FrameLayout root = new FrameLayout(this);
@@ -36,6 +37,7 @@ public class MainActivity extends Activity {
   rewardAds=new RewardAds(this,web,privacy,adGate);
   displayAds=new DisplayAds(this,web,bannerSlot,adGate);
   accounts=new GameAccounts(this,web);
+  billing=new GameBilling(this,web,adGate);
   setContentView(root);
   if (android.os.Build.VERSION.SDK_INT >= 30) {
    getWindow().setDecorFitsSystemWindows(false);
@@ -60,8 +62,8 @@ public class MainActivity extends Activity {
   web.setBackgroundColor(Color.rgb(21,37,29));
   web.setOverScrollMode(View.OVER_SCROLL_NEVER);
   web.setWebViewClient(new WebViewClient() {
-   @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap icon) { rewardAds.pageStarted(); displayAds.pageStarted(); accounts.pageStarted(); }
-   @Override public void onPageFinished(WebView view,String url) { LayoutUi.attach(view); accounts.attach(); rewardAds.attach(); displayAds.attach(); }
+   @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap icon) { rewardAds.pageStarted(); displayAds.pageStarted(); accounts.pageStarted(); billing.pageStarted(); }
+   @Override public void onPageFinished(WebView view,String url) { LayoutUi.attach(view); accounts.attach(); rewardAds.attach(); displayAds.attach(); billing.attach(); }
    @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
     Uri uri=request.getUrl();
     if ("file".equals(uri.getScheme()) && uri.toString().startsWith("file:///android_asset/")) return false;
@@ -90,11 +92,12 @@ public class MainActivity extends Activity {
   super.onPause();
  }
  @Override public void onConfigurationChanged(android.content.res.Configuration c){super.onConfigurationChanged(c);if(displayAds!=null)displayAds.resize();}
- @Override protected void onResume(){super.onResume();if(displayAds!=null)displayAds.resume();}
+ @Override protected void onResume(){super.onResume();if(displayAds!=null)displayAds.resume();if(billing!=null)billing.resume();}
  @Override public void onBackPressed() {
   if(web!=null && web.canGoBack()) web.goBack(); else super.onBackPressed();
  }
  @Override protected void onDestroy() {
+  if(billing!=null)billing.destroy();
   if(displayAds!=null)displayAds.destroy();
   if(accounts!=null)accounts.destroy();
   if(rewardAds!=null)rewardAds.destroy();

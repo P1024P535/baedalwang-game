@@ -53,14 +53,15 @@
  PLATFORM.cloudLoad = function (done) { request('load', {}, (ok, data) => {done(ok ? data : null);if(ok&&activeUser)bindRanking(activeUser);}); };
  PLATFORM.cloudSave = function (data, force) {
   // An immutable snapshot is bound to the currently signed-in game account.
+  if ((typeof billingPending==='boolean'&&billingPending)||(typeof billingNeedsReload==='boolean'&&billingNeedsReload))return;
   if (!data || !data.acct || data.acct.type !== 'google') return;
   request('save', {save:data, force:force === true}, () => {});
  };
  PLATFORM.deleteAccount = function (done) { request('delete', {}, ok => done(ok)); };
- // Purchases stay unavailable until merchant setup and verified billing are ready.
- PLATFORM.purchase = function(id,done) {done(false);if(typeof toast==='function')toast('결제 상품을 준비 중이에요.');};
- if (typeof buyAct === 'function') {const originalBuy=buyAct;buyAct=function(a,b){if(a==='buy'){toast('결제 상품을 준비 중이에요.');return true;}return originalBuy(a,b);};}
- if (typeof shopHTML === 'function') {const originalShop=shopHTML;shopHTML=function(){return '<div class="tip">결제 상품 준비 중 · 현재 구매할 수 없어요.</div>'+originalShop().replace(/data-act="buy"/g,'data-act="buy" disabled').replace(/<small>테스트<\/small>/g,'<small>준비 중</small>').replace(/<div class="tip">지금은 <b>테스트 버전<\/b>.*?<\/div>/,'');};}
+ // Fail closed until the independently bound Play adapter is ready.
+ PLATFORM.purchase=function(id,done){done(false);if(typeof toast==='function')toast('Google Play 결제 연결을 확인해 주세요.');};
+ PLATFORM.billingFlush=function(data,done){request('save',{save:data,force:true},ok=>done(ok));};
+ PLATFORM.billingReload=function(done){request('load',{},(ok,data)=>done(ok,data));};
  Object.defineProperty(window, '__ssokAccountBridgeReady' , {value:true});
  request('current', {}, (ok, user) => {
   // Never silently upload a guest save or another account's local progress.
