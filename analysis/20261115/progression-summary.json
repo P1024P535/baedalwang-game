@@ -1,0 +1,275 @@
+{
+  "source_commit": "8fadb59ccc764be94868a70d2b1d68b41e96698a",
+  "source_index_sha256": "f6708de65e880964bdbafadce6646d76f9fc808ddeb97173303f9fd307dcd024",
+  "model": "1-second economic model; one purchase decision every 2 seconds; approximate scene rewards and response probabilities",
+  "seeds": [
+    1,
+    300,
+    1200,
+    1700,
+    314159
+  ],
+  "start_time": "2026-11-15T09:00:00+09:00",
+  "profiles": [
+    {
+      "name": "continuous-free",
+      "configuration": {
+        "name": "continuous-free",
+        "tps": 2,
+        "ads": false,
+        "days": 30,
+        "seed": 1,
+        "step": 1,
+        "world": true
+      },
+      "samples": 5,
+      "elapsed_days_min": 0.20581018518518518,
+      "elapsed_days_max": 0.2603009259259259,
+      "active_hours_min": 4.939444444444445,
+      "active_hours_max": 6.247222222222222,
+      "ads_min": 0,
+      "ads_max": 0
+    },
+    {
+      "name": "once-free-30min",
+      "configuration": {
+        "name": "once-free-30min",
+        "tps": 1,
+        "ads": false,
+        "sessions": [
+          [
+            0,
+            1800
+          ]
+        ],
+        "days": 90,
+        "seed": 1,
+        "step": 1,
+        "world": true
+      },
+      "samples": 5,
+      "elapsed_days_min": 8.014398148148148,
+      "elapsed_days_max": 10.019849537037038,
+      "active_hours_min": 4.345555555555555,
+      "active_hours_max": 5.476388888888889,
+      "ads_min": 0,
+      "ads_max": 0
+    },
+    {
+      "name": "casual-free-30min",
+      "configuration": {
+        "name": "casual-free-30min",
+        "tps": 1,
+        "ads": false,
+        "sessions": [
+          [
+            0,
+            900
+          ],
+          [
+            43200,
+            900
+          ]
+        ],
+        "days": 90,
+        "seed": 1,
+        "step": 1,
+        "world": true
+      },
+      "samples": 5,
+      "elapsed_days_min": 9.0084375,
+      "elapsed_days_max": 10.50099537037037,
+      "active_hours_min": 4.7025,
+      "active_hours_max": 5.273888888888889,
+      "ads_min": 0,
+      "ads_max": 0
+    },
+    {
+      "name": "active-free-60min",
+      "configuration": {
+        "name": "active-free-60min",
+        "tps": 2,
+        "ads": false,
+        "sessions": [
+          [
+            0,
+            900
+          ],
+          [
+            14400,
+            900
+          ],
+          [
+            28800,
+            900
+          ],
+          [
+            43200,
+            900
+          ]
+        ],
+        "days": 90,
+        "seed": 1,
+        "step": 1,
+        "world": true
+      },
+      "samples": 5,
+      "elapsed_days_min": 4.171712962962963,
+      "elapsed_days_max": 4.509872685185186,
+      "active_hours_min": 4.371111111111111,
+      "active_hours_max": 4.986944444444444,
+      "ads_min": 0,
+      "ads_max": 0
+    },
+    {
+      "name": "active-ads-60min",
+      "configuration": {
+        "name": "active-ads-60min",
+        "tps": 2,
+        "ads": true,
+        "sessions": [
+          [
+            0,
+            900
+          ],
+          [
+            14400,
+            900
+          ],
+          [
+            28800,
+            900
+          ],
+          [
+            43200,
+            900
+          ]
+        ],
+        "days": 90,
+        "seed": 1,
+        "step": 1,
+        "world": true
+      },
+      "samples": 5,
+      "elapsed_days_min": 2.5046643518518517,
+      "elapsed_days_max": 3.004652777777778,
+      "active_hours_min": 2.8619444444444446,
+      "active_hours_max": 3.111666666666667,
+      "ads_min": 260,
+      "ads_max": 287
+    },
+    {
+      "name": "legacy-premium-warp",
+      "configuration": {
+        "name": "legacy-premium-warp",
+        "tps": 2,
+        "ads": true,
+        "premium": true,
+        "uncappedWarp": true,
+        "days": 3,
+        "seed": 1,
+        "step": 1,
+        "world": true
+      },
+      "samples": 5,
+      "elapsed_days_min": 0.07744212962962962,
+      "elapsed_days_max": 0.0783912037037037,
+      "active_hours_min": 1.8586111111111112,
+      "active_hours_max": 1.881388888888889,
+      "ads_min": 0,
+      "ads_max": 0
+    }
+  ],
+  "continuous_milestones": [
+    {
+      "region": "시골 동네",
+      "median_elapsed_minutes": 1.5166666666666666,
+      "goal_first_cycle": 30000000
+    },
+    {
+      "region": "면소재지",
+      "median_elapsed_minutes": 4.616666666666666,
+      "goal_first_cycle": 4500000000
+    },
+    {
+      "region": "화성시",
+      "median_elapsed_minutes": 8.783333333333333,
+      "goal_first_cycle": 450000000000
+    },
+    {
+      "region": "경기도",
+      "median_elapsed_minutes": 19.316666666666666,
+      "goal_first_cycle": 54000000000000
+    },
+    {
+      "region": "광역시",
+      "median_elapsed_minutes": 33.016666666666666,
+      "goal_first_cycle": 6480000000000000
+    },
+    {
+      "region": "특별시",
+      "median_elapsed_minutes": 64.33333333333333,
+      "goal_first_cycle": 36450000000000000000
+    },
+    {
+      "region": "아시아",
+      "median_elapsed_minutes": 103.25,
+      "goal_first_cycle": 583200000000000000000
+    },
+    {
+      "region": "지구",
+      "median_elapsed_minutes": 196.28333333333333,
+      "goal_first_cycle": 8.748e+21
+    },
+    {
+      "region": "우주",
+      "median_elapsed_minutes": 362.98333333333335,
+      "goal_first_cycle": 6.561e+22
+    }
+  ],
+  "rocket_and_clear": [
+    {
+      "seed": 1,
+      "first_rocket_minutes": 61.233333333333334,
+      "clear_minutes": 363.05
+    },
+    {
+      "seed": 300,
+      "first_rocket_minutes": 63.46666666666667,
+      "clear_minutes": 374.8333333333333
+    },
+    {
+      "seed": 1200,
+      "first_rocket_minutes": 63.3,
+      "clear_minutes": 344.96666666666664
+    },
+    {
+      "seed": 1700,
+      "first_rocket_minutes": 55.6,
+      "clear_minutes": 296.3666666666667
+    },
+    {
+      "seed": 314159,
+      "first_rocket_minutes": 64.03333333333333,
+      "clear_minutes": 362.98333333333335
+    }
+  ],
+  "premium_cap_reproduction": {
+    "normal_before": 3,
+    "normal_after_3": 0,
+    "premium_before": 3,
+    "premium_after_100": 3
+  },
+  "screenshot_coefficient_check": {
+    "newspaper": 4515.84,
+    "milk": 24084.480000000003,
+    "ips": 10429296.64
+  },
+  "limits": [
+    "not a real device playthrough",
+    "greedy investment and prompt reward claims/moves",
+    "scene movement averaged; combat success modeled",
+    "ad video time excluded: normal ad-heavy profile requires 260-287 videos and is not a typical 60-minute total-use forecast",
+    "paid IAP, ranked rewards and Christmas shop spending excluded"
+  ]
+}
