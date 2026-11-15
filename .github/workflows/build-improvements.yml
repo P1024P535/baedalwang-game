@@ -29,6 +29,7 @@ jobs:
           node scripts/test-banner-layout.cjs
           node --test billing/functions/test-billing.cjs
           node scripts/test-billing-bridge.cjs
+          node scripts/test-billing-income.cjs
           node scripts/test-account-bridge.mjs
           node scripts/test-rank-bridge.mjs
           node scripts/test-reward-bridge.mjs

@@ -47,5 +47,6 @@ Play Console 접근은 자동 승인 검토에서 차단되어 위 콘솔 작업
 - `python3 scripts/prepare-original.py`: 원본 495개 파일 동일성 확인, 개선 코드 별도 주입.
 - `node --test billing/functions/test-billing.cjs`: 결제 상태·계정·9개 상품·중복/승인 재시도·원장 원자성·복원·SSR 보관 검증.
 - `node scripts/test-billing-bridge.cjs`: 이전 페이지 응답/중복 응답/계정 변경/타임아웃/기기 보상 우회 금지.
+- `node scripts/test-billing-income.cjs`: 기존 게임 수익과 서버 워프 계산의 요일·지역·탈것 조합819개 일치 확인.
 - 기존 게임/저장/광고/스토리 회귀 테스트 유지. Android 빌드 및 WebView 계측 결과는 GitHub Actions 실행 결과를 확인한다.
 - 이 테스트는 실제 Play 구매나 배포된 Firebase 서버 검증을 대체하지 않는다. 게임 저장은 기존 클라이언트 경제 구조를 유지하며 완전한 서버 기반 치트 방어는 제공하지 않는다.

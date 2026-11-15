@@ -28,8 +28,8 @@ function billingWork(){
  if(billingPending||!BILLING.jobs.length||!billingAccount())return;
  const job=BILLING.jobs.shift();billingBlock(true);
  billingFlush(ok=>{if(!ok){billingDone('기록 저장을 확인하지 못했어요. 다시 구매하지 말고 구매 복원을 눌러 주세요.');return;}
-  billingRpc('verify',job.id,(ok,data,message)=>{
-   if(!ok){billingDone(message||'구매 확인이 지연되고 있어요. 구매 복원으로 다시 확인해 주세요.');return;}
+  billingNeedsReload=true;billingRpc('verify',job.id,(ok,data,message)=>{
+   if(!ok){billingReload(()=>billingDone(message||'구매 확인이 지연되고 있어요. 구매 복원으로 다시 확인해 주세요.'));return;}
    billingNeedsReload=true;billingReload(ok=>billingDone(ok?'구매 상품이 확인되어 기록에 반영됐어요.':'구매는 확인됐어요. 기록을 다시 불러오려면 구매 복원을 눌러 주세요.'));
   });
  });
@@ -39,7 +39,7 @@ function billingRestore(){
  if(billingPending)return;if(!billingAccount()){toast('Google 로그인 후 구매 복원을 이용해 주세요.');return;}
  billingBlock(true);billingFlush(ok=>{
   if(!ok){billingDone('클라우드 기록을 먼저 확인해 주세요.');return;}
-  billingRpc('restore','',(ok,data,message)=>{if(!ok){billingDone(message||'구매 복원을 완료하지 못했어요.');return;}billingNeedsReload=true;billingReload(ok=>billingDone(ok?'구매 기록을 복원했어요.':'구매 기록을 다시 불러오지 못했어요. 잠시 후 다시 시도해 주세요.'));});
+  billingNeedsReload=true;billingRpc('restore','',(ok,data,message)=>{if(!ok){billingReload(()=>billingDone(message||'구매 복원을 완료하지 못했어요.'));return;}billingNeedsReload=true;billingReload(ok=>billingDone(ok?'구매 기록을 복원했어요.':'구매 기록을 다시 불러오지 못했어요. 잠시 후 다시 시도해 주세요.'));});
  });
 }
 const billingBuy=buyAct;
