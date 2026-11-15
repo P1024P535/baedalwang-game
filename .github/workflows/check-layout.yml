@@ -1,0 +1,27 @@
+name: Mobile layout audit
+on:
+  push:
+    branches: [fix/mobile-layout-20261115]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  layout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install pinned visual test browser
+        run: |
+          npm install --prefix "$RUNNER_TEMP/layout-tools" playwright@1.58.2 --no-audit --no-fund
+          "$RUNNER_TEMP/layout-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Check phone sizes, landscape, long text and original image ratios
+        run: NODE_PATH="$RUNNER_TEMP/layout-tools/node_modules" node scripts/check-layout.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-layout-audit
+          path: out/layout/
