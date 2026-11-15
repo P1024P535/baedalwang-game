@@ -51,6 +51,7 @@ function careerTasks(){
 }
 function careerProgress(t){return Math.max(0,careerCounter(t.key)-(careerState().run.base[t.key]||0));}
 function careerAction(a,b){
+ if(a==='career-open'){const board=document.querySelector('.career-board');if(board){board.open=true;board.scrollIntoView({block:'start',behavior:'smooth'});}return true;}
  if(!['career-award','career-equip','career-contract'].includes(a))return false;
  const c=careerState(),id=b.dataset.id;
  if(a==='career-contract'){
@@ -70,14 +71,18 @@ function careerHTML(){
  const c=careerState(),tasks=careerTasks(),theme=S.clears?CAREER_THEMES[(S.clears-1)%3]:null;
  const badge=CAREER_BADGES.find(x=>x.id===c.badge&&c.claimed.includes(x.id));
  return `<details class="career-board" ${S.clears?'open':''}><summary>${L('나의 배달 여정','My delivery journey')} · ${S.clears||0}회 완주 · ${c.claimed.length}/${CAREER_BADGES.length} 칭호</summary>
- <p>${badge?'★ '+badge.name:L('첫 화성 배달 후 전용 칭호와 여정 계약이 열려요.','Complete your first Mars delivery to unlock journey contracts and titles.')}</p>
+ <p>${badge?'★ '+badge.name:S.clears?L('아래에서 완주 칭호를 받고 이번 여정 계약에 도전해 보세요.','Claim your completion titles and try this journey’s contracts below.'):L('첫 화성 배달 후 전용 칭호와 여정 계약이 열려요.','Complete your first Mars delivery to unlock journey contracts and titles.')}</p>
  ${theme?`<div class="sec">${S.clears+1}회차 · ${theme.name}</div><p>${theme.story}</p><p class="tip">참여는 자유예요. 지역을 옮겨도 계약 진행은 이어지고, 회차를 마치면 새로운 계약이 열려요.</p>${tasks.map(t=>{const done=c.run.done.includes(t.key),p=Math.min(t.target,careerProgress(t));return`<div class="career-task"><div><b>${t.title}</b><small>${p} / ${t.target} · 명성 +2</small></div><button class="gb ${done?'own':'y'}" data-act="career-contract" data-id="${t.key}" ${done||p<t.target?'disabled':''}>${done?'완료':'받기'}</button></div>`;}).join('')}`:''}
  <div class="career-collection">${CAREER_BADGES.map(x=>{const owned=c.claimed.includes(x.id),ready=S.clears>=x.n;return`<button class="gb ${owned?'own':ready?'y':''}" data-act="${owned?'career-equip':'career-award'}" data-id="${x.id}" ${ready?'':'disabled'}>${x.name}<small>${owned?(x.id===c.badge?'장착 중':'칭호 장착'):`${x.n}회 완주 · 명성 +${x.fame}`}</small></button>`;}).join('')}</div></details>`;
 }
 const retentionAct=onAct;
 onAct=function(b){if(careerAction(b.dataset.act,b))return;return retentionAct(b);};
 const retentionRender=render;
-render=function(){retentionRender();if(tab==='region')$('shBody').insertAdjacentHTML('beforeend',careerHTML());};
+render=function(){retentionRender();if(tab==='region'){
+ $('shBody').insertAdjacentHTML('beforeend',careerHTML());
+ const ready=CAREER_BADGES.filter(x=>S.clears>=x.n&&!careerState().claimed.includes(x.id)).length;
+ $('shSub').insertAdjacentHTML('beforeend',`<button class="gb career-shortcut" data-act="career-open">${L('여정·칭호 보기','Journey & titles')}${ready?' +'+ready:''}</button>`);
+}};
 const retentionCol=colHTML;
 colHTML=function(){return retentionCol()+(colTab==='st'?careerHTML():'');};
 const retentionScene=scene;
