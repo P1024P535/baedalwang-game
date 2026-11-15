@@ -1,8 +1,8 @@
-name: Build Baedalwang Firebase integration
+name: Build Baedalwang Ranking integration
 on:
   workflow_dispatch:
   push:
-    branches: [integration/firebase-20261115]
+    branches: [integration/ranking-20261115]
     paths: ['index.html', 'assets/**', 'original-manifest.json', 'android/**', 'scripts/**', 'firebase/**', 'firebase.json', '.github/workflows/build-claude-final.yml']
 permissions:
   contents: read
@@ -40,6 +40,7 @@ jobs:
         run: |
           node scripts/test-reward-bridge.mjs
           node scripts/test-account-bridge.mjs
+          node scripts/test-rank-bridge.mjs
       - name: Install required Android SDK
         shell: bash
         run: |
@@ -92,34 +93,34 @@ jobs:
           (cd "$LEGACY_PROJECT/android" && gradle --no-daemon :app:assembleDebugAndroidTest)
           cp "$LEGACY_PROJECT/android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk" out/legacy-androidTest.apk
           (cd android && gradle --no-daemon -PliveAds :app:bundleRelease)
-          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-claude-final-1.0.3.aab
+          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-claude-final-1.0.4.aab
           (cd android && gradle --no-daemon :app:assembleRelease :app:assembleDebugAndroidTest :app:testReleaseUnitTest)
-          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-claude-final-1.0.3.apk
-          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-claude-final-1.0.3.apk | tee out/apk-signature.txt
+          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-claude-final-1.0.4.apk
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-claude-final-1.0.4.apk | tee out/apk-signature.txt
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk > out/test-signature.txt
           diff <(grep 'certificate SHA-256 digest' out/apk-signature.txt) <(grep 'certificate SHA-256 digest' out/test-signature.txt)
-          jarsigner -verify out/baedalwang-claude-final-1.0.3.aab | tee out/aab-signature.txt
+          jarsigner -verify out/baedalwang-claude-final-1.0.4.aab | tee out/aab-signature.txt
           grep -q 'jar verified' out/aab-signature.txt
           curl -fsSL --retry 3 https://github.com/google/bundletool/releases/download/1.18.2/bundletool-all-1.18.2.jar -o "$RUNNER_TEMP/bundletool.jar"
-          java -jar "$RUNNER_TEMP/bundletool.jar" validate --bundle=out/baedalwang-claude-final-1.0.3.aab > out/bundle-validation.txt
+          java -jar "$RUNNER_TEMP/bundletool.jar" validate --bundle=out/baedalwang-claude-final-1.0.4.aab > out/bundle-validation.txt
           PREVIOUS_AAB="$(find out/previous-aab -name '*.aab' -type f | head -1)"
           java -jar "$RUNNER_TEMP/bundletool.jar" build-apks --bundle="$PREVIOUS_AAB" --output="$RUNNER_TEMP/previous.apks" --mode=universal --ks="$BAEDALWANG_KEYSTORE_PATH" --ks-key-alias="$BAEDALWANG_KEY_ALIAS" --ks-pass="file:$STOREPASS_FILE" --key-pass="file:$KEYPASS_FILE"
           unzip -p "$RUNNER_TEMP/previous.apks" universal.apk > out/previous-claude.apk
-          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-claude-final-1.0.3.apk > out/apk-metadata.txt
-          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='4'" out/apk-metadata.txt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-claude-final-1.0.4.apk > out/apk-metadata.txt
+          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='5'" out/apk-metadata.txt
           grep -q "targetSdkVersion:'36'" out/apk-metadata.txt
           python3 scripts/verify-artifacts.py
       - name: Upload installable signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: baedalwang-firebase-test-ads-apk
-          path: out/baedalwang-claude-final-1.0.3.apk
+          name: baedalwang-ranking-test-ads-apk
+          path: out/baedalwang-claude-final-1.0.4.apk
           if-no-files-found: error
       - name: Upload signed Play AAB
         uses: actions/upload-artifact@v4
         with:
-          name: baedalwang-firebase-live-signed-aab
-          path: out/baedalwang-claude-final-1.0.3.aab
+          name: baedalwang-ranking-live-signed-aab
+          path: out/baedalwang-claude-final-1.0.4.aab
           if-no-files-found: error
       - name: Enable KVM for Android emulator
         run: |
@@ -140,7 +141,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: baedalwang-firebase-verification
+          name: baedalwang-ranking-verification
           path: |
             out/*.json
             out/*.txt
@@ -151,7 +152,7 @@ jobs:
         if: always()
         run: |
           echo '## Claude final ZIP Android build' >> "$GITHUB_STEP_SUMMARY"
-          echo 'Package: com.ssokcompany.baedalwang · versionCode 4 · target API 36' >> "$GITHUB_STEP_SUMMARY"
+          echo 'Package: com.ssokcompany.baedalwang · versionCode 5 · target API 36' >> "$GITHUB_STEP_SUMMARY"
           echo 'Original ZIP: c09fecbcafd90d7fb85f0af8c08eab14181d2b5004339d0172eb797ed8badef7 · expected 495 files' >> "$GITHUB_STEP_SUMMARY"
           test ! -f out/emulator/result.txt || cat out/emulator/result.txt >> "$GITHUB_STEP_SUMMARY"
           echo 'AdMob app and rewarded IDs configured in live AAB. APK uses official Google test ads. Native Google sign-in and protected cloud saving configured; Firebase live account/device validation and billing remain pending. Physical-device verification and final Play publishing approval are still required. No Play upload or publishing was performed.' >> "$GITHUB_STEP_SUMMARY"

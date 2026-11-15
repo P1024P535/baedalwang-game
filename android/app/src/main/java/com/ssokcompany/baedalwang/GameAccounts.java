@@ -43,10 +43,12 @@ final class GameAccounts {
  private final FirebaseAuth auth;
  private final FirebaseFirestore db;
  private final CredentialManager credentials;
+ private final RankStore ranks;
+ private final android.content.SharedPreferences accountState;
  private String token = "";
  private final CloudSaveGuard guard = new CloudSaveGuard();
  private long lastSaved;
- private boolean destroyed, signingIn, saving, loading;
+ private boolean destroyed, signingIn, saving, loading, deleting;
  private CancellationSignal signal;
  GameAccounts(Activity activity, WebView web) {
   this.activity=activity; this.web=web;
@@ -59,13 +61,22 @@ final class GameAccounts {
   } else app=FirebaseApp.getInstance();
   auth=FirebaseAuth.getInstance(app); db=FirebaseFirestore.getInstance(app);
   credentials=CredentialManager.create(activity);
+  ranks=new RankStore(auth,db);
+  accountState=activity.getSharedPreferences("ssok-account-state",android.content.Context.MODE_PRIVATE);
   web.addJavascriptInterface(this,"SsokAccounts");
  }
  void pageStarted() {
   token=UUID.randomUUID().toString(); guard.reset(); lastSaved=0;
   if(signal!=null)signal.cancel();
  }
- void attach() {
+ void attach(){clearDeletedLocal(()->attachBridge());}
+ private void clearDeletedLocal(Runnable next) {
+  if(destroyed||!trusted())return;
+  String uid=accountState.getString("deletedUid","");if(uid.isEmpty()){next.run();return;}
+  String script="(function(){try{var q=JSON.parse(localStorage.getItem('baedal_king_v1')||'null');if(q&&q.acct&&q.acct.id==="+JSONObject.quote(uid)+"){localStorage.removeItem('baedal_king_v1');location.reload();return true;}}catch(e){}return false;})()";
+  web.evaluateJavascript(script,result->{if(!"true".equals(result)){accountState.edit().remove("deletedUid").apply();next.run();}});
+ }
+ private void attachBridge() {
   if(destroyed || !trusted())return;
   try(InputStream in=activity.getResources().openRawResource(R.raw.account_bridge)) {
    java.io.ByteArrayOutputStream out=new java.io.ByteArrayOutputStream(); byte[] b=new byte[4096]; int n;
@@ -93,6 +104,7 @@ final class GameAccounts {
    try {
     JSONObject data=new JSONObject(json);
     switch(op) {
+     case "rankSet": case "rankQuery": case "rankDelete": if(deleting){error(t,id,"");break;}ranks.handle(op,data,(ok,value,msg)->result(t,id,ok,value,msg));break;
      case "current": result(t,id,true,user(),""); break;
      case "signIn": signIn(t,id); break;
      case "signOut": signOut(t,id); break;
@@ -105,7 +117,7 @@ final class GameAccounts {
   });
  }
  private void signIn(String t,String id) {
-  if(signingIn || saving || loading){error(t,id,"계정 작업이 이미 진행 중이에요. 잠시 후 다시 시도해 주세요.");return;}
+  if(signingIn || saving || loading || deleting){error(t,id,"계정 작업이 이미 진행 중이에요. 잠시 후 다시 시도해 주세요.");return;}
   signingIn=true; guard.reset(); signal=new CancellationSignal();
   GetSignInWithGoogleOption option=new GetSignInWithGoogleOption.Builder("679371652571-cjugeif926p2gi265jedc32kjb8ovrkv.apps.googleusercontent.com").build();
   GetCredentialRequest req=new GetCredentialRequest.Builder().addCredentialOption(option).build();
@@ -128,7 +140,7 @@ final class GameAccounts {
   });
  }
  private void signOut(String t,String id) {
-  if(signingIn || saving || loading){error(t,id,"계정 작업이 끝난 뒤 다시 시도해 주세요.");return;}
+  if(signingIn || saving || loading || deleting){error(t,id,"계정 작업이 끝난 뒤 다시 시도해 주세요.");return;}
   guard.reset(); auth.signOut();
   credentials.clearCredentialStateAsync(new ClearCredentialStateRequest(),null,executor,new CredentialManagerCallback<Void,ClearCredentialException>() {
    @Override public void onResult(Void v){result(t,id,true,null,"");}
@@ -138,7 +150,7 @@ final class GameAccounts {
  private DocumentReference doc(FirebaseUser u){return db.collection("users").document(u.getUid());}
  private boolean sameUser(FirebaseUser u){return auth.getCurrentUser()!=null && auth.getCurrentUser().getUid().equals(u.getUid());}
  private void load(String t,String id) {
-  if(loading || saving || signingIn){error(t,id,"계정 작업이 끝난 뒤 다시 시도해 주세요.");return;}
+  if(loading || saving || signingIn || deleting){error(t,id,"계정 작업이 끝난 뒤 다시 시도해 주세요.");return;}
   FirebaseUser u=auth.getCurrentUser(); guard.reset();
   if(u==null || u.isAnonymous()){error(t,id,"");return;}
   loading=true;
@@ -163,22 +175,29 @@ final class GameAccounts {
   db.runTransaction(tx -> {
    DocumentSnapshot remote=tx.get(ref); long actual=remote.exists()&&remote.contains("rev")?remote.getLong("rev"):0;
    if(actual!=expected)throw new IllegalStateException("save-conflict");
-   Map<String,Object> value=new HashMap<>();value.put("save",raw);value.put("total",s.optDouble("total"));value.put("ver","1.0.3");value.put("rev",expected+1);value.put("updated",FieldValue.serverTimestamp());
+   Map<String,Object> value=new HashMap<>();value.put("save",raw);value.put("total",s.optDouble("total"));value.put("ver","1.0.4");value.put("rev",expected+1);value.put("updated",FieldValue.serverTimestamp());
    tx.set(ref,value);return expected+1;
   }).addOnSuccessListener(next -> {saving=false;if(valid(t)&&sameUser(u)){guard.saved(expected,next);lastSaved=System.currentTimeMillis();result(t,id,true,null,"");}})
    .addOnFailureListener(e -> {saving=false;if(valid(t)){guard.reset();error(t,id,"클라우드 저장을 중지했어요. 기기 기록은 유지돼요. 다시 로그인해 기록을 확인해 주세요.");}});
  }
  private void delete(String t,String id) {
   FirebaseUser u=auth.getCurrentUser();
-  if(u==null || signingIn || saving || loading){error(t,id,"계정을 확인한 뒤 다시 시도해 주세요.");return;}
+  if(u==null || signingIn || saving || loading || deleting){error(t,id,"계정을 확인한 뒤 다시 시도해 주세요.");return;}
   // The existing game requires two explicit confirmations before this method is invoked.
   // Require a recent sign-in before touching cloud data.
   long signedAt=u.getMetadata()==null?0:u.getMetadata().getLastSignInTimestamp();
   if(System.currentTimeMillis()-signedAt>120000){error(t,id,"안전한 탈퇴를 위해 로그아웃 후 다시 로그인해 주세요.");return;}
   guard.reset();
-  doc(u).delete().continueWithTask(task -> {if(!task.isSuccessful())throw task.getException();return u.delete();})
-   .addOnSuccessListener(v -> result(t,id,true,null,""))
-   .addOnFailureListener(e -> error(t,id,"탈퇴를 완료하지 못했어요. 다시 로그인 후 시도해 주세요."));
+  deleting=true;
+  com.google.firebase.firestore.DocumentReference marker=db.collection("deletedAccounts").document(u.getUid());
+  marker.get(Source.SERVER).continueWithTask(task->{
+   if(!task.isSuccessful())throw task.getException();
+   return task.getResult().exists()?com.google.android.gms.tasks.Tasks.<Void>forResult(null):marker.set(java.util.Collections.singletonMap("at",FieldValue.serverTimestamp()));
+  }).continueWithTask(task->{if(!task.isSuccessful())throw task.getException();return ranks.deleteAll(u);})
+   .continueWithTask(task->{if(!task.isSuccessful())throw task.getException();return doc(u).delete();})
+   .continueWithTask(task->{if(!task.isSuccessful())throw task.getException();return u.delete();})
+   .addOnSuccessListener(v->{deleting=false;accountState.edit().putString("deletedUid",u.getUid()).apply();clearDeletedLocal(()->result(t,id,true,null,""));})
+   .addOnFailureListener(e->{deleting=false;error(t,id,"탈퇴를 완료하지 못했어요. 다시 로그인 후 탈퇴를 재시도해 주세요.");});
  }
  void destroy(){destroyed=true;if(signal!=null)signal.cancel();web.removeJavascriptInterface("SsokAccounts");}
 }
