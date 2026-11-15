@@ -70,7 +70,7 @@ function memoryGoal(e){
 function memoryOpen(id){
  syncMemories(true);const m=memoryState(),e=memoryEpisodes().find(e=>e.id===id);if(!e||!m.unlocked.includes(id))return;
  if(!m.read.includes(id))m.read.push(id);save();
- showModal(IC.scroll,e.arc.name+' · '+e.title,`<p class="memory-copy">${e.text}</p><div class="tip">기념품: <b>${e.item}</b><br>이사해도 이야기와 기념품은 남아요.</div>`,[['기록장으로','y',closeModal]]);hud();
+ showModal(IC.gift,e.arc.name,`<h3 class="memory-title">${e.title}</h3><p class="memory-copy">${e.text}</p><div class="tip">기념품: <b>${e.item}</b><br>이사해도 이야기와 기념품은 남아요.</div>`,[['기록장으로','y',closeModal]]);hud();
 }
 function memoriesHTML(){
  syncMemories(true);const m=memoryState(),all=memoryEpisodes(),featured=all.find(e=>e.id===m.featured&&m.unlocked.includes(e.id));
@@ -97,7 +97,11 @@ onAct=function(b){const a=b.dataset.act;
 const memoriesHud=hud;
 hud=function(){if(Date.now()-memoryLastSync>1000){memoryLastSync=Date.now();const added=syncMemories();if(added&&tab==='col'&&colTab==='memory'){const top=$('shBody').scrollTop;render();$('shBody').scrollTop=top;}}memoriesHud();};
 const memoriesRender=render;
-render=function(){memoriesRender();if(tab==='comp'){
+let memoryRenderedView='';
+render=function(){const view=tab+':'+colTab,top=$('shBody').scrollTop;memoriesRender();
+ if(tab==='col'&&colTab==='memory')$('shBody').scrollTop=memoryRenderedView===view?top:0;
+ memoryRenderedView=view;
+ if(tab==='comp'){
  const e=memoryEpisodes().find(e=>e.id===memoryState().featured&&memoryState().unlocked.includes(e.id));
  if(e)$('shBody').insertAdjacentHTML('beforeend',`<div class="tip memory-company">회사 기념품: <b>${e.item}</b><button class="gb" data-act="memory-open">인연 기록장</button></div>`);
 }};
