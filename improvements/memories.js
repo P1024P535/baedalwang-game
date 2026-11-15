@@ -53,7 +53,7 @@ function syncMemories(silent=false){
  }
  for(const id of S.dex?.s||[])if(MEMORY_STAFF_BIOS[id]&&!m.staff.includes(id)){m.staff.push(id);added++;}
  if(!m.featured&&m.unlocked.length)m.featured=m.unlocked[0];
- if(added||migration)save();
+ // Derived unlocks join the existing autosave; do not refresh S.last before welcome/offline earnings.
  if(added&&!migration&&!silent&&!tab&&!mOpen&&Date.now()-memoryLastToast>15000&&!document.hidden&&!$('splash')&&!$('gate')?.classList.contains('on')){
   toast(L('새 인연 기록이 도감에 도착했어요','New memories arrived in your collection'));memoryLastToast=Date.now();
  }
