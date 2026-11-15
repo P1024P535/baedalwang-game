@@ -13,7 +13,7 @@ run_test() {
 run_test testSeedCompatibleSave
 adb shell am force-stop com.ssokcompany.baedalwang
 adb logcat -c
-adb install -r out/baedalwang-claude-final-1.0.2.apk
+adb install -r out/baedalwang-claude-final-1.0.3.apk
 adb install -r android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
 # Verify the upgrade and restart without network access.
 adb shell svc wifi disable

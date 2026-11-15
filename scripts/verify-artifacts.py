@@ -2,7 +2,7 @@ from pathlib import Path
 import hashlib,json,zipfile,subprocess,re
 root=Path(__file__).resolve().parents[1];out=root/'out'
 m=json.loads((root/'original-manifest.json').read_text())
-apk=out/'baedalwang-claude-final-1.0.2.apk';aab=out/'baedalwang-claude-final-1.0.2.aab'
+apk=out/'baedalwang-claude-final-1.0.3.apk';aab=out/'baedalwang-claude-final-1.0.3.aab'
 expected={f['path'] for f in m['files']};result={}
 for p,prefix in [(apk,'assets/'),(aab,'base/assets/')]:
  with zipfile.ZipFile(p) as z:

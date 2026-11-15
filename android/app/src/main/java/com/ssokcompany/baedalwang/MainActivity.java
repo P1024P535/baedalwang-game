@@ -14,6 +14,7 @@ import android.util.Log;
 public class MainActivity extends Activity {
  public WebView web;
  private RewardAds rewardAds;
+ private GameAccounts accounts;
  @Override public void onCreate(Bundle state) {
   super.onCreate(state);
   FrameLayout root = new FrameLayout(this);
@@ -25,6 +26,7 @@ public class MainActivity extends Activity {
   FrameLayout.LayoutParams privacyParams=new FrameLayout.LayoutParams(-2,-2,android.view.Gravity.BOTTOM|android.view.Gravity.END);
   root.addView(privacy,privacyParams);
   rewardAds=new RewardAds(this,web,privacy);
+  accounts=new GameAccounts(this,web);
   setContentView(root);
   if (android.os.Build.VERSION.SDK_INT >= 30) {
    getWindow().setDecorFitsSystemWindows(false);
@@ -49,8 +51,8 @@ public class MainActivity extends Activity {
   web.setBackgroundColor(Color.rgb(21,37,29));
   web.setOverScrollMode(View.OVER_SCROLL_NEVER);
   web.setWebViewClient(new WebViewClient() {
-   @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap icon) { rewardAds.pageStarted(); }
-   @Override public void onPageFinished(WebView view,String url) { rewardAds.attach(); }
+   @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap icon) { rewardAds.pageStarted(); accounts.pageStarted(); }
+   @Override public void onPageFinished(WebView view,String url) { accounts.attach(); rewardAds.attach(); }
    @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
     Uri uri=request.getUrl();
     if ("file".equals(uri.getScheme()) && uri.toString().startsWith("file:///android_asset/")) return false;
@@ -81,6 +83,7 @@ public class MainActivity extends Activity {
   if(web!=null && web.canGoBack()) web.goBack(); else super.onBackPressed();
  }
  @Override protected void onDestroy() {
+  if(accounts!=null)accounts.destroy();
   if(rewardAds!=null)rewardAds.destroy();
   if(web!=null) { web.removeAllViews(); web.destroy(); web=null; }
   super.onDestroy();

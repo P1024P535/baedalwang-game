@@ -9,8 +9,8 @@ android {
   applicationId 'com.ssokcompany.baedalwang'
   minSdk 24
   targetSdk 36
-  versionCode 3
-  versionName (testAds ? '1.0.2-ads-test' : '1.0.2')
+  versionCode 4
+  versionName (testAds ? '1.0.3-ads-test' : '1.0.3')
   buildConfigField 'boolean', 'ADS_TEST_MODE', testAds.toString()
   buildConfigField 'String', 'REWARDED_AD_UNIT', '"' + (testAds ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-8529047857122990/2097149793') + '"'
   manifestPlaceholders = [admobAppId: testAds ? 'ca-app-pub-3940256099942544~3347511713' : 'ca-app-pub-8529047857122990~7112517800']
@@ -35,6 +35,12 @@ android {
 }
 
 dependencies {
+ implementation platform('com.google.firebase:firebase-bom:35.2.0')
+ implementation 'com.google.firebase:firebase-auth'
+ implementation 'com.google.firebase:firebase-firestore'
+ implementation 'androidx.credentials:credentials:1.3.0'
+ implementation 'androidx.credentials:credentials-play-services-auth:1.3.0'
+ implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.1'
  implementation 'com.google.android.gms:play-services-ads:25.5.0'
  implementation 'com.google.android.ump:user-messaging-platform:4.0.0'
  testImplementation 'junit:junit:4.13.2'
