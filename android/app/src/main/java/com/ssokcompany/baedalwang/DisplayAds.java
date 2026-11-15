@@ -65,7 +65,7 @@ final class DisplayAds {
  }
  private void status(String message){
   if(!trusted())return;
-  try{JSONObject state=new JSONObject().put("banner",banner!=null&&slot.getVisibility()==View.VISIBLE).put("bannerHeight",slot.getVisibility()==View.VISIBLE?Math.round(slot.getHeight()/activity.getResources().getDisplayMetrics().density):0).put("open",openAd!=null).put("interstitial",interstitial!=null);
+  try{JSONObject state=new JSONObject().put("banner",banner!=null&&slot.getVisibility()==View.VISIBLE).put("bannerHeight",slot.getVisibility()==View.VISIBLE?Math.round((AdSize.BANNER.getHeightInPixels(activity)+slot.getPaddingTop()+slot.getPaddingBottom())/activity.getResources().getDisplayMetrics().density):0).put("open",openAd!=null).put("interstitial",interstitial!=null);
    web.evaluateJavascript("window.__ssokDisplayStatus&&window.__ssokDisplayStatus("+JSONObject.quote(token)+","+JSONObject.quote(message)+","+state.toString()+")",null);
   }catch(Exception ignored){}
  }
