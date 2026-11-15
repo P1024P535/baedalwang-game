@@ -1,6 +1,8 @@
 /* Improved icons contain their own transparent safety margins. */
 .sp-sm img,.pill .ic img,.sbtn .tile img,.thumb img { object-fit:contain!important; }
-.sp-sm img { width:100%!important;height:100%!important; }
+.sp-sm img { width:100%!important;height:100%!important;transform:scale(1.15); }
+.thumb:has(>img[src$="/dl_news.png"]),.thumb:has(>img[src$="/dl_milk.png"]) {padding:0!important;}
+.sbtn .tile img[src$="/mn_cal.png"],.pill.money .ic img[src$="/cn_0.png"] {transform:scale(1.2);}
 #journey { display:block;width:100%;margin-top:4px;padding:3px 5px;border:1px solid #96764d;border-radius:6px;background:#f8e8c6;color:#47321f;font:inherit;font-size:11px;line-height:1.3;text-align:left;white-space:normal;overflow-wrap:anywhere;cursor:pointer; }
 #journey.ready { background:#d4f5b6;border-color:#35772d;font-weight:bold; }
 .chapter { padding:10px;border:2px solid #95754c;border-radius:12px;background:#fff8e8;margin-bottom:12px;color:#47321f; }
