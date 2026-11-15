@@ -78,10 +78,11 @@ function careerHTML(){
 const retentionAct=onAct;
 onAct=function(b){if(careerAction(b.dataset.act,b))return;return retentionAct(b);};
 const retentionRender=render;
-render=function(){retentionRender();if(tab==='region'){
+render=function(){const view=tab,scroll=$('shBody').scrollTop;retentionRender();if(tab==='region'){
  $('shBody').insertAdjacentHTML('beforeend',careerHTML());
  const ready=CAREER_BADGES.filter(x=>S.clears>=x.n&&!careerState().claimed.includes(x.id)).length;
  $('shSub').insertAdjacentHTML('beforeend',`<button class="gb career-shortcut" data-act="career-open">${L('여정·칭호 보기','Journey & titles')}${ready?' +'+ready:''}</button>`);
+ if(view==='region')$('shBody').scrollTop=scroll;
 }};
 const retentionCol=colHTML;
 colHTML=function(){return retentionCol()+(colTab==='st'?careerHTML():'');};
