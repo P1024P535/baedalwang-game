@@ -43,6 +43,9 @@ public class GameSmokeTest {
  }
  @Test public void testGameplayAndSave()throws Exception{
   launch();closeModals();
+  // Geometry tests deliberately save enormous balances. Start gameplay checks
+  // from their own fixture so floating-point precision cannot hide a small tap.
+  assertEquals("Fresh isolated gameplay fixture", "true",js("document.getElementById('splash')?.remove();document.getElementById('gate')?.remove();S=fresh();S.ver=2;S.lang='ko';LANG='ko';S.snd=false;S.bgm=false;S.qd=qGen(0);applyScale();closeSheet();true"));
   assertEquals("Native account bridge attaches without modifying game", "true",js("window.__ssokAccountBridgeReady===true"));
   assertEquals("Bundled fonts must load, not fallback", "true", js("Array.from(document.fonts).length===2 && Array.from(document.fonts).every(f=>f.status==='loaded')"));
   assertEquals("true",js("Array.isArray(V)&&V.length>1&&R.length>1&&J.length>1&&C.length>0&&Number.isFinite(ips())"));
