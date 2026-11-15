@@ -1,0 +1,70 @@
+name: Build Baedalwang Firebase Internal Test
+on:
+  workflow_dispatch:
+  push:
+    branches: [integration/firebase-20261115]
+    paths: ['.github/workflows/build-internal-firebase.yml']
+permissions:
+  contents: read
+jobs:
+  internal-bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - name: Verify original game and account callbacks
+        run: |
+          python3 scripts/prepare-original.py
+          node scripts/test-account-bridge.mjs
+          node scripts/test-reward-bridge.mjs
+      - name: Install required Android SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | sort | tail -1)"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
+      - name: Build signed internal AAB using official test ads
+        shell: bash
+        env:
+          BAEDALWANG_KEYSTORE_BASE64: ${{ secrets.BAEDALWANG_KEYSTORE_BASE64 }}
+          BAEDALWANG_KEY_ALIAS: ${{ secrets.BAEDALWANG_KEY_ALIAS }}
+          BAEDALWANG_STORE_PASSWORD: ${{ secrets.BAEDALWANG_STORE_PASSWORD }}
+          BAEDALWANG_KEY_PASSWORD: ${{ secrets.BAEDALWANG_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          export BAEDALWANG_KEYSTORE_PATH="$RUNNER_TEMP/baedalwang-existing.jks"
+          trap 'rm -f "$BAEDALWANG_KEYSTORE_PATH"' EXIT
+          umask 077
+          printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
+          (cd android && gradle --no-daemon :app:bundleRelease :app:testReleaseUnitTest)
+          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-firebase-internal-test-1.0.3.aab
+          jarsigner -verify out/baedalwang-firebase-internal-test-1.0.3.aab > out/internal-signature.txt
+          grep -q 'jar verified' out/internal-signature.txt
+          keytool -J-Duser.language=en -printcert -jarfile out/baedalwang-firebase-internal-test-1.0.3.aab > out/internal-certificate.txt
+          grep -q 'C5:28:AF:3B:2D:DE:83:CD:DF:0F:39:BB:D2:E5:B7:30:47:51:44:F7:2B:77:BD:76:96:81:1A:BB:94:B5:63:38' out/internal-certificate.txt
+          python3 - <<'PY'
+          import json,zipfile,hashlib
+          from pathlib import Path
+          p=Path('out/baedalwang-firebase-internal-test-1.0.3.aab')
+          m=json.loads(Path('original-manifest.json').read_text())
+          with zipfile.ZipFile(p) as z:
+              for f in m['files']:
+                  assert hashlib.sha256(z.read('base/assets/'+f['path'])).hexdigest()==f['sha256']
+          print('Verified all 495 original files in internal test AAB')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: baedalwang-firebase-internal-test-aab
+          path: |
+            out/baedalwang-firebase-internal-test-1.0.3.aab
+            out/internal-*.txt
+            out/source-audit.json
+          if-no-files-found: error
