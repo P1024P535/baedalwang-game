@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [fix/mobile-layout-20261115]
-    paths: ['.github/workflows/build-internal-firebase.yml']
+    paths: ['android/**', 'scripts/**', '.github/workflows/build-internal-firebase.yml']
 permissions:
   contents: read
 jobs:
