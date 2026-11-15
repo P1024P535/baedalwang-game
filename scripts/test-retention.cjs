@@ -13,7 +13,7 @@ function save(){saved=JSON.stringify(S);}function toast(){}function sfx(){}funct
 function L(a){return a;}function $(id){return{classList:{remove(){}}};}
 `;
 const weekData=html.split('\n').find(x=>x.startsWith('const WK='));
-const ctx=vm.createContext({console});vm.runInContext(data+'\n'+fixture+'\n'+['checkDay','mis','wkState','wkProg','bossEnd','troubleEnd'].map(fn).join('\n')+'\n'+weekData+'\nconst originalMis=mis;\n'+fs.readFileSync('improvements/retention.js','utf8')+'\nrender=function(){};hud=function(){};',ctx);
+const ctx=vm.createContext({console});vm.runInContext(data+'\n'+fixture+'\n'+['checkDay','mis','wkState','wkProg','wkReady','bossEnd','troubleEnd'].map(fn).join('\n')+'\n'+weekData+'\nconst originalMis=mis;\n'+fs.readFileSync('improvements/retention.js','utf8')+'\nrender=function(){};hud=function(){};',ctx);
 const run=s=>vm.runInContext(s,ctx),eq=(s,v)=>assert.equal(run(s),v,s);
 eq('cycleScale(0)',1);eq('cycleScale(1)',2);eq('cycleScale(5)',32);eq('cycleScale(10)',64);
 assert.ok(Math.abs(run('cycleScale(6)')-38.4)<1e-8);
@@ -34,3 +34,15 @@ run("S=JSON.parse(saved);careerAction('career-contract',{dataset:{id:'hire'}});S
 run('S.clears=3;careerState()');eq('S.career.run.done.length',0);eq("S.career.claimed.includes('trusted')",true);eq('S.career.badge','trusted');
 run("week='week2';wkState()");eq('S.wk.done.length',0);
 console.log('PASS: bounded goals, no idle fines, ad-free daily alternative, weekly progress, migration, contracts, badge ownership and exact-once rewards');
+
+// Badge parity: all daily rewards claimed must clear even if the free wheel is unused.
+run("date='badge-day';week='badge-week';S.st={moves:0,del:0,boss:0,fix:0,races:0,spins:0,hire:0};S.run=0;S.region=0;checkDay();wkState();S.rl={d:date,f:0};S.mis.done=dailyMissions().map(m=>m[0]);S.mis.all=true");
+eq('missionReadyCount()',0);
+run('S.mis.all=false');eq('missionReadyCount()',1);
+run("S.mis.all=true;S.mis.done=S.mis.done.filter(k=>k!=='ad');S.mis.p.adPlay=100");eq('missionReadyCount()',1);
+run("S.mis.done.push('ad');S.st.del=2000");eq('missionReadyCount()',1);
+run("wkState().done.push('del')");eq('missionReadyCount()',0);
+run("date='next-badge-day'");eq('missionReadyCount()',0);
+assert.ok(html.includes('h+=wkHTML()+rlHTML()'), 'Weekly rewards counted by the badge must appear in the mission view');
+assert.ok(html.includes("badge('bMis',missionReadyCount()||'')"));
+console.log('PASS: mission badge parity, unused roulette, all-clear reward, delivery alternative, weekly claim and day rollover');

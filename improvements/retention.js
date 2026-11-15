@@ -4,6 +4,17 @@ function missionProgress(key){
  checkDay();const p=S.mis.p;
  return key==='ad'?(p.ad||0)+Math.floor((p.adPlay||0)/50):(p[key]||0);
 }
+// The badge counts claimable rewards shown in the mission screen, never roulette availability.
+function dailyReadyCount(){
+ const missions=dailyMissions();
+ return missions.filter(m=>!S.mis.done.includes(m[0])&&missionProgress(m[0])>=m[2]).length+
+  (!S.mis.all&&missions.every(m=>S.mis.done.includes(m[0]))?1:0);
+}
+function missionReadyCount(){return dailyReadyCount()+wkReady();}
+function missionNotice(){
+ const daily=dailyReadyCount(),weekly=wkReady();
+ return `<div class="tip mission-notice">${L('받을 미션 보상','Claimable mission rewards')}: ${L('일일','Daily')} ${daily} · ${L('주간','Weekly')} ${weekly}<br>${L('알림 숫자는 받을 보상만 표시해요. 무료 룰렛은 아래에서 선택할 수 있어요.','The badge counts claimable rewards. The optional free wheel is below.')}</div>`;
+}
 const retentionDaily=dailyMissions;
 dailyMissions=function(){return retentionDaily().map(m=>m[0]==='ad'?['ad',L('선택 미션: 광고 또는 배달 100회','Choice: ad rewards or 100 deliveries'),2]:m);};
 const retentionMis=mis;

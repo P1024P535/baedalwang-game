@@ -100,6 +100,8 @@ public class GameSmokeTest {
   assertEquals("Collected career titles cannot pay twice", "true",js("(()=>{S.clears=2;applyScale();careerState();const before=S.fame;careerAction('career-award',{dataset:{id:'trusted'}});careerAction('career-award',{dataset:{id:'trusted'}});return S.fame===before+5&&S.career.badge==='trusted'})()"));
   assertEquals("Career contracts preserve progress across regional moves", "true",js("(()=>{const t=careerTasks().find(t=>t.key==='hire');S.st.hire+=t.target;careerAction('career-contract',{dataset:{id:'hire'}});const before=S.fame;S.region=3;applyScale();careerState();careerAction('career-contract',{dataset:{id:'hire'}});save();return S.fame===before&&JSON.parse(localStorage.getItem('baedal_king_v1')).career.run.done.includes('hire')})()"));
   assertEquals("Career board renders in the move screen", "true",js("closeSheet();openSheet('region');!!document.querySelector('.career-board')"));
+  assertEquals("Claimed missions clear the badge even with an unused free wheel", "true",js("(()=>{S.wk=null;wkState();checkDay();S.mis.done=dailyMissions().map(m=>m[0]);S.mis.all=true;S.rl={d:today(),f:0,a:0};closeSheet();hud();return rlFree()&&missionReadyCount()===0&&!document.getElementById('bMis').classList.contains('on')})()"));
+  assertEquals("Weekly badge points to a visible claim and clears after collection", "true",js("(()=>{wkState().b.del=S.st.del-2000;hud();openSheet('mis');const b=document.querySelector('[data-act=wk][data-k=del]');const ready=missionReadyCount()===1&&b&&!b.disabled;if(b)onAct(b);hud();return ready&&missionReadyCount()===0&&!document.getElementById('bMis').classList.contains('on')})()"));
  }
  @Test public void testResponsiveLayout()throws Exception {
   launch();closeModals();
