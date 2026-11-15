@@ -9,8 +9,8 @@ android {
   applicationId 'com.ssokcompany.baedalwang'
   minSdk 24
   targetSdk 36
-  versionCode 13
-  versionName (testAds ? '1.0.11-ads-test' : '1.0.11')
+  versionCode 14
+  versionName (testAds ? '1.0.12-ads-test' : '1.0.12')
   buildConfigField 'boolean', 'ADS_TEST_MODE', testAds.toString()
   buildConfigField 'String', 'REWARDED_AD_UNIT', '"' + (testAds ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-8529047857122990/2097149793') + '"'
   buildConfigField 'String', 'BANNER_AD_UNIT', '"' + (testAds ? 'ca-app-pub-3940256099942544/9214589741' : '') + '"'

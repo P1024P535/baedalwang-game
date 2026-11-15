@@ -1,4 +1,4 @@
-name: Build Baedalwang 1.0.11 improvements
+name: Build Baedalwang 1.0.12 improvements
 on:
   push:
     branches: [improve/gameplay-20261115, improve/retention-20261115]
@@ -25,6 +25,7 @@ jobs:
           node scripts/test-improvements.cjs
           node scripts/test-retention.cjs
           node scripts/test-display-ads.cjs
+          node scripts/test-memories.cjs
           node scripts/test-account-bridge.mjs
           node scripts/test-rank-bridge.mjs
           node scripts/test-reward-bridge.mjs
@@ -46,19 +47,19 @@ jobs:
           umask 077
           printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
           (cd android && gradle --no-daemon :app:assembleRelease :app:bundleRelease :app:testReleaseUnitTest :app:assembleDebug :app:assembleDebugAndroidTest)
-          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-1.0.11-test.apk
-          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-1.0.11-internal.aab
-          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-1.0.11-test.apk > out/improved-signature.txt
-          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-1.0.11-test.apk > out/improved-metadata.txt
-          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='13'" out/improved-metadata.txt
-          jarsigner -verify out/baedalwang-1.0.11-internal.aab > out/improved-aab-signature.txt
+          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-1.0.12-test.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-1.0.12-internal.aab
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-1.0.12-test.apk > out/improved-signature.txt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-1.0.12-test.apk > out/improved-metadata.txt
+          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='14'" out/improved-metadata.txt
+          jarsigner -verify out/baedalwang-1.0.12-internal.aab > out/improved-aab-signature.txt
           grep -q 'jar verified' out/improved-aab-signature.txt
           python3 - <<'PY'
           import zipfile,hashlib,json
           from pathlib import Path
           root=Path('android/app/src/main/assets')
           checks={}
-          for p,prefix in [('out/baedalwang-1.0.11-test.apk','assets/'),('out/baedalwang-1.0.11-internal.aab','base/assets/')]:
+          for p,prefix in [('out/baedalwang-1.0.12-test.apk','assets/'),('out/baedalwang-1.0.12-internal.aab','base/assets/')]:
               with zipfile.ZipFile(p) as z:
                   for f in root.rglob('*'):
                       if f.is_file(): assert z.read(prefix+f.relative_to(root).as_posix())==f.read_bytes(),str(f)
@@ -82,17 +83,17 @@ jobs:
           script: |
             adb install -r android/app/build/outputs/apk/debug/app-debug.apk
             adb install -r android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-            adb shell am instrument -w -e class 'com.ssokcompany.baedalwang.GameSmokeTest#testImprovementRulesAndStory,com.ssokcompany.baedalwang.GameSmokeTest#testGameplayAndSave,com.ssokcompany.baedalwang.GameSmokeTest#testResponsiveLayout,com.ssokcompany.baedalwang.GameSmokeTest#testNativeAdControls' com.ssokcompany.baedalwang.test/androidx.test.runner.AndroidJUnitRunner > out/improved-webview-tests.txt
+            adb shell am instrument -w -e class 'com.ssokcompany.baedalwang.GameSmokeTest#testImprovementRulesAndStory,com.ssokcompany.baedalwang.GameSmokeTest#testGameplayAndSave,com.ssokcompany.baedalwang.GameSmokeTest#testResponsiveLayout,com.ssokcompany.baedalwang.GameSmokeTest#testNativeAdControls,com.ssokcompany.baedalwang.GameSmokeTest#testMemoriesAndKeepsakes' com.ssokcompany.baedalwang.test/androidx.test.runner.AndroidJUnitRunner > out/improved-webview-tests.txt
             cat out/improved-webview-tests.txt
-            grep -q 'OK (4 tests)' out/improved-webview-tests.txt
+            grep -q 'OK (5 tests)' out/improved-webview-tests.txt
             adb pull /sdcard/Android/data/com.ssokcompany.baedalwang/files/ads-network.png out/improved-ads-network.png || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: baedalwang-1.0.11-test
+          name: baedalwang-1.0.12-test
           path: |
-            out/baedalwang-1.0.11-test.apk
-            out/baedalwang-1.0.11-internal.aab
+            out/baedalwang-1.0.12-test.apk
+            out/baedalwang-1.0.12-internal.aab
             out/improved-*.txt
             out/improved-*.json
             out/improved-*.png
@@ -114,5 +115,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: baedalwang-1.0.11-layout
+          name: baedalwang-1.0.12-layout
           path: out/layout/

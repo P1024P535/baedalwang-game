@@ -148,4 +148,13 @@ public class GameSmokeTest {
 
  }
 
+ @Test public void testMemoriesAndKeepsakes()throws Exception {
+  launch();closeModals();
+  assertEquals("Existing loop unlocks first story without currency changes", "true",js("(()=>{document.querySelectorAll('#boot,#gate,#splash').forEach(e=>e.remove());S=fresh();S.taps=10;syncMemories(true);const money=S.money,fame=S.fame;memoryOpen('grandma-0');memoryOpen('grandma-0');return S.memories.unlocked.length===1&&S.memories.read.length===1&&S.money===money&&S.fame===fame})()"));
+  closeModals();
+  assertEquals("Ending after-stories and staff records backfill", "true",js("S.taps=100;S.st.hire=10;S.st.races=5;S.clears=5;S.dex.s=DEXS.map(s=>s[0]);syncMemories(true);S.memories.unlocked.length===24&&S.memories.staff.length===8"));
+  assertEquals("Archive is inside existing collection", "true",js("colTab='memory';openSheet('col');!!document.querySelector('.memories')&&document.querySelectorAll('[data-act=memory-read]').length===24"));
+  assertEquals("Keepsakes survive an actual move and save", "true",js("(()=>{closeSheet();S.region=0;applyScale();S.run=R[0][2];const count=S.memories.unlocked.length;doPrestige();document.querySelector('#mbox [data-mb=\"1\"]').click();save();return S.region===1&&S.memories.unlocked.length===count&&JSON.parse(localStorage.getItem('baedal_king_v1')).memories.read.includes('grandma-0')})()"));
+ }
+
 }

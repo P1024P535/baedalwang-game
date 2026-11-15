@@ -7,7 +7,7 @@ const root = path.resolve(__dirname, '..');
 const out = path.join(root, 'out/layout');
 fs.mkdirSync(out, {recursive:true});
 const sizes = [[320,568],[360,640],[375,667],[393,786],[412,824],[520,900],[768,1024],[640,360],[320,510],[393,720]];
-const screens = ['main','jobs','veh','comp','region','fame','mis','shop','set','rank','dex','ach','st','rk','modal','card-SR','card-SSR','gate'];
+const screens = ['main','jobs','veh','comp','region','fame','mis','shop','set','rank','dex','ach','st','rk','memory','memory-modal','modal','card-SR','card-SSR','gate'];
 const adapter = path.join(root, 'android/app/src/main/res/raw/layout_bridge.js');
 const styles = path.join(root, 'android/app/src/main/res/raw/layout.css');
 const results = [];
@@ -33,9 +33,11 @@ const results = [];
    });
    if(fixed){await page.addStyleTag({content:fs.readFileSync(styles,'utf8')});await page.addScriptTag({content:fs.readFileSync(adapter,'utf8')});}
    for(const screen of screens){
+    if(!fixed&&screen.startsWith('memory'))continue;
     await page.evaluate(screen=>{
      closeModal();closeSheet();document.getElementById('gate')?.remove();
-     if(screen.startsWith('card-'))showModal(cardFlip(screen.slice(5),screen==='card-SR'?'st_1':'st_0'),screen.slice(5)+' 직원 등장!','<span class="hl">윤총알</span>배달 대행사 직원 파워 x5<div class="trnew"><b>보스 담당</b> 보스 손님 시간 +1초</div>',[['환영해요!','y',closeModal]]);
+     if(screen==='memory'||screen==='memory-modal'){S.taps=100;S.st.hire=10;S.st.races=5;S.clears=5;S.dex.s=DEXS.map(s=>s[0]);syncMemories(true);colTab='memory';openSheet('col');if(screen==='memory-modal'){closeSheet();memoryOpen('grandma-4');}}
+     else if(screen.startsWith('card-'))showModal(cardFlip(screen.slice(5),screen==='card-SR'?'st_1':'st_0'),screen.slice(5)+' 직원 등장!','<span class="hl">윤총알</span>배달 대행사 직원 파워 x5<div class="trnew"><b>보스 담당</b> 보스 손님 시간 +1초</div>',[['환영해요!','y',closeModal]]);
      else if(screen==='modal')showModal('<img src="assets/logo2.png" alt="">','자는 동안 배달했어요','긴 안내 문구와 보상 확인<span class="hl">1.23e+100원</span>'+('<br>오프라인 배달 보상 안내').repeat(12),[['확인','y',closeModal],['광고 보고 2배','b',closeModal]]);
      else if(screen==='gate')gate('<h2>언어 선택 · Language</h2><div class="gt-langs">'+LANGS.map(([k,n])=>'<button class="gb">'+n+'</button>').join('')+'</div><p class="gt-p">'+('작은 화면에서도 안내를 읽고 계속할 수 있어야 합니다. ').repeat(12)+'</p><button class="gb wide">계속하기</button>');
      else if(['dex','ach','st','rk'].includes(screen)){colTab=screen;if(screen==='rk'){RK.list=[];RK.ready=false;}openSheet('col');}
@@ -69,7 +71,7 @@ const results = [];
      return {issues};
     });
     results.push({fixed,width,height,screen,...data,errors:[...errors]});
-    if((width===320&&['main','jobs','veh','set','modal','card-SR','card-SSR'].includes(screen))||(width===640&&screen==='gate')||(width===393&&screen==='shop')){
+    if((width===320&&['main','jobs','veh','set','memory','memory-modal','modal','card-SR','card-SSR'].includes(screen))||(width===640&&screen==='gate')||(width===393&&screen==='shop')){
      if(screen==='set')await page.evaluate(()=>document.querySelector('#shBody [data-act="signout"]')?.closest('.card').scrollIntoView({block:'center'}));
      await page.screenshot({path:path.join(out,`${fixed?'after':'before'}-${width}-${screen}.png`)});
     }
