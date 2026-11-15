@@ -35,7 +35,7 @@ const results = [];
    for(const screen of screens){
     await page.evaluate(screen=>{
      closeModal();closeSheet();document.getElementById('gate')?.remove();
-     if(screen.startsWith('card-'))showModal(cardFlip(screen.slice(5),'cn_1'),screen.slice(5)+' 직원 등장!','<span class="hl">윤총알</span>배달 대행사 직원 파워 x5<div class="trnew"><b>보스 담당</b> 보스 손님 시간 +1초</div>',[['환영해요!','y',closeModal]]);
+     if(screen.startsWith('card-'))showModal(cardFlip(screen.slice(5),screen==='card-SR'?'st_1':'st_0'),screen.slice(5)+' 직원 등장!','<span class="hl">윤총알</span>배달 대행사 직원 파워 x5<div class="trnew"><b>보스 담당</b> 보스 손님 시간 +1초</div>',[['환영해요!','y',closeModal]]);
      else if(screen==='modal')showModal('<img src="assets/logo2.png" alt="">','자는 동안 배달했어요','긴 안내 문구와 보상 확인<span class="hl">1.23e+100원</span>'+('<br>오프라인 배달 보상 안내').repeat(12),[['확인','y',closeModal],['광고 보고 2배','b',closeModal]]);
      else if(screen==='gate')gate('<h2>언어 선택 · Language</h2><div class="gt-langs">'+LANGS.map(([k,n])=>'<button class="gb">'+n+'</button>').join('')+'</div><p class="gt-p">'+('작은 화면에서도 안내를 읽고 계속할 수 있어야 합니다. ').repeat(12)+'</p><button class="gb wide">계속하기</button>');
      else if(['dex','ach','st','rk'].includes(screen)){colTab=screen;if(screen==='rk'){RK.list=[];RK.ready=false;}openSheet('col');}
