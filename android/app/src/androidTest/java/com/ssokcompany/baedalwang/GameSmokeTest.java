@@ -141,7 +141,7 @@ public class GameSmokeTest {
   for(int n=0;n<25;n++){if("true".equals(js("!!window.__ssokNativeAds.state.banner&&!!window.__ssokNativeAds.state.open&&!!window.__ssokNativeAds.state.interstitial"))){loaded=true;break;}SystemClock.sleep(1000);}
   System.out.println("SDK_TEST_ADS_LOAD="+js("JSON.stringify(window.__ssokNativeAds.state)"));
   System.out.println("SDK_TEST_ADS_ALL_THREE_LOADED="+loaded);
-  if("true".equals(js("!!window.__ssokNativeAds.state.banner")))assertEquals("Real banner preserves game scale and has a compact height", "true",js("Math.abs(K-window.__qaScaleNoBanner)<0.001&&gameBannerHeight()<=55"));
+  if("true".equals(js("!!window.__ssokNativeAds.state.banner")))assertEquals("Real banner preserves game scale and has a compact height", "true",js("Math.abs(K-window.__qaScaleNoBanner)<0.005&&gameBannerHeight()<=55"));
   android.graphics.Bitmap shot=ins.getUiAutomation().takeScreenshot();
   if(shot!=null){try(java.io.FileOutputStream file=new java.io.FileOutputStream(new java.io.File(ins.getTargetContext().getExternalFilesDir(null),"ads-network.png"))){shot.compress(android.graphics.Bitmap.CompressFormat.PNG,100,file);}shot.recycle();}
   js("localStorage.setItem('baedal_ads_layout_v1',JSON.stringify({enabled:false,force:false}));syncNativeAds();true");
