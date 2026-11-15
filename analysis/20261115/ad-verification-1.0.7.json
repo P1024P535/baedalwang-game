@@ -1,0 +1,13 @@
+{
+  "version_name": "1.0.7-ads-test",
+  "version_code": 9,
+  "build_commit": "5ad3e3c88f83cbaa14f020c2f64dbabe4c61ff1e",
+  "workflow_run": 43698782061,
+  "build": "success",
+  "layout": "success",
+  "android_tests": "OK (3 tests)",
+  "ads": "official_test_units",
+  "physical_phone_ads": "not_verified",
+  "google_account_restore_on_phone": "not_verified",
+  "play_state": "not_uploaded_not_released"
+}
