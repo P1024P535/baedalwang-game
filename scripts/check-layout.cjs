@@ -19,7 +19,7 @@ const results = [];
    const page=await context.newPage();const errors=[];page.on('pageerror',e=>errors.push(e.message));
    await page.route('https://**/*',r=>r.abort());
    await page.addInitScript(()=>localStorage.setItem('baedal_king_v1',JSON.stringify({ver:2,lang:'ko',snd:false,bgm:false})));
-   await page.goto(pathToFileURL(path.join(root,'index.html')).href);
+   await page.goto(pathToFileURL(path.join(root,fixed?'android/app/src/main/assets/index.html':'index.html')).href);
    await page.waitForFunction(()=>typeof openSheet==='function'&&typeof S==='object');
    await page.evaluate(async()=>{await document.fonts.ready;await Promise.all(Object.values(AS).map(i=>i.decode().catch(()=>{})));});
    // Let boot finish before replacing onboarding with a deterministic, private test fixture.

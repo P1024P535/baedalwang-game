@@ -1,0 +1,92 @@
+name: Build Baedalwang 1.0.6 improvements
+on:
+  push:
+    branches: [improve/gameplay-20261115]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - name: Build improved game from preserved baseline and test regressions
+        run: |
+          python3 scripts/prepare-original.py
+          node scripts/test-improvements.cjs
+          node scripts/test-account-bridge.mjs
+          node scripts/test-rank-bridge.mjs
+          node scripts/test-reward-bridge.mjs
+      - name: Install Android SDK
+        run: |
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -name sdkmanager -type f | sort | tail -1)"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
+      - name: Build signed APK and AAB with official test ads
+        env:
+          BAEDALWANG_KEYSTORE_BASE64: ${{ secrets.BAEDALWANG_KEYSTORE_BASE64 }}
+          BAEDALWANG_KEY_ALIAS: ${{ secrets.BAEDALWANG_KEY_ALIAS }}
+          BAEDALWANG_STORE_PASSWORD: ${{ secrets.BAEDALWANG_STORE_PASSWORD }}
+          BAEDALWANG_KEY_PASSWORD: ${{ secrets.BAEDALWANG_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          export BAEDALWANG_KEYSTORE_PATH="$RUNNER_TEMP/baedalwang-existing.jks"
+          trap 'rm -f "$BAEDALWANG_KEYSTORE_PATH"' EXIT
+          umask 077
+          printf '%s' "$BAEDALWANG_KEYSTORE_BASE64" | base64 -d > "$BAEDALWANG_KEYSTORE_PATH"
+          (cd android && gradle --no-daemon :app:assembleRelease :app:bundleRelease :app:testReleaseUnitTest)
+          cp android/app/build/outputs/apk/release/app-release.apk out/baedalwang-1.0.6-test.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab out/baedalwang-1.0.6-internal.aab
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs out/baedalwang-1.0.6-test.apk > out/improved-signature.txt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging out/baedalwang-1.0.6-test.apk > out/improved-metadata.txt
+          grep -q "package: name='com.ssokcompany.baedalwang' versionCode='8'" out/improved-metadata.txt
+          jarsigner -verify out/baedalwang-1.0.6-internal.aab > out/improved-aab-signature.txt
+          grep -q 'jar verified' out/improved-aab-signature.txt
+          python3 - <<'PY'
+          import zipfile,hashlib,json
+          from pathlib import Path
+          root=Path('android/app/src/main/assets')
+          checks={}
+          for p,prefix in [('out/baedalwang-1.0.6-test.apk','assets/'),('out/baedalwang-1.0.6-internal.aab','base/assets/')]:
+              with zipfile.ZipFile(p) as z:
+                  for f in root.rglob('*'):
+                      if f.is_file(): assert z.read(prefix+f.relative_to(root).as_posix())==f.read_bytes(),str(f)
+              checks[p]=hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          Path('out/improved-package-check.json').write_text(json.dumps(checks,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: baedalwang-1.0.6-test
+          path: |
+            out/baedalwang-1.0.6-test.apk
+            out/baedalwang-1.0.6-internal.aab
+            out/improved-*.txt
+            out/improved-*.json
+            out/improvement-audit.json
+          if-no-files-found: error
+  layout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: python3 scripts/prepare-original.py
+      - run: |
+          npm install --prefix "$RUNNER_TEMP/layout-tools" playwright@1.58.2 --no-audit --no-fund
+          "$RUNNER_TEMP/layout-tools/node_modules/.bin/playwright" install --with-deps chromium
+      - run: NODE_PATH="$RUNNER_TEMP/layout-tools/node_modules" node scripts/check-layout.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: baedalwang-1.0.6-layout
+          path: out/layout/

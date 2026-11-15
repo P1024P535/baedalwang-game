@@ -1,0 +1,17 @@
+/* Improved icons contain their own transparent safety margins. */
+.sp-sm img,.pill .ic img,.sbtn .tile img,.thumb img { object-fit:contain!important; }
+.sp-sm img { width:100%!important;height:100%!important; }
+#journey { display:block;width:100%;margin-top:4px;padding:3px 5px;border:1px solid #96764d;border-radius:6px;background:#f8e8c6;color:#47321f;font:inherit;font-size:11px;line-height:1.3;text-align:left;white-space:normal;overflow-wrap:anywhere;cursor:pointer; }
+#journey.ready { background:#d4f5b6;border-color:#35772d;font-weight:bold; }
+.chapter { padding:10px;border:2px solid #95754c;border-radius:12px;background:#fff8e8;margin-bottom:12px;color:#47321f; }
+.chapter p { font-size:14px;line-height:1.6;margin:8px 0;overflow-wrap:anywhere; }
+.chapter .sec { font-size:17px;line-height:1.5;overflow-wrap:anywhere; }
+.chapter-steps { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px; }
+.chapter-steps .gb { min-width:0;font-size:12px;padding:7px 3px; }
+.chapter-steps .gb small { font-size:10px; }
+.move-ready { border-color:#e2a219!important;box-shadow:0 0 0 2px #ffd23f; }
+#qText { line-height:1.3;overflow-wrap:anywhere; }
+.qbar { min-height:14px;height:auto; }
+.qbar span { position:relative;display:block;line-height:1.25;min-height:10px;font-size:9px;overflow-wrap:anywhere; }
+.qbar i { position:absolute;inset:0 auto 0 0;height:100%; }
+@media (max-width:360px){ .chapter p {font-size:13px;} #journey{font-size:10px;} }
