@@ -40,7 +40,7 @@ html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
 .pill.fame b { display:block; min-width:0; max-width:100%; }
 .pill.money > div:last-child { flex:1; }
 #money, #ips { max-width:100%; }
-#lvNum { max-width:100%; }
+#fame, #lvNum { max-width:100%; white-space:nowrap; }
 #banner { max-width:calc(100% - 24px); white-space:normal; }
 #banner .b1 { font-size:clamp(24px,7vw,38px); overflow-wrap:anywhere; }
 #banner .b2 { max-width:100%; overflow-wrap:anywhere; }

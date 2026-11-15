@@ -45,6 +45,7 @@ const results = [];
      const sheet=document.getElementById('sheet');const active=sheet.classList.contains('on');
      const scope=active?sheet:document.querySelector('#modal.show')||document.querySelector('#gate.on')||document.getElementById('top');
      const issues=[];const label=e=>e.id?'#'+e.id:e.tagName.toLowerCase()+'.'+String(e.className).trim().replaceAll(' ','.');
+     if(!active && scope.id==='top')for(const id of ['money','ips','fame','lvNum']){const e=document.getElementById(id),s=getComputedStyle(e);if(e.getBoundingClientRect().height>parseFloat(s.fontSize)*1.65)issues.push({type:'hud-line-wrap',el:'#'+id});}
      for(const e of scope.querySelectorAll('.ci,.cn,.cd,.gb,.stat div,.stat b,#shTitle,#money,#ips,#fame,.hn2,.rm .n,#shBody,#shSub,.rks,.gt-box,#mbox,.mp,.mt')){
       const s=getComputedStyle(e);if(!e.getClientRects().length||s.display==='none')continue;
       if(e.scrollWidth>e.clientWidth+2&&s.textOverflow!=='ellipsis')issues.push({type:'text-overflow',el:label(e),text:e.textContent.slice(0,90),extra:e.scrollWidth-e.clientWidth});
@@ -61,7 +62,15 @@ const results = [];
      return {issues};
     });
     results.push({fixed,width,height,screen,...data,errors:[...errors]});
-    if((width===320&&['main','jobs','veh','set','modal'].includes(screen))||(width===640&&screen==='gate')||(width===393&&screen==='shop'))await page.screenshot({path:path.join(out,`${fixed?'after':'before'}-${width}-${screen}.png`)});
+    if((width===320&&['main','jobs','veh','set','modal'].includes(screen))||(width===640&&screen==='gate')||(width===393&&screen==='shop')){
+     if(screen==='set')await page.evaluate(()=>document.querySelector('#shBody [data-act="signout"]')?.closest('.card').scrollIntoView({block:'center'}));
+     await page.screenshot({path:path.join(out,`${fixed?'after':'before'}-${width}-${screen}.png`)});
+    }
+    if(fixed&&screen==='modal'){
+     await page.evaluate(()=>document.querySelector('#mbox .mbs button:last-child')?.scrollIntoView({block:'end'}));
+     const reachable=await page.evaluate(()=>{const r=document.querySelector('#mbox .mbs button:last-child').getBoundingClientRect();return r.top>=0&&r.bottom<=innerHeight;});
+     if(!reachable)results.at(-1).issues.push({type:'unreachable-popup-action'});
+    }
    }
    if(width===320){
     const fallback=await page.evaluate(()=>{const image=AS.co_1;try{AS.co_1=new Image();return coImg(0).includes('<svg')?[]:[{type:'missing-image-fallback'}];}catch(e){return [{type:'recursive-image-fallback',message:e.message}];}finally{AS.co_1=image;}});
