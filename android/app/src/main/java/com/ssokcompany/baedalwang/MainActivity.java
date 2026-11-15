@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
   web.setOverScrollMode(View.OVER_SCROLL_NEVER);
   web.setWebViewClient(new WebViewClient() {
    @Override public void onPageStarted(WebView view,String url,android.graphics.Bitmap icon) { rewardAds.pageStarted(); accounts.pageStarted(); }
-   @Override public void onPageFinished(WebView view,String url) { accounts.attach(); rewardAds.attach(); }
+   @Override public void onPageFinished(WebView view,String url) { LayoutUi.attach(view); accounts.attach(); rewardAds.attach(); }
    @Override public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
     Uri uri=request.getUrl();
     if ("file".equals(uri.getScheme()) && uri.toString().startsWith("file:///android_asset/")) return false;
