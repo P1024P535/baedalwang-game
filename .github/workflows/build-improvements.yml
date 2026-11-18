@@ -1,7 +1,7 @@
 name: Build Baedalwang 1.0.14 improvements
 on:
   push:
-    branches: [improve/gameplay-20261115, improve/retention-20261115, improve/layout-banner-20261116, improve/billing-20261116]
+    branches: [improve/gameplay-20261115, improve/retention-20261115, improve/layout-banner-20261116, improve/billing-20261116, security/firebase-key-build-config-20261118]
     paths: ['android/**', 'improvements/**', 'scripts/**', 'billing/**', 'firebase.json', '.github/workflows/build-improvements.yml']
   workflow_dispatch:
 permissions:
@@ -48,12 +48,17 @@ jobs:
           "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
       - name: Build signed APK and AAB with official test ads
         env:
+          BAEDALWANG_FIREBASE_API_KEY: ${{ secrets.BAEDALWANG_FIREBASE_API_KEY }}
           BAEDALWANG_KEYSTORE_BASE64: ${{ secrets.BAEDALWANG_KEYSTORE_BASE64 }}
           BAEDALWANG_KEY_ALIAS: ${{ secrets.BAEDALWANG_KEY_ALIAS }}
           BAEDALWANG_STORE_PASSWORD: ${{ secrets.BAEDALWANG_STORE_PASSWORD }}
           BAEDALWANG_KEY_PASSWORD: ${{ secrets.BAEDALWANG_KEY_PASSWORD }}
         run: |
           set -euo pipefail
+          if [ -z "${BAEDALWANG_FIREBASE_API_KEY:-}" ]; then
+            echo '::error::Configure BAEDALWANG_FIREBASE_API_KEY in GitHub Actions secrets before building.'
+            exit 1
+          fi
           export BAEDALWANG_KEYSTORE_PATH="$RUNNER_TEMP/baedalwang-existing.jks"
           trap 'rm -f "$BAEDALWANG_KEYSTORE_PATH"' EXIT
           umask 077
