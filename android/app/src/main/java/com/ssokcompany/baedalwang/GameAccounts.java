@@ -56,7 +56,7 @@ final class GameAccounts {
   if (FirebaseApp.getApps(activity).isEmpty()) {
    app=FirebaseApp.initializeApp(activity, new FirebaseOptions.Builder()
     .setApplicationId("1:679371652571:android:f70e949bf09c405ec13bfe")
-    .setApiKey("AIzaSyAleHa1RRd2VBD-wbsEnDgNMWsAMaPLgsM")
+    .setApiKey(BuildConfig.FIREBASE_API_KEY)
     .setProjectId("baedalwang-game").setGcmSenderId("679371652571").build());
   } else app=FirebaseApp.getInstance();
   auth=FirebaseAuth.getInstance(app); db=FirebaseFirestore.getInstance(app);
