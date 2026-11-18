@@ -12,6 +12,10 @@ android {
   targetSdk 36
   versionCode 16
   versionName (testAds ? '1.0.14-ads-test' : '1.0.14')
+  // Supply via BAEDALWANG_FIREBASE_API_KEY in CI or local environment.
+  // Firebase Android API keys are client-visible; enforce restrictions in Google Cloud.
+  def firebaseApiKey = System.getenv('BAEDALWANG_FIREBASE_API_KEY') ?: ''
+  buildConfigField 'String', 'FIREBASE_API_KEY', '"' + firebaseApiKey + '"'
   buildConfigField 'boolean', 'PLAY_BILLING_ENABLED', playBilling.toString()
   buildConfigField 'boolean', 'ADS_TEST_MODE', testAds.toString()
   buildConfigField 'String', 'REWARDED_AD_UNIT', '"' + (testAds ? 'ca-app-pub-3940256099942544/5224354917' : 'ca-app-pub-8529047857122990/2097149793') + '"'
