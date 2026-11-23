@@ -76,12 +76,10 @@ jobs:
               tap_label('게스트로 시작')
               tap_label('시작하기')
               tap_label('받기')
-              tap_label('배달', tap=False)
-              tap_label('강화', tap=False)
-              time.sleep(2)
+              time.sleep(8)
               screenshot('01-delivery')
-              tap_label('강화')
-              time.sleep(2)
+              adb('shell', 'input', 'tap', '965', '1610')
+              time.sleep(3)
               screenshot('02-upgrades')
           except Exception:
               screenshot('debug-last-screen')
@@ -95,7 +93,7 @@ jobs:
           profile: pixel_2
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
-          script: adb shell settings put global window_animation_scale 0 && adb shell input keyevent 82 && adb shell am force-stop com.google.android.apps.nexuslauncher && adb install build/baedalwang-1.0.14-test.apk && adb shell am start -W -n com.ssokcompany.baedalwang/.MainActivity && python3 capture.py
+          script: adb shell wm size 1080x1920 && adb shell settings put global window_animation_scale 0 && adb shell input keyevent 82 && adb shell am force-stop com.google.android.apps.nexuslauncher && adb install build/baedalwang-1.0.14-test.apk && adb shell am start -W -n com.ssokcompany.baedalwang/.MainActivity && python3 capture.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
