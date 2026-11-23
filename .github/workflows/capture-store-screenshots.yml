@@ -75,6 +75,7 @@ jobs:
               tap_label('동의하고 시작')
               tap_label('게스트로 시작')
               tap_label('시작하기')
+              tap_label('받기')
               tap_label('배달', tap=False)
               tap_label('강화', tap=False)
               time.sleep(2)
