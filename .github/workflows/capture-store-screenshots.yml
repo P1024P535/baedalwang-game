@@ -36,7 +36,7 @@ jobs:
           def adb(*args):
               return subprocess.check_output(['adb', *args])
 
-          def tap_label(*labels):
+          def tap_label(*labels, tap=True):
               for _ in range(8):
                   try:
                       result = adb('shell', 'uiautomator', 'dump', '/sdcard/window.xml')
@@ -54,8 +54,9 @@ jobs:
                       x1, y1, x2, y2 = map(int, re.findall(r'\d+', node.get('bounds', '')))
                       if x2 <= x1 or y2 <= y1:
                           continue
-                      adb('shell', 'input', 'tap', str((x1+x2)//2), str((y1+y2)//2))
-                      time.sleep(1)
+                      if tap:
+                          adb('shell', 'input', 'tap', str((x1+x2)//2), str((y1+y2)//2))
+                          time.sleep(1)
                       return
                   time.sleep(2)
               raise RuntimeError('Visible UI label not found: ' + repr(labels))
@@ -73,9 +74,13 @@ jobs:
               tap_label('[필수] 만 14세 이상입니다')
               tap_label('동의하고 시작')
               tap_label('게스트로 시작')
-              time.sleep(4)
+              tap_label('시작하기')
+              tap_label('배달', tap=False)
+              tap_label('강화', tap=False)
+              time.sleep(2)
               screenshot('01-delivery')
               tap_label('강화')
+              time.sleep(2)
               screenshot('02-upgrades')
           except Exception:
               screenshot('debug-last-screen')
