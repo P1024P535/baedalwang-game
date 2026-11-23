@@ -16,6 +16,7 @@ jobs:
           artifact-ids: 14182841720
           github-token: ${{ github.token }}
           path: build
+          merge-multiple: true
       - name: Verify original APK
         run: echo 'f3eb9d0faec7cfa1eb8f50fe7b35293873731d5882c9cbf02c057c2ee6ad7a49  build/baedalwang-1.0.14-test.apk' | sha256sum -c -
       - name: Enable emulator acceleration
