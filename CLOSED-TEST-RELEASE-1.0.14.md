@@ -35,3 +35,13 @@ Google Play Console에서 현재 활성 트랙의 `versionCode`가 16보다 작�
 ## 원칙
 - 공개 출시/실광고/실결제는 별도 승인과 검증 전까지 하지 않음.
 - 검증된 AAB를 테스트 후보로 보존하며, 기존 사용자 저장 데이터나 기존 Play 앱을 삭제하지 않음.
+
+## 2026-11-23 공개 정책 페이지 배포 완료
+- 개인정보처리방침 URL: https://baedalwang-policy.onrender.com/baedalwang-privacy.html
+- 계정 및 데이터 삭제 안내 URL: https://baedalwang-policy.onrender.com/baedalwang-delete-account.html
+- Render 정적 사이트: `baedalwang-policy` (My Workspace)
+- Render 배포: `dep-dc1r1tec6qcc73bk64n0` — Render API status `live`
+- 게시 소스: `play-policy/`, 브랜치 `release/closed-test-ready-1.0.14-20261123`
+- 기존 관리자 사이트 및 게임 소스는 변경하지 않음. 두 문서의 최종 공개 주소는 Play Console 정책 URL 입력란에 사용할 것.
+- 주의: Render의 배포 상태는 `live`이지만 별도 외부 HTTP 접속 검증은 이루어지지 않았음. Play Console 제출 전 주소가 모바일 브라우저에서 공개 접속되는지 확인 필요.
+- Play Console 비공개 테스트 AAB 등록, 데이터 보안 선언, 테스터 설정, 출시 검토는 **미완료**. ChatGPT 현재 연결만으로는 Play Console 로그인 및 등록 조작 권한이 없음.
