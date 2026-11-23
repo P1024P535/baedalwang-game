@@ -37,9 +37,16 @@ jobs:
               return subprocess.check_output(['adb', *args])
 
           def tap_label(*labels):
-              for _ in range(6):
-                  adb('shell', 'uiautomator', 'dump', '/sdcard/window.xml')
-                  tree = ET.fromstring(adb('shell', 'cat', '/sdcard/window.xml'))
+              for _ in range(8):
+                  try:
+                      result = adb('shell', 'uiautomator', 'dump', '/sdcard/window.xml')
+                      if b'dumped to:' not in result:
+                          time.sleep(2)
+                          continue
+                      tree = ET.fromstring(adb('shell', 'cat', '/sdcard/window.xml'))
+                  except (subprocess.CalledProcessError, ET.ParseError):
+                      time.sleep(2)
+                      continue
                   for node in tree.iter('node'):
                       values = [node.get('text', '').strip(), node.get('content-desc', '').strip()]
                       if not any(label in values for label in labels):
@@ -58,6 +65,8 @@ jobs:
               Path('store-captures', name + '.png').write_bytes(adb('exec-out', 'screencap', '-p'))
 
           try:
+              time.sleep(12)
+              screenshot('debug-initial-screen')
               tap_label('한국어')
               tap_label('[필수] 이용약관')
               tap_label('[필수] 개인정보처리방침')
@@ -80,7 +89,7 @@ jobs:
           profile: pixel_2
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
-          script: adb install build/baedalwang-1.0.14-test.apk && adb shell am start -W -n com.ssokcompany.baedalwang/.MainActivity && python3 capture.py
+          script: adb shell settings put global window_animation_scale 0 && adb shell input keyevent 82 && adb shell am force-stop com.google.android.apps.nexuslauncher && adb install build/baedalwang-1.0.14-test.apk && adb shell am start -W -n com.ssokcompany.baedalwang/.MainActivity && python3 capture.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
