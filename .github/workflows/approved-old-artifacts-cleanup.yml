@@ -1,0 +1,33 @@
+name: Clean up six approved old test artifacts (repository subset)
+on:
+  push:
+    branches: [maintenance/artifact-cleanup-20261126]
+    paths: ['.github/workflows/approved-old-artifacts-cleanup.yml']
+permissions:
+  actions: write
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Validate exact artifacts and remove only approved IDs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          check() {
+            local id="$1" run="$2" name="$3" size="$4"
+            local data
+            data=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$run/artifacts")
+            jq -e --argjson id "$id" --arg name "$name" --argjson size "$size" '.artifacts | any(.id == $id and .name == $name and .size_in_bytes == $size and .expired == false)' <<<"$data" >/dev/null
+            echo "Verified $id ($name, $size bytes) from run $run"
+          }
+          remove() {
+            gh api --method DELETE "repos/$GITHUB_REPOSITORY/actions/artifacts/$1"
+            echo "Deleted artifact $1"
+          }
+          check 14182608097 43766851267 'baedalwang-1.0.14-test' 93724469
+          check 14180963104 43762369569 'baedalwang-1.0.13-test' 92005555
+          remove 14182608097
+          remove 14180963104
